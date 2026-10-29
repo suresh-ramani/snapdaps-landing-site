@@ -1,0 +1,171 @@
+import type { Metadata } from "next";
+import { site } from "@/content/site";
+import { absoluteUrl, stripHtml } from "@/lib/utils";
+import type { WPAuthor, WPPost, WPSeo } from "@/lib/wp/types";
+
+type BuildMetadataInput = {
+  /** Gets " | Snapdaps" appended by the root layout's title template. */
+  title?: string;
+  /** Used exactly as written (no suffix). Use for meta titles from the content doc. */
+  absoluteTitle?: string;
+  description?: string;
+  path: string;
+  image?: string | null;
+  type?: "website" | "article";
+  noindex?: boolean;
+  publishedTime?: string;
+  modifiedTime?: string;
+  authors?: string[];
+};
+
+/** One place that builds title, canonical, Open Graph and Twitter tags for every route. */
+export function buildMetadata(input: BuildMetadataInput): Metadata {
+  const url = absoluteUrl(input.path);
+  const description = input.description ?? site.description;
+  const images = input.image ? [{ url: input.image, width: 1200, height: 630 }] : undefined;
+  const shareTitle = input.absoluteTitle ?? (input.title ? `${input.title} | ${site.name}` : site.name);
+
+  return {
+    title: input.absoluteTitle ? { absolute: input.absoluteTitle } : input.title,
+    description,
+    alternates: { canonical: url },
+    robots: input.noindex ? { index: false, follow: true } : undefined,
+    openGraph: {
+      type: input.type ?? "website",
+      url,
+      title: shareTitle,
+      description,
+      siteName: site.name,
+      locale: site.locale,
+      ...(images ? { images } : {}),
+      ...(input.type === "article"
+        ? { publishedTime: input.publishedTime, modifiedTime: input.modifiedTime, authors: input.authors }
+        : {}),
+    },
+    twitter: {
+      card: "summary_large_image",
+      site: site.twitter,
+      title: shareTitle,
+      description,
+      ...(images ? { images: images.map((i) => i.url) } : {}),
+    },
+  };
+}
+
+/** Prefer Yoast values from WordPress when present, fall back to post fields. */
+export function postMetadata(post: WPPost): Metadata {
+  const seo: WPSeo = post.seo ?? {};
+  return buildMetadata({
+    // Yoast titles usually include " - Site name"; the root title template adds it again, so trim it.
+    title: (seo.title ? seo.title.replace(/\s[-|–]\s[^-|–]+$/, "") : null) ?? stripHtml(post.title),
+    description: seo.metaDesc || stripHtml(post.excerpt).slice(0, 160),
+    path: `/blogs/${post.slug}`,
+    image: seo.opengraphImage?.sourceUrl ?? post.featuredImage?.node.sourceUrl,
+    type: "article",
+    noindex: seo.metaRobotsNoindex === "noindex",
+    publishedTime: post.date,
+    modifiedTime: post.modified,
+    authors: post.author?.node.name ? [post.author.node.name] : undefined,
+  });
+}
+
+/* ---------------------------- JSON-LD builders ---------------------------- */
+
+export function organizationLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: site.name,
+    url: absoluteUrl("/"),
+    logo: absoluteUrl("/brand/snapdaps-mark-512.png"),
+    sameAs: Object.values(site.social).filter(Boolean),
+  };
+}
+
+export function websiteLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: site.name,
+    url: absoluteUrl("/"),
+    potentialAction: {
+      "@type": "SearchAction",
+      target: { "@type": "EntryPoint", urlTemplate: `${absoluteUrl("/blogs/search")}?q={search_term_string}` },
+      "query-input": "required name=search_term_string",
+    },
+  };
+}
+
+export function softwareLd(offers: { name: string; price: number }[] = []) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: site.name,
+    applicationCategory: "PhotographyApplication",
+    operatingSystem: "Web",
+    url: absoluteUrl("/"),
+    description: site.description,
+    // Only list offers once real pricing exists — placeholder prices must not reach search results.
+    ...(offers.length
+      ? { offers: offers.map((o) => ({ "@type": "Offer", name: o.name, price: o.price, priceCurrency: "INR" })) }
+      : {}),
+  };
+}
+
+export function faqLd(faqs: { q: string; a: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
+}
+
+export function breadcrumbLd(items: { name: string; path: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: item.name,
+      item: absoluteUrl(item.path),
+    })),
+  };
+}
+
+export function blogPostingLd(post: WPPost) {
+  const author = post.author?.node;
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: stripHtml(post.title),
+    description: stripHtml(post.excerpt).slice(0, 200),
+    image: post.featuredImage?.node.sourceUrl ? [post.featuredImage.node.sourceUrl] : undefined,
+    datePublished: post.date,
+    dateModified: post.modified,
+    mainEntityOfPage: absoluteUrl(`/blogs/${post.slug}`),
+    author: author ? personLd(author, false) : undefined,
+    publisher: {
+      "@type": "Organization",
+      name: site.name,
+      logo: { "@type": "ImageObject", url: absoluteUrl("/brand/snapdaps-logo-1200.png") },
+    },
+    articleSection: post.categories?.nodes[0]?.name,
+    keywords: post.tags?.nodes.map((t) => t.name).join(", ") || undefined,
+  };
+}
+
+export function personLd(author: WPAuthor, withContext = true) {
+  return {
+    ...(withContext ? { "@context": "https://schema.org" } : {}),
+    "@type": "Person",
+    name: author.name,
+    url: absoluteUrl(`/blogs/author/${author.slug}`),
+    image: author.avatar?.url,
+    description: author.description ?? undefined,
+  };
+}
