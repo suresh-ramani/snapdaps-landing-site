@@ -135,3 +135,39 @@ export function MockChip({ className, children }: { className?: string; children
     </div>
   );
 }
+
+/* QR pattern adapted from shadcn/ui's homepage QR card (MIT). Decorative only — not scannable. */
+const qrRows = [
+  "111111100101101111111",
+  "100000101001001000001",
+  "101110101111101011101",
+  "101110100100001011101",
+  "101110101010101011101",
+  "100000100111001000001",
+  "111111101010101111111",
+  "000000001101000000000",
+  "101011111001111010110",
+  "010100001110010101001",
+  "111010111011101111010",
+  "001101000101000010101",
+  "110111101111010111011",
+  "000000001001010001010",
+  "111111101101111101001",
+  "100000100010001001111",
+  "101110101011101110100",
+  "101110100110100010011",
+  "101110101000111101110",
+  "100000101101000011001",
+  "111111101011101101111",
+];
+
+export function QrPattern({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 21 21" aria-hidden="true" className={cn("text-black", className)} shapeRendering="crispEdges">
+      <rect width="21" height="21" fill="white" />
+      {qrRows.map((row, y) =>
+        [...row].map((c, x) => (c === "1" ? <rect key={`${x}-${y}`} x={x} y={y} width="1" height="1" fill="currentColor" /> : null)),
+      )}
+    </svg>
+  );
+}

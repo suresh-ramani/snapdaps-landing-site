@@ -26,7 +26,7 @@ import {
   ItemTitle,
 } from "@/components/ui/item";
 import { Progress } from "@/components/ui/progress";
-import { Face, PhotoTile } from "@/components/mock/primitives";
+import { Face, PhotoTile, QrPattern } from "@/components/mock/primitives";
 import { cn } from "@/lib/utils";
 
 /**
@@ -183,29 +183,6 @@ export function FaceMatchCard({ className, count = 38 }: { className?: string; c
 }
 
 /* --------------------------------------------------------------------------- */
-const qrRows = [
-  "111111100101101111111",
-  "100000101001001000001",
-  "101110101111101011101",
-  "101110100100001011101",
-  "101110101010101011101",
-  "100000100111001000001",
-  "111111101010101111111",
-  "000000001101000000000",
-  "101011111001111010110",
-  "010100001110010101001",
-  "111010111011101111010",
-  "001101000101000010101",
-  "110111101111010111011",
-  "000000001001010001010",
-  "111111101101111101001",
-  "100000100010001001111",
-  "101110101011101110100",
-  "101110100110100010011",
-  "101110101000111101110",
-  "100000101101000011001",
-  "111111101011101101111",
-];
 
 export function ShareCard({ className }: { className?: string }) {
   return (
@@ -213,13 +190,7 @@ export function ShareCard({ className }: { className?: string }) {
       <Card className="gap-5">
         <CardContent className="flex justify-center pt-0">
           <div className="rounded-xl border bg-white p-3">
-            {/* Pattern adapted from shadcn/ui's homepage QR card (MIT). Decorative only. */}
-            <svg viewBox="0 0 21 21" className="size-32 text-black" shapeRendering="crispEdges">
-              <rect width="21" height="21" fill="white" />
-              {qrRows.map((row, y) =>
-                [...row].map((c, x) => (c === "1" ? <rect key={`${x}-${y}`} x={x} y={y} width="1" height="1" /> : null)),
-              )}
-            </svg>
+            <QrPattern className="size-32" />
           </div>
         </CardContent>
         <CardHeader className="text-center">
@@ -231,7 +202,7 @@ export function ShareCard({ className }: { className?: string }) {
             <span className="truncate text-muted-foreground">snapdaps.ai/e/riya-arjun</span>
             <Copy className="ml-auto size-3.5 shrink-0" />
           </div>
-          <Button size="sm" className="w-full bg-[#25d366] text-white hover:bg-[#25d366]/90">
+          <Button size="sm" className="w-full bg-whatsapp text-white hover:bg-whatsapp/90">
             <MessageCircle /> Invite on WhatsApp
           </Button>
         </CardFooter>

@@ -1,11 +1,14 @@
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BookDemoButton } from "@/components/demo/book-demo";
+import { OldWaySwap } from "@/components/mock/old-way-swap";
 import { cta } from "@/content/site";
 
 /**
- * Closing CTA (Tailark call-to-action style, MIT): centred, generous whitespace, on a
- * muted surface with a faint grid. Every page passes its own heading/body from the doc.
+ * Closing CTA: dark brand card (split layout after Tailark's call-to-action blocks, MIT).
+ * Copy + buttons on the left; on the right the old delivery methods (pendrive, Drive,
+ * WhatsApp, WeTransfer) get crossed out and replaced by one Snapdaps QR card.
+ * Every page passes its own heading/body from the doc.
  */
 export function CtaBand({
   title,
@@ -23,29 +26,46 @@ export function CtaBand({
   return (
     <section aria-labelledby="cta-title" className="section-y">
       <div className="container-page">
-        <div className="surface-soft relative overflow-hidden px-6 py-16 text-center md:px-16 md:py-24">
+        <div className="relative isolate overflow-hidden ink-card px-6 py-14 md:px-12 md:py-16 lg:px-16">
+          {/* Logo-colour glows + a faint grid */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] bg-[size:48px_48px] opacity-50 [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_20%,transparent_75%)]"
+            className="pointer-events-none absolute -left-24 -top-32 -z-10 size-[28rem] rounded-full bg-brand-blue/30 blur-3xl"
           />
-          <div className="relative mx-auto max-w-2xl">
-            <h2 id="cta-title" className="text-3xl font-semibold leading-tight tracking-tight md:text-5xl">
-              {title}
-            </h2>
-            {body && <p className="mt-5 text-lg text-muted-foreground">{body}</p>}
-            <div className="mt-9 flex flex-wrap justify-center gap-3">
-              <Button asChild size="lg">
-                <a href={cta.trial.href}>{primaryLabel}</a>
-              </Button>
-              <BookDemoButton label={secondaryLabel} variant="outline" className="bg-background" />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-40 right-0 -z-10 size-[30rem] rounded-full bg-brand-violet/30 blur-3xl"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgb(255_255_255/0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgb(255_255_255/0.06)_1px,transparent_1px)] bg-[size:44px_44px] [mask-image:radial-gradient(ellipse_70%_70%_at_30%_40%,#000_10%,transparent_75%)]"
+          />
+
+          <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
+            <div className="text-center lg:text-left">
+              <h2 id="cta-title" className="text-3xl font-semibold leading-tight tracking-tight text-balance md:text-5xl">
+                {title}
+              </h2>
+              {body && <p className="mx-auto mt-5 max-w-xl text-lg text-white/70 lg:mx-0">{body}</p>}
+              <div className="mt-9 flex flex-wrap justify-center gap-3 lg:justify-start">
+                <Button asChild size="lg" className="bg-white text-ink-surface hover:bg-white/90">
+                  <a href={cta.trial.href}>{primaryLabel}</a>
+                </Button>
+                <BookDemoButton
+                  label={secondaryLabel}
+                  variant="outline"
+                  className="border-white/20 bg-white/5 text-white hover:bg-white/10 hover:text-white"
+                />
+              </div>
+              <ul className="mt-7 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-white/65 lg:justify-start">
+                {trustLine.map((t) => (
+                  <li key={t} className="flex items-center gap-1.5">
+                    <Check className="size-4 text-ink-success" aria-hidden="true" /> {t}
+                  </li>
+                ))}
+              </ul>
             </div>
-            <ul className="mt-7 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-muted-foreground">
-              {trustLine.map((t) => (
-                <li key={t} className="flex items-center gap-1.5">
-                  <Check className="size-4 text-after-ink" aria-hidden="true" /> {t}
-                </li>
-              ))}
-            </ul>
+            <OldWaySwap />
           </div>
         </div>
       </div>

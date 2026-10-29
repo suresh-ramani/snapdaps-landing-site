@@ -13,6 +13,7 @@ import { Section } from "@/components/blocks/section";
 import { SocialProof } from "@/components/blocks/social-proof";
 import { SolutionFlow } from "@/components/blocks/solution-flow";
 import { TurningPoint } from "@/components/blocks/turning-point";
+import { TypingWords } from "@/components/blocks/typing-words";
 import { JsonLd } from "@/components/json-ld";
 import { buildMetadata, softwareLd } from "@/lib/seo";
 
@@ -63,7 +64,26 @@ export default function HomePage() {
       {/* Section 1: Hero */}
       <Hero
         layout="center"
-        title="AI Photo Sharing and Face Search Platform for Photographers & Events"
+        // Server HTML (what Google indexes) reads "Photo Sharing App for Photographers with AI Face
+        // Search"; after load the middle line types through the other audiences.
+        titleLabel="Photo Sharing App for Photographers with AI Face Search"
+        title={
+          <>
+            Photo Sharing App for{" "}
+            {/* Own line, with room for two lines on phones, so the heading never jumps. */}
+            <span className="flex min-h-[2.1em] items-center justify-center sm:block sm:min-h-0 sm:whitespace-nowrap">
+              <TypingWords
+                words={[
+                  { text: "Photographers", emoji: "📸" },
+                  { text: "Studios", emoji: "🎞️" },
+                  { text: "Wedding Photographers", emoji: "💍" },
+                  { text: "Event Planners", emoji: "🎉" },
+                ]}
+              />
+            </span>{" "}
+            with AI Face Search
+          </>
+        }
         subtitle="Upload once. Let AI do the rest."
         body={
           <p>
@@ -73,7 +93,7 @@ export default function HomePage() {
         }
       />
 
-      {/* Client logos (content/clients.ts) */}
+      {/* Client logos (content/clients.ts) — scrolling strip, any number of logos */}
       <LogoCloud />
 
       {/* Section 2: Problem + pain */}

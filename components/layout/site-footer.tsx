@@ -1,4 +1,6 @@
+import { Heart } from "lucide-react";
 import Link from "next/link";
+import { IndiaFlag } from "@/components/layout/india-flag";
 import { Logo } from "@/components/layout/logo";
 import { nav, site } from "@/content/site";
 
@@ -36,6 +38,11 @@ export function SiteFooter() {
       <div className="container-page flex flex-col gap-4 border-t py-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
         <p>
           © {year} {site.name}
+        </p>
+        <p className="flex items-center gap-1.5 font-medium text-foreground">
+          <span>Made with</span>{" "}
+          <Heart className="size-4 fill-heart text-heart" role="img" aria-label="love" />{" "}
+          <span>in</span> <IndiaFlag label="India" />
         </p>
         {social.length > 0 && (
           <ul className="flex gap-5">

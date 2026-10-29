@@ -2,6 +2,8 @@
 
 Marketing site and blog for snapdaps.ai. Next.js 16 App Router, server-rendered on every request, Tailwind CSS v4, shadcn/ui, headless WordPress (WPGraphQL) for the blog.
 
+> **Keep this file current.** Any change that adds or renames a block, token, utility, content file or convention updates CLAUDE.md in the same change (the "Where things go" table and the Rules below). A task isn't done until this file matches the code.
+
 ## Commands
 
 ```bash
@@ -31,9 +33,11 @@ Add shadcn components with `npx shadcn@latest add <name>` (config in `components
 | Copy for one page | **That page's own `page.tsx`** — every marketing page is hand-built, no dynamic `[slug]` routes for features or use cases |
 | Copy shared across pages (brand, nav, CTAs, 5-step workflow, core features, plans) | `content/site.ts` |
 | List of marketing routes + indexed / noindex flag (drives the sitemap) | `content/routes.ts` |
-| Marketing sections | `components/blocks/*` — `Hero` (`layout="center"` = shadcn product wall, `"split"` = cards right), `LogoCloud`, `ChatMarquee` (scrolling client messages), `PainPoints` (auto-advancing list + visual; swipe cards on mobile), `TurningPoint` (dark bridge banner), `SolutionFlow` (animated photos → AI → guests), `ComparisonRows` (before/after pairs), `WorkflowSteps` (scroll-spy), `BentoGrid`/`FeatureBento`, `FeatureRows`, `OfferGrid`, `Story`, `SocialProof`, `CtaBand`/`MiniCta`, `PricingTable`, `Faq`; wrap custom sections in `<Section>` (`glow` adds the brand glow) |
+| Marketing sections | `components/blocks/*` — `Hero` (`layout="center"` = shadcn product wall, `"split"` = cards right; `titleLabel` = fixed aria-label when the title animates), `TypingWords` (typewriter word swap; first word server-rendered for SEO, emoji drawn by CSS), `LogoCloud` (client logos under the hero; becomes a constant-speed CSS marquee at 8+ logos, so the list can grow freely), `ChatMarquee` (scrolling client messages), `PainPoints` (desktop: sticky scroll-spy — points scroll by, the pinned visual swaps to the point in the middle of the screen; mobile: swipe cards), `TurningPoint` (dark bridge banner), `SolutionFlow` (animated photos → AI → guests), `ComparisonRows` (before/after pairs), `WorkflowSteps` (scroll-spy), `BentoGrid`/`FeatureBento`, `FeatureRows`, `OfferGrid`, `Story`, `SocialProof` (event-type wall linking to use-case pages + client logo grid of the first 8 clients), `CtaBand` (`ink-card`; pendrive / Google Drive / WhatsApp / WeTransfer crossed out → one QR card, `components/mock/old-way-swap.tsx`)/`MiniCta`, `PricingTable`, `Faq`; wrap custom sections in `<Section>` (`glow` adds the brand glow) |
 | Product UI cards (real shadcn components, sample data) + product wall | `components/product/*` |
-| Story / pain-point illustrations, photo tiles, faces | `components/mock/*` |
+| Story / pain-point illustrations, photo tiles, faces, QR pattern | `components/mock/*` (`primitives.tsx`: `PhotoTile`, `Face`, `PhoneFrame`, `BrowserFrame`, `QrPattern`; `whatsapp.tsx`: `WhatsAppChat`) |
+| Third-party brand marks (Google Drive, WhatsApp, WeTransfer) | `components/mock/brand-icons.tsx` — only to name that service, at its own colours, never larger than the text around it |
+| Header / footer / logo / flag | `components/layout/*` — footer bottom bar reads "Made with ❤ in 🇮🇳" (lucide `Heart` labelled "love" + `IndiaFlag label="India"`, so screen readers hear "Made with love in India") (inline SVG, emoji flags break on Windows) |
 | Client logos | list in `content/clients.ts`, files in `public/clients/` — section hides on the live site while empty |
 | Book-a-demo popup + form | `components/demo/*`, posts to `app/api/demo/route.ts` |
 | Blog UI | `components/blog/*` (routes live under `/blogs`) |
@@ -65,13 +69,31 @@ Add shadcn components with `npx shadcn@latest add <name>` (config in `components
 - Purple (logo's second colour): `--brand-violet` #AA5CF6 for decoration; for purple text/icons use `text-purple` (#8B3FE0 light / #BE8CF9 dark, both AA) on `bg-purple-soft`.
 - Utilities: `icon-tile` (gradient square, white icon — feature icons, step numbers), `text-brand-gradient` (highlight lines only), `bg-brand-gradient`, `glow-brand` (soft section backdrop; `<Section glow>`). Buttons and links stay solid brand blue. Never put the gradient on body text or large areas.
 
+### One theme across the site
+The whole site is one SaaS theme. New sections reuse these pieces instead of inventing new looks:
+- **Page rhythm:** sections alternate `bg-background` and `<Section tone="panel">`; vertical spacing is `section-y`, width is `container-page`.
+- **Cards:** `surface` (hairline ring, `rounded-xl`) for content cards, `surface-soft` for quieter ones; inner tiles use `bg-muted/50 ring-1 ring-border rounded-xl`. Corner radius goes `rounded-md` (photos) → `rounded-xl` (cards, tiles) → `rounded-2xl` (illustration panels) → `rounded-3xl` (`ink-card` only).
+- **Dark moments:** only via the `ink-card` utility (`--ink-surface`, white text, logo-colour glows). Used by `TurningPoint` and `CtaBand` — at most one per screen. Primary button on ink = `bg-white text-ink-surface`; success ticks on ink = `text-ink-success`.
+- **Colour meaning:** brand blue = action; gradient/violet = highlight; `before-*` (red) = old way/problem; `after-*` (green) = Snapdaps way/fix; `text-heart` only for the footer heart; `bg-whatsapp` only for WhatsApp actions.
+- **Icons:** lucide at `size-4`/`size-5` in UI, emoji for friendly labels (event types, typing words); `icon-tile` for feature icons.
+- **Type:** h2 section titles come from `<Section>`; card titles `text-lg font-semibold tracking-tight`; captions `text-sm text-muted-foreground`.
+
 ### Design
 - Visual language follows shadcn/ui's homepage and Tailark blocks: neutral zinc surfaces, hairline rings (`surface`, `surface-soft` utilities), Geist type, brand blue only for primary actions and accents. Reference repos (MIT): shadcn-ui/ui, tailark/blocks, magicuidesign/magicui — keep the attribution comments in adapted files.
-- Use semantic tokens (`bg-background`, `text-muted-foreground`, `bg-primary`, `bg-panel`, `bg-before`/`bg-after`, `border`) — never raw hex in components, except the fixed ink sections and the illustrations in `components/mock/*` (photo tones, WhatsApp green), which are intentionally theme-independent.
+- Use semantic tokens (`bg-background`, `text-muted-foreground`, `bg-primary`, `bg-panel`, `bg-before`/`bg-after`, `bg-ink-surface`, `text-heart`, `bg-whatsapp`, `border`) — never raw hex in components. Only exceptions: illustrations in `components/mock/*` (photo tones, WhatsApp UI colours), third-party brand marks and the flag, which are intentionally theme-independent.
 - New colors go in `globals.css` as a primitive, then a semantic variable, then `@theme inline`. Define both light and `.dark`.
 - Font: Geist (via `next/font`) for headings and body. `font-display` maps to the same family.
 - Avoid template tells: no ALL-CAPS eyebrow labels, no numbered markers unless the content is a real sequence, no fade-in on every section, no `→` appended to button text.
 - Must work at 375px wide, keyboard focus visible, `prefers-reduced-motion` respected.
+
+### Animation, speed and SEO
+Animate where it explains something (beams, typing words, crossed-out old methods), never on every section. Every animation must pass all of these:
+- **Content is never hidden behind an animation or JavaScript.** Server HTML already contains the final text (e.g. `TypingWords` renders the first word complete). No `opacity: 0` start states on content, no fade-in-on-scroll; entrance effects start from a visible state (`pop-in` starts at 0.35 opacity).
+- **Compositor-only properties:** animate `transform` and `opacity` only. No `box-shadow`, `filter`, `width/height/top/left` or `background` animations (they repaint or re-layout every frame). Use a pseudo-element that scales/fades instead (see `.hub-pulse::after`). The only exception is the small SVG `stroke-dashoffset` beams in `SolutionFlow`.
+- **CSS first.** Loops are CSS keyframes in `globals.css`, not JS timers. JS only when state is needed (`TypingWords`, `PainPoints`, `WorkflowSteps`) — scroll-driven effects use IntersectionObserver (never `scroll` event listeners), timers pause off-screen and keep it in a small `"use client"` leaf, never a whole section.
+- **No animation libraries** (`motion`, GSAP, Lottie) — patterns from Magic UI etc. are rebuilt in CSS.
+- **No layout shift:** reserve space for anything that changes size (typing line has a fixed min height; marquee rows have fixed heights).
+- **Reduced motion:** every keyframe has a `prefers-reduced-motion` fallback that shows the finished, meaningful state (struck-out cards, full QR card, static logo grid).
 
 ### Copy
 - Page copy comes from the content doc (Website_Content_*.docx). Keep its wording; keyword H1s stay in title case as written, other headings sentence case.

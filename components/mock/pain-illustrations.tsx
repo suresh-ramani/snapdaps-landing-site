@@ -6,14 +6,14 @@ import {
   House,
   Images,
   LockKeyhole,
-  MessageCircle,
-  PhoneMissed,
   Search,
   TrendingDown,
   Truck,
 } from "lucide-react";
+import { useId } from "react";
 import { cn } from "@/lib/utils";
-import { ChatMock } from "./screens";
+import { GoogleDriveLogo } from "./brand-icons";
+import { WhatsAppChat } from "./whatsapp";
 import { PhotoTile } from "./primitives";
 
 /**
@@ -107,42 +107,49 @@ function EndlessSearch() {
 
 function FollowUps() {
   return (
-    <div className="relative mx-auto w-fit">
-      <ChatMock
-        title="Clients"
-        messages={["Sir, mera photo mila? 🙏", "Bhaiya photos kab tak?", "Did you get our group pictures? 📸", "Sir??"]}
-      />
-      <Badge icon={PhoneMissed} tone="bad" className="absolute -left-10 top-16 text-sm">
-        12
-      </Badge>
-      <Badge icon={MessageCircle} tone="bad" className="absolute -right-10 top-36 text-sm">
-        28
-      </Badge>
-    </div>
+    <WhatsAppChat
+      contact="Rahul"
+      status="typing…"
+      unread={12}
+      seed={0}
+      items={[
+        { type: "date", text: "Today" },
+        { type: "in", text: "Hi Sir 🙏", time: "9:02 am" },
+        { type: "in", text: "Sir, mera photo mila?", time: "9:03 am" },
+        { type: "missed", time: "9:15 am" },
+        { type: "in", text: "Bhaiya photos kab tak?", time: "11:20 am" },
+        { type: "in", text: "Did you get our group pictures? 📸", time: "11:21 am" },
+        { type: "missed", time: "12:40 pm" },
+        { type: "missed", time: "12:41 pm" },
+        { type: "in", text: "Sir??", time: "1:05 pm" },
+      ]}
+    />
   );
 }
 
 /* ------------------------------ 3. pendrive route -------------------------- */
 
-function PendriveSvg({ className }: { className?: string }) {
+export function PendriveSvg({ className }: { className?: string }) {
+  // Unique gradient ids: the pendrive appears in more than one section per page.
+  const id = useId().replace(/:/g, "");
   return (
     <svg viewBox="0 0 132 56" className={className} aria-hidden="true">
       <defs>
-        <linearGradient id="pd-body" x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id={`${id}-body`} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#3f3f46" />
           <stop offset="1" stopColor="#18181b" />
         </linearGradient>
-        <linearGradient id="pd-metal" x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id={`${id}-metal`} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#e4e4e7" />
           <stop offset="1" stopColor="#a1a1aa" />
         </linearGradient>
       </defs>
       {/* USB connector */}
-      <rect x="92" y="14" width="36" height="28" rx="3" fill="url(#pd-metal)" />
+      <rect x="92" y="14" width="36" height="28" rx="3" fill={`url(#${id}-metal)`} />
       <rect x="104" y="21" width="7" height="5" rx="1" fill="#52525b" />
       <rect x="104" y="30" width="7" height="5" rx="1" fill="#52525b" />
       {/* Body */}
-      <rect x="4" y="6" width="92" height="44" rx="12" fill="url(#pd-body)" />
+      <rect x="4" y="6" width="92" height="44" rx="12" fill={`url(#${id}-body)`} />
       <circle cx="18" cy="28" r="5" fill="none" stroke="#71717a" strokeWidth="3" />
       <circle cx="80" cy="16" r="2.5" fill="#ef4444" />
       <rect x="34" y="22" width="36" height="12" rx="6" fill="#27272a" />
@@ -194,6 +201,9 @@ const folders = ["final_FINAL (2)", "New folder", "IMG_0001…", "Copy of pics",
 function MessyDrive() {
   return (
     <div className="relative rounded-2xl bg-card p-5 pb-9 ring-1 ring-border">
+      <div className="mb-4 flex items-center gap-2 border-b pb-3 text-sm font-medium">
+        <GoogleDriveLogo className="size-5" /> My Drive <span className="text-muted-foreground">› Wedding_2025</span>
+      </div>
       <ul className="grid grid-cols-3 gap-x-3 gap-y-4">
         {folders.map((f, i) => (
           <li key={f} className={cn("flex flex-col items-center gap-1", i % 2 === 1 && "translate-y-1.5 -rotate-3")}>

@@ -7,7 +7,8 @@ import { cn } from "@/lib/utils";
  *
  * - `variant="row"`: label + a static wrapped row. Good under a hero.
  * - `variant="marquee"`: a slowly scrolling strip, used automatically when there are
- *   more logos than fit comfortably (8+). Pauses on hover; static under reduced motion.
+ *   more logos than fit comfortably (8+). Speed stays the same as the list grows. Pauses on
+ *   hover; wraps into a static grid under reduced motion. CSS only (transform), no JS.
  *
  * Data lives in content/clients.ts. Hidden in production while the list is empty.
  */
@@ -48,7 +49,7 @@ export function LogoCloud({
           <ul className="mx-auto mt-8 flex max-w-5xl flex-wrap items-center justify-center gap-x-12 gap-y-8">
             {clients.map((c) => (
               <li key={c.name}>
-                <Logo client={c} />
+                <ClientLogo client={c} />
               </li>
             ))}
           </ul>
@@ -58,14 +59,22 @@ export function LogoCloud({
   );
 }
 
-function Logo({ client }: { client: Client }) {
+/** One client logo (also used by the client grid in SocialProof). */
+export function ClientLogo({ client, className }: { client: Client; className?: string }) {
   const img = (
     <Image
       src={client.logo}
       alt={client.name}
       width={client.width}
       height={client.height}
-      className="h-8 w-auto max-w-36 object-contain opacity-60 grayscale transition duration-300 hover:opacity-100 hover:grayscale-0 dark:invert dark:hover:invert-0"
+      className={cn(
+        "w-auto max-w-36 object-contain opacity-60 transition duration-300 hover:opacity-100 dark:invert",
+        // Studio badges are square with fine detail; give them more height than wordmarks.
+        client.mono ? "h-11" : "h-9",
+        // Colour logos: greyscale until hover, then their real colours (un-inverted in dark mode).
+        !client.mono && "grayscale hover:grayscale-0 dark:hover:invert-0",
+        className,
+      )}
     />
   );
   return client.href ? (
@@ -79,20 +88,24 @@ function Logo({ client }: { client: Client }) {
 
 function Marquee({ clients }: { clients: Client[] }) {
   return (
-    <div className="group relative mt-8 overflow-hidden [--marquee-gap:3rem] [mask-image:linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)]">
+    <div
+      className="group relative mt-8 overflow-hidden [--marquee-gap:3rem] [mask-image:linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)]"
+      // Constant speed however many logos there are (~4s per logo per loop).
+      style={{ "--marquee-duration": `${Math.max(24, clients.length * 4)}s` } as React.CSSProperties}
+    >
       {/* Visible list (first copy) + a duplicate for a seamless loop, hidden from assistive tech. */}
       <div className="flex w-max gap-(--marquee-gap) motion-safe:animate-marquee motion-reduce:w-full motion-reduce:flex-wrap motion-reduce:justify-center">
         <ul className="flex shrink-0 items-center gap-(--marquee-gap)">
           {clients.map((c) => (
             <li key={c.name}>
-              <Logo client={c} />
+              <ClientLogo client={c} />
             </li>
           ))}
         </ul>
         <ul aria-hidden="true" className="flex shrink-0 items-center gap-(--marquee-gap) motion-reduce:hidden">
           {clients.map((c) => (
             <li key={`dup-${c.name}`} inert>
-              <Logo client={c} />
+              <ClientLogo client={c} />
             </li>
           ))}
         </ul>

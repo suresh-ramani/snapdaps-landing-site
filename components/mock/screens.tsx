@@ -1,46 +1,38 @@
 /**
- * Story illustrations (chat thread). Pain-point pictures live in pain-illustrations.tsx. Product UI lives in components/product/cards.tsx.
+ * Story illustrations. `ChatMock` shows a WhatsApp-style group chat (see whatsapp.tsx) of
+ * friends and family asking for photos. Pain-point pictures live in pain-illustrations.tsx;
+ * product UI lives in components/product/cards.tsx.
  */
-import { Face, PhoneFrame } from "./primitives";
+import { WhatsAppChat, type WaItem } from "./whatsapp";
 
-/* ----------------------------------------------------------------------------
-   Story sections: a chat thread of people asking for photos.
----------------------------------------------------------------------------- */
+const NAMES = ["Priya", "Kabir", "Neha", "Aunty ji", "Rahul", "Meera"];
+const TIMES = ["8:12 am", "8:14 am", "9:30 am", "10:05 am", "10:06 am", "11:48 am"];
+
 export function ChatMock({
   title = "Family group",
   messages,
-  reply,
+  status,
 }: {
   title?: string;
   messages: string[];
-  reply?: React.ReactNode;
+  status?: string;
 }) {
+  const items: WaItem[] = [
+    { type: "date", text: "Today" },
+    ...messages.map((text, i) => ({
+      type: "in" as const,
+      text,
+      time: TIMES[i % TIMES.length],
+      from: NAMES[i % NAMES.length],
+    })),
+  ];
   return (
-    <PhoneFrame className="w-[15rem]">
-      <div className="bg-[#efe7dd] pb-4 dark:bg-[#1b1f27]">
-        <div className="flex items-center gap-2 bg-[#075e54] px-3 pb-2.5 pt-8 text-white">
-          <Face seed={6} className="size-7" />
-          <div>
-            <p className="text-[11px] font-semibold">{title}</p>
-            <p className="text-[9px] opacity-80">online</p>
-          </div>
-        </div>
-        <div className="space-y-1.5 px-3 pt-3">
-          {messages.map((m, i) => (
-            <div key={i} className="flex items-end gap-1.5">
-              <Face seed={i + 1} className="size-5 shrink-0" />
-              <p className="max-w-[80%] rounded-lg rounded-bl-none bg-white px-2.5 py-1.5 text-[11px] text-[#15171e] shadow-sm dark:bg-[#2a2e38] dark:text-[#eef0f5]">
-                {m}
-              </p>
-            </div>
-          ))}
-          {reply && <div className="flex justify-end">{reply}</div>}
-        </div>
-      </div>
-    </PhoneFrame>
+    <WhatsAppChat
+      contact={title}
+      status={status ?? `${NAMES.slice(0, 3).join(", ")}, You`}
+      seed={6}
+      group
+      items={items}
+    />
   );
 }
-
-/* ----------------------------------------------------------------------------
-   Pain-point visuals for the scroll-synced problem section.
----------------------------------------------------------------------------- */

@@ -27,6 +27,7 @@ export function HeroCards() {
  */
 export function Hero({
   title,
+  titleLabel,
   subtitle,
   body,
   hook,
@@ -37,6 +38,8 @@ export function Hero({
   above,
 }: {
   title: React.ReactNode;
+  /** Plain-text headline for screen readers when `title` animates (e.g. TypingWords). */
+  titleLabel?: string;
   subtitle?: React.ReactNode;
   body?: React.ReactNode;
   hook?: React.ReactNode;
@@ -51,7 +54,10 @@ export function Hero({
   const copy = (
     <div className={cn(centered ? "mx-auto max-w-3xl text-center" : "max-w-2xl")}>
       {above && <div className={cn("mb-6", centered && "flex justify-center")}>{above}</div>}
-      <h1 className="text-[2.4rem] font-semibold leading-[1.05] tracking-tighter sm:text-5xl lg:text-[3.6rem]">
+      <h1
+        aria-label={titleLabel}
+        className="text-[2.4rem] font-semibold leading-[1.05] tracking-tighter sm:text-5xl lg:text-[3.6rem]"
+      >
         {title}
       </h1>
       {subtitle && (
