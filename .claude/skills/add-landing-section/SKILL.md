@@ -1,34 +1,52 @@
 ---
 name: add-landing-section
-description: Add a new marketing section (block) to the home page or another marketing page — e.g. a comparison table, integrations list, stats band, use cases. Use when the user asks for a new section, block or band on a landing/marketing page.
+description: Add or change a section on a marketing page (home, features, how it works, pricing, a use-case page) — e.g. a story, comparison, workflow, bento, offer grid, social proof, CTA. Use when the user asks for a new section, block or band, or to reuse an existing block on another page.
 ---
 
 # Add a landing section
 
-A section is a server component in `components/blocks/`, its copy in `content/site.ts`, and one line in the page that uses it.
+CLAUDE.md is the source of truth for the rules ("One theme across the site", "Design", "Animation, speed and SEO", "Copy"). This skill is the procedure. Read those sections before starting.
 
-## Steps
+## 1. Reuse before you build
 
-1. **Copy first.** Add a typed export to `content/site.ts` (follow `features`, `steps`, `plans`). Unknown text is `"Placeholder: …"` — never invent customers, quotes, logos or numbers.
-2. **Create `components/blocks/<name>.tsx`.**
-   - Server component (no `"use client"`). If one small part needs interactivity, put only that part in its own client component.
-   - Wrap in `<Section id="<name>" title=… intro=…>` from `./section`. Use `tone="card"` or `tone="ink"` to vary rhythm instead of custom padding/backgrounds.
-   - The section title is the `<h2>` (Section renders it). Items inside use `<h3>`. Never add an `<h1>`.
-   - Lists of things are `<ul>/<li>`.
-3. **Mount it** in the page (`app/page.tsx`, etc.) in reading order. Pages stay layout-only.
-   - If it fetches WordPress data, wrap it in `<Suspense fallback={null}>` like `<LatestPosts />`, call `lib/wp/api.ts` functions (never `fetch`), and `.catch()` to render nothing on failure.
-4. **Schema:** FAQ-like content → reuse `<Faq items={…} />` (it emits `faqLd`). Don't add JSON-LD that doesn't describe visible content.
-5. **Hide when empty** if the content may not exist yet (see `testimonials.tsx` returning `null`).
+Check the blocks listed in CLAUDE.md's "Where things go" table first — most requests are an existing block with new props:
 
-## Design rules (from CLAUDE.md)
+| Want | Use |
+|---|---|
+| Page hero | `Hero` (`layout="center"` product wall / `"split"` cards; `above` for breadcrumbs; `titleLabel` if the title animates) |
+| Problem narrative | `Story` (`tone="problem"`, `visual`, `narrative`, `powerLine`, `close`) or `PainPoints` |
+| Old way vs new way | `ComparisonRows` (`before-*` red / `after-*` green) |
+| Steps | `WorkflowSteps` inside a `<Section>` |
+| Feature overview | `FeatureBento`, `BentoGrid`/`BentoCard`, `FeatureRows`, `OfferGrid` |
+| Dark bridge / closing | `TurningPoint`, `CtaBand` / `MiniCta` (one `ink-card` per screen) |
+| Proof | `LogoCloud`, `SocialProof`, `ChatMarquee` |
+| Questions | `Faq items={…}` (emits `faqLd`) |
+| Product visuals | `components/product/*` cards, `components/mock/*` primitives |
 
-- Semantic tokens only: `bg-card`, `text-muted-foreground`, `bg-primary`, `border`. Raw hex only inside `tone="ink"`.
-- `font-display` comes automatically on `h1–h4`. No new font families.
-- `snap-frame` / `--highlight` only around a product visual.
-- No ALL-CAPS eyebrows, no "01 / 02" markers unless it's a real sequence, no `→` on buttons, no fade-in on scroll.
-- Images: `next/image`, real `alt`, `priority` only if above the fold.
-- Check at 375px wide and with keyboard focus.
+## 2. Copy
+
+- Copy for one page goes **inline in that page's `page.tsx`**, taken from the content doc (Website_Content_*.docx) word for word. Keyword H1s keep the doc's title case.
+- Copy shared across pages (brand, nav, CTAs, 5-step workflow, core features, plans) lives in `content/site.ts`.
+- Missing copy → `"Placeholder: …"` plus a `TODO` comment saying what the doc is missing (see the wedding page header comment). Never invent clients, quotes or numbers.
+
+## 3. Build a new block (only if nothing fits)
+
+- `components/blocks/<name>.tsx`, server component. Interactivity goes in a small `"use client"` leaf, never the whole section.
+- Wrap in `<Section id title intro tone glow>` from `./section`. Alternate `default` and `tone="panel"` with the neighbouring sections. `<PowerLine>` for the single emphasised line.
+- Section title is the `<h2>`; items are `<h3>` (blocks take a `headingLevel`/`stepHeading` prop when a page needs otherwise). `as="h1"` only when the section title *is* the page title.
+- Cards: `surface` / `surface-soft`; inner tiles `bg-muted/50 ring-1 ring-border rounded-xl`. Radius ladder `rounded-md` → `xl` → `2xl` → `3xl` (ink-card only).
+- Colour meaning: blue = action, gradient/violet = highlight, `before-*` = problem, `after-*` = fix. Semantic tokens only — raw hex only in `components/mock/*`, brand marks and the flag.
+- Icons: lucide `size-4`/`size-5`; `icon-tile` for feature icons.
+- Images: `next/image`, real `alt`, `priority` if above the fold.
+
+## 4. Animation (only if it explains something)
+
+Content visible in server HTML, `transform`/`opacity` only, CSS keyframes in `globals.css`, IntersectionObserver for scroll, reserved space (no layout shift), a `prefers-reduced-motion` fallback showing the finished state. No animation libraries.
+
+## 5. Keep docs current
+
+If you added or renamed a block, token, utility or convention, update CLAUDE.md's "Where things go" table / Rules **and** any affected file in `.claude/` in the same change.
 
 ## Done when
 
-`npm run typecheck`, `npm run lint` and `npm run build` pass, and the page still has exactly one `<h1>` with headings in order.
+`npm run typecheck`, `npm run lint` and `npm run build` pass; the page has one `<h1>` with headings in order; it works at 375px, with keyboard focus and with reduced motion. Consider running the `ui-reviewer` agent.

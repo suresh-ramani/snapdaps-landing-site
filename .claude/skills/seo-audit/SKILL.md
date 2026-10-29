@@ -1,25 +1,27 @@
 ---
 name: seo-audit
-description: Audit the site (or specific routes) for technical SEO — metadata, canonicals, headings, JSON-LD, sitemap, robots, images, caching headers. Use before launch, after adding routes, or when the user asks for an SEO check.
+description: Audit the site (or specific routes) for technical SEO — metadata, canonicals, headings, JSON-LD, sitemap, robots, images, caching headers, content hidden behind animation. Use before launch, after adding routes, or when the user asks for an SEO check.
 ---
 
 # SEO audit
 
-Work from the code first, then confirm on a running build. Report findings as a list: route, problem, fix, file:line. Don't change code unless asked.
+Work from the code first, then confirm on a running build. Report findings as a list: route, problem, fix, file:line. Don't change code unless asked. The rules come from CLAUDE.md ("SEO", "Animation, speed and SEO", "Copy").
 
 ## 1. Static checks (read the code)
 
 For every `app/**/page.tsx`:
 
-- [ ] Exports `metadata` / `generateMetadata` built with `buildMetadata()` or `postMetadata()` from `lib/seo.ts`, with the correct `path`.
-- [ ] Title is unique; description 150–160 chars and not a placeholder.
-- [ ] Exactly one `<h1>` (check the components it renders too — `Hero` owns the home page `<h1>`); headings don't skip levels.
-- [ ] JSON-LD matches visible content: `faqLd` via `<Faq>`, `breadcrumbLd` via `<Breadcrumbs>`, `blogPostingLd` on posts, `softwareLd` on pricing.
-- [ ] Indexable → listed in `app/sitemap.ts`. Search / preview / paginated (`?after=`, `?before=`) → `noindex`.
-- [ ] `app/robots.ts` disallows `/api/`, `/blog/preview/`, `/blog/search` and blocks everything on non-production.
-- [ ] Images use `next/image` with real `alt`; above-the-fold image has `priority`.
-- [ ] No page sets `force-static`, `revalidate` or `generateStaticParams` (SSR is intentional).
-- [ ] `proxy.ts` skips CDN caching for search, preview and API.
+- [ ] `metadata` / `generateMetadata` built with `buildMetadata()` or `postMetadata()` (`lib/seo.ts`) with the correct `path`. Content-doc titles use `absoluteTitle` (ending "| Snapdaps") — flag "| Snapdaps | Snapdaps" from using `title` with a suffixed string.
+- [ ] Title unique; description 150–160 chars and not a placeholder.
+- [ ] Exactly one `<h1>` — usually from `Hero` or `<Section as="h1">`; no section title that also renders `as="h1"`. Headings don't skip levels.
+- [ ] JSON-LD matches visible content: `faqLd` via `<Faq>`, `breadcrumbLd` via `<Breadcrumbs>` (often in `Hero`'s `above`), `blogPostingLd` on posts, `softwareLd` on pricing; layout adds `organizationLd` + `websiteLd`.
+- [ ] Every marketing route is in `content/routes.ts`. `indexed: false` pages pass `noindex: !isIndexed(PATH)`; pages that are `indexed: true` contain no "Placeholder" text.
+- [ ] Blog: search, preview and paginated archives (`?after=`, `?before=`) are `noindex`.
+- [ ] `app/robots.ts` disallows `/api/`, `/blogs/preview/`, `/blogs/search` and blocks everything on non-production.
+- [ ] `proxy.ts` skips CDN caching for `/api/`, `/blogs/preview`, `/blogs/search` and draft mode.
+- [ ] Animated text is complete in server HTML (`TypingWords` first word, no `opacity: 0` start states, `titleLabel` on an animated `Hero` title).
+- [ ] Images use `next/image` with real `alt`; the above-the-fold image has `priority`. `opengraph-image.tsx` files export a descriptive `alt`.
+- [ ] No page sets `force-static`, `revalidate` or `generateStaticParams` (SSR is intentional; `app/sitemap.ts` revalidate is fine).
 - [ ] Internal links use `next/link`; pagination uses real URLs.
 
 ## 2. Runtime checks
@@ -31,19 +33,19 @@ npm run build && npm start
 Then for each route:
 
 ```bash
-curl -s http://localhost:3000/<route> | grep -Eo '<title>[^<]*|rel="canonical"[^>]*|name="robots"[^>]*|<h1[^>]*>|application/ld\+json' 
+curl -s http://localhost:3000/<route> | grep -Eo '<title>[^<]*|rel="canonical"[^>]*|name="robots"[^>]*|<h1[^>]*>|application/ld\+json'
 curl -sI http://localhost:3000/<route> | grep -i cdn-cache-control
-curl -s http://localhost:3000/sitemap.xml | head
+curl -s http://localhost:3000/sitemap.xml | grep -o '<loc>[^<]*' 
 curl -s http://localhost:3000/robots.txt
 ```
 
-Canonicals use `NEXT_PUBLIC_SITE_URL`; on localhost they'll point at whatever that's set to — flag if it's still `localhost` in a production env file.
+`robots.txt` disallows everything unless `NODE_ENV=production` (and `VERCEL_ENV=production` on Vercel). Canonicals use `NEXT_PUBLIC_SITE_URL` — flag it if it's still localhost/staging in production config.
 
 ## 3. Pre-launch (from README)
 
 - `NEXT_PUBLIC_SITE_URL` set to production.
-- Every "Placeholder" in `content/site.ts` replaced (`grep -rn Placeholder content app components`).
+- No "Placeholder" left on indexed pages: `grep -rn Placeholder app content components`.
 - Old WordPress URLs redirected in `next.config.ts`.
-- Rich results test on home, pricing and one post; Lighthouse mobile LCP < 2.5s, CLS < 0.1.
+- Rich results test on home, pricing, one use case and one post; Lighthouse mobile LCP < 2.5s, CLS < 0.1.
 
 For a deeper independent pass, run the `seo-reviewer` agent.

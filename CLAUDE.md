@@ -2,7 +2,7 @@
 
 Marketing site and blog for snapdaps.ai. Next.js 16 App Router, server-rendered on every request, Tailwind CSS v4, shadcn/ui, headless WordPress (WPGraphQL) for the blog.
 
-> **Keep this file current.** Any change that adds or renames a block, token, utility, content file or convention updates CLAUDE.md in the same change (the "Where things go" table and the Rules below). A task isn't done until this file matches the code.
+> **Keep this file and `.claude/` current.** Any change that adds or renames a block, token, utility, route, content file or convention updates CLAUDE.md in the same change (the "Where things go" table and the Rules below) **and** the affected skills in `.claude/skills/` and review agents in `.claude/agents/`. A task isn't done until both match the code.
 
 ## Commands
 
@@ -59,7 +59,7 @@ Add shadcn components with `npx shadcn@latest add <name>` (config in `components
 - Export `metadata` or `generateMetadata` built with `buildMetadata()` / `postMetadata()`. Always pass `path` so the canonical URL is correct.
 - Exactly one `<h1>` per page; headings in order.
 - Add the matching JSON-LD (`faqLd` next to any FAQ, `breadcrumbLd` via `<Breadcrumbs>`, `blogPostingLd` on posts).
-- New indexable routes go into `app/sitemap.ts`. Non-indexable routes (search, preview, paginated archives) get `noindex` and a `robots.ts` disallow where appropriate.
+- Marketing routes go into `content/routes.ts` (the sitemap reads it); pages with `indexed: false` pass `noindex: !isIndexed(PATH)`. Blog routes come from WordPress via `getSitemapEntries`. Non-indexable routes (search, preview, paginated archives) get `noindex` and a `robots.ts` disallow where appropriate.
 - Images use `next/image` with real `alt` (empty `alt=""` only for decorative images). Above-the-fold images get `priority`.
 - Pagination uses real URLs (`?after=` / `?before=`), never infinite scroll.
 
