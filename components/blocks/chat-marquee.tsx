@@ -1,5 +1,5 @@
 import { Face } from "@/components/mock/primitives";
-import { cn } from "@/lib/utils";
+import { cn, hindiLang } from "@/lib/utils";
 
 /**
  * A slowly scrolling strip of client messages: the "this is exactly my problem" moment.
@@ -50,7 +50,9 @@ export function ChatMarquee({
                     <li key={`${copy}-${i}`} className="flex items-end gap-1.5">
                       <Face seed={(i + r * 3) % 8} className="size-7 shrink-0" />
                       <div className="surface rounded-2xl rounded-bl-sm px-3.5 py-2 text-sm">
-                        <p className="whitespace-nowrap font-medium">{m.text}</p>
+                        <p lang={hindiLang(m.text)} className="whitespace-nowrap font-medium">
+                          {m.text}
+                        </p>
                         <p className="mt-0.5 text-[11px] text-muted-foreground">
                           {m.from}, {m.time}
                         </p>

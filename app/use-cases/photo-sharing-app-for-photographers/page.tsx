@@ -65,7 +65,7 @@ export default function PhotographersPage() {
         visual={
           <ChatMock
             title="Family group"
-            messages={["Hey, send me the wedding photos!", "Mera photo bhejo na…", "Did you get our group pictures?"]}
+            messages={["Hey, send me the wedding photos!", "मेरा फोटो भेजो ना…", "Did you get our group pictures?"]}
           />
         }
         narrative={

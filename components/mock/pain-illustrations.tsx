@@ -110,6 +110,8 @@ function FollowUps() {
     <WhatsAppChat
       contact="Rahul"
       status="typing…"
+      // Taller than the default: the whole run of messages and missed calls fits without clipping.
+      screenHeight="h-[31rem]"
       unread={12}
       seed={0}
       items={[
@@ -117,7 +119,7 @@ function FollowUps() {
         { type: "in", text: "Hi Sir 🙏", time: "9:02 am" },
         { type: "in", text: "Sir, mera photo mila?", time: "9:03 am" },
         { type: "missed", time: "9:15 am" },
-        { type: "in", text: "Bhaiya photos kab tak?", time: "11:20 am" },
+        { type: "in", text: "भैया, फ़ोटो कब तक मिलेंगी?", time: "11:20 am" },
         { type: "in", text: "Did you get our group pictures? 📸", time: "11:21 am" },
         { type: "missed", time: "12:40 pm" },
         { type: "missed", time: "12:41 pm" },

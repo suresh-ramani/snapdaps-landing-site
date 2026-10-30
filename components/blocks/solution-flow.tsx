@@ -134,7 +134,9 @@ function VerticalBeam({ delay = "0s" }: { delay?: string }) {
   return (
     <svg viewBox="0 0 4 56" className="h-14 w-1" fill="none">
       <defs>
-        <linearGradient id="beam-gradient-v" x1="0" y1="0" x2="0" y2="1">
+        {/* userSpaceOnUse, not the default objectBoundingBox: a straight vertical line has a
+            zero-width bounding box, and SVG doesn't paint a bounding-box gradient on it at all. */}
+        <linearGradient id="beam-gradient-v" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="56">
           <stop offset="0" stopColor="var(--brand-blue)" />
           <stop offset="1" stopColor="var(--brand-violet)" />
         </linearGradient>

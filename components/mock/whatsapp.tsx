@@ -14,7 +14,7 @@ import {
   Wifi,
 } from "lucide-react";
 import { Reveal, RevealGroup } from "@/components/motion/reveal";
-import { cn } from "@/lib/utils";
+import { cn, hindiLang } from "@/lib/utils";
 import { Face, PhoneFrame } from "./primitives";
 
 /**
@@ -52,6 +52,7 @@ export function WhatsAppChat({
   items,
   group = false,
   reveal = false,
+  screenHeight = "h-[27rem]",
   className,
 }: {
   contact: string;
@@ -63,13 +64,15 @@ export function WhatsAppChat({
   group?: boolean;
   /** Bubbles pop in one after another when the phone scrolls into view (Story chat). */
   reveal?: boolean;
+  /** Height of the screen inside the phone frame (a Tailwind height class). */
+  screenHeight?: string;
   className?: string;
 }) {
   const senders = Array.from(new Set(items.flatMap((m) => (m.type === "in" && m.from ? [m.from] : []))));
 
   return (
     <PhoneFrame className={cn("w-[16rem]", className)}>
-      <div className="flex h-[27rem] flex-col bg-[#efeae2] font-sans text-[#111b21] antialiased">
+      <div className={cn("flex flex-col bg-[#efeae2] font-sans text-[#111b21] antialiased", screenHeight)}>
         {/* Status bar */}
         <div className="flex items-center justify-between bg-white px-5 pb-1 pt-2.5 text-[10px] font-semibold">
           <span>9:41</span>
@@ -152,7 +155,7 @@ export function WhatsAppChat({
                       {m.from}
                     </p>
                   )}
-                  <span>{m.text}</span>
+                  <span lang={hindiLang(m.text)}>{m.text}</span>
                   <span className="float-right ml-2 mt-1.5 flex items-center gap-0.5 text-[8.5px] leading-none text-[#667781]">
                     {m.time}
                     {!isIn && <CheckCheck className="size-3 text-[#53bdeb]" strokeWidth={2.2} />}

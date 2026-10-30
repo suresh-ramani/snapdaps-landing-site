@@ -16,12 +16,12 @@ The files or routes you were given. Otherwise the current changes (`git diff` an
 **Reuse and theme**
 - New sections reuse existing blocks (`Hero`, `Story`, `ComparisonRows`, `FeatureBento`, `CtaBand`, …) instead of near-duplicates.
 - Rhythm: `<Section>`, `section-y`, `container-page`; sections alternate `bg-background` and `tone="panel"`.
-- Cards: `surface` / `surface-soft` (flag `surface` cards inside `overflow-hidden` or masked parents with no room — the box-shadow ring gets clipped); inner tiles `bg-muted/50 ring-1 ring-border rounded-xl`; radius ladder `rounded-md` → `xl` → `2xl` → `3xl` (ink-card only).
+- Cards: `surface` / `surface-soft` (flag `surface` cards inside `overflow-hidden`, masked or `overflow-x-auto` parents with no room — the box-shadow ring gets clipped); inner tiles `bg-muted/50 ring-1 ring-border rounded-xl`; radius ladder `rounded-md` → `xl` → `2xl` → `3xl` (ink-card only).
 - Dark moments only via `ink-card`, at most one per screen; primary button on ink = `bg-white text-ink-surface`.
 - Colour meaning: blue = action, gradient/violet = highlight, `before-*` = problem, `after-*` = fix, `text-heart` footer only, `bg-whatsapp` WhatsApp actions only.
 - Semantic tokens only. Raw hex / `rgb()` / arbitrary colours allowed only in `components/mock/*`, brand marks and the flag.
 - Brand: gradient never on body text, buttons or large areas; violet never as text (use `text-purple` on `bg-purple-soft`); logo never redrawn/recoloured; brand marks no larger than surrounding text, in their own colours.
-- One font family (Geist). Card titles `text-lg font-semibold tracking-tight`; captions `text-sm text-muted-foreground`. Icons lucide `size-4`/`size-5`, `icon-tile` for feature icons.
+- One font family (Geist); Noto Sans Devanagari is only the Hindi glyph fallback. Hindi text outside `ChatMarquee`/`WhatsAppChat` must carry `lang="hi"`. Card titles `text-lg font-semibold tracking-tight`; captions `text-sm text-muted-foreground`. Icons lucide `size-4`/`size-5`, `icon-tile` for feature icons.
 
 **Template tells**
 - ALL-CAPS eyebrow labels, numbered markers on non-sequences, fade-in on every section, `→` in button text, generic gradient blobs.
@@ -30,10 +30,11 @@ The files or routes you were given. Otherwise the current changes (`git diff` an
 - Animates only `transform`/`opacity` (exception: SVG `stroke-dashoffset` beams in `SolutionFlow`). No `box-shadow`, `filter`, size/position or `background` animation.
 - Content visible in server HTML; no `opacity: 0` start states.
 - CSS keyframes, not JS timers; JS state only in small `"use client"` leaves; IntersectionObserver, never `scroll` listeners; timers pause off-screen.
-- Scroll-linked sections use the shared `components/blocks/scroll-tabs.tsx` engine (flag any new scroll-spy or IntersectionObserver-driven swap written from scratch). Headings and main sentences stay visible in the pinned list; scroll swaps only the panel; the mobile layout shows everything; the pinned block fits 36rem. No wheel/trackpad takeover (smooth-scroll libraries, wheel `preventDefault`, one-step-per-flick).
+- Scroll-linked sections use the shared `components/blocks/scroll-tabs.tsx` engine (flag any new scroll-spy or IntersectionObserver-driven swap written from scratch). Headings and main sentences stay visible in the pinned list; scroll swaps only the panel; below lg every item's text stays in the page (stacked, or a pinned swipe strip whose cards hold full text and stay in sync with scroll); the pinned block fits 36rem. No wheel/trackpad takeover (smooth-scroll libraries, wheel `preventDefault`, one-step-per-flick).
 - Scroll-triggered entrances only through `components/motion/reveal.tsx` presets (flag direct `motion.*`/`m.*` use, new libraries like GSAP/Lottie, and reveals on headings, the hero or every section). Every preset starts at 0.35 opacity.
 - Section links use a plain `href="#id"` / `/page#id`; `SmoothAnchors` handles smooth scroll, focus and keeping the hash out of the URL — flag custom scroll or hash code.
 - Reserved space — no layout shift.
+- SVG gradients on straight lines (beams) use `gradientUnits="userSpaceOnUse"`; the default bounding-box units paint nothing on a zero-width/height line.
 - Every keyframe has a `prefers-reduced-motion` fallback showing the finished state.
 
 **Architecture**

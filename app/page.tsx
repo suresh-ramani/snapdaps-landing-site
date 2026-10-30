@@ -112,10 +112,12 @@ export default function HomePage() {
           className="-mt-4 mb-14 md:-mt-6 md:mb-16"
           messages={[
             { text: "Sir, mera photo mila?", from: "Rahul", time: "9:41 pm" },
+            { text: "भैया, शादी की फ़ोटो कब तक मिलेंगी?", from: "Sunita", time: "9:58 pm" },
             { text: "Hey, send me the wedding photos!", from: "Priya", time: "10:02 pm" },
             { text: "Did you get our group pictures?", from: "Kabir", time: "8:15 am" },
-            { text: "Mera photo bhejo na…", from: "Neha", time: "11:30 am" },
+            { text: "मेरा फोटो भेजो ना…", from: "Neha", time: "11:30 am" },
             { text: "Where are the Haldi and Sangeet pictures?", from: "Aunty ji", time: "1:12 pm" },
+            { text: "हल्दी वाली फ़ोटो भेज दो 🙏", from: "Dadi", time: "4:20 pm" },
             { text: "Send us the wedding photos!", from: "Riya", time: "6:47 pm" },
           ]}
         />

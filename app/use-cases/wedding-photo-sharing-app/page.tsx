@@ -59,8 +59,8 @@ export default function WeddingPage() {
             messages={[
               "Send us the wedding photos!",
               "Did you get our family pictures?",
-              "Mera photo bhejna…",
-              "Where are the Haldi and Sangeet pictures?",
+              "मेरा फोटो भेजना…",
+              "हल्दी और संगीत की फ़ोटो कहाँ हैं?",
             ]}
           />
         }

@@ -31,7 +31,7 @@ Everything lives in `app/globals.css`. Components use only semantic tokens and t
 - Logo colours: blue `#155DFC` (= `--primary`), indigo `#5E5DF9`, violet `#AA5CF6`. Violet fails contrast as text — use `text-purple` on `bg-purple-soft` for purple text/icons.
 - Gradient (`bg-brand-gradient`, `text-brand-gradient`, `glow-brand`) for highlights only — never body text, buttons or large areas. Buttons and links stay solid blue.
 - Never redraw or recolour the logo (`components/layout/logo.tsx`, `public/brand/`, `lib/brand.ts`).
-- One font family: Geist via `next/font` in `app/layout.tsx`.
+- One font family: Geist via `next/font` in `app/layout.tsx`. Noto Sans Devanagari (`--font-devanagari`) sits behind it in `--font-sans`/`--font-display` only to render Hindi; don't use it as a design font.
 
 ## Add an animation
 

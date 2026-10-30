@@ -96,30 +96,34 @@ export function useScrollTabs(count: number, defaultIndex = 0) {
     slices.current[i] = el;
   };
 
-  return { active, canAnimate, tabProps, sliceRef };
+  return { active, canAnimate, select, tabProps, sliceRef };
 }
 
 /**
  * The tall track with one invisible slice per tab and the pinned block inside. `blockRem` is the
  * pinned block's height; the slices are inset by half of it so the first and last tabs get as
- * much scroll as the others. Desktop only (`lg:`); render a separate stacked layout below lg.
+ * much scroll as the others. `display` sets where the track shows (desktop by default; pass
+ * `lg:hidden` for a separate phone/tablet track — each track needs its own `useScrollTabs`).
  */
 export function ScrollTrack({
   count,
   sliceRef,
   blockRem = 36,
+  display = "hidden lg:block",
   className,
   children,
 }: {
   count: number;
   sliceRef: (i: number) => (el: HTMLDivElement | null) => void;
   blockRem?: number;
+  /** Visibility classes for the whole track. */
+  display?: string;
   className?: string;
   children: React.ReactNode;
 }) {
   const half = `${blockRem / 2}rem`;
   return (
-    <div className="relative hidden lg:block" style={{ height: `calc(${blockRem}rem + ${count * STEP_VH}vh)` }}>
+    <div className={`relative ${display}`} style={{ height: `calc(${blockRem}rem + ${count * STEP_VH}vh)` }}>
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 flex flex-col" style={{ top: half, bottom: half }}>
         {Array.from({ length: count }, (_, i) => (
           <div key={i} data-index={i} ref={sliceRef(i)} className="flex-1" />

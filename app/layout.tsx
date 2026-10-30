@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist } from "next/font/google";
+import { Geist, Noto_Sans_Devanagari } from "next/font/google";
 import { draftMode } from "next/headers";
 import { connection } from "next/server";
 import Link from "next/link";
@@ -19,6 +19,15 @@ const body = Geist({
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
+});
+
+// Fallback for Hindi (Devanagari) in chat mocks — Geist has no Devanagari glyphs. Not preloaded;
+// its unicode-range means browsers only download it on pages that show Hindi.
+const devanagari = Noto_Sans_Devanagari({
+  subsets: ["devanagari"],
+  variable: "--font-devanagari",
+  display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -47,7 +56,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const { isEnabled: isDraft } = await draftMode();
 
   return (
-    <html lang="en" suppressHydrationWarning className={body.variable}>
+    <html lang="en" suppressHydrationWarning className={`${body.variable} ${devanagari.variable}`}>
       <body className="min-h-dvh flex flex-col">
         <a
           href="#main"

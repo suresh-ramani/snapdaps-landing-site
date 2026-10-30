@@ -153,8 +153,9 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 6px);
 
-  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  /* Devanagari fallback: Geist has no Hindi glyphs, so Hindi text falls through to Noto Sans Devanagari. */
+  --font-sans: var(--font-body), var(--font-devanagari), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-body), var(--font-devanagari), ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {

@@ -34,3 +34,8 @@ export function readingTime(html: string) {
   const words = stripHtml(html).split(" ").filter(Boolean).length;
   return Math.max(1, Math.round(words / 225));
 }
+
+/** `lang="hi"` for text written in Devanagari, so screen readers switch to Hindi. */
+export function hindiLang(text: string) {
+  return /[ऀ-ॿ]/.test(text) ? "hi" : undefined;
+}
