@@ -13,6 +13,7 @@ import {
   Video,
   Wifi,
 } from "lucide-react";
+import { Reveal, RevealGroup } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
 import { Face, PhoneFrame } from "./primitives";
 
@@ -50,6 +51,7 @@ export function WhatsAppChat({
   seed = 2,
   items,
   group = false,
+  reveal = false,
   className,
 }: {
   contact: string;
@@ -59,6 +61,8 @@ export function WhatsAppChat({
   items: WaItem[];
   /** Group chat: incoming bubbles show coloured sender names. */
   group?: boolean;
+  /** Bubbles pop in one after another when the phone scrolls into view (Story chat). */
+  reveal?: boolean;
   className?: string;
 }) {
   const senders = Array.from(new Set(items.flatMap((m) => (m.type === "in" && m.from ? [m.from] : []))));
@@ -95,7 +99,10 @@ export function WhatsAppChat({
         </div>
 
         {/* Messages */}
-        <div
+        <RevealGroup
+          as="div"
+          stagger={reveal ? 0.35 : 0}
+          amount={0.5}
           className="flex flex-1 flex-col justify-end gap-[3px] overflow-hidden px-2.5 pb-2 pt-2"
           style={{ backgroundImage: `url("data:image/svg+xml,${DOODLES}")`, backgroundSize: "96px 96px" }}
         >
@@ -127,7 +134,11 @@ export function WhatsAppChat({
             const isIn = m.type === "in";
             const color = isIn && m.from ? SENDER_COLORS[senders.indexOf(m.from) % SENDER_COLORS.length] : undefined;
             return (
-              <div key={i} className={cn("relative max-w-[86%]", isIn ? "self-start" : "self-end", first && "mt-1.5")}>
+              <Bubble
+                key={i}
+                reveal={reveal}
+                className={cn("relative max-w-[86%]", isIn ? "self-start origin-top-left" : "self-end origin-top-right", first && "mt-1.5")}
+              >
                 {first && <Tail side={isIn ? "in" : "out"} />}
                 <div
                   className={cn(
@@ -147,10 +158,10 @@ export function WhatsAppChat({
                     {!isIn && <CheckCheck className="size-3 text-[#53bdeb]" strokeWidth={2.2} />}
                   </span>
                 </div>
-              </div>
+              </Bubble>
             );
           })}
-        </div>
+        </RevealGroup>
 
         {/* Input bar */}
         <div className="flex items-center gap-1.5 px-1.5 pb-2.5 pt-1">
@@ -166,6 +177,17 @@ export function WhatsAppChat({
         </div>
       </div>
     </PhoneFrame>
+  );
+}
+
+/** A message bubble's wrapper: pops in when `reveal` is on, a plain div otherwise. */
+function Bubble({ reveal, className, children }: { reveal: boolean; className: string; children: React.ReactNode }) {
+  return reveal ? (
+    <Reveal preset="pop" className={className}>
+      {children}
+    </Reveal>
+  ) : (
+    <div className={className}>{children}</div>
   );
 }
 

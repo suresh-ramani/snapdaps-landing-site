@@ -31,7 +31,8 @@ The files or routes you were given. Otherwise the current changes (`git diff` an
 - Content visible in server HTML; no `opacity: 0` start states.
 - CSS keyframes, not JS timers; JS state only in small `"use client"` leaves; IntersectionObserver, never `scroll` listeners; timers pause off-screen.
 - Scroll-linked sections use the shared `components/blocks/scroll-tabs.tsx` engine (flag any new scroll-spy or IntersectionObserver-driven swap written from scratch). Headings and main sentences stay visible in the pinned list; scroll swaps only the panel; the mobile layout shows everything; the pinned block fits 36rem. No wheel/trackpad takeover (smooth-scroll libraries, wheel `preventDefault`, one-step-per-flick).
-- No animation libraries (`motion`, GSAP, Lottie).
+- Scroll-triggered entrances only through `components/motion/reveal.tsx` presets (flag direct `motion.*`/`m.*` use, new libraries like GSAP/Lottie, and reveals on headings, the hero or every section). Every preset starts at 0.35 opacity.
+- Section links use a plain `href="#id"` / `/page#id`; `SmoothAnchors` handles smooth scroll, focus and keeping the hash out of the URL — flag custom scroll or hash code.
 - Reserved space — no layout shift.
 - Every keyframe has a `prefers-reduced-motion` fallback showing the finished state.
 

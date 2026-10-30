@@ -19,7 +19,7 @@ For every `app/**/page.tsx`:
 - [ ] Blog: search, preview and paginated archives (`?after=`, `?before=`) are `noindex`.
 - [ ] `app/robots.ts` disallows `/api/`, `/blogs/preview/`, `/blogs/search` and blocks everything on non-production.
 - [ ] `proxy.ts` skips CDN caching for `/api/`, `/blogs/preview`, `/blogs/search` and draft mode.
-- [ ] Animated text is complete in server HTML (`TypingWords` first word, no `opacity: 0` start states, `titleLabel` on an animated `Hero` title).
+- [ ] Animated text is complete in server HTML (`TypingWords` first word, no `opacity: 0` start states — `curl -s <url> | grep -c 'opacity:0[;"]'` must be 0, `titleLabel` on an animated `Hero` title).
 - [ ] Images use `next/image` with real `alt`; the above-the-fold image has `priority`. `opengraph-image.tsx` files export a descriptive `alt`.
 - [ ] No page sets `force-static`, `revalidate` or `generateStaticParams` (SSR is intentional; `app/sitemap.ts` revalidate is fine).
 - [ ] Internal links use `next/link`; pagination uses real URLs.

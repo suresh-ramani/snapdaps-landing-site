@@ -32,6 +32,7 @@ export function ChatMock({
       status={status ?? `${NAMES.slice(0, 3).join(", ")}, You`}
       seed={6}
       group
+      reveal
       items={items}
     />
   );

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Face, PhotoTile } from "@/components/mock/primitives";
 import { clients as allClients, type Client } from "@/content/clients";
+import { Reveal, RevealGroup } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
 import { ClientLogo } from "./logo-cloud";
 import { Section } from "./section";
@@ -15,6 +16,7 @@ export type Testimonial = { quote: string; name: string; role: string; city?: st
  *   linking to its use-case page.
  * - Client grid: real client logos from content/clients.ts (studios link to their Instagram).
  * - Testimonials render only when real ones are passed. Never invent quotes or numbers.
+ * - On scroll, event tiles rise in a stagger and logos fade in (the logo grid shares borders).
  */
 
 const EVENTS = [
@@ -46,26 +48,30 @@ export function SocialProof({
         {/* Event wall */}
         <div className="surface flex flex-col p-5 md:p-7">
           <h3 className="text-lg font-semibold tracking-tight">{builtFor}</h3>
-          <ul className="mt-5 grid flex-1 auto-rows-fr grid-cols-2 gap-3 sm:grid-cols-4">
+          <RevealGroup as="ul" stagger={0.08} className="mt-5 grid flex-1 auto-rows-fr grid-cols-2 gap-3 sm:grid-cols-4">
             {EVENTS.map((e, i) => (
-              <li key={e.label} className={cn(i === 0 && "col-span-2 sm:row-span-2")}>
+              <Reveal as="li" key={e.label} className={cn(i === 0 && "col-span-2 sm:row-span-2")}>
                 <EventTile {...e} big={i === 0} />
-              </li>
+              </Reveal>
             ))}
-          </ul>
+          </RevealGroup>
         </div>
 
         {/* Client grid */}
         {clients.length > 0 && (
           <div className="surface flex flex-col p-5 md:p-7">
             <h3 className="text-lg font-semibold tracking-tight">{clientsLabel}</h3>
-            <ul className="mt-5 grid flex-1 grid-cols-2 overflow-hidden rounded-xl border [&>li]:-mb-px [&>li]:-mr-px [&>li]:border-b [&>li]:border-r">
+            <RevealGroup
+              as="ul"
+              stagger={0.06}
+              className="mt-5 grid flex-1 grid-cols-2 overflow-hidden rounded-xl border [&>li]:-mb-px [&>li]:-mr-px [&>li]:border-b [&>li]:border-r"
+            >
               {clients.map((c) => (
-                <li key={c.name} className="flex">
+                <Reveal as="li" preset="fade" key={c.name} className="flex">
                   <ClientCell client={c} />
-                </li>
+                </Reveal>
               ))}
-            </ul>
+            </RevealGroup>
           </div>
         )}
       </div>

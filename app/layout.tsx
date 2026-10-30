@@ -6,6 +6,8 @@ import Link from "next/link";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { SmoothAnchors } from "@/components/layout/smooth-anchors";
+import { MotionProvider } from "@/components/motion/reveal";
 import { JsonLd } from "@/components/json-ld";
 import { site } from "@/content/site";
 import { organizationLd, websiteLd } from "@/lib/seo";
@@ -62,11 +64,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               </Link>
             </div>
           )}
-          <SiteHeader />
-          <main id="main" className="flex-1">
-            {children}
-          </main>
-          <SiteFooter />
+          <MotionProvider>
+            <SiteHeader />
+            <main id="main" className="flex-1">
+              {children}
+            </main>
+            <SiteFooter />
+          </MotionProvider>
+          <SmoothAnchors />
         </ThemeProvider>
         <JsonLd data={[organizationLd(), websiteLd()]} />
       </body>

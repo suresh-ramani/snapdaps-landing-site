@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, type LucideIcon } from "lucide-react";
+import { Reveal, RevealGroup } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
 
 /**
@@ -8,12 +9,15 @@ import { cn } from "@/lib/utils";
  *
  * Changes from the original: Snapdaps tokens + Tailark-style hairline ring surface,
  * a real heading level prop, the whole card is one link (keyboard-focusable) instead
- * of a hover-only CTA, and the hover lift respects prefers-reduced-motion.
+ * of a hover-only CTA, the hover lift respects prefers-reduced-motion, and cards rise in a
+ * stagger as the grid scrolls into view (Reveal).
  */
 
 export function BentoGrid({ className, children }: { className?: string; children: React.ReactNode }) {
   return (
-    <ul className={cn("grid w-full auto-rows-[24rem] grid-cols-1 gap-4 md:grid-cols-3", className)}>{children}</ul>
+    <RevealGroup as="ul" stagger={0.1} className={cn("grid w-full auto-rows-[24rem] grid-cols-1 gap-4 md:grid-cols-3", className)}>
+      {children}
+    </RevealGroup>
   );
 }
 
@@ -38,7 +42,8 @@ export function BentoCard({
   headingLevel?: "h2" | "h3";
 }) {
   return (
-    <li
+    <Reveal
+      as="li"
       className={cn(
         "surface group relative flex flex-col justify-end overflow-hidden",
         href && "focus-within:ring-2 focus-within:ring-ring",
@@ -76,6 +81,6 @@ export function BentoCard({
         )}
       </div>
       <div className="pointer-events-none absolute inset-0 transition-colors duration-300 group-hover:bg-foreground/[0.02]" />
-    </li>
+    </Reveal>
   );
 }

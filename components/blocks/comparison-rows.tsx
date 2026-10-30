@@ -1,4 +1,5 @@
 import { ArrowRight, ArrowDown, Check, CircleCheck, CircleX, X, type LucideIcon } from "lucide-react";
+import { Reveal, RevealGroup } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
 
 export type ComparisonRow = {
@@ -15,6 +16,7 @@ export type ComparisonRow = {
  * pair two separate lists in their head. Doc colours: before = soft red, after = soft green.
  *
  * Semantics: a list of pairs; each pair is read as "The old way: … With Snapdaps: …".
+ * On scroll, rows arrive one by one: the old way slides in, then its Snapdaps fix (Reveal).
  */
 export function ComparisonRows({
   rows,
@@ -43,35 +45,37 @@ export function ComparisonRows({
         </span>
       </div>
 
-      <ul className="divide-y">
+      <RevealGroup as="ul" stagger={0.12} className="divide-y">
         {rows.map((r) => (
-          <li
+          <Reveal
+            as="li"
+            preset="sequence"
             key={r.before}
             className="group grid gap-1 px-4 py-4 transition-colors hover:bg-muted/30 md:grid-cols-[1fr_3rem_1fr] md:items-center md:gap-0 md:px-6 md:py-5"
           >
-            <p className="flex items-center gap-3 text-muted-foreground">
+            <Reveal as="p" preset="left" className="flex items-center gap-3 text-muted-foreground">
               <RowIcon icon={r.beforeIcon} tone="before" />
               <span>
                 <span className="sr-only">{beforeLabel}: </span>
                 <span className="decoration-before-ink/40 group-hover:line-through">{r.before}</span>
               </span>
-            </p>
+            </Reveal>
 
             <span aria-hidden="true" className="flex justify-start pl-1.5 text-muted-foreground md:justify-center md:pl-0">
               <ArrowDown className="size-3.5 md:hidden" />
               <ArrowRight className="hidden size-4 transition-transform group-hover:translate-x-0.5 md:block" />
             </span>
 
-            <p className="flex items-center gap-3 font-medium text-foreground">
+            <Reveal as="p" preset="right" className="flex items-center gap-3 font-medium text-foreground">
               <RowIcon icon={r.afterIcon} tone="after" />
               <span>
                 <span className="sr-only">{afterLabel}: </span>
                 {r.after}
               </span>
-            </p>
-          </li>
+            </Reveal>
+          </Reveal>
         ))}
-      </ul>
+      </RevealGroup>
     </div>
   );
 }

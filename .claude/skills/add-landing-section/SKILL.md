@@ -42,7 +42,7 @@ Check the blocks listed in CLAUDE.md's "Where things go" table first — most re
 
 ## 4. Animation (only if it explains something)
 
-Content visible in server HTML, `transform`/`opacity` only, CSS keyframes in `globals.css`, IntersectionObserver for scroll, reserved space (no layout shift), a `prefers-reduced-motion` fallback showing the finished state. No animation libraries.
+Content visible in server HTML, `transform`/`opacity` only. Loops: CSS keyframes in `globals.css` with a `prefers-reduced-motion` fallback. Content that arrives as a set (cards, pairs, bubbles): wrap the list in `RevealGroup` and each item in `Reveal` with a preset from `components/motion/reveal.tsx` — not on headings or the hero. Anything that changes as you scroll: `scroll-tabs.tsx`. Section links: plain `href="#id"` (SmoothAnchors keeps the URL clean). Reserve space (no layout shift).
 
 ## 5. Keep docs current
 
