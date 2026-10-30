@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { site } from "@/content/site";
 import { absoluteUrl, stripHtml } from "@/lib/utils";
+import { videoPoster, youtubeId, type VideoTestimonial } from "@/content/video-testimonials";
 import type { WPAuthor, WPPost, WPSeo } from "@/lib/wp/types";
 
 type BuildMetadataInput = {
@@ -167,5 +168,27 @@ export function personLd(author: WPAuthor, withContext = true) {
     url: absoluteUrl(`/blogs/author/${author.slug}`),
     image: author.avatar?.url,
     description: author.description ?? undefined,
+  };
+}
+
+/** One customer video testimonial, so search engines can list it as a video. */
+export function videoLd(v: VideoTestimonial) {
+  const m = Math.floor(v.durationSeconds / 60);
+  const sec = v.durationSeconds % 60;
+  const poster = videoPoster(v);
+  const ytId = v.youtube ? youtubeId(v.youtube) : null;
+  return {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    name: `${v.name} on using ${site.name}`,
+    description: v.quote,
+    thumbnailUrl: [poster.startsWith("http") ? poster : absoluteUrl(poster)],
+    uploadDate: v.recordedOn,
+    duration: `PT${m}M${sec}S`,
+    ...(ytId
+      ? { embedUrl: `https://www.youtube.com/embed/${ytId}`, url: `https://www.youtube.com/watch?v=${ytId}` }
+      : v.src
+        ? { contentUrl: absoluteUrl(v.src) }
+        : {}),
   };
 }

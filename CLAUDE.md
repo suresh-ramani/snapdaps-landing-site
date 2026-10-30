@@ -42,6 +42,7 @@ Add shadcn components with `npx shadcn@latest add <name>` (config in `components
 | Third-party brand marks (Google Drive, WhatsApp, WeTransfer) | `components/mock/brand-icons.tsx` — only to name that service, at its own colours, never larger than the text around it |
 | Header / footer / logo / flag | `components/layout/*` — footer bottom bar reads "Made with ❤ in 🇮🇳" (lucide `Heart` labelled "love" + `IndiaFlag label="India"`, so screen readers hear "Made with love in India") (inline SVG, emoji flags break on Windows) |
 | Client logos | list in `content/clients.ts`, files in `public/clients/` — section hides on the live site while empty |
+| Video testimonials | list in `content/video-testimonials.ts` — either a `youtube` link (any form; plays in the youtube-nocookie embed only after click, captions added in YouTube Studio, thumbnail from i.ytimg.com) or self-hosted files (MP4 + poster + required `.vtt` captions) in `public/testimonials/`; `VideoTestimonials` renders inside `SocialProof` with click-to-play cards (`video-player.tsx`, no video bytes until play) and `videoLd` schema — hidden on the live site while empty; entries with `placeholder: true` (currently three Big Buck Bunny previews) show only in dev, never in production or schema — delete them when real videos arrive |
 | Book-a-demo popup + form | `components/demo/*`, posts to `app/api/demo/route.ts` |
 | Blog UI | `components/blog/*` (routes live under `/blogs`) |
 | shadcn primitives | `components/ui/*` — don't put app logic here |
@@ -104,6 +105,7 @@ Animate where it explains something (beams, typing words, crossed-out old method
 - Page copy comes from the content doc (Website_Content_*.docx). Keep its wording; keyword H1s stay in title case as written, other headings sentence case.
 - Sentence case, plain verbs. Buttons say what happens ("Start free", not "Submit").
 - Never invent testimonials, customer names or metrics. Placeholders say "Placeholder".
+- Video testimonials: real customers with written consent only — no stock footage, actors, AI avatars or AI voices. The "Verified · Not AI-generated" badge shows only on entries with `verified` set, after the team has confirmed a real customer, self-recorded, unedited apart from trimming; `verifiedNote` explains that next to the videos. Keep consent and the check on file.
 - Chat and conversation mocks (`ChatMarquee`, `ChatMock`, `WhatsAppChat`) mix English, Hinglish and Hindi in Devanagari, the way Indian family groups really read. Write Hindi in Devanagari (not romanised); `ChatMarquee` and `WhatsAppChat` add `lang="hi"` automatically via `hindiLang()` in `lib/utils.ts` — any other Hindi text needs `lang="hi"` by hand. Page copy from the content doc keeps its own wording.
 
 ### WordPress content

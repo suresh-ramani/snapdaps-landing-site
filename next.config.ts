@@ -18,6 +18,8 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       ...(wpHost ? [{ protocol: "https" as const, hostname: wpHost }] : []),
       { protocol: "https", hostname: "secure.gravatar.com" },
+      // YouTube thumbnails for video testimonials.
+      { protocol: "https", hostname: "i.ytimg.com", pathname: "/vi/**" },
     ],
   },
   async headers() {

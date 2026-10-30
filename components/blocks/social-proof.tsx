@@ -6,6 +6,7 @@ import { Reveal, RevealGroup } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
 import { ClientLogo } from "./logo-cloud";
 import { Section } from "./section";
+import { VideoTestimonials } from "./video-testimonials";
 
 export type Testimonial = { quote: string; name: string; role: string; city?: string };
 
@@ -15,6 +16,8 @@ export type Testimonial = { quote: string; name: string; role: string; city?: st
  * - Event wall: the event types Snapdaps is built for, each a small photo collage + emoji,
  *   linking to its use-case page.
  * - Client grid: real client logos from content/clients.ts (studios link to their Instagram).
+ * - Video testimonials (VideoTestimonials, data in content/video-testimonials.ts) sit under the
+ *   bento; hidden on the live site until real videos are added.
  * - Testimonials render only when real ones are passed. Never invent quotes or numbers.
  * - On scroll, event tiles rise in a stagger and logos fade in (the logo grid shares borders).
  */
@@ -75,6 +78,8 @@ export function SocialProof({
           </div>
         )}
       </div>
+
+      <VideoTestimonials className="mt-16" />
 
       {testimonials.length > 0 && (
         <ul className="mt-4 columns-1 gap-4 text-left md:columns-2 lg:columns-3 [&>li]:mb-4 [&>li]:break-inside-avoid">
