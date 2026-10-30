@@ -6,6 +6,7 @@ import { Reveal, RevealGroup } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
 import { ClientLogo } from "./logo-cloud";
 import { Section } from "./section";
+import { StatsBand } from "./stats-band";
 import { VideoTestimonials } from "./video-testimonials";
 
 export type Testimonial = { quote: string; name: string; role: string; city?: string };
@@ -16,6 +17,7 @@ export type Testimonial = { quote: string; name: string; role: string; city?: st
  * - Event wall: the event types Snapdaps is built for, each a small photo collage + emoji,
  *   linking to its use-case page.
  * - Client grid: real client logos from content/clients.ts (studios link to their Instagram).
+ * - Trust statistics (StatsBand, data in content/stats.ts) open the section.
  * - Video testimonials (VideoTestimonials, data in content/video-testimonials.ts) sit under the
  *   bento; hidden on the live site until real videos are added.
  * - Testimonials render only when real ones are passed. Never invent quotes or numbers.
@@ -47,6 +49,7 @@ export function SocialProof({
 }) {
   return (
     <Section id="trust" title={title} intro={intro} align="center">
+      <StatsBand embedded className="mb-4" />
       <div className={cn("grid gap-4 text-left", clients.length > 0 && "lg:grid-cols-[1.25fr_1fr]")}>
         {/* Event wall */}
         <div className="surface flex flex-col p-5 md:p-7">

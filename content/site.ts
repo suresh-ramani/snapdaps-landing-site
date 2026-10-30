@@ -87,6 +87,7 @@ export const nav = {
     {
       title: "Company",
       links: [
+        { label: "About", href: "/about" },
         { label: "Blogs", href: "/blogs" },
         { label: "Contact", href: "/contact" },
         { label: "Privacy", href: "/legal/privacy" },

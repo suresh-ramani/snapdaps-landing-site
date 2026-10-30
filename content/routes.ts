@@ -25,6 +25,7 @@ export const marketingRoutes: MarketingRoute[] = [
   { path: "/use-cases/award-ceremony", label: "Award ceremony", indexed: false },
   { path: "/use-cases/sports-events", label: "Sports tournaments", indexed: false },
   { path: "/case-studies", label: "Case studies", indexed: false },
+  { path: "/about", label: "About", indexed: false }, // copy not in the content doc yet
   { path: "/contact", label: "Contact", indexed: true, priority: 0.5 },
   { path: "/blogs", label: "Blogs", indexed: true, priority: 0.7 },
   { path: "/legal/privacy", label: "Privacy", indexed: false },
