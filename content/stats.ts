@@ -22,7 +22,7 @@ export type Stat = {
 
 export const stats: Stat[] = [
   // DUMMY FIGURES — made up for layout preview only. `placeholder: true` keeps them out of
-  // production; the source line says "Dummy figures" in dev. Replace with real figures from
+  // production (and they show no source line in dev). Replace with real figures from
   // Snapdaps' own data (without `placeholder`), then delete these four.
   { placeholder: true, value: "2.4M+", label: "Photos delivered to guests" },
   { placeholder: true, value: "3,800+", label: "Events hosted" },

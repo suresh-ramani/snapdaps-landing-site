@@ -13,8 +13,8 @@ import { cn } from "@/lib/utils";
  * - `embedded`: sits inside another <Section> (h3, no padding) — used under "Trusted by…".
  *   Otherwise it's its own band (section + h2), e.g. on /pricing. Headings are visually hidden:
  *   the figures speak for themselves.
- * - Placeholder (dummy) entries render only in dev, labelled "Dummy figures… not real data";
- *   with no real entries the band is hidden on the live site.
+ * - Placeholder (dummy) entries render only in dev, without a source line; with no real entries
+ *   the band is hidden on the live site.
  */
 export function StatsBand({
   stats = allStats,
@@ -56,11 +56,11 @@ export function StatsBand({
             </Reveal>
           ))}
         </RevealGroup>
-        <p className="mt-3 text-center text-xs text-muted-foreground">
-          {shown.every((s) => s.placeholder)
-            ? "Dummy figures for layout preview — not real data."
-            : `Source: ${statsSource}, ${statsAsOf}.`}
-        </p>
+        {!shown.every((s) => s.placeholder) && (
+          <p className="mt-3 text-center text-xs text-muted-foreground">
+            Source: {statsSource}, {statsAsOf}.
+          </p>
+        )}
       </div>
     </Wrapper>
   );
