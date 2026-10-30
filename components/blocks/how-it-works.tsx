@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useId } from "react";
 import { Check } from "lucide-react";
 import {
   CreateEventCard,
@@ -12,6 +12,7 @@ import {
 } from "@/components/product/cards";
 import { workflowSteps, type WorkflowStepKey } from "@/content/site";
 import { cn } from "@/lib/utils";
+import { ScrollTrack, useScrollTabs } from "./scroll-tabs";
 
 const visuals: Record<WorkflowStepKey, React.ReactNode> = {
   create: <CreateEventCard className="mx-auto max-w-sm" />,
@@ -27,78 +28,106 @@ const visuals: Record<WorkflowStepKey, React.ReactNode> = {
 };
 
 /**
- * Five-step workflow — scroll-spy layout adapted from Tailark's features blocks (MIT,
- * https://github.com/tailark/blocks). A sticky step list on the left highlights the step
- * in view; every step's content is always in the page (good for SEO and no-JS).
+ * Five-step workflow as scroll-linked tabs (layout adapted from Tailark's features blocks, MIT,
+ * https://github.com/tailark/blocks). Scroll behaviour comes from `scroll-tabs.tsx`, the same
+ * engine as PainPoints.
+ *
+ * - Desktop: pinned step list on the left — every step's number, title and sentence stays
+ *   visible, so fast scrolling still shows the whole flow. The panel on the right swaps the
+ *   product visual and that step's bullet points as you scroll or pick a step. Panel layers are
+ *   stacked in one grid cell, so the panel is as tall as the tallest step (no layout shift);
+ *   inactive layers are `inert`.
+ * - Mobile/tablet: every step stacked with all its text and visual (this is also what Google's
+ *   mobile-first index reads, so nothing is hidden there).
  */
 export function WorkflowSteps({ stepHeading = "h3" }: { stepHeading?: "h2" | "h3" }) {
-  const [active, setActive] = useState<WorkflowStepKey>(workflowSteps[0].key);
-  const refs = useRef<Partial<Record<WorkflowStepKey, HTMLElement | null>>>({});
+  const { active, tabProps, sliceRef } = useScrollTabs(workflowSteps.length);
+  const panelId = useId();
   const H = stepHeading;
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        const id = visible[0]?.target.getAttribute("data-step") as WorkflowStepKey | null;
-        if (id) setActive(id);
-      },
-      { rootMargin: "-25% 0px -55% 0px", threshold: [0.15, 0.35, 0.55] },
-    );
-    Object.values(refs.current).forEach((el) => el && observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
-
-  const go = (key: WorkflowStepKey) => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    refs.current[key]?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
-    setActive(key);
-  };
-
   return (
-    <div className="grid gap-10 lg:grid-cols-[14rem_1fr] lg:gap-16">
-      <nav aria-label="Steps" className="sticky top-24 h-fit max-lg:hidden">
-        <ol className="space-y-1 border-l">
-          {workflowSteps.map((s, i) => (
-            <li key={s.key}>
-              <button
-                type="button"
-                onClick={() => go(s.key)}
-                aria-current={active === s.key ? "step" : undefined}
+    <>
+      {/* Desktop: pinned step list + panel */}
+      <ScrollTrack
+        count={workflowSteps.length}
+        sliceRef={sliceRef}
+        className="grid items-stretch gap-10 lg:grid-cols-[1fr_1.2fr] xl:gap-14"
+      >
+        <ol className="flex flex-col gap-1.5">
+          {workflowSteps.map((s, i) => {
+            const isActive = i === active;
+            return (
+              <li
+                key={s.key}
                 className={cn(
-                  "-ml-px flex w-full items-center gap-3 border-l py-2 pl-4 text-left text-sm transition-colors",
-                  active === s.key
-                    ? "border-primary font-medium text-foreground"
-                    : "border-transparent text-muted-foreground hover:text-foreground",
+                  "relative rounded-xl px-4 py-3 motion-safe:transition-colors",
+                  isActive ? "surface" : "hover:bg-card/60",
                 )}
               >
-                <span
-                  className={cn(
-                    "flex size-5 shrink-0 items-center justify-center rounded-full text-[11px] tabular-nums",
-                    active === s.key ? "bg-brand-gradient text-white" : "bg-muted",
-                  )}
-                >
-                  {i + 1}
-                </span>
-                {s.tab}
-              </button>
-            </li>
-          ))}
+                <div className="flex gap-3.5">
+                  <span
+                    className={cn(
+                      "mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-semibold tabular-nums motion-safe:transition-colors",
+                      isActive ? "bg-brand-gradient text-white" : "bg-muted text-muted-foreground",
+                    )}
+                  >
+                    {i + 1}
+                  </span>
+                  <div className="min-w-0">
+                    <H className="text-lg font-semibold tracking-tight">
+                      <button
+                        {...tabProps(i, panelId)}
+                        className={cn(
+                          "rounded-md text-left outline-offset-4 after:absolute after:inset-0 after:rounded-xl after:content-['']",
+                          !isActive && "text-muted-foreground",
+                        )}
+                      >
+                        <span className="sr-only">Step {i + 1}: </span>
+                        {s.title}
+                      </button>
+                    </H>
+                    <p className="mt-1 text-[15px] leading-relaxed text-muted-foreground">{s.subtitle}</p>
+                  </div>
+                </div>
+              </li>
+            );
+          })}
         </ol>
-      </nav>
 
-      <ol className="flex flex-col gap-14 md:gap-24">
+        <div id={panelId} className="surface-soft grid overflow-hidden p-6">
+          {workflowSteps.map((s, i) => {
+            const isActive = i === active;
+            return (
+              <div
+                key={s.key}
+                inert={!isActive}
+                className={cn(
+                  "flex flex-col gap-6 [grid-area:1/1] motion-safe:transition-[opacity,transform] motion-safe:duration-500",
+                  isActive ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0",
+                )}
+              >
+                {/* zoom (not scale) shrinks the layout box too, so the tallest card fits the 36rem block. */}
+                <div aria-hidden="true" className="flex flex-1 items-center">
+                  <div className="w-full [zoom:0.85]">{visuals[s.key]}</div>
+                </div>
+                <ul className="divide-y border-y text-[15px]">
+                  {s.points.map((pt) => (
+                    <li key={pt} className="flex items-start gap-3 py-2.5">
+                      <Check className="mt-0.5 size-4 shrink-0 text-purple" aria-hidden="true" />
+                      {pt}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
+        </div>
+      </ScrollTrack>
+
+      {/* Mobile / tablet: every step stacked */}
+      <ol className="flex flex-col gap-14 md:gap-24 lg:hidden">
         {workflowSteps.map((s, i) => (
-          <li
-            key={s.key}
-            data-step={s.key}
-            ref={(el) => {
-              refs.current[s.key] = el;
-            }}
-            className="grid scroll-mt-28 items-center gap-8 md:grid-cols-5 md:gap-12"
-          >
+          <li key={s.key} className="grid items-center gap-8 md:grid-cols-5 md:gap-12">
             <div className="md:col-span-2">
               <p className="text-sm font-medium text-muted-foreground">Step {i + 1}</p>
               <H className="mt-3 text-2xl font-semibold tracking-tight md:text-[1.75rem]">{s.title}</H>
@@ -118,6 +147,6 @@ export function WorkflowSteps({ stepHeading = "h3" }: { stepHeading?: "h2" | "h3
           </li>
         ))}
       </ol>
-    </div>
+    </>
   );
 }

@@ -17,6 +17,7 @@ Check the blocks listed in CLAUDE.md's "Where things go" table first — most re
 | Problem narrative | `Story` (`tone="problem"`, `visual`, `narrative`, `powerLine`, `close`) or `PainPoints` |
 | Old way vs new way | `ComparisonRows` (`before-*` red / `after-*` green) |
 | Steps | `WorkflowSteps` inside a `<Section>` |
+| Anything new that changes on scroll | Build it on `useScrollTabs` + `ScrollTrack` from `scroll-tabs.tsx` (see `PainPoints`, `WorkflowSteps`) |
 | Feature overview | `FeatureBento`, `BentoGrid`/`BentoCard`, `FeatureRows`, `OfferGrid` |
 | Dark bridge / closing | `TurningPoint`, `CtaBand` / `MiniCta` (one `ink-card` per screen) |
 | Proof | `LogoCloud`, `SocialProof`, `ChatMarquee` |
