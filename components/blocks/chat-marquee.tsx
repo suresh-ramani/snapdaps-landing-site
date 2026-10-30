@@ -27,12 +27,14 @@ export function ChatMarquee({
   return (
     <div className={cn("relative", className)}>
       <p className="sr-only">{label}</p>
-      <div className="space-y-3 [mask-image:linear-gradient(to_right,transparent,#000_10%,#000_90%,transparent)]">
+      {/* The mask clips to its own box, so py-4/-my-4 gives the bubbles' ring and shadow room
+          without moving the layout. Rows clip only sideways for the same reason. */}
+      <div className="-my-4 space-y-3 py-4 [mask-image:linear-gradient(to_right,transparent,#000_10%,#000_90%,transparent)]">
         {rows.map((row, r) => (
           <div
             key={r}
             className={cn(
-              "group flex overflow-hidden [--marquee-gap:1.75rem]",
+              "group flex overflow-x-clip [--marquee-gap:1.75rem]",
               // Second row runs the other way, a touch slower, so the rows never mirror each other.
               r === 0 ? "[--marquee-duration:55s]" : "[--marquee-direction:reverse] [--marquee-duration:63s]",
             )}

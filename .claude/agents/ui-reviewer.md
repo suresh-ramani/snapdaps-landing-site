@@ -16,7 +16,7 @@ The files or routes you were given. Otherwise the current changes (`git diff` an
 **Reuse and theme**
 - New sections reuse existing blocks (`Hero`, `Story`, `ComparisonRows`, `FeatureBento`, `CtaBand`, …) instead of near-duplicates.
 - Rhythm: `<Section>`, `section-y`, `container-page`; sections alternate `bg-background` and `tone="panel"`.
-- Cards: `surface` / `surface-soft`; inner tiles `bg-muted/50 ring-1 ring-border rounded-xl`; radius ladder `rounded-md` → `xl` → `2xl` → `3xl` (ink-card only).
+- Cards: `surface` / `surface-soft` (flag `surface` cards inside `overflow-hidden` or masked parents with no room — the box-shadow ring gets clipped); inner tiles `bg-muted/50 ring-1 ring-border rounded-xl`; radius ladder `rounded-md` → `xl` → `2xl` → `3xl` (ink-card only).
 - Dark moments only via `ink-card`, at most one per screen; primary button on ink = `bg-white text-ink-surface`.
 - Colour meaning: blue = action, gradient/violet = highlight, `before-*` = problem, `after-*` = fix, `text-heart` footer only, `bg-whatsapp` WhatsApp actions only.
 - Semantic tokens only. Raw hex / `rgb()` / arbitrary colours allowed only in `components/mock/*`, brand marks and the flag.
