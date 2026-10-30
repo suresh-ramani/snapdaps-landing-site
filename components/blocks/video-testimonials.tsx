@@ -15,9 +15,9 @@ import { VideoPlayer } from "./video-player";
 /**
  * Customer video testimonials (data in content/video-testimonials.ts).
  *
- * - Click-to-play cards (VideoPlayer): only the poster loads until someone presses play.
- *   YouTube links play in the privacy-enhanced embed; self-hosted MP4s in a native <video>.
- * - Captions: required `.vtt` for self-hosted videos; for YouTube, add them in YouTube Studio.
+ * - VideoPlayer: MP4s autoplay muted and looped while on screen (not under reduced motion);
+ *   YouTube links stay click-to-play in the privacy-enhanced embed.
+ * - Captions: required `.vtt` for real MP4 videos; for YouTube, add them in YouTube Studio.
  * - "Verified · Not AI-generated" shows only on videos marked `verified`, and the sentence
  *   explaining what that means sits under the grid (each badge points to it), so the claim is
  *   explained rather than just asserted.

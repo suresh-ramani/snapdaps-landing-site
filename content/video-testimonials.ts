@@ -14,10 +14,12 @@
  *    player when someone presses play, via the privacy-enhanced youtube-nocookie.com embed.
  *    For a Short, set `aspect: "9/16"`.
  *
- * B. Self-hosted — put files in /public/testimonials/ and set `src`, `poster` and `captions`:
- *    the video (MP4, H.264, ~720p, under ~15 MB; optional WebM), a poster frame (JPG/WebP),
- *    and captions (WebVTT, .vtt — required: many people watch on mute, and deaf and
- *    hard-of-hearing visitors need them).
+ * B. MP4 file — set `src` to a path under /public/testimonials/ or a full https URL (H.264,
+ *    ~720p, under ~15 MB; plays everywhere). Optionally add an `av1` version (smaller; used
+ *    when the device can decode it) and a `poster` frame. MP4s autoplay muted and looped while
+ *    the card is on screen (not under reduced motion), with controls to unmute. Captions
+ *    (WebVTT, .vtt) are required for real customer videos: they autoplay without sound, and
+ *    deaf and hard-of-hearing visitors need them.
  *
  * Then: `quote` is a short line the customer actually says in the video. Set `verified` only
  * after the team has confirmed all three: the person is a real paying customer, they recorded
@@ -57,12 +59,16 @@ export type YouTubeVideo = VideoBase & {
 };
 
 export type SelfHostedVideo = VideoBase & {
-  /** Paths under /public. */
+  /** H.264 MP4: a path under /public or a full https URL. The fallback every device can play. */
   src: string;
-  /** Optional WebM version for smaller downloads in browsers that support it. */
+  /** Optional AV1 MP4 — smaller; browsers that can decode AV1 pick it first. */
+  av1?: string;
+  /** Optional WebM version. */
   webm?: string;
-  poster: string;
-  captions: string;
+  /** Optional first-frame image (shown before the video loads, and under reduced motion). */
+  poster?: string;
+  /** WebVTT captions — required for real customer videos (they autoplay muted). */
+  captions?: string;
   /** Language of the captions file. Defaults to English. */
   captionsLang?: "en" | "hi";
   youtube?: never;
@@ -72,17 +78,18 @@ export type VideoTestimonial = YouTubeVideo | SelfHostedVideo;
 
 export const videoTestimonials: VideoTestimonial[] = [
   // PLACEHOLDERS — layout preview in `npm run dev` only (filtered out of production builds).
-  // Video: "Big Buck Bunny" by the Blender Foundation (CC BY 3.0). Replace with real customer
-  // videos, then delete these three.
+  // Video: "Big Buck Bunny" by the Blender Foundation (CC BY 3.0), 10-second test clips from
+  // test-videos.co.uk. Replace with real customer videos, then delete these three.
   {
     placeholder: true,
     name: "Placeholder name",
     role: "Placeholder: wedding photographer, studio name",
     city: "Jaipur",
     quote: "Placeholder: a short line the customer says in their video.",
-    youtube: "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+    av1: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/av1/360/Big_Buck_Bunny_360_10s_1MB.mp4",
+    src: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4",
     aspect: "16/9",
-    durationSeconds: 634,
+    durationSeconds: 10,
     recordedOn: "2026-10-30",
     verified: { on: "2026-10-30" },
   },
@@ -92,9 +99,10 @@ export const videoTestimonials: VideoTestimonial[] = [
     role: "Placeholder: event planner, company name",
     city: "Mumbai",
     quote: "Placeholder: a short line the customer says in their video.",
-    youtube: "https://youtu.be/aqz-KE-bpKQ",
+    av1: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/av1/360/Big_Buck_Bunny_360_10s_1MB.mp4",
+    src: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4",
     aspect: "16/9",
-    durationSeconds: 634,
+    durationSeconds: 10,
     recordedOn: "2026-10-30",
   },
   {
@@ -103,9 +111,10 @@ export const videoTestimonials: VideoTestimonial[] = [
     role: "Placeholder: corporate events photographer",
     city: "Bengaluru",
     quote: "Placeholder: a short line the customer says in their video.",
-    youtube: "https://www.youtube.com/embed/aqz-KE-bpKQ",
+    av1: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/av1/360/Big_Buck_Bunny_360_10s_1MB.mp4",
+    src: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4",
     aspect: "16/9",
-    durationSeconds: 634,
+    durationSeconds: 10,
     recordedOn: "2026-10-30",
   },
 
@@ -167,4 +176,4 @@ export function videoPoster(v: VideoTestimonial): string {
 }
 
 /** Stable key / identifier for a testimonial. */
-export const videoKey = (v: VideoTestimonial) => v.youtube ?? v.src;
+export const videoKey = (v: VideoTestimonial) => `${v.youtube ?? v.src}#${v.name}#${v.role}`;

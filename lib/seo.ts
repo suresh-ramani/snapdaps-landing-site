@@ -188,7 +188,7 @@ export function videoLd(v: VideoTestimonial) {
     ...(ytId
       ? { embedUrl: `https://www.youtube.com/embed/${ytId}`, url: `https://www.youtube.com/watch?v=${ytId}` }
       : v.src
-        ? { contentUrl: absoluteUrl(v.src) }
+        ? { contentUrl: v.src.startsWith("http") ? v.src : absoluteUrl(v.src) }
         : {}),
   };
 }
