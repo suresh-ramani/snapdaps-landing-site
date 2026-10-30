@@ -16,13 +16,14 @@ Check the blocks listed in CLAUDE.md's "Where things go" table first — most re
 | Page hero | `Hero` (`layout="center"` product wall / `"split"` cards; `above` for breadcrumbs; `titleLabel` if the title animates) |
 | Problem narrative | `Story` (`tone="problem"`, `visual`, `narrative`, `powerLine`, `close`) or `PainPoints` |
 | Old way vs new way | `ComparisonRows` (`before-*` red / `after-*` green) |
-| Steps | `WorkflowSteps` inside a `<Section>` |
+| Steps | `WorkflowSteps` inside a `<Section>` or `QuestionSection`; pass `steps` with the page's own wording for the same 5 keys on use-case pages |
 | Anything new that changes on scroll | Build it on `useScrollTabs` + `ScrollTrack` from `scroll-tabs.tsx` (see `PainPoints`, `WorkflowSteps`) |
 | Feature overview | `FeatureBento`, `BentoGrid`/`BentoCard`, `FeatureRows`, `OfferGrid` |
 | Dark bridge / closing | `TurningPoint`, `CtaBand` / `MiniCta` (one `ink-card` per screen) |
 | Proof | `LogoCloud`, `SocialProof`, `ChatMarquee` |
-| Questions | `Faq items={…}` (emits `faqLd`) |
-| Product visuals | `components/product/*` cards, `components/mock/*` primitives — below the fold, wrap heavy ones in `LazyMount` with their height reserved; mock wrappers get `data-nosnippet` |
+| Questions | `Faq items={faqs[PATH]}` from `content/faqs.ts` (emits `faqLd`) |
+| A search question answered on the page | `QuestionSection` (question H2 + 40–60-word answer) with detail as children — `InfoCards` (icon or numbered cards), `ComparisonRows`, `WorkflowSteps` |
+| Product visuals | `components/product/*` cards, `components/mock/*` primitives (`PhotoTile` = real event photos from `components/mock/photos.ts`; new photos → `public/photos/` + `CREDITS.md`) — below the fold, wrap heavy ones in `LazyMount` with their height reserved; mock wrappers get `data-nosnippet` |
 
 ## 2. Copy
 

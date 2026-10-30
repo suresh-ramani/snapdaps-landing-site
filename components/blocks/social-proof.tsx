@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { eventPhotos } from "@/components/mock/photos";
 import { Face, PhotoTile } from "@/components/mock/primitives";
 import { clients as allClients, type Client } from "@/content/clients";
 import { Reveal, RevealGroup } from "@/components/motion/reveal";
@@ -14,7 +15,8 @@ export type Testimonial = { quote: string; name: string; role: string; city?: st
 /**
  * Social proof (content doc, Section 4) as a bento (after Tailark's features/logo-cloud grid
  * blocks, MIT):
- * - Event wall: the event types Snapdaps is built for, each a small photo collage + emoji,
+ * - Event wall: the event types Snapdaps is built for, each a small collage of that event's real
+ *   photos (eventPhotos in components/mock/photos.ts) + emoji,
  *   linking to its use-case page.
  * - Client grid: real client logos from content/clients.ts (studios link to their Instagram).
  * - Trust statistics (StatsBand, data in content/stats.ts) open the section.
@@ -25,11 +27,11 @@ export type Testimonial = { quote: string; name: string; role: string; city?: st
  */
 
 const EVENTS = [
-  { label: "Weddings", emoji: "💍", href: "/use-cases/wedding-photo-sharing-app", seeds: [4, 1, 0] },
-  { label: "Birthday parties", emoji: "🎂", href: "/use-cases/birthday-party", seeds: [1, 5, 3] },
-  { label: "Corporate events", emoji: "💼", href: "/use-cases/corporate-events", seeds: [2, 7, 5] },
-  { label: "Award ceremonies", emoji: "🏆", href: "/use-cases/award-ceremony", seeds: [6, 1, 2] },
-  { label: "Sports tournaments", emoji: "🏅", href: "/use-cases/sports-events", seeds: [3, 7, 0] },
+  { label: "Weddings", emoji: "💍", href: "/use-cases/wedding-photo-sharing-app" },
+  { label: "Birthday parties", emoji: "🎂", href: "/use-cases/birthday-party" },
+  { label: "Corporate events", emoji: "💼", href: "/use-cases/corporate-events" },
+  { label: "Award ceremonies", emoji: "🏆", href: "/use-cases/award-ceremony" },
+  { label: "Sports tournaments", emoji: "🏅", href: "/use-cases/sports-events" },
 ] as const;
 
 export function SocialProof({
@@ -111,13 +113,11 @@ function EventTile({
   label,
   emoji,
   href,
-  seeds,
   big,
 }: {
   label: string;
   emoji: string;
   href: string;
-  seeds: readonly number[];
   big?: boolean;
 }) {
   return (
@@ -130,11 +130,11 @@ function EventTile({
         aria-hidden="true"
         className={cn("relative flex flex-1 justify-center px-4 pt-5", big ? "min-h-40 items-center sm:min-h-56" : "min-h-24 items-end")}
       >
-        {seeds.map((s, i) => (
+        {(eventPhotos[href] ?? []).slice(0, 3).map((photo, i) => (
           <PhotoTile
-            key={i}
-            seed={s}
-            people={(((s + i) % 3) + 1) as 1 | 2 | 3}
+            key={photo}
+            photo={photo}
+            sizes={big ? "144px" : "100px"}
             className={cn(
               "-mx-2 rounded-lg shadow-[0_10px_24px_-12px_rgb(0_0_0/0.45)] ring-2 ring-card transition-transform duration-300",
               big ? "w-[34%] max-w-36" : "w-[34%]",

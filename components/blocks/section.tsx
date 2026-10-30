@@ -17,6 +17,7 @@ export function Section({
   className,
   headerClassName,
   glow = false,
+  above,
   children,
 }: {
   id?: string;
@@ -29,6 +30,8 @@ export function Section({
   headerClassName?: string;
   /** Soft blue → purple brand glow behind the section (logo colours). */
   glow?: boolean;
+  /** Rendered above the heading, e.g. breadcrumbs on a page whose H1 is this section's title. */
+  above?: React.ReactNode;
   children?: React.ReactNode;
 }) {
   const headingId = id ? `${id}-title` : undefined;
@@ -51,6 +54,7 @@ export function Section({
           <header
             className={cn("mb-12 max-w-3xl md:mb-16", align === "center" && "mx-auto text-center", headerClassName)}
           >
+            {above && <div className={cn("mb-6", align === "center" && "flex justify-center")}>{above}</div>}
             <Heading
               id={headingId}
               className={cn(

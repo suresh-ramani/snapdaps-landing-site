@@ -1,27 +1,33 @@
+import { CalendarDays, Camera, Megaphone, QrCode, Send, Share2 } from "lucide-react";
 import { Breadcrumbs } from "@/components/blog/breadcrumbs";
 import { CtaBand, MiniCta } from "@/components/blocks/cta-band";
+import { Faq } from "@/components/blocks/faq";
 import { FeatureRows } from "@/components/blocks/feature-rows";
 import { Hero } from "@/components/blocks/hero";
+import { InfoCards } from "@/components/blocks/info-cards";
 import { OfferGrid } from "@/components/blocks/offer-grid";
+import { PageByline } from "@/components/blocks/page-byline";
+import { QuestionSection } from "@/components/blocks/question-section";
 import { PowerLine, Section } from "@/components/blocks/section";
 import { LogoCloud } from "@/components/blocks/logo-cloud";
 import { FaceMatchCard, PrivacyCard, SelfieSearchCard, ShareCard, UploadCard } from "@/components/product/cards";
+import { faqs } from "@/content/faqs";
 import { buildMetadata } from "@/lib/seo";
 
 /* ------------------------------------------------------------------------------------
    USE CASE · EVENT PLANNERS — Website_Content_v2_1.docx
    Keywords: event photo sharing platform, photo sharing app for events,
    photo sharing for events, free photo sharing (online).
+   Added (draft copy by Claude — not from the content doc; reviewed by: pending): the
+   question sections (sharing with every guest, QR code, guests as promoters) and the FAQ.
 ------------------------------------------------------------------------------------ */
 
 const PATH = "/use-cases/photo-sharing-app-for-event-planners";
+const TITLE = "Event Photo Sharing Platform with AI Face Search | Snapdaps";
+const DESCRIPTION =
+  "Share event photos instantly with AI face search. Best event photo sharing platform for corporate events, weddings, and parties. Free photo sharing for events.";
 
-export const metadata = buildMetadata({
-  absoluteTitle: "Event Photo Sharing Platform with AI Face Search | Snapdaps",
-  description:
-    "Share event photos instantly with AI face search. Best event photo sharing platform for corporate events, weddings, and parties. Free photo sharing for events.",
-  path: PATH,
-});
+export const metadata = buildMetadata({ absoluteTitle: TITLE, description: DESCRIPTION, path: PATH });
 
 export default function EventPlannersPage() {
   return (
@@ -45,7 +51,12 @@ export default function EventPlannersPage() {
           </p>
         }
         hook="Your event doesn’t end when it’s over — it lives on through shared moments."
-        note="Perfect for corporate events, weddings, parties, and large gatherings."
+        note={
+          <>
+            <p>Perfect for corporate events, weddings, parties, and large gatherings.</p>
+            <PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-30" className="mt-2" />
+          </>
+        }
       />
 
       <LogoCloud />
@@ -152,6 +163,7 @@ export default function EventPlannersPage() {
       {/* Section 3: What Snapdaps offers */}
       <Section
         id="offer"
+        tone="panel"
         title="Everything you need for smart event photo sharing"
         intro={
           <p>
@@ -195,6 +207,83 @@ export default function EventPlannersPage() {
         />
         <PowerLine className="mt-12 text-center">From upload to sharing — everything is automated with AI.</PowerLine>
       </Section>
+
+      <QuestionSection
+        id="share-with-every-guest"
+        question="How do event planners share photos with every guest?"
+        answer="Upload the event’s photos to Snapdaps once and share one link or QR code with every guest. Each guest uploads a selfie and gets only their own photos, so you never collect requests, forward folders or chase the photographer. It’s a photo sharing app for events that handles delivery for gatherings of any size."
+      >
+        <InfoCards
+          items={[
+            {
+              Icon: CalendarDays,
+              title: "Before the event",
+              body: "Print the QR code on invitations, badges or signage, so guests know where their photos will be.",
+            },
+            {
+              Icon: Camera,
+              title: "On the day",
+              body: "Your photographer uploads the photos when they’re ready. Faces are detected automatically.",
+            },
+            {
+              Icon: Send,
+              title: "After the event",
+              body: "Send the link to every attendee in one message — by email or WhatsApp — and you’re done.",
+            },
+          ]}
+        />
+      </QuestionSection>
+
+      <QuestionSection
+        id="qr-code"
+        tone="panel"
+        question="Can guests get their photos with a QR code?"
+        answer="Yes. Every event in Snapdaps has its own QR code. Guests scan it with their phone camera, upload a selfie and see their photos — no app, no login and no typing a long link. Put it on registration desks, table cards, screens or the backdrop, and guests can find their photos as soon as they’re uploaded."
+      >
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_auto]">
+          <ul className="grid gap-3 sm:grid-cols-2">
+            {["Registration desk", "Table cards", "Stage screens", "Photo backdrop", "Printed invitations", "Thank-you message"].map(
+              (place) => (
+                <li key={place} className="flex items-center gap-3 rounded-xl bg-muted/50 px-4 py-3 ring-1 ring-border">
+                  <QrCode className="size-4 shrink-0 text-primary" aria-hidden="true" />
+                  {place}
+                </li>
+              ),
+            )}
+          </ul>
+          <div aria-hidden="true" data-nosnippet>
+            <ShareCard className="mx-auto w-72" />
+          </div>
+        </div>
+      </QuestionSection>
+
+      <QuestionSection
+        id="guests-as-promoters"
+        question="How does photo sharing turn guests into promoters?"
+        answer="Guests who get their photos quickly share them — on WhatsApp, Instagram or LinkedIn — while the event is still fresh. Every shared photo shows your event to their friends, family and colleagues. With Snapdaps, guests download their own photos straight to their phone, so sharing happens on its own instead of weeks later, or never."
+      >
+        <InfoCards
+          items={[
+            {
+              Icon: Send,
+              title: "Photos arrive while it’s fresh",
+              body: "Guests have their photos the same day, when they most want to post them.",
+            },
+            {
+              Icon: Share2,
+              title: "Shared from their own phones",
+              body: "Downloads land on the guest’s phone, ready for their stories, groups and feeds.",
+            },
+            {
+              Icon: Megaphone,
+              title: "Your event, seen again",
+              body: "Each post puts your event in front of people who weren’t there — without an ad.",
+            },
+          ]}
+        />
+      </QuestionSection>
+
+      <Faq items={faqs[PATH]} title="Questions event planners ask" tone="panel" />
 
       {/* Section 4: CTA */}
       <CtaBand

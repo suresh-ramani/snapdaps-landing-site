@@ -1,4 +1,6 @@
+import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { photos, weddingPool, type PhotoName } from "./photos";
 
 /**
  * Building blocks for coded product illustrations. Everything here is decorative
@@ -18,22 +20,33 @@ const TONES = [
   ["#9fd6e0", "#2f7f93"],
 ];
 
+/**
+ * One event photo (real Unsplash photo, see ./photos.ts). `photo` picks a specific image;
+ * otherwise `seed` picks from the wedding pool. The tone gradient shows while it loads.
+ * Decorative (aria-hidden, alt=""), lazy-loaded, sized small via `sizes`.
+ */
 export function PhotoTile({
   seed = 0,
+  photo,
+  sizes = "(min-width: 768px) 160px, 120px",
   className,
-  people = 1,
   highlight = false,
   delayMs,
 }: {
   seed?: number;
+  /** A specific photo (e.g. per event type); defaults to the wedding pool by `seed`. */
+  photo?: PhotoName;
+  /** next/image `sizes` — keep it close to the rendered size so small tiles stay light. */
+  sizes?: string;
   className?: string;
+  /** @deprecated Ignored since tiles became real photos; kept so existing callers still type-check. */
   people?: 0 | 1 | 2 | 3;
   highlight?: boolean;
   /** Animation delay, for staggered entrances. */
   delayMs?: number;
 }) {
   const [a, b] = TONES[seed % TONES.length];
-  const xs = people === 1 ? [50] : people === 2 ? [36, 64] : people === 3 ? [26, 50, 74] : [];
+  const src = photos[photo ?? weddingPool[seed % weddingPool.length]];
   return (
     <div
       aria-hidden="true"
@@ -47,15 +60,7 @@ export function PhotoTile({
         ...(delayMs !== undefined ? { animationDelay: `${delayMs}ms` } : {}),
       }}
     >
-      <svg viewBox="0 0 100 125" className="absolute inset-0 size-full" preserveAspectRatio="xMidYMax slice">
-        <circle cx={20 + (seed % 5) * 14} cy={22} r={14} fill="#fff" opacity={0.18} />
-        {xs.map((x, i) => (
-          <g key={i} fill="#1b1d24" opacity={0.28}>
-            <circle cx={x} cy={i === 1 && people === 3 ? 66 : 72} r={10} />
-            <path d={`M${x - 20} 125 Q${x - 18} ${i === 1 && people === 3 ? 82 : 88} ${x} ${i === 1 && people === 3 ? 82 : 88} Q${x + 18} ${i === 1 && people === 3 ? 82 : 88} ${x + 20} 125 Z`} />
-          </g>
-        ))}
-      </svg>
+      <Image src={src} alt="" fill sizes={sizes} className="object-cover" />
       {highlight && (
         <span className="absolute left-1.5 top-1.5 size-2.5 rounded-full border-2 border-white bg-primary" />
       )}

@@ -31,43 +31,8 @@ export const site = {
   },
 };
 
-/**
- * Home page FAQ (rendered by <Faq>, which also emits FAQPage schema). Answers use only facts the
- * site already states: core features, the 5-step workflow and the trust line.
- * TODO: confirm with the team, and add answers the site can't make yet — pricing, face-match
- * accuracy, data retention / DPDP compliance, file-size limits.
- */
-export const homeFaqs = [
-  { q: "What is Snapdaps?", a: site.definition },
-  {
-    q: "How do guests find their photos?",
-    a: "Guests open the event link or scan its QR code, then upload a selfie. Snapdaps uses AI face recognition to find every photo they appear in and shows them in seconds. They can view and download their photos right from their phone — no scrolling through thousands of images.",
-  },
-  {
-    q: "Do guests need to install an app or create an account?",
-    a: "No. Guests use the event link or QR code in their phone's browser and upload a selfie — there is no app to install and no login. That makes it easy for every guest, from friends to elderly relatives, to get their photos.",
-  },
-  {
-    q: "Can guests see other people's photos?",
-    a: "Guests only see their own photos. Face search shows each guest the photos they appear in, so personal moments stay private while everyone still gets their pictures quickly.",
-  },
-  {
-    q: "How do I share an event with my guests?",
-    a: "Each event gets one secure link and a QR code. Display the QR code at the venue, add it to invitations, or invite guests on WhatsApp. There's no need to send photos one by one or hand out pendrives and Google Drive links.",
-  },
-  {
-    q: "How do I upload event photos?",
-    a: "Create an event, add folders for each part of it (for example Haldi, Sangeet, Reception), and bulk upload thousands of photos from your computer or Google Drive. Snapdaps detects faces automatically in the background — no manual tagging.",
-  },
-  {
-    q: "Who is Snapdaps for?",
-    a: "Snapdaps is built for photographers, studios, wedding photographers and event planners who deliver photos to many guests — weddings, birthday parties, corporate events, award ceremonies and sports tournaments.",
-  },
-  {
-    q: "Is there a free trial?",
-    a: "Yes. You can start a free trial with no credit card required, and setup takes minutes.",
-  },
-];
+// Per-page FAQs (home included) live in content/faqs.ts.
+
 
 export const cta = {
   trial: { label: "Start free trial", href: site.signupUrl },
@@ -100,11 +65,11 @@ export const useCaseNav: { title: string; links: NavLink[] }[] = [
   {
     title: "By event type",
     links: [
-      { label: "Wedding", href: "/use-cases/wedding-photo-sharing-app", icon: "heart" },
-      { label: "Birthday party", href: "/use-cases/birthday-party", icon: "cake" },
-      { label: "Corporate events", href: "/use-cases/corporate-events", icon: "briefcase" },
-      { label: "Award ceremony", href: "/use-cases/award-ceremony", icon: "trophy" },
-      { label: "Sports tournaments", href: "/use-cases/sports-events", icon: "medal" },
+      { label: "Wedding", href: "/use-cases/wedding-photo-sharing-app", description: "Every guest finds their wedding photos", icon: "heart" },
+      { label: "Birthday party", href: "/use-cases/birthday-party", description: "Party photos to every guest, same day", icon: "cake" },
+      { label: "Corporate events", href: "/use-cases/corporate-events", description: "Conference and offsite photos for attendees", icon: "briefcase" },
+      { label: "Award ceremony", href: "/use-cases/award-ceremony", description: "Winners find their stage moments", icon: "trophy" },
+      { label: "Sports tournaments", href: "/use-cases/sports-events", description: "Players find their action shots", icon: "medal" },
     ],
   },
 ];
@@ -129,7 +94,7 @@ export const nav = {
     },
     {
       title: "Use cases",
-      links: useCaseNav.flatMap((g) => g.links).slice(0, 5),
+      links: useCaseNav.flatMap((g) => g.links),
     },
     {
       title: "Company",

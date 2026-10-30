@@ -1,13 +1,20 @@
+import { Images, QrCode, ScanFace } from "lucide-react";
 import { Breadcrumbs } from "@/components/blog/breadcrumbs";
+import { ComparisonRows } from "@/components/blocks/comparison-rows";
 import { CtaBand } from "@/components/blocks/cta-band";
+import { Faq } from "@/components/blocks/faq";
 import { FeatureBento } from "@/components/blocks/feature-bento";
 import { Hero } from "@/components/blocks/hero";
 import { WorkflowSteps } from "@/components/blocks/how-it-works";
+import { InfoCards } from "@/components/blocks/info-cards";
+import { PageByline } from "@/components/blocks/page-byline";
+import { QuestionSection } from "@/components/blocks/question-section";
 import { PowerLine, Section } from "@/components/blocks/section";
 import { Story } from "@/components/blocks/story";
 import { LogoCloud } from "@/components/blocks/logo-cloud";
 import { ChatMock } from "@/components/mock/screens";
 import { FaceMatchCard, SelfieSearchCard } from "@/components/product/cards";
+import { faqs } from "@/content/faqs";
 import { buildMetadata } from "@/lib/seo";
 
 /* ------------------------------------------------------------------------------------
@@ -15,16 +22,17 @@ import { buildMetadata } from "@/lib/seo";
    Primary keyword: photo sharing app for photographers
    Also: wedding photo sharing app, face recognition photo sharing, how to share photos
    with clients, best way to deliver photos to clients, photo gallery for clients.
+   Added (draft copy by Claude — not from the content doc; reviewed by: pending): the
+   question sections (AI photo gallery for photographers, how to deliver photos to clients,
+   Google Drive alternative) and the FAQ.
 ------------------------------------------------------------------------------------ */
 
 const PATH = "/use-cases/photo-sharing-app-for-photographers";
+const TITLE = "Photo Sharing App for Photographers with AI Face Search | Snapdaps";
+const DESCRIPTION =
+  "Deliver client photos instantly with AI face search. No Google Drive links or Pendrive hassle. Built for photographers, weddings, and events.";
 
-export const metadata = buildMetadata({
-  absoluteTitle: "Photo Sharing App for Photographers with AI Face Search | Snapdaps",
-  description:
-    "Deliver client photos instantly with AI face search. No Google Drive links or Pendrive hassle. Built for photographers, weddings, and events.",
-  path: PATH,
-});
+export const metadata = buildMetadata({ absoluteTitle: TITLE, description: DESCRIPTION, path: PATH });
 
 export default function PhotographersPage() {
   return (
@@ -52,6 +60,7 @@ export default function PhotographersPage() {
         }
         hook="You shoot premium photos. Snapdaps delivers them."
         trustLine={["No credit card required", "Setup in minutes", "Built for photographers"]}
+        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-30" />}
       />
 
       <LogoCloud />
@@ -112,8 +121,8 @@ export default function PhotographersPage() {
         title="What if your customers could share their event photos instantly?"
         subtitle="You deliver your customer’s event photos instantly, and they can share them with friends and family on time."
         visual={
-          <div className="surface-soft grid grid-cols-[1fr_1.2fr] items-start gap-3 p-6 md:p-8">
-            <SelfieSearchCard className="mt-8" />
+          <div className="surface-soft grid grid-cols-1 items-start gap-3 p-6 sm:grid-cols-[1fr_1.2fr] md:p-8">
+            <SelfieSearchCard className="sm:mt-8" />
             <FaceMatchCard />
           </div>
         }
@@ -182,10 +191,36 @@ export default function PhotographersPage() {
         </p>
       </Section>
 
+      <QuestionSection
+        id="ai-photo-gallery"
+        tone="panel"
+        question="What is an AI photo gallery for photographers?"
+        answer="An AI photo gallery is an online event gallery that sorts itself by face. You upload the whole shoot once; Snapdaps detects every face, and each client or guest opens the gallery with a selfie to see only the photos they’re in. It replaces sending photos person by person, and nobody has to scroll through thousands of images."
+      >
+        <InfoCards
+          items={[
+            {
+              Icon: Images,
+              title: "Organised by event and folder",
+              body: "One event per shoot, with folders for each part of the day — the gallery is ready the moment uploads finish.",
+            },
+            {
+              Icon: ScanFace,
+              title: "Searchable by face",
+              body: "Faces are detected automatically, so a selfie replaces scrolling, tagging and photo numbers.",
+            },
+            {
+              Icon: QrCode,
+              title: "Delivered by link or QR code",
+              body: "Your client gets one link or QR code to pass on; every guest finds their own photos from it.",
+            },
+          ]}
+        />
+      </QuestionSection>
+
       {/* Section 5: Features */}
       <Section
         id="features"
-        tone="panel"
         title="Everything you need to deliver photos smarter"
         intro={
           <p>
@@ -232,6 +267,54 @@ export default function PhotographersPage() {
           This is not just a tool. It’s your complete photo delivery system.
         </h3>
       </Section>
+
+      <QuestionSection
+        id="deliver-photos"
+        tone="panel"
+        question="How do photographers deliver photos to clients with Snapdaps?"
+        answer="Upload the shoot to an event in Snapdaps, then send your client one link or QR code. The client forwards it to family and guests — on WhatsApp, in an invitation or on a printed card — and each person finds their own photos with a selfie. No pendrives, no Drive folders and no photos sent one by one."
+      >
+        <InfoCards
+          numbered
+          items={[
+            {
+              title: "Upload the shoot",
+              body: "From your computer or Google Drive, into folders for each part of the event.",
+            },
+            {
+              title: "Send your client the link",
+              body: "One secure link and QR code for the whole event — the only thing you hand over.",
+            },
+            {
+              title: "Your client passes it on",
+              body: "Into the family WhatsApp group, onto a printed card, or into a thank-you message.",
+            },
+            {
+              title: "Everyone finds their photos",
+              body: "Each guest uploads a selfie and downloads the photos they appear in.",
+            },
+          ]}
+        />
+      </QuestionSection>
+
+      <QuestionSection
+        id="google-drive-alternative"
+        question="Is Snapdaps a Google Drive alternative for photographers?"
+        answer="Yes, for delivering event photos. A shared Drive folder gives every guest the same link, and each of them scrolls through everything to find themselves. Snapdaps keeps Drive as a source — you can upload straight from it — but each guest sees only their own photos after a selfie, in a gallery organised by event and folder."
+      >
+        <ComparisonRows
+          beforeLabel="Shared Drive folder or pendrive"
+          afterLabel="Snapdaps AI photo gallery"
+          rows={[
+            { before: "One shared folder for everyone", after: "Each guest sees only the photos they’re in" },
+            { before: "Guests scroll through every photo to find themselves", after: "A selfie finds their photos in seconds" },
+            { before: "Pendrives handed over one by one", after: "One link or QR code for the whole event" },
+            { before: "Photos sorted and renamed by hand", after: "Faces detected automatically on upload" },
+          ]}
+        />
+      </QuestionSection>
+
+      <Faq items={faqs[PATH]} title="Questions photographers ask" tone="panel" />
 
       {/* Section 6: CTA */}
       <CtaBand

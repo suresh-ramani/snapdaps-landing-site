@@ -16,7 +16,8 @@ import { SolutionFlow } from "@/components/blocks/solution-flow";
 import { TurningPoint } from "@/components/blocks/turning-point";
 import { TypingWords } from "@/components/blocks/typing-words";
 import { JsonLd } from "@/components/json-ld";
-import { homeFaqs, site } from "@/content/site";
+import { faqs } from "@/content/faqs";
+import { site } from "@/content/site";
 import { buildMetadata, softwareLd } from "@/lib/seo";
 
 /* ------------------------------------------------------------------------------------
@@ -216,8 +217,8 @@ export default function HomePage() {
         <LatestPosts />
       </Suspense>
 
-      {/* FAQ (content/site.ts → homeFaqs); <Faq> also emits FAQPage schema */}
-      <Faq items={homeFaqs} />
+      {/* FAQ (content/faqs.ts); <Faq> also emits FAQPage schema */}
+      <Faq items={faqs["/"]} />
 
       {/* Section 6: CTA */}
       <CtaBand

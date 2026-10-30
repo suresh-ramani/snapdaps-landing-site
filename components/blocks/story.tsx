@@ -39,7 +39,7 @@ export function Story({
 
         <div
           className={cn(
-            "mt-12 grid items-start gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-20",
+            "mt-12 grid grid-cols-1 items-start gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-20",
             reverse && "lg:[&>*:first-child]:order-2",
           )}
         >

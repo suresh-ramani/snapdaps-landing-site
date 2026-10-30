@@ -201,6 +201,7 @@ function GuestNode({ guest }: { guest: FlowGuest }) {
           <PhotoTile
             key={k}
             seed={guest.seed + k * 3}
+            sizes="28px"
             className="aspect-square size-7 rounded-md ring-2 ring-card"
           />
         ))}

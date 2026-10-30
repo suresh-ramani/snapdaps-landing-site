@@ -19,11 +19,12 @@ export const marketingRoutes: MarketingRoute[] = [
   { path: "/use-cases/photo-sharing-app-for-photographers", label: "Photographers", indexed: true, priority: 0.9 },
   { path: "/use-cases/photo-sharing-app-for-event-planners", label: "Event planners", indexed: true, priority: 0.9 },
   { path: "/use-cases/wedding-photo-sharing-app", label: "Wedding", indexed: true, priority: 0.9 },
-  // Content not written yet — noindex until it is.
-  { path: "/use-cases/birthday-party", label: "Birthday party", indexed: false },
-  { path: "/use-cases/corporate-events", label: "Corporate events", indexed: false },
-  { path: "/use-cases/award-ceremony", label: "Award ceremony", indexed: false },
-  { path: "/use-cases/sports-events", label: "Sports tournaments", indexed: false },
+  // Draft copy by Claude (not in the content doc); indexed on the team's go-ahead, 2026-10-30.
+  { path: "/use-cases/birthday-party", label: "Birthday party", indexed: true, priority: 0.8 },
+  { path: "/use-cases/corporate-events", label: "Corporate events", indexed: true, priority: 0.8 },
+  { path: "/use-cases/award-ceremony", label: "Award ceremony", indexed: true, priority: 0.8 },
+  { path: "/use-cases/sports-events", label: "Sports tournaments", indexed: true, priority: 0.8 },
+  // Not ready — noindex until it is.
   { path: "/case-studies", label: "Case studies", indexed: false },
   { path: "/about", label: "About", indexed: false }, // copy not in the content doc yet
   { path: "/contact", label: "Contact", indexed: true, priority: 0.5 },

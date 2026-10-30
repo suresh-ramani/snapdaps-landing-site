@@ -206,3 +206,44 @@ export function videoLd(v: VideoTestimonial) {
         : {}),
   };
 }
+
+/** Steps of a process (e.g. /how-it-works), so answer engines can read them as an ordered how-to. */
+export function howToLd(input: { name: string; description: string; path: string; steps: { name: string; text: string }[] }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: input.name,
+    description: input.description,
+    url: absoluteUrl(input.path),
+    step: input.steps.map((s, i) => ({ "@type": "HowToStep", position: i + 1, name: s.name, text: s.text })),
+  };
+}
+
+/** A list of linked pages (e.g. the use-cases hub). */
+export function itemListLd(items: { name: string; path: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: items.map((item, i) => ({ "@type": "ListItem", position: i + 1, name: item.name, url: absoluteUrl(item.path) })),
+  };
+}
+
+/**
+ * The page itself, with who wrote it and when it was last updated (E-E-A-T). Author and publisher
+ * are the Snapdaps organisation until named authors exist.
+ */
+export function webPageLd(input: { name: string; description: string; path: string; dateModified: string }) {
+  const org = { "@type": "Organization", name: site.name, url: absoluteUrl("/") };
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: input.name,
+    description: input.description,
+    url: absoluteUrl(input.path),
+    inLanguage: "en-IN",
+    dateModified: input.dateModified,
+    author: org,
+    publisher: org,
+    isPartOf: { "@type": "WebSite", name: site.name, url: absoluteUrl("/") },
+  };
+}

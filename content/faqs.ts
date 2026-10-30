@@ -1,0 +1,232 @@
+import { site } from "./site";
+
+/**
+ * Per-page FAQs, keyed by path. Each page renders its own list with <Faq items={faqs[PATH]} />
+ * (which also emits FAQPage schema), and /llms.txt lists every indexed page's FAQ.
+ *
+ * Rules:
+ * - Answers state only facts the site already states: unlimited events and folders, bulk upload
+ *   from computer or Google Drive, automatic face detection, link / QR code / WhatsApp sharing,
+ *   selfie search, no app or login, guests see only their own photos, events of any size, free
+ *   trial with no credit card.
+ * - No question repeats across pages, or duplicates a question heading on its own page.
+ * - Waiting for confirmed facts (add answers only once the team confirms): pricing, face-match
+ *   accuracy, data retention / DPDP Act, download quality, watermarks, PIN protection, file limits.
+ *
+ * Draft copy by Claude (not from the content doc) except "/" — review before publishing.
+ */
+
+export type Faq = { q: string; a: string };
+
+export const faqs: Record<string, Faq[]> = {
+  "/": [
+    { q: "What is Snapdaps?", a: site.definition },
+    {
+      q: "How do guests find their photos?",
+      a: "Guests open the event link or scan its QR code, then upload a selfie. Snapdaps uses AI face recognition to find every photo they appear in and shows them in seconds. They can view and download their photos right from their phone — no scrolling through thousands of images.",
+    },
+    {
+      q: "Do guests need to install an app or create an account?",
+      a: "No. Guests use the event link or QR code in their phone's browser and upload a selfie — there is no app to install and no login. That makes it easy for every guest, from friends to elderly relatives, to get their photos.",
+    },
+    {
+      q: "Can guests see other people's photos?",
+      a: "Guests only see their own photos. Face search shows each guest the photos they appear in, so personal moments stay private while everyone still gets their pictures quickly.",
+    },
+    {
+      q: "How do I share an event with my guests?",
+      a: "Each event gets one secure link and a QR code. Display the QR code at the venue, add it to invitations, or invite guests on WhatsApp. There's no need to send photos one by one or hand out pendrives and Google Drive links.",
+    },
+    {
+      q: "How do I upload event photos?",
+      a: "Create an event, add folders for each part of it (for example Haldi, Sangeet, Reception), and bulk upload thousands of photos from your computer or Google Drive. Snapdaps detects faces automatically in the background — no manual tagging.",
+    },
+    {
+      q: "Who is Snapdaps for?",
+      a: "Snapdaps is built for photographers, studios, wedding photographers and event planners who deliver photos to many guests — weddings, birthday parties, corporate events, award ceremonies and sports tournaments.",
+    },
+    {
+      q: "Is there a free trial?",
+      a: "Yes. You can start a free trial with no credit card required, and setup takes minutes.",
+    },
+  ],
+
+  "/how-it-works": [
+    {
+      q: "Do I need to tag people in the photos?",
+      a: "No. Snapdaps detects faces automatically in the background as soon as photos are uploaded. There's no manual tagging, sorting or naming — guests find themselves with a selfie.",
+    },
+    {
+      q: "Can I organise photos by part of the event?",
+      a: "Yes. Every event can have unlimited folders — Haldi, Sangeet and Reception, or Day 1 and Day 2 — and you can create unlimited events. Guests see a clean gallery organised the same way.",
+    },
+    {
+      q: "Where can I upload photos from?",
+      a: "From your computer or straight from Google Drive. You can bulk upload thousands of photos in one go and compress them if you want smaller files.",
+    },
+    {
+      q: "How quickly can guests get their photos?",
+      a: "As soon as the photos are uploaded and faces are detected, guests can search. A selfie returns their matches in seconds, so guests can have their photos the same day instead of waiting weeks for delivery.",
+    },
+    {
+      q: "Can guests use Snapdaps on their phone?",
+      a: "Yes — it's built for phones. Guests open the link or scan the QR code in their phone's browser, take a selfie, then view and download their photos there. Nothing to install and no account to create.",
+    },
+  ],
+
+  "/use-cases": [
+    {
+      q: "I'm a guest — how do I get my photos?",
+      a: "You don't need an account. If your photographer or event host uses Snapdaps, open the link or scan the QR code they share, upload a selfie, and your photos appear — ready to view and download on your phone.",
+    },
+    {
+      q: "Can one account handle many events?",
+      a: "Yes. You can create unlimited events with custom names, each with its own gallery, folders, link and QR code — so one account covers every wedding, party or corporate event you shoot or plan.",
+    },
+    {
+      q: "Does Snapdaps work for small events?",
+      a: "Yes. Snapdaps works for events of any size, from a small family function or birthday party to a multi-day wedding or a large conference.",
+    },
+  ],
+
+  "/use-cases/photo-sharing-app-for-photographers": [
+    {
+      q: "How do clients find their own photos in a large gallery?",
+      a: "With AI face search. Each guest uploads a selfie and Snapdaps shows every photo they appear in within seconds — so nobody scrolls through thousands of images or calls you asking for their pictures.",
+    },
+    {
+      q: "Can I deliver photos for several events at the same time?",
+      a: "Yes. Create unlimited events, each with its own folders, link and QR code. Every client gets a separate, organised gallery, and you manage them all from one place.",
+    },
+    {
+      q: "Can I upload an event straight from Google Drive?",
+      a: "Yes. Bulk upload thousands of photos from your computer or directly from Google Drive, into folders for each part of the event. Faces are detected automatically while you get on with your next shoot.",
+    },
+    {
+      q: "Do my clients or their guests need to sign up?",
+      a: "No. Clients and guests open your link or scan the QR code in a browser and upload a selfie — no app and no login, which is why even elderly relatives can get their photos without help.",
+    },
+    {
+      q: "How soon after the event can I deliver photos?",
+      a: "As soon as you upload. Faces are detected in the background, so you can share the gallery link the same day instead of spending days sorting photos and sending them person by person.",
+    },
+  ],
+
+  "/use-cases/photo-sharing-app-for-event-planners": [
+    {
+      q: "Do I have to wait for the photographer to send photos to each guest?",
+      a: "No. Once the event's photos are uploaded to Snapdaps, every guest finds their own with a selfie. Nobody has to send photos one by one, and you're not the one chasing them.",
+    },
+    {
+      q: "Who uploads the photos — me or the photographer?",
+      a: "Either. Whoever has the photos creates the event and uploads them from a computer or Google Drive. You can ask your photographer to upload directly, then share the event's link or QR code with guests yourself.",
+    },
+    {
+      q: "Does it work for large events?",
+      a: "Yes. Snapdaps works for events of any size. Upload thousands of photos in bulk, and every attendee still finds only their own photos with a selfie — in seconds.",
+    },
+    {
+      q: "Can I organise photos by session, day or venue?",
+      a: "Yes. Each event can have unlimited folders — by day, session, stage or venue — so guests browse an organised gallery instead of one long stream of photos.",
+    },
+  ],
+
+  "/use-cases/wedding-photo-sharing-app": [
+    {
+      q: "Can guests get photos from each function — Haldi, Mehndi, Sangeet and Reception?",
+      a: "Yes. Create a folder for every function inside the wedding event. Guests see an organised wedding gallery, and their selfie finds them across all functions at once.",
+    },
+    {
+      q: "Do elderly relatives need to install anything?",
+      a: "No. They open the link or scan the QR code in their phone's browser and upload a selfie — no app, no account and no password. Their photos appear in seconds.",
+    },
+    {
+      q: "Does it work for a destination or multi-day wedding?",
+      a: "Yes. Create one wedding event and add a folder for each day or function. Guests use the same link or QR code throughout, and one selfie finds them across every day.",
+    },
+    {
+      q: "How long after the wedding can guests get their photos?",
+      a: "As soon as the photographer uploads them. Faces are detected automatically, so guests can find their photos the same day instead of waiting weeks for a pendrive or Drive link.",
+    },
+    {
+      q: "Can our photographer use Snapdaps for every wedding they shoot?",
+      a: "Yes. Photographers can create unlimited events, so every couple gets their own wedding gallery with its own link and QR code.",
+    },
+  ],
+
+  "/use-cases/birthday-party": [
+    {
+      q: "How do party guests get their birthday photos?",
+      a: "Share the party's link or QR code — on the WhatsApp group, the invitation or a card at the venue. Each guest uploads a selfie and sees the photos they're in, ready to download.",
+    },
+    {
+      q: "Can we organise photos by moment — cake cutting, games, dance?",
+      a: "Yes. Add a folder for each part of the party. Guests see a tidy gallery, and their selfie still finds them in every folder.",
+    },
+    {
+      q: "Can we add more photos after the party?",
+      a: "Yes. Upload more photos to the same event at any time. Faces in the new photos are detected automatically, so guests who search again find them too.",
+    },
+    {
+      q: "Can I use Snapdaps for school or society functions too?",
+      a: "Yes. Snapdaps works for events of any size. Create a separate event for each function, each with its own link, QR code and folders.",
+    },
+  ],
+
+  "/use-cases/corporate-events": [
+    {
+      q: "Can speakers and sponsors get their photos too?",
+      a: "Yes. Anyone at the event with the link or QR code can upload a selfie and download the photos they appear in — speakers, sponsors, staff and attendees alike.",
+    },
+    {
+      q: "Can we organise photos by session, day or venue?",
+      a: "Yes. Create folders for each day, session, workshop or venue inside one event, so attendees browse an organised gallery.",
+    },
+    {
+      q: "Can we keep photos from different events separate?",
+      a: "Yes. Create a separate event for each conference, offsite or town hall. Each one has its own link, QR code and folders.",
+    },
+    {
+      q: "Is it suitable for large conferences and offsites?",
+      a: "Yes. Snapdaps works for events of any size: bulk upload thousands of photos, and every attendee still finds only their own with a selfie.",
+    },
+  ],
+
+  "/use-cases/award-ceremony": [
+    {
+      q: "Can nominees who didn't win get their photos too?",
+      a: "Yes. Everyone at the ceremony — nominees, guests, presenters and staff — can upload a selfie and download the photos they appear in.",
+    },
+    {
+      q: "Can we use one account for every edition of our awards?",
+      a: "Yes. Create a new event for each year's ceremony, with its own link, QR code and folders. You can create unlimited events.",
+    },
+    {
+      q: "Can we split photos by category or segment?",
+      a: "Yes. Add a folder for each award category, segment or venue area inside the ceremony event, so the gallery stays organised.",
+    },
+    {
+      q: "How soon after the ceremony can guests get their photos?",
+      a: "As soon as the photographer uploads them — faces are detected automatically, so winners can share their stage moment while it still matters.",
+    },
+  ],
+
+  "/use-cases/sports-events": [
+    {
+      q: "How do players find their action shots?",
+      a: "Players open the tournament link or scan its QR code, upload a selfie and see every photo they're in — warm-ups, match moments and the podium — without scrolling through thousands of photos.",
+    },
+    {
+      q: "Can fans and spectators find their photos too?",
+      a: "Yes. Anyone with the tournament link or QR code can upload a selfie and download the photos they appear in — players, coaches, parents and fans in the stands.",
+    },
+    {
+      q: "Can schools and academies use it for every tournament?",
+      a: "Yes. Create a separate event for each tournament, sports day or season, each with its own link, QR code and folders.",
+    },
+    {
+      q: "Can players share their photos?",
+      a: "Yes. Players download their photos to their phone and share them on WhatsApp or social media themselves.",
+    },
+  ],
+};

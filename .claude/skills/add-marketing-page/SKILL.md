@@ -10,7 +10,7 @@ Every marketing page is hand-built — no dynamic `[slug]` routes for features o
 ## Steps
 
 1. **Copy the closest page.** For a use case, start from `app/use-cases/wedding-photo-sharing-app/page.tsx`; for a simple page, `app/how-it-works/page.tsx`. Keep the header comment: content-doc name, target keywords, and what the doc still lacks.
-2. **Copy inline** in the new `page.tsx`, word for word from the content doc. Shared bits (CTAs, workflow, core features, plans) come from `content/site.ts`. Unknowns → `"Placeholder: …"` + `TODO`.
+2. **Copy inline** in the new `page.tsx`, word for word from the content doc. Shared bits (CTAs, plans) come from `content/site.ts`; use-case pages tell the workflow and features in their own event's words (`WorkflowSteps steps={…}`, `FeatureBento items={…}`, see the wedding and birthday pages) instead of the shared copy. Copy you draft (not from the doc) gets "Draft copy by Claude — not from the content doc; reviewed by: …" in the header comment and stays `indexed: false` until the team approves it. Never invent facts, numbers or testimonials; leave unconfirmed claims out rather than adding placeholders to indexed pages.
 3. **Metadata:**
    ```ts
    const PATH = "/use-cases/<slug>";
@@ -23,9 +23,12 @@ Every marketing page is hand-built — no dynamic `[slug]` routes for features o
    ```
    Use `title` (not `absoluteTitle`) only when you want the layout to append "| Snapdaps".
 4. **Register the route** in `content/routes.ts`: `{ path, label, indexed, priority }`. `indexed: false` while copy is placeholder (noindex + out of the sitemap); flip to `true` when it's final. The sitemap reads this list — don't edit `app/sitemap.ts`.
-5. **Structure:** one `<h1>` (from `Hero`, or `<Section as="h1">`), then sections, ending with `CtaBand`. Nested pages pass `<Breadcrumbs>` into `Hero`'s `above` prop (emits `breadcrumbLd`). Use the `add-landing-section` skill for the sections.
+5. **Structure:** one `<h1>` (from `Hero`, or `<Section as="h1">`), then sections, ending with `Faq` + `CtaBand`. Pages pass `<Breadcrumbs>` into `Hero`'s or `Section`'s `above` prop (emits `breadcrumbLd`). Use the `add-landing-section` skill for the sections.
+   - **Byline:** `<PageByline name description path updated="YYYY-MM-DD" />` under the H1 (Hero `note`, or in the H1 section's `intro`) — emits `WebPage` schema with `dateModified`.
+   - **Question sections:** 2–4 `QuestionSection`s, each a real search question as the H2 with a 40–60-word standalone answer, then detail (`InfoCards`, `ComparisonRows`, `WorkflowSteps`).
+   - **FAQ:** add `faqs[PATH]` (4–6 questions) to `content/faqs.ts` and render `<Faq items={faqs[PATH]} />`. No question may repeat another page's FAQ or this page's question headings.
 6. **Navigation:** link it from `nav` in `content/site.ts` if it belongs in the header/footer; use-case pages also show in `SocialProof`'s event-type wall.
-7. **Social image (optional):** `opengraph-image.tsx` next to the page — copy the wedding one; `ogImage("Title")` from `lib/og.tsx`, with a descriptive `alt`.
+7. **Social image:** `opengraph-image.tsx` next to the page — copy the wedding one; `ogImage("Title")` from `lib/og.tsx`, with a descriptive `alt`.
 8. **Never** add `generateStaticParams`, `revalidate` or `dynamic = "force-static"` — the site is SSR on purpose. If the page must never be CDN-cached, add its prefix to the `skip` check in `proxy.ts`; if crawlers shouldn't fetch it at all, add it to `disallow` in `app/robots.ts`.
 9. **Keep docs current:** new conventions or blocks → update CLAUDE.md and `.claude/` in the same change.
 

@@ -58,7 +58,7 @@ The files or routes you were given. Otherwise the current changes (`git diff` an
 - Heavy decorative illustrations below the fold use `LazyMount` with their real height reserved (no layout shift), or `isNear` in scroll-linked panels; popups/sheets load on demand (`next/dynamic`) and return focus to their trigger. Mock wrappers with sample data carry `data-nosnippet`.
 
 **Licences**
-- No Shadcn UI Kit premium/Pro code or illustrations (public repo). Shadcn Space free items keep their copyright notice + licence text; their Pro items are not allowed. Adapted patterns carry an "after <source> (licence)" comment.
+- No Shadcn UI Kit premium/Pro code or illustrations (public repo). Stock photos only from free Unsplash/Pexels (not Unsplash+), each listed in `public/photos/CREDITS.md`; no stock face shown as a named sample person (avatars stay `Face`). Shadcn Space free items keep their copyright notice + licence text; their Pro items are not allowed. Adapted patterns carry an "after <source> (licence)" comment.
 
 **Docs drift**
 - A new or renamed block, token, utility or convention is reflected in CLAUDE.md and `.claude/`.

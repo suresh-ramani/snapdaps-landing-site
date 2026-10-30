@@ -50,7 +50,25 @@ const visuals: Record<WorkflowStepKey, React.ReactNode> = {
  * - Mobile/tablet: every step stacked with all its text and visual (this is also what Google's
  *   mobile-first index reads, so nothing is hidden there).
  */
-export function WorkflowSteps({ stepHeading = "h3" }: { stepHeading?: "h2" | "h3" }) {
+export type WorkflowStep = {
+  key: WorkflowStepKey;
+  title: string;
+  subtitle: string;
+  points: readonly string[];
+};
+
+export function WorkflowSteps({
+  stepHeading = "h3",
+  steps = workflowSteps,
+}: {
+  stepHeading?: "h2" | "h3";
+  /**
+   * Page-specific step copy (same 5 keys, so the product visuals still match). Defaults to the
+   * shared `workflowSteps`; use-case pages pass their own wording so the copy isn't duplicated.
+   */
+  steps?: readonly WorkflowStep[];
+}) {
+  const workflowSteps = steps;
   const { active, tabProps, sliceRef, isNear } = useScrollTabs(workflowSteps.length);
   const panelId = useId();
   const H = stepHeading;

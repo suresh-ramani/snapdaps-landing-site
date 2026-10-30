@@ -97,7 +97,7 @@ export function Hero({
           ))}
         </ul>
       )}
-      {note && <p className="mt-4 text-sm text-muted-foreground">{note}</p>}
+      {note && <div className="mt-4 text-sm text-muted-foreground">{note}</div>}
     </div>
   );
 

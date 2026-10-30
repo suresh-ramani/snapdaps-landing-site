@@ -92,7 +92,7 @@ export function OldWaySwap({ className }: { className?: string }) {
           <p className="mt-1 text-xs text-black/55">One QR code for every guest</p>
           <div className="mt-2.5 flex items-center gap-1.5">
             {[2, 4, 0].map((s, i) => (
-              <PhotoTile key={i} seed={s} people={1} className={cn("w-8 rounded", i === 2 && "hidden sm:block")} />
+              <PhotoTile key={i} seed={s} sizes="32px" className={cn("w-8 rounded", i === 2 && "hidden sm:block")} />
             ))}
             <span className="ml-1 inline-flex items-center gap-1 whitespace-nowrap rounded-full bg-[#f0fff4] px-2 py-0.5 text-[11px] font-semibold text-[#15803d]">
               <Check className="size-3" strokeWidth={3} /> Your photos

@@ -18,15 +18,18 @@ export function Faq({
   title = "Frequently asked questions",
   intro,
   contact = true,
+  tone,
 }: {
   items: { q: string; a: string }[];
   title?: string;
   intro?: React.ReactNode;
   /** Show the "Still have a question?" line linking to /contact. */
   contact?: boolean;
+  /** `panel` when the section above is on the page background, to keep the alternating rhythm. */
+  tone?: "default" | "panel";
 }) {
   return (
-    <Section id="faq" title={title} intro={intro} align="center">
+    <Section id="faq" title={title} intro={intro} align="center" tone={tone}>
       <div className="surface mx-auto max-w-3xl overflow-hidden text-left">
         <Accordion type="single" collapsible defaultValue="q0">
           {items.map((f, i) => (
