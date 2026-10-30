@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
  * A slowly scrolling strip of client messages: the "this is exactly my problem" moment.
  * Marquee pattern after Magic UI's Marquee (MIT, github.com/magicuidesign/magicui), using the
  * CSS-only `animate-marquee` utility in globals.css (pauses on hover, static under reduced motion).
+ * Two rows scroll in opposite directions (`--marquee-direction`) at slightly different speeds.
  *
  * The first copy of the list is the readable one; the duplicate that makes the loop seamless
  * is hidden from assistive tech.
@@ -28,13 +29,15 @@ export function ChatMarquee({
       <p className="sr-only">{label}</p>
       <div className="space-y-3 [mask-image:linear-gradient(to_right,transparent,#000_10%,#000_90%,transparent)]">
         {rows.map((row, r) => (
-          <div key={r} className="group flex overflow-hidden [--marquee-gap:1.75rem] [--marquee-duration:55s]">
-            <div
-              className={cn(
-                "flex w-max gap-(--marquee-gap) motion-safe:animate-marquee",
-                r === 1 && "[animation-direction:reverse]",
-              )}
-            >
+          <div
+            key={r}
+            className={cn(
+              "group flex overflow-hidden [--marquee-gap:1.75rem]",
+              // Second row runs the other way, a touch slower, so the rows never mirror each other.
+              r === 0 ? "[--marquee-duration:55s]" : "[--marquee-direction:reverse] [--marquee-duration:63s]",
+            )}
+          >
+            <div className="flex w-max gap-(--marquee-gap) motion-safe:animate-marquee">
               {[0, 1].map((copy) => (
                 <ul
                   key={copy}

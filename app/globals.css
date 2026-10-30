@@ -339,7 +339,8 @@
   to { transform: translateX(calc(-50% - var(--marquee-gap, 3rem) / 2)); }
 }
 @utility animate-marquee {
-  animation: marquee var(--marquee-duration, 40s) linear infinite;
+  /* Direction is a variable so `[--marquee-direction:reverse]` survives this shorthand. */
+  animation: marquee var(--marquee-duration, 40s) linear infinite var(--marquee-direction, normal);
   .group:hover & {
     animation-play-state: paused;
   }

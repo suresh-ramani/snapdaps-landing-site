@@ -14,7 +14,7 @@ Everything lives in `app/globals.css`. Components use only semantic tokens and t
 | 1. Primitives | top of `:root`, overridden in `.dark` | `--paper`, `--ink`, `--slate`, `--line`, `--mist`, `--brand-blue`, `--brand-indigo`, `--brand-violet`, `--purple-ink`, `--rose-*`, `--mint-*`, `--night`, `--love`, `--whatsapp-green` |
 | 2. Semantic | `:root` below primitives | shadcn set (`--background`, `--primary`, `--muted-foreground`, `--border`, `--ring`…) + site set (`--panel`, `--before*`, `--after*`, `--ink-surface*`, `--ink-success`, `--heart`, `--whatsapp`, `--section-y`, `--reading`) |
 | 3. Tailwind mapping | `@theme inline` | `--color-panel: var(--panel)` → `bg-panel`; `--font-sans`/`--font-display` (both Geist) |
-| Utilities | `@utility` blocks | `container-page`, `section-y`, `surface`, `surface-soft`, `ink-card`, `icon-tile`, `bg-brand-gradient`, `text-brand-gradient`, `glow-brand`, `fade-b`, `animate-marquee` |
+| Utilities | `@utility` blocks | `container-page`, `section-y`, `surface`, `surface-soft`, `ink-card`, `icon-tile`, `bg-brand-gradient`, `text-brand-gradient`, `glow-brand`, `fade-b`, `animate-marquee` (vars `--marquee-duration`, `--marquee-gap`, `--marquee-direction`; set them as variables, not `animation-*` properties, which the shorthand overrides) |
 | Animations | `@keyframes` + classes | `pop-in`, `scan`, `shake`, `marquee`, `beam-travel`/`.beam-pulse`, `hub-ring`/`.hub-pulse`, `pain-progress`, `emoji-pop`, `.typing-caret`, `old-*`/`.old-card`, `qr-in`/`.qr-card` |
 | Blog prose | `.prose-snap` | WordPress article typography |
 
