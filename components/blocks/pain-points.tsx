@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { Frown, HardDrive, PhoneCall, Search, Usb } from "lucide-react";
 import { PainIllustration } from "@/components/mock/pain-illustrations";
 import { cn } from "@/lib/utils";
+import { LazyMount } from "./lazy-mount";
 import { ScrollTrack, useScrollTabs } from "./scroll-tabs";
 
 export type PainPoint = {
@@ -23,10 +24,12 @@ const icons = { search: Search, calls: PhoneCall, pendrive: Usb, drive: HardDriv
  *   scrolling only skips pictures. Each title is a button inside its h3.
  * - Mobile/tablet: the swipe cards are pinned the same way; scrolling down glides to the next card,
  *   and swiping to a card moves the page to that card's spot, so swipe and scroll always agree.
- * - Visual swaps use opacity/transform only.
+ * - Visual swaps use opacity/transform only. Illustrations are decorative, so desktop renders only
+ *   the nearby ones (`isNear`) and phone cards mount theirs near the screen (`LazyMount`) — every
+ *   title and body is still in the server HTML.
  */
 export function PainPoints({ points, defaultIndex = 0 }: { points: PainPoint[]; defaultIndex?: number }) {
-  const { active, tabProps, sliceRef } = useScrollTabs(points.length, defaultIndex);
+  const { active, tabProps, sliceRef, isNear } = useScrollTabs(points.length, defaultIndex);
 
   return (
     <>
@@ -79,7 +82,7 @@ export function PainPoints({ points, defaultIndex = 0 }: { points: PainPoint[]; 
 
         <div
           id="pain-visual"
-          aria-hidden="true"
+          aria-hidden="true" data-nosnippet
           className="relative min-h-[28rem] overflow-hidden rounded-3xl border bg-before/40 p-8"
         >
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_60%_at_70%_30%,var(--before),transparent_70%)]" />
@@ -91,9 +94,7 @@ export function PainPoints({ points, defaultIndex = 0 }: { points: PainPoint[]; 
                 i === active ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0",
               )}
             >
-              <div className="w-full max-w-md">
-                <PainIllustration kind={p.kind} />
-              </div>
+              <div className="w-full max-w-md">{isNear(i) && <PainIllustration kind={p.kind} />}</div>
             </div>
           ))}
           {/* Position, e.g. 2 / 5 */}
@@ -186,10 +187,10 @@ function PainCards({ points }: { points: PainPoint[] }) {
               data-card={i}
               className="surface flex w-[85%] shrink-0 snap-start flex-col overflow-hidden sm:w-[60%]"
             >
-              <div aria-hidden="true" className="flex h-72 items-center justify-center overflow-hidden bg-before/40 p-5">
-                <div className={cn("w-full max-w-xs origin-center", p.kind === "calls" ? "scale-[0.5]" : "scale-90")}>
+              <div aria-hidden="true" data-nosnippet className="flex h-72 items-center justify-center overflow-hidden bg-before/40 p-5">
+                <LazyMount className={cn("w-full max-w-xs origin-center", p.kind === "calls" ? "scale-[0.5]" : "scale-90")}>
                   <PainIllustration kind={p.kind} />
-                </div>
+                </LazyMount>
               </div>
               <div className="p-5">
                 <span className="flex items-center gap-3">

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { site } from "@/content/site";
+import { coreFeatures, site } from "@/content/site";
 import { absoluteUrl, stripHtml } from "@/lib/utils";
 import { videoPoster, youtubeId, type VideoTestimonial } from "@/content/video-testimonials";
 import type { WPAuthor, WPPost, WPSeo } from "@/lib/wp/types";
@@ -73,13 +73,25 @@ export function postMetadata(post: WPPost): Metadata {
 /* ---------------------------- JSON-LD builders ---------------------------- */
 
 export function organizationLd() {
+  const sameAs = Object.values(site.social).filter(Boolean);
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: site.name,
     url: absoluteUrl("/"),
     logo: absoluteUrl("/brand/snapdaps-mark-512.png"),
-    sameAs: Object.values(site.social).filter(Boolean),
+    description: site.definition,
+    email: site.contactEmail,
+    areaServed: { "@type": "Country", name: "India" },
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer support",
+      email: site.contactEmail,
+      areaServed: "IN",
+      availableLanguage: ["English", "Hindi"],
+    },
+    // Social profiles link the brand entity for search and AI engines — filled from content/site.ts.
+    ...(sameAs.length ? { sameAs } : {}),
   };
 }
 
@@ -102,10 +114,12 @@ export function softwareLd(offers: { name: string; price: number }[] = []) {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     name: site.name,
-    applicationCategory: "PhotographyApplication",
+    // One of Google's supported values (PhotographyApplication isn't).
+    applicationCategory: "MultimediaApplication",
     operatingSystem: "Web",
     url: absoluteUrl("/"),
-    description: site.description,
+    description: site.definition,
+    featureList: coreFeatures.map((f) => f.title),
     // Only list offers once real pricing exists — placeholder prices must not reach search results.
     ...(offers.length
       ? { offers: offers.map((o) => ({ "@type": "Offer", name: o.name, price: o.price, priceCurrency: "INR" })) }

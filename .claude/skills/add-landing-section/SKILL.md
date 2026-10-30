@@ -22,7 +22,7 @@ Check the blocks listed in CLAUDE.md's "Where things go" table first — most re
 | Dark bridge / closing | `TurningPoint`, `CtaBand` / `MiniCta` (one `ink-card` per screen) |
 | Proof | `LogoCloud`, `SocialProof`, `ChatMarquee` |
 | Questions | `Faq items={…}` (emits `faqLd`) |
-| Product visuals | `components/product/*` cards, `components/mock/*` primitives |
+| Product visuals | `components/product/*` cards, `components/mock/*` primitives — below the fold, wrap heavy ones in `LazyMount` with their height reserved; mock wrappers get `data-nosnippet` |
 
 ## 2. Copy
 

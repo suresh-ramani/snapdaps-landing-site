@@ -50,7 +50,7 @@ const OLD = [
 
 export function OldWaySwap({ className }: { className?: string }) {
   return (
-    <div aria-hidden="true" className={cn("relative mx-auto w-full max-w-md select-none", className)}>
+    <div aria-hidden="true" data-nosnippet className={cn("relative mx-auto w-full max-w-md select-none", className)}>
       {/* The old way: a messy pile, crossed out in turn */}
       <ul className="grid grid-cols-2 gap-2.5 sm:gap-3">
         {OLD.map((o, i) => {

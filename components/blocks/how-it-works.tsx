@@ -12,7 +12,17 @@ import {
 } from "@/components/product/cards";
 import { workflowSteps, type WorkflowStepKey } from "@/content/site";
 import { cn } from "@/lib/utils";
+import { LazyMount } from "./lazy-mount";
 import { ScrollTrack, useScrollTabs } from "./scroll-tabs";
+
+/** Measured height of each card on phones/tablets, reserved before it mounts so nothing shifts. */
+const visualMinH: Record<WorkflowStepKey, string> = {
+  create: "min-h-[19.25rem]",
+  upload: "min-h-[28.5rem]",
+  detect: "min-h-[20.75rem]",
+  share: "min-h-[24rem]",
+  selfie: "min-h-[24.5rem]",
+};
 
 const visuals: Record<WorkflowStepKey, React.ReactNode> = {
   create: <CreateEventCard className="mx-auto max-w-sm" />,
@@ -41,7 +51,7 @@ const visuals: Record<WorkflowStepKey, React.ReactNode> = {
  *   mobile-first index reads, so nothing is hidden there).
  */
 export function WorkflowSteps({ stepHeading = "h3" }: { stepHeading?: "h2" | "h3" }) {
-  const { active, tabProps, sliceRef } = useScrollTabs(workflowSteps.length);
+  const { active, tabProps, sliceRef, isNear } = useScrollTabs(workflowSteps.length);
   const panelId = useId();
   const H = stepHeading;
 
@@ -107,8 +117,8 @@ export function WorkflowSteps({ stepHeading = "h3" }: { stepHeading?: "h2" | "h3
                 )}
               >
                 {/* zoom (not scale) shrinks the layout box too, so the tallest card fits the 36rem block. */}
-                <div aria-hidden="true" className="flex flex-1 items-center">
-                  <div className="w-full [zoom:0.85]">{visuals[s.key]}</div>
+                <div aria-hidden="true" data-nosnippet className="flex flex-1 items-center">
+                  <div className="w-full [zoom:0.85]">{isNear(i) && visuals[s.key]}</div>
                 </div>
                 <ul className="divide-y border-y text-[15px]">
                   {s.points.map((pt) => (
@@ -142,7 +152,9 @@ export function WorkflowSteps({ stepHeading = "h3" }: { stepHeading?: "h2" | "h3
               </ul>
             </div>
             <div className="surface-soft relative flex min-h-80 items-center overflow-hidden p-6 md:col-span-3 md:p-10">
-              <div className="w-full">{visuals[s.key]}</div>
+              <LazyMount className={cn("w-full", visualMinH[s.key])} rootMargin="600px 0px">
+                {visuals[s.key]}
+              </LazyMount>
             </div>
           </li>
         ))}

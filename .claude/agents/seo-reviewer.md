@@ -21,7 +21,8 @@ The routes or files you were given. Otherwise the current changes (`git diff` an
 6. **Rendering & caching** — no `force-static`, page-level `revalidate` or `generateStaticParams` (SSR is intentional). WordPress data only via `lib/wp/api.ts`; non-critical WordPress sections in `<Suspense>`. `proxy.ts` keeps `/api/`, `/blogs/preview`, `/blogs/search` and draft mode uncached.
 7. **Images & links** — `next/image` with meaningful `alt` (empty only if decorative), `priority` on the LCP image; `opengraph-image.tsx` exports a descriptive `alt` and uses `ogImage()`; internal links via `next/link`; pagination by real URLs.
 8. **WordPress HTML** — rendered only through `prepareContent()`.
-9. **Docs drift** — if the change adds a route, block or convention, check CLAUDE.md and `.claude/` were updated to match.
+9. **GEO/AEO** — home keeps `site.definition` under a question heading and the FAQ with FAQPage schema; `/llms.txt` returns 200; decorative mock wrappers carry `data-nosnippet`; Organization schema has email/contactPoint and `sameAs` once social links exist; `LazyMount` never wraps text.
+10. **Docs drift** — if the change adds a route, block or convention, check CLAUDE.md and `.claude/` were updated to match.
 
 If you can run a build (`npm run build && npm start`), confirm with `curl` against `http://localhost:3000` (title, canonical, robots meta, h1, ld+json, `CDN-Cache-Control`, `/sitemap.xml`). Say if you couldn't.
 

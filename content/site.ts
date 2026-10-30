@@ -12,6 +12,13 @@ export const site = {
   tagline: "AI photo sharing and face search for photographers & events",
   description:
     "Upload event photos once and let AI do the rest. Find photos quickly using AI face recognition. Perfect for photographers and event planners. Start Free Trial!",
+  /**
+   * The plain "Snapdaps is…" answer (≈60 words) that search and AI answer engines can quote.
+   * Built only from facts the site states elsewhere (core features + workflow). Reused by the
+   * home page, the FAQ, Organization/SoftwareApplication schema and /llms.txt.
+   */
+  definition:
+    "Snapdaps is an AI photo sharing and face search platform for photographers, studios and event planners. You upload an event's photos once and get an AI photo gallery that guests open with a link or QR code. Each guest uploads a selfie, and AI face recognition shows them every photo they appear in — in seconds, with no app or login.",
   locale: "en_IN",
   twitter: "@snapdaps", // TODO: confirm handle
   appUrl: "https://app.snapdaps.ai", // TODO: confirm app URL
@@ -24,8 +31,48 @@ export const site = {
   },
 };
 
+/**
+ * Home page FAQ (rendered by <Faq>, which also emits FAQPage schema). Answers use only facts the
+ * site already states: core features, the 5-step workflow and the trust line.
+ * TODO: confirm with the team, and add answers the site can't make yet — pricing, face-match
+ * accuracy, data retention / DPDP compliance, file-size limits.
+ */
+export const homeFaqs = [
+  { q: "What is Snapdaps?", a: site.definition },
+  {
+    q: "How do guests find their photos?",
+    a: "Guests open the event link or scan its QR code, then upload a selfie. Snapdaps uses AI face recognition to find every photo they appear in and shows them in seconds. They can view and download their photos right from their phone — no scrolling through thousands of images.",
+  },
+  {
+    q: "Do guests need to install an app or create an account?",
+    a: "No. Guests use the event link or QR code in their phone's browser and upload a selfie — there is no app to install and no login. That makes it easy for every guest, from friends to elderly relatives, to get their photos.",
+  },
+  {
+    q: "Can guests see other people's photos?",
+    a: "Guests only see their own photos. Face search shows each guest the photos they appear in, so personal moments stay private while everyone still gets their pictures quickly.",
+  },
+  {
+    q: "How do I share an event with my guests?",
+    a: "Each event gets one secure link and a QR code. Display the QR code at the venue, add it to invitations, or invite guests on WhatsApp. There's no need to send photos one by one or hand out pendrives and Google Drive links.",
+  },
+  {
+    q: "How do I upload event photos?",
+    a: "Create an event, add folders for each part of it (for example Haldi, Sangeet, Reception), and bulk upload thousands of photos from your computer or Google Drive. Snapdaps detects faces automatically in the background — no manual tagging.",
+  },
+  {
+    q: "Who is Snapdaps for?",
+    a: "Snapdaps is built for photographers, studios, wedding photographers and event planners who deliver photos to many guests — weddings, birthday parties, corporate events, award ceremonies and sports tournaments.",
+  },
+  {
+    q: "Is there a free trial?",
+    a: "Yes. You can start a free trial with no credit card required, and setup takes minutes.",
+  },
+];
+
 export const cta = {
   trial: { label: "Start free trial", href: site.signupUrl },
+  /** Header button label on phones/tablets, where "Start free trial" doesn't fit beside the menu. */
+  trialShort: "Try for free",
   demo: { label: "Book a demo" },
   trustLine: ["No credit card required", "Setup in minutes", "Works for events of any size"],
 };

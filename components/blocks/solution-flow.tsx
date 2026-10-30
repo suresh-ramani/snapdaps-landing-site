@@ -56,7 +56,7 @@ export function SolutionFlow({
       </ol>
 
       {/* Desktop diagram */}
-      <div aria-hidden="true" className="relative mt-4 hidden aspect-[1000/340] md:block">
+      <div aria-hidden="true" data-nosnippet className="relative mt-4 hidden aspect-[1000/340] md:block">
         <Beams />
         <div className="absolute left-0 top-1/2 w-[29%] -translate-y-1/2">
           <PhotosNode photoCount={photoCount} />
@@ -76,7 +76,7 @@ export function SolutionFlow({
       </div>
 
       {/* Mobile diagram */}
-      <div aria-hidden="true" className="mt-8 flex flex-col items-center md:hidden">
+      <div aria-hidden="true" data-nosnippet className="mt-8 flex flex-col items-center md:hidden">
         <PhotosNode photoCount={photoCount} className="w-full max-w-xs" />
         <VerticalBeam />
         <HubNode />

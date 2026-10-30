@@ -96,7 +96,13 @@ export function useScrollTabs(count: number, defaultIndex = 0) {
     slices.current[i] = el;
   };
 
-  return { active, canAnimate, select, tabProps, sliceRef };
+  // Panels to render: the active one, its neighbours (so the cross-fade has both sides), and any
+  // already seen. Server HTML gets only the first two; decorative panels fill in as you scroll.
+  const [seen, setSeen] = useState(() => new Set([defaultIndex]));
+  if (!seen.has(active)) setSeen(new Set(seen).add(active));
+  const isNear = (i: number) => Math.abs(i - active) <= 1 || seen.has(i);
+
+  return { active, canAnimate, select, tabProps, sliceRef, isNear };
 }
 
 /**

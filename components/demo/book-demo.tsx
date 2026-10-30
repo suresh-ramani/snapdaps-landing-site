@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { DemoForm } from "./demo-form";
+
+// The popup (Radix dialog + form) loads on demand — hover/focus starts it, so it's ready by the click.
+const DemoDialog = dynamic(() => import("./demo-dialog").then((m) => m.DemoDialog), { ssr: false });
 
 /** "Book a demo" button that opens the demo form in a popup (content doc: Hero → Secondary CTA). */
 export function BookDemoButton({
@@ -18,22 +20,30 @@ export function BookDemoButton({
   className?: string;
 }) {
   const [open, setOpen] = useState(false);
+  const [load, setLoad] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const preload = () => setLoad(true);
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant={variant} size={size} className={className}>
-          {label}
-        </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <div>
-          <DialogTitle>Book a demo</DialogTitle>
-          <DialogDescription className="mt-2">
-            See how Snapdaps delivers event photos with AI face search. We&apos;ll get back to you within one working day.
-          </DialogDescription>
-        </div>
-        <DemoForm source="popup" />
-      </DialogContent>
-    </Dialog>
+    <>
+      <Button
+        ref={buttonRef}
+        type="button"
+        variant={variant}
+        size={size}
+        className={className}
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        onPointerEnter={preload}
+        onFocus={preload}
+        onClick={() => {
+          setLoad(true);
+          setOpen(true);
+        }}
+      >
+        {label}
+      </Button>
+      {load && <DemoDialog open={open} onOpenChange={setOpen} returnFocusTo={buttonRef} />}
+    </>
   );
 }

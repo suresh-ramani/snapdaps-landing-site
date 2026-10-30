@@ -15,8 +15,12 @@ export function SiteHeader() {
         <div className="ml-auto flex items-center gap-2">
           <ThemeToggle />
           <BookDemoButton size="sm" variant="ghost" className="hidden md:inline-flex" />
-          <Button asChild size="sm" className="hidden sm:inline-flex">
-            <a href={cta.trial.href}>{cta.trial.label}</a>
+          {/* Always visible: short label on phones/tablets, full label on desktop. */}
+          <Button asChild size="sm">
+            <a href={cta.trial.href}>
+              <span className="lg:hidden">{cta.trialShort}</span>
+              <span className="hidden lg:inline">{cta.trial.label}</span>
+            </a>
           </Button>
           <MobileNav />
         </div>

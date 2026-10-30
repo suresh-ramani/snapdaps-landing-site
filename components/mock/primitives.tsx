@@ -80,7 +80,7 @@ export function Face({ seed = 0, className }: { seed?: number; className?: strin
 export function PhoneFrame({ className, children }: { className?: string; children: React.ReactNode }) {
   return (
     <div
-      aria-hidden="true"
+      aria-hidden="true" data-nosnippet
       className={cn(
         "relative mx-auto w-[15.5rem] rounded-[2.2rem] border-[6px] border-[#15171e] bg-card p-0 shadow-[0_30px_60px_-24px_rgb(21_23_30/0.45)] dark:border-[#2a2e38]",
         className,
@@ -103,7 +103,7 @@ export function BrowserFrame({
 }) {
   return (
     <div
-      aria-hidden="true"
+      aria-hidden="true" data-nosnippet
       className={cn(
         "overflow-hidden rounded-xl border bg-card shadow-[0_24px_60px_-28px_rgb(21_23_30/0.35)]",
         className,

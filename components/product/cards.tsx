@@ -32,7 +32,8 @@ import { cn } from "@/lib/utils";
 /**
  * Snapdaps product cards, built from real shadcn components (Card, Item, Progress,
  * Avatar, Badge, Button) the way ui.shadcn.com's homepage shows its product.
- * They're illustrations: decorative, non-interactive (inert) and hidden from screen readers.
+ * They're illustrations: decorative, non-interactive (inert), hidden from screen readers and
+ * marked data-nosnippet so search engines and AI answers never quote their sample numbers.
  * The names and numbers are sample data, not customers.
  * Small CSS loops make them feel live (keyframes in globals.css, reduced-motion safe):
  * upload bars keep filling (`.upload-fill`), activity rows arrive (`.feed-row`), the QR and
@@ -41,7 +42,7 @@ import { cn } from "@/lib/utils";
 
 function Static({ className, children }: { className?: string; children: React.ReactNode }) {
   return (
-    <div aria-hidden="true" inert className={cn("pointer-events-none select-none", className)}>
+    <div aria-hidden="true" data-nosnippet inert className={cn("pointer-events-none select-none", className)}>
       {children}
     </div>
   );

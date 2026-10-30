@@ -17,7 +17,7 @@ import {
 export function ProductWall() {
   return (
     <div
-      aria-hidden="true"
+      aria-hidden="true" data-nosnippet
       className="relative overflow-hidden rounded-t-[1.75rem] border-x border-t bg-muted/70 px-4 pt-6 [--gap:1rem] md:px-6 md:pt-8 lg:[--gap:1.25rem] dark:bg-muted/40"
     >
       <div className="mx-auto grid max-h-[46rem] gap-(--gap) md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

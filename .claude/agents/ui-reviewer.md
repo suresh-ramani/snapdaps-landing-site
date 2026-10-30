@@ -54,6 +54,9 @@ The files or routes you were given. Otherwise the current changes (`git diff` an
 - No invented testimonials, clients or metrics; unknowns say "Placeholder". `StatsBand` figures carry a source and date; placeholder stats never reach production.
 - Video testimonials: every entry has captions (`.vtt` for self-hosted; YouTube entries need captions in YouTube Studio); YouTube plays only via the youtube-nocookie embed after a click; MP4s autoplay only muted, in view, with `preload="none"` and controls, never under reduced motion; the "Verified · Not AI-generated" badge appears only on entries with `verified`, with `verifiedNote` visible beside the grid; the player loads no video until play and moves focus to the video.
 
+**Weight**
+- Heavy decorative illustrations below the fold use `LazyMount` with their real height reserved (no layout shift), or `isNear` in scroll-linked panels; popups/sheets load on demand (`next/dynamic`) and return focus to their trigger. Mock wrappers with sample data carry `data-nosnippet`.
+
 **Licences**
 - No Shadcn UI Kit premium/Pro code or illustrations (public repo). Shadcn Space free items keep their copyright notice + licence text; their Pro items are not allowed. Adapted patterns carry an "after <source> (licence)" comment.
 

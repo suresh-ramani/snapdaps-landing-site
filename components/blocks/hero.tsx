@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 /** Default split-hero visual: selfie → matches, with the share card behind. */
 export function HeroCards() {
   return (
-    <div className="relative mx-auto grid w-full max-w-xl grid-cols-[1fr_1.15fr] items-start gap-4" aria-hidden="true">
+    <div className="relative mx-auto grid w-full max-w-xl grid-cols-[1fr_1.15fr] items-start gap-4" aria-hidden="true" data-nosnippet>
       <div className="mt-10 space-y-4">
         <SelfieSearchCard />
         <ShareCard className="hidden sm:block" />

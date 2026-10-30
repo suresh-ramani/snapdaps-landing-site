@@ -9,12 +9,14 @@ import { LatestPosts } from "@/components/blocks/latest-posts";
 import { LogoCloud } from "@/components/blocks/logo-cloud";
 import { ChatMarquee } from "@/components/blocks/chat-marquee";
 import { PainPoints, type PainPoint } from "@/components/blocks/pain-points";
+import { Faq } from "@/components/blocks/faq";
 import { Section } from "@/components/blocks/section";
 import { SocialProof } from "@/components/blocks/social-proof";
 import { SolutionFlow } from "@/components/blocks/solution-flow";
 import { TurningPoint } from "@/components/blocks/turning-point";
 import { TypingWords } from "@/components/blocks/typing-words";
 import { JsonLd } from "@/components/json-ld";
+import { homeFaqs, site } from "@/content/site";
 import { buildMetadata, softwareLd } from "@/lib/seo";
 
 /* ------------------------------------------------------------------------------------
@@ -133,7 +135,18 @@ export default function HomePage() {
         id="solution"
         align="center"
         glow
-        title="Meet Snapdaps — smart AI-powered photo sharing and AI face search platform"
+        headerClassName="max-w-6xl"
+        // Two lines from md up: brand line, then the descriptor sized to fit one line at each
+        // breakpoint (26px md, 34px lg, full heading size xl). Phones: brand line + a smaller
+        // two-line descriptor. The space keeps the text "Meet Snapdaps — smart…" for SEO/readers.
+        title={
+          <>
+            <span className="block">Meet Snapdaps —</span>{" "}
+            <span className="mt-1 block text-[1.375rem] leading-snug md:text-[1.625rem] lg:text-[2.125rem] xl:text-[2.6rem] xl:leading-[1.1]">
+              smart AI-powered photo sharing and AI face search platform
+            </span>
+          </>
+        }
         intro={
           <p>
             Upload photos once. Let AI automatically organise and deliver them to the right people instantly. No
@@ -148,6 +161,12 @@ export default function HomePage() {
         </p>
 
         <SolutionFlow />
+
+        {/* The quotable "Snapdaps is…" answer for search and AI engines (content/site.ts → definition). */}
+        <div className="mx-auto mt-16 max-w-2xl text-center">
+          <h3 className="text-xl font-semibold tracking-tight md:text-2xl">What is Snapdaps?</h3>
+          <p className="mt-3 text-lg leading-relaxed text-muted-foreground">{site.definition}</p>
+        </div>
 
         <h3 className="mb-6 mt-20 text-center text-2xl font-semibold tracking-tight md:text-3xl">
           See how Snapdaps transforms your photo sharing experience
@@ -196,6 +215,9 @@ export default function HomePage() {
       <Suspense fallback={null}>
         <LatestPosts />
       </Suspense>
+
+      {/* FAQ (content/site.ts → homeFaqs); <Faq> also emits FAQPage schema */}
+      <Faq items={homeFaqs} />
 
       {/* Section 6: CTA */}
       <CtaBand

@@ -23,6 +23,7 @@ For every `app/**/page.tsx`:
 - [ ] Images use `next/image` with real `alt`; the above-the-fold image has `priority`. `opengraph-image.tsx` files export a descriptive `alt`.
 - [ ] No page sets `force-static`, `revalidate` or `generateStaticParams` (SSR is intentional; `app/sitemap.ts` revalidate is fine).
 - [ ] Internal links use `next/link`; pagination uses real URLs.
+- [ ] GEO/AEO: "What is Snapdaps?" definition + FAQ (FAQPage) on home; `/llms.txt` 200; decorative mock wrappers have `data-nosnippet`; Organization schema has contact details (and `sameAs` once social links exist).
 
 ## 2. Runtime checks
 
