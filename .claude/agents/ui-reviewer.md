@@ -30,6 +30,7 @@ The files or routes you were given. Otherwise the current changes (`git diff` an
 - Animates only `transform`/`opacity` (exception: SVG `stroke-dashoffset` beams in `SolutionFlow`). No `box-shadow`, `filter`, size/position or `background` animation.
 - Content visible in server HTML; no `opacity: 0` start states.
 - CSS keyframes, not JS timers; JS state only in small `"use client"` leaves; IntersectionObserver, never `scroll` listeners; timers pause off-screen.
+- No scroll-jacking: no wheel/trackpad takeover (smooth-scroll libraries, wheel `preventDefault`, one-step-per-flick). Pinned scroll-linked sections are OK only if the page scrolls normally and all text stays visible — scroll may swap visuals, never text. In-page jumps use native smooth `scrollTo`, instant under reduced motion.
 - No animation libraries (`motion`, GSAP, Lottie).
 - Reserved space — no layout shift.
 - Every keyframe has a `prefers-reduced-motion` fallback showing the finished state.

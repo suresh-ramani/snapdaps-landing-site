@@ -13,6 +13,9 @@ export type PainPoint = {
 
 const icons = { search: Search, calls: PhoneCall, pendrive: Usb, drive: HardDrive, referrals: Frown };
 
+/** Scroll distance per point while the block is pinned. */
+const STEP_VH = 50;
+
 // prefers-reduced-motion as an external store: false on the server, live on the client.
 const motionQuery = "(prefers-reduced-motion: reduce)";
 function subscribeMotion(cb: () => void) {
@@ -24,99 +27,149 @@ const motionAllowed = () => !window.matchMedia(motionQuery).matches;
 const motionAllowedOnServer = () => false;
 
 /**
- * Pain points with a scroll-driven visual (sticky scroll-spy, same approach as WorkflowSteps;
- * layout after Tailark's features blocks, MIT, github.com/tailark/blocks).
+ * Pain points as scroll-linked tabs + one large visual (layout after Tailark's selectable
+ * features block, MIT, github.com/tailark/blocks).
  *
- * - Desktop: the five points scroll by normally; the visual on the right stays pinned and swaps
- *   to the point crossing the middle of the screen (IntersectionObserver, no scroll listeners).
- *   A rail fills as you go (scaleY). Clicking a point scrolls it to the middle.
+ * - Desktop: the tabs + visual block is pinned (CSS sticky) in a taller track, and the page keeps
+ *   scrolling normally — no wheel hijacking. Invisible slices in the track (one per point) cross
+ *   the middle of the screen as you scroll; IntersectionObserver makes that point active.
+ * - Fast scrolling loses nothing: every title and body is always visible in the tab list
+ *   (inactive tabs are muted, never collapsed); only the decorative picture is skipped.
+ * - Clicking a tab, or ↑/↓/Home/End, smooth-scrolls to that point's slice so scroll position and
+ *   tab always agree (instant under reduced motion). While that scroll runs, the observer is
+ *   ignored so the tabs don't flick through the points in between.
+ * - Each title is a button inside its h3, keeping the heading outline.
  * - Mobile/tablet: swipeable cards (CSS scroll-snap), each with its own visual.
- * - Every title and body is always in the HTML and visible; the visuals are decorative.
- *   Swaps use opacity/transform only; instant under reduced motion.
+ * - Visual swaps use opacity/transform only.
  */
 export function PainPoints({ points, defaultIndex = 0 }: { points: PainPoint[]; defaultIndex?: number }) {
   const [active, setActive] = useState(defaultIndex);
   const canAnimate = useSyncExternalStore(subscribeMotion, motionAllowed, motionAllowedOnServer);
-  const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const sliceRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const jumping = useRef(false);
 
   useEffect(() => {
-    const items = itemRefs.current.filter((el): el is HTMLLIElement => el !== null);
-    if (!items.length) return;
-    // A thin band across the middle of the viewport: whichever item is in it is active.
+    const slices = sliceRefs.current.filter((el): el is HTMLDivElement => el !== null);
+    if (!slices.length) return;
+    // A thin line across the middle of the viewport: whichever slice is on it is active.
     const io = new IntersectionObserver(
       (entries) => {
+        if (jumping.current) return;
         for (const e of entries) {
           if (e.isIntersecting) setActive(Number((e.target as HTMLElement).dataset.index));
         }
       },
-      { rootMargin: "-48% 0px -48% 0px" },
+      { rootMargin: "-49.5% 0px -49.5% 0px" },
     );
-    items.forEach((el) => io.observe(el));
+    slices.forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, []);
 
-  const go = (i: number) => {
+  const select = (i: number, focus = false) => {
     setActive(i);
-    itemRefs.current[i]?.scrollIntoView({ behavior: canAnimate ? "smooth" : "auto", block: "center" });
+    if (focus) buttonRefs.current[i]?.focus({ preventScroll: true });
+    const slice = sliceRefs.current[i];
+    if (!slice) return;
+    const r = slice.getBoundingClientRect();
+    const top = window.scrollY + r.top + r.height / 2 - window.innerHeight / 2;
+    if (!canAnimate) {
+      window.scrollTo({ top, behavior: "auto" });
+      return;
+    }
+    jumping.current = true;
+    const done = () => {
+      jumping.current = false;
+      window.removeEventListener("scrollend", done);
+    };
+    window.addEventListener("scrollend", done);
+    window.setTimeout(done, 1200); // fallback where `scrollend` isn't supported
+    window.scrollTo({ top, behavior: "smooth" });
+  };
+
+  const onKeyDown = (e: React.KeyboardEvent, i: number) => {
+    const last = points.length - 1;
+    const next = { ArrowDown: i === last ? 0 : i + 1, ArrowUp: i === 0 ? last : i - 1, Home: 0, End: last }[e.key];
+    if (next === undefined) return;
+    e.preventDefault();
+    select(next, true);
   };
 
   return (
     <>
-      {/* Desktop: scrolling list + pinned visual */}
-      <div className="hidden gap-10 lg:grid lg:grid-cols-[1fr_1.15fr] xl:gap-16">
-        <ol className="relative">
-          {/* Progress rail */}
-          <span aria-hidden="true" className="absolute bottom-[12vh] left-[19px] top-[12vh] w-0.5 rounded-full bg-border" />
-          <span
-            aria-hidden="true"
-            className="absolute bottom-[12vh] left-[19px] top-[12vh] w-0.5 origin-top rounded-full bg-brand-gradient motion-safe:transition-transform motion-safe:duration-500"
-            style={{ transform: `scaleY(${(active + 1) / points.length})` }}
-          />
-          {points.map((p, i) => {
-            const Icon = icons[p.kind];
-            const isActive = i === active;
-            return (
-              <li
-                key={p.kind}
-                ref={(el) => {
-                  itemRefs.current[i] = el;
-                }}
-                data-index={i}
-                aria-current={isActive ? "step" : undefined}
-                className={cn(
-                  "relative flex gap-5 py-[12vh] motion-safe:transition-opacity motion-safe:duration-300",
-                  !isActive && "opacity-45",
-                )}
-              >
-                <span
+      {/* Desktop: pinned tabs + visual inside a scroll track */}
+      <div
+        className="relative hidden lg:block"
+        style={{ height: `calc(36rem + ${points.length * STEP_VH}vh)` }}
+      >
+        {/* One invisible slice per point. Inset by half the pinned block, so the first and last
+            points get as much scroll as the others. */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-[18rem] top-[18rem] flex flex-col">
+          {points.map((p, i) => (
+            <div
+              key={p.kind}
+              data-index={i}
+              ref={(el) => {
+                sliceRefs.current[i] = el;
+              }}
+              className="flex-1"
+            />
+          ))}
+        </div>
+
+        <div className="sticky top-[max(5rem,calc(50vh-18rem))] grid min-h-[36rem] items-stretch gap-10 lg:grid-cols-[1fr_1.15fr] xl:gap-16">
+          <ol className="flex flex-col gap-1.5">
+            {points.map((p, i) => {
+              const Icon = icons[p.kind];
+              const isActive = i === active;
+              return (
+                <li
+                  key={p.kind}
                   className={cn(
-                    "relative flex size-10 shrink-0 items-center justify-center rounded-xl ring-4 ring-panel motion-safe:transition-colors",
-                    isActive ? "bg-before text-before-ink" : "bg-muted text-muted-foreground",
+                    "relative rounded-xl px-4 py-3.5 motion-safe:transition-colors",
+                    isActive ? "surface" : "hover:bg-card/60",
                   )}
                 >
-                  <Icon className="size-5" aria-hidden="true" />
-                </span>
-                <div className="max-w-md">
-                  <h3 className="text-2xl font-semibold tracking-tight">
-                    <button
-                      type="button"
-                      onClick={() => go(i)}
-                      className="rounded-md text-left outline-offset-4 after:absolute after:inset-0 after:content-['']"
+                  <div className="flex gap-3.5">
+                    <span
+                      className={cn(
+                        "flex size-10 shrink-0 items-center justify-center rounded-xl motion-safe:transition-colors",
+                        isActive ? "bg-before text-before-ink" : "bg-muted text-muted-foreground",
+                      )}
                     >
-                      {p.title}
-                    </button>
-                  </h3>
-                  <p className="mt-2 text-lg text-muted-foreground">{p.body}</p>
-                </div>
-              </li>
-            );
-          })}
-        </ol>
+                      <Icon className="size-5" aria-hidden="true" />
+                    </span>
+                    <div className="min-w-0">
+                      <h3 className="text-lg font-semibold tracking-tight">
+                        <button
+                          ref={(el) => {
+                            buttonRefs.current[i] = el;
+                          }}
+                          type="button"
+                          onClick={() => select(i)}
+                          onKeyDown={(e) => onKeyDown(e, i)}
+                          aria-current={isActive ? "true" : undefined}
+                          aria-controls="pain-visual"
+                          className={cn(
+                            "rounded-md text-left outline-offset-4 after:absolute after:inset-0 after:rounded-xl after:content-['']",
+                            !isActive && "text-muted-foreground",
+                          )}
+                        >
+                          {p.title}
+                        </button>
+                      </h3>
+                      <p className="mt-1 text-[15px] leading-relaxed text-muted-foreground">{p.body}</p>
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
 
-        <div className="relative">
           <div
+            id="pain-visual"
             aria-hidden="true"
-            className="sticky top-[max(6rem,calc(50vh-15.5rem))] min-h-[31rem] overflow-hidden rounded-3xl border bg-before/40 p-8"
+            className="relative min-h-[28rem] overflow-hidden rounded-3xl border bg-before/40 p-8"
           >
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_60%_at_70%_30%,var(--before),transparent_70%)]" />
             {points.map((p, i) => (

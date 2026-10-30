@@ -378,15 +378,6 @@
   .hub-pulse::after { animation: none; opacity: 0; }
 }
 
-/* Pain-points auto-advance progress bar (duration set inline). */
-@keyframes pain-progress {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
-}
-.pain-progress {
-  animation: pain-progress linear forwards;
-}
-
 /* Hero typing word (components/blocks/typing-words.tsx): CSS-drawn emoji (kept out of the
    heading's indexed text) that pops in when a word finishes, plus the typing caret. */
 @keyframes emoji-pop {
