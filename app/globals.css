@@ -433,3 +433,41 @@
   .old-card .old-strike, .old-card .old-x { animation: none; transform: none; }
   .qr-card { animation: none; }
 }
+
+/* Orbiting share hub (components/mock/share-orbit.tsx) — pattern after Magic UI's
+   OrbitingCircles (MIT, github.com/magicuidesign/magicui), rebuilt in CSS. Each item sits on a
+   zero-size anchor at the centre; transform-only keyframes carry it round its ring while the
+   counter-rotation keeps it upright. --angle is the start position, --radius the ring. */
+@keyframes orbit {
+  from { transform: rotate(var(--angle)) translateY(var(--radius)) rotate(calc(-1 * var(--angle))); }
+  to { transform: rotate(calc(var(--angle) + 360deg)) translateY(var(--radius)) rotate(calc(-1 * var(--angle) - 360deg)); }
+}
+.orbit-item {
+  transform: rotate(var(--angle)) translateY(var(--radius)) rotate(calc(-1 * var(--angle)));
+  animation: orbit var(--orbit-duration, 40s) linear infinite;
+  animation-direction: var(--orbit-direction, normal);
+}
+
+/* Product cards (components/product/cards.tsx): upload bars keep filling; activity rows arrive. */
+@keyframes upload-fill {
+  0% { transform: translateX(var(--fill-from, -60%)); }
+  75%, 100% { transform: translateX(0); }
+}
+.upload-fill [data-slot="progress-indicator"] {
+  animation: upload-fill 4.5s ease-in-out infinite;
+}
+@keyframes feed-in {
+  /* never fully invisible: rows are readable before and between arrivals */
+  0% { opacity: 0.35; transform: translateY(-6px); }
+  10%, 100% { opacity: 1; transform: translateY(0); }
+}
+.feed-row {
+  animation: feed-in 7s ease-out infinite both;
+  animation-delay: calc(var(--i, 0) * 0.6s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-item { animation: none; }
+  .upload-fill [data-slot="progress-indicator"] { animation: none; }
+  .feed-row { animation: none; }
+}

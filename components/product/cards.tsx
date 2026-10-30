@@ -34,6 +34,9 @@ import { cn } from "@/lib/utils";
  * Avatar, Badge, Button) the way ui.shadcn.com's homepage shows its product.
  * They're illustrations: decorative, non-interactive (inert) and hidden from screen readers.
  * The names and numbers are sample data, not customers.
+ * Small CSS loops make them feel live (keyframes in globals.css, reduced-motion safe):
+ * upload bars keep filling (`.upload-fill`), activity rows arrive (`.feed-row`), the QR and
+ * faces get a scan line (`.animate-scan`), matched photos pop in (`.animate-pop`).
  */
 
 function Static({ className, children }: { className?: string; children: React.ReactNode }) {
@@ -130,10 +133,14 @@ export function UploadCard({ className }: { className?: string }) {
                       <CircleCheckBig className="size-3.5" /> {f.count}
                     </span>
                   ) : (
-                    <span className="text-xs tabular-nums text-muted-foreground">{f.pct}%</span>
+                    <span className="text-xs text-muted-foreground">Uploading…</span>
                   )}
                 </div>
-                <Progress value={f.pct} className="h-1.5" />
+                <Progress
+                  value={f.pct}
+                  className={cn("h-1.5", f.pct < 100 && "upload-fill")}
+                  style={{ "--fill-from": `-${100 - f.pct}%` } as React.CSSProperties}
+                />
               </Item>
             ))}
           </ItemGroup>
@@ -189,8 +196,9 @@ export function ShareCard({ className }: { className?: string }) {
     <Static className={className}>
       <Card className="gap-5">
         <CardContent className="flex justify-center pt-0">
-          <div className="rounded-xl border bg-white p-3">
+          <div className="relative overflow-hidden rounded-xl border bg-white p-3 [--scan-distance:8rem]">
             <QrPattern className="size-32" />
+            <span className="animate-scan absolute inset-x-0 top-3 h-0.5 bg-primary shadow-[0_0_10px_2px_var(--primary)]" />
           </div>
         </CardContent>
         <CardHeader className="text-center">
@@ -230,8 +238,8 @@ export function GuestActivityCard({ className }: { className?: string }) {
         </CardHeader>
         <CardContent className="px-3">
           <ItemGroup>
-            {rows.map((r) => (
-              <Item key={r.name} size="sm" className="px-3">
+            {rows.map((r, i) => (
+              <Item key={r.name} size="sm" className="feed-row px-3" style={{ "--i": i } as React.CSSProperties}>
                 <ItemMedia>
                   <Avatar size="sm">
                     <AvatarFallback className="p-0">

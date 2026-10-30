@@ -53,6 +53,9 @@ The files or routes you were given. Otherwise the current changes (`git diff` an
 - Buttons say what happens ("Start free", not "Submit").
 - No invented testimonials, clients or metrics; unknowns say "Placeholder".
 
+**Licences**
+- No Shadcn UI Kit premium/Pro code or illustrations (public repo). Shadcn Space free items keep their copyright notice + licence text; their Pro items are not allowed. Adapted patterns carry an "after <source> (licence)" comment.
+
 **Docs drift**
 - A new or renamed block, token, utility or convention is reflected in CLAUDE.md and `.claude/`.
 

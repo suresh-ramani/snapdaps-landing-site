@@ -4,9 +4,9 @@ import {
   GalleryCard,
   GuestActivityCard,
   PrivacyCard,
-  ShareCard,
   UploadCard,
 } from "@/components/product/cards";
+import { ShareOrbit } from "@/components/mock/share-orbit";
 import { coreFeatures, type CoreFeatureKey } from "@/content/site";
 import { BentoCard, BentoGrid } from "./bento-grid";
 
@@ -32,7 +32,7 @@ const meta: Record<CoreFeatureKey, { Icon: LucideIcon; visual: React.ReactNode; 
   },
   share: {
     Icon: QrCode,
-    visual: <ShareCard className="mx-auto max-w-64" />,
+    visual: <ShareOrbit />,
     span: "md:col-span-1",
     href: "/features#qr-sharing",
   },
