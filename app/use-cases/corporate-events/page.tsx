@@ -61,7 +61,7 @@ const corporateSteps: WorkflowStep[] = [
     points: [
       "Bulk upload thousands of photos.",
       "Keep adding to the same event, day by day.",
-      "Compress the photos if you want.",
+      "Each session’s photos in its own folder.",
     ],
   },
   {

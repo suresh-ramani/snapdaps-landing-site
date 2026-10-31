@@ -7,6 +7,8 @@ export type FeatureRow = {
   body: React.ReactNode;
   benefits?: string[];
   powerLine?: string;
+  /** A "learn more" link to the feature's own page, under the copy. */
+  more?: React.ReactNode;
   visual: React.ReactNode;
 };
 
@@ -35,6 +37,7 @@ export function FeatureRows({ rows, headingLevel = "h3" }: { rows: FeatureRow[];
               </ul>
             )}
             {row.powerLine && <p className="mt-6 text-lg font-semibold tracking-tight">{row.powerLine}</p>}
+            {row.more && <div className="mt-5">{row.more}</div>}
           </div>
           <div
             className={cn(

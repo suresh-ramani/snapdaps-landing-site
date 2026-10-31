@@ -116,6 +116,15 @@ export const nav = {
       ],
     },
     {
+      title: "Features",
+      links: [
+        { label: "AI face search", href: "/features/ai-face-search" },
+        { label: "QR code sharing", href: "/features/qr-code-photo-sharing" },
+        { label: "Google Drive import", href: "/features/google-drive-import" },
+        { label: "Portfolio", href: "/features/photographer-portfolio" },
+      ],
+    },
+    {
       title: "Use cases",
       links: useCaseNav.flatMap((g) => g.links),
     },

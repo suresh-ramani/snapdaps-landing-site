@@ -62,7 +62,7 @@ export const faqs: Record<string, Faq[]> = {
     },
     {
       q: "Where can I upload photos from?",
-      a: "From your computer or straight from Google Drive. You can bulk upload thousands of photos in one go and compress them if you want smaller files.",
+      a: "From your computer, or from a Google Drive link — paste it and Snapdaps imports every image in the background. You can bulk upload thousands of photos in one go and compress them as you upload if you want lighter files.",
     },
     {
       q: "How quickly can guests get their photos?",
@@ -100,7 +100,7 @@ export const faqs: Record<string, Faq[]> = {
     },
     {
       q: "Can I upload an event straight from Google Drive?",
-      a: "Yes. Bulk upload thousands of photos from your computer or directly from Google Drive, into folders for each part of the event. Faces are detected automatically while you get on with your next shoot.",
+      a: "Yes. Paste the Drive folder's public link and Snapdaps imports every image in the background — or bulk upload thousands from your computer. Faces are detected automatically while you get on with your next shoot.",
     },
     {
       q: "Do my clients or their guests need to sign up?",
@@ -227,6 +227,82 @@ export const faqs: Record<string, Faq[]> = {
     {
       q: "Can players share their photos?",
       a: "Yes. Players download their photos to their phone and share them on WhatsApp or social media themselves.",
+    },
+  ],
+
+  "/features/ai-face-search": [
+    {
+      q: "Does face search find guests in group photos?",
+      a: "Yes. Snapdaps detects every face in a photo, so a guest's selfie finds them in group shots and candids as well as portraits.",
+    },
+    {
+      q: "What kind of selfie works best?",
+      a: "A clear, front-facing photo in good light, without sunglasses. Guests can take it on the spot with their phone camera or upload one they already have.",
+    },
+    {
+      q: "Does one selfie search the whole event?",
+      a: "Yes. A selfie searches every folder in the event at once — Haldi to Reception, or Day 1 to the final — and shows the matches together.",
+    },
+    {
+      q: "Can guests download the photos face search finds?",
+      a: "Yes. Guests view their matches and download them straight to their phone, with no app and no account.",
+    },
+  ],
+
+  "/features/qr-code-photo-sharing": [
+    {
+      q: "Does every event get its own QR code?",
+      a: "Yes. Each event has its own QR code and secure link, so guests always land in the right event's gallery.",
+    },
+    {
+      q: "Do guests need a QR scanner app?",
+      a: "No. Most phone cameras scan QR codes on their own; the code opens the event in the phone's browser.",
+    },
+    {
+      q: "Can I print the event QR code?",
+      a: "Yes. Put it on welcome boards, table cards, invitations, badges or the stage screen — every copy opens the same event.",
+    },
+    {
+      q: "What if a guest can't scan the code?",
+      a: "Send them the event link instead — on WhatsApp, by SMS or by email. It opens the same gallery as the QR code.",
+    },
+  ],
+
+  "/features/photographer-portfolio": [
+    {
+      q: "What is a Snapdaps portfolio?",
+      a: "A page on Snapdaps where you show your best work to people looking for a photographer, alongside the event galleries you deliver to clients.",
+    },
+    {
+      q: "Do I need to buy a domain for my portfolio?",
+      a: "No. Use a Snapdaps subdomain if you don't have a domain, or connect your own custom domain if you do.",
+    },
+    {
+      q: "Do I need a separate website for my portfolio?",
+      a: "Not to get started. Your Snapdaps portfolio sits next to the event galleries you already deliver, so your work and your delivery live in one place.",
+    },
+  ],
+
+  "/features/google-drive-import": [
+    {
+      q: "Do I need to download my photos from Google Drive first?",
+      a: "No. Paste the folder's public link and Snapdaps fetches the images straight from Google Drive in the background — nothing goes through your computer.",
+    },
+    {
+      q: "Does the Google Drive folder need to be public?",
+      a: "Yes. Set the folder's sharing to “Anyone with the link” so Snapdaps can read it. In Snapdaps, guests still only ever see the photos they appear in.",
+    },
+    {
+      q: "Does it import photos inside subfolders?",
+      a: "Yes. Snapdaps picks up every image in the folder you link, including the ones in its subfolders.",
+    },
+    {
+      q: "Are faces detected on photos imported from Google Drive?",
+      a: "Yes. Imported photos are treated like any upload: Snapdaps detects the faces automatically, so guests can find themselves with a selfie.",
+    },
+    {
+      q: "Should I still share the Google Drive folder with guests?",
+      a: "You don't need to. Share the Snapdaps event link or QR code instead — each guest gets only their own photos rather than browsing the whole folder.",
     },
   ],
 };

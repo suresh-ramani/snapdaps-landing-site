@@ -61,7 +61,7 @@ const sportsSteps: WorkflowStep[] = [
     points: [
       "Bulk upload thousands of action shots.",
       "Keep adding to the same tournament.",
-      "Compress the photos if you want.",
+      "A folder for each team or ground.",
     ],
   },
   {

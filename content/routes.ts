@@ -14,6 +14,11 @@ export const marketingRoutes: MarketingRoute[] = [
   { path: "/", label: "Home", indexed: true, priority: 1 },
   { path: "/how-it-works", label: "How it works", indexed: true, priority: 0.8 },
   { path: "/features", label: "Features", indexed: true, priority: 0.8 },
+  // Feature pages — draft copy by Claude; noindex until the team approves it.
+  { path: "/features/ai-face-search", label: "AI face search", indexed: false },
+  { path: "/features/qr-code-photo-sharing", label: "QR code photo sharing", indexed: false },
+  { path: "/features/google-drive-import", label: "Google Drive import", indexed: false },
+  { path: "/features/photographer-portfolio", label: "Photographer portfolio", indexed: false },
   { path: "/pricing", label: "Pricing", indexed: true, priority: 0.8 },
   { path: "/use-cases", label: "Use cases", indexed: true, priority: 0.7 },
   { path: "/use-cases/photo-sharing-app-for-photographers", label: "Photographers", indexed: true, priority: 0.9 },

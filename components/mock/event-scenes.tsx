@@ -509,3 +509,179 @@ export function PlannerScene({ className }: SceneProps) {
     </Svg>
   );
 }
+
+/* ---------------------------------------------------------------------------------------------
+   Feature scenes (/features/*): same rules as the event scenes above.
+--------------------------------------------------------------------------------------------- */
+
+/** AI face search: a selfie → faces matched across the event's photos → the guest's own gallery. */
+export function FaceSearchScene({ className }: SceneProps) {
+  return (
+    <Svg className={className}>
+      <ArrowDef />
+      {/* Selfie phone */}
+      <g transform="translate(24 92)">
+        <rect width="80" height="140" rx="14" className="fill-card stroke-border" strokeWidth="1.5" />
+        <rect x="14" y="22" width="52" height="64" rx="10" className="fill-muted" />
+        <circle cx="40" cy="48" r="14" className="fill-primary/30" />
+        <path d="M22 86 Q40 66 58 86" className="fill-primary/30" />
+        <rect x="14" y="22" width="52" height="64" rx="10" fill="none" className="stroke-primary" strokeWidth="2" strokeDasharray="6 5" />
+        <rect x="16" y="104" width="48" height="16" rx="8" className="fill-primary" />
+        <text x="40" y="115" textAnchor="middle" fill="white" fontSize="8" fontWeight="600">
+          Find me
+        </text>
+      </g>
+      <Label x={64} y={258} anchor="middle">One selfie</Label>
+      <Arrow d="M112 162 L146 162" />
+      {/* Event photos, matches ringed */}
+      <g transform="translate(152 66)">
+        <rect width="176" height="192" rx="12" className="fill-card stroke-border" strokeWidth="1.5" />
+        {Array.from({ length: 16 }).map((_, i) => {
+          const match = [1, 6, 8, 13].includes(i);
+          return (
+            <g key={i}>
+              <rect
+                x={12 + (i % 4) * 40}
+                y={12 + Math.floor(i / 4) * 44}
+                width="34"
+                height="38"
+                rx="4"
+                className={match ? "fill-primary/35 stroke-primary" : "fill-muted"}
+                strokeWidth={match ? 2 : 0}
+              />
+              {match && <circle cx={29 + (i % 4) * 40} cy={26 + Math.floor(i / 4) * 44} r="6" className="fill-card/80" />}
+            </g>
+          );
+        })}
+      </g>
+      <Label x={240} y={282} anchor="middle">Faces matched across every folder</Label>
+      <Arrow d="M334 162 L368 162" />
+      <Phone x={374} y={104} label="Only yours" />
+    </Svg>
+  );
+}
+
+/** QR code sharing: one event QR code, placed wherever guests are. */
+export function QrPlacementScene({ className }: SceneProps) {
+  const spots: [number, number, string][] = [
+    [70, 70, "Welcome board"],
+    [410, 70, "Invitation"],
+    [60, 250, "Table card"],
+    [420, 250, "Stage screen"],
+    [240, 296, "WhatsApp group"],
+  ];
+  return (
+    <Svg className={className}>
+      {spots.map(([x, y]) => (
+        <path key={`${x}-${y}`} d={`M240 150 L${x} ${y}`} className="stroke-primary/40" strokeWidth="1.5" strokeDasharray="4 5" />
+      ))}
+      <rect x="180" y="86" width="120" height="132" rx="14" className="fill-card stroke-border" strokeWidth="1.5" />
+      <Qr x={200} y={100} size={80} />
+      <text x="240" y="200" textAnchor="middle" className="fill-foreground" fontSize="10" fontWeight="600">
+        One event QR code
+      </text>
+      {spots.map(([x, y, label]) => (
+        <g key={label}>
+          <rect x={x - 52} y={y - 15} width="104" height="30" rx="15" className="fill-card stroke-border" strokeWidth="1.5" />
+          <circle cx={x - 36} cy={y} r="6" className="fill-primary/40" />
+          <text x={x - 24} y={y + 4} className="fill-foreground" fontSize="10" fontWeight="500">
+            {label}
+          </text>
+        </g>
+      ))}
+    </Svg>
+  );
+}
+
+/** Portfolio: a photographer's portfolio page beside the event galleries they deliver. */
+export function PortfolioScene({ className }: SceneProps) {
+  return (
+    <Svg className={className}>
+      <rect x="24" y="28" width="300" height="264" rx="12" className="fill-card stroke-border" strokeWidth="1.5" />
+      <rect x="24" y="28" width="300" height="28" rx="12" className="fill-muted" />
+      {[40, 54, 68].map((x) => (
+        <circle key={x} cx={x} cy="42" r="4" className="fill-muted-foreground/40" />
+      ))}
+      <rect x="86" y="35" width="170" height="14" rx="7" className="fill-card" />
+      <circle cx="56" cy="88" r="16" className="fill-brand-violet/30" />
+      <rect x="80" y="78" width="110" height="9" rx="4.5" className="fill-foreground/70" />
+      <rect x="80" y="93" width="70" height="7" rx="3.5" className="fill-muted-foreground/40" />
+      <rect x="236" y="80" width="72" height="22" rx="11" className="fill-primary" />
+      <text x="272" y="94" textAnchor="middle" fill="white" fontSize="8" fontWeight="600">
+        My work
+      </text>
+      {[0, 1, 2, 3, 4, 5].map((i) => (
+        <rect
+          key={i}
+          x={40 + (i % 3) * 92}
+          y={120 + Math.floor(i / 3) * 84}
+          width="84"
+          height="76"
+          rx="6"
+          className={i === 0 ? "fill-primary/30" : i % 2 ? "fill-brand-violet/20" : "fill-muted"}
+        />
+      ))}
+      {/* Event galleries */}
+      {["Wedding", "Birthday", "Conference"].map((name, i) => (
+        <g key={name} transform={`translate(344 ${58 + i * 78})`}>
+          <rect width="116" height="64" rx="10" className="fill-card stroke-border" strokeWidth="1.5" />
+          <rect x="10" y="10" width="36" height="44" rx="5" className={i === 0 ? "fill-primary/30" : "fill-muted"} />
+          <text x="54" y="28" className="fill-foreground" fontSize="9" fontWeight="600">
+            {name}
+          </text>
+          <text x="54" y="42" className="fill-muted-foreground" fontSize="8">
+            Event gallery
+          </text>
+        </g>
+      ))}
+      <Label x={174} y={312} anchor="middle">Your portfolio</Label>
+      <Label x={402} y={312} anchor="middle">Your event galleries</Label>
+    </Svg>
+  );
+}
+
+/** Google Drive import: photos move from a Drive folder straight into event folders, then faces are found. */
+export function DriveImportScene({ className }: SceneProps) {
+  return (
+    <Svg className={className}>
+      <ArrowDef />
+      {/* Drive folder */}
+      <g transform="translate(24 96)">
+        <path d="M0 14 Q0 4 10 4 H44 L54 16 H118 Q128 16 128 26 V112 Q128 122 118 122 H10 Q0 122 0 112 Z" className="fill-muted stroke-border" strokeWidth="1.5" />
+        {[0, 1, 2, 3, 4, 5].map((i) => (
+          <rect key={i} x={12 + (i % 3) * 36} y={34 + Math.floor(i / 3) * 40} width="30" height="34" rx="4" className={i % 2 ? "fill-brand-violet/20" : "fill-primary/20"} />
+        ))}
+      </g>
+      <Label x={88} y={246} anchor="middle">Your Google Drive</Label>
+      <Arrow d="M160 158 L206 158" />
+      <text x="183" y="146" textAnchor="middle" className="fill-primary" fontSize="9" fontWeight="600">
+        Paste link
+      </text>
+      {/* Event folders */}
+      <g transform="translate(212 64)">
+        <rect width="132" height="190" rx="12" className="fill-card stroke-border" strokeWidth="1.5" />
+        <text x="14" y="24" className="fill-foreground" fontSize="10" fontWeight="600">
+          Event folders
+        </text>
+        {["Ceremony", "Reception", "Candids"].map((f, i) => (
+          <g key={f} transform={`translate(12 ${36 + i * 48})`}>
+            <rect width="108" height="40" rx="8" className="fill-muted" />
+            <path d="M10 14 h10 l3 3 h13 v12 h-26 z" className="fill-primary/50" />
+            <text x="44" y="24" className="fill-foreground" fontSize="9" fontWeight="500">
+              {f}
+            </text>
+          </g>
+        ))}
+      </g>
+      <Arrow d="M350 158 L384 158" />
+      <g transform="translate(388 116)">
+        <rect width="72" height="84" rx="12" className="fill-card stroke-border" strokeWidth="1.5" />
+        <circle cx="36" cy="34" r="14" className="fill-primary/25 stroke-primary" strokeWidth="1.5" strokeDasharray="4 3" />
+        <text x="36" y="66" textAnchor="middle" className="fill-muted-foreground" fontSize="8">
+          Faces found
+        </text>
+      </g>
+      <Label x={278} y={282} anchor="middle">Runs in the background</Label>
+    </Svg>
+  );
+}

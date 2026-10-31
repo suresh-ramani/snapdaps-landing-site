@@ -62,7 +62,7 @@ const weddingSteps: WorkflowStep[] = [
     points: [
       "Bulk upload thousands of photos per function.",
       "Upload each function as soon as its photos are ready.",
-      "Compress the photos if you want.",
+      "Add more photos to a function any time.",
     ],
   },
   {

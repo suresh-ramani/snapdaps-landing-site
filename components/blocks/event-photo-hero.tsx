@@ -23,7 +23,8 @@ export function EventPhotoHero({
   photo: PhotoName;
   alt: string;
   chips: [{ Icon: LucideIcon; title: string; sub: string }, { Icon: LucideIcon; title: string; sub: string }];
-  qrLabel: string;
+  /** Label for the QR card; leave out on pages where a QR code doesn't apply (e.g. the portfolio). */
+  qrLabel?: string;
   align?: "left" | "right";
 }) {
   const flip = align === "right";
@@ -60,15 +61,17 @@ export function EventPhotoHero({
             </span>
           </div>
         ))}
-        <div
-          className={cn(
-            "surface absolute bottom-4 flex items-center gap-3 p-2.5 pr-4",
-            flip ? "left-3 sm:-left-6" : "right-3 sm:-right-6",
-          )}
-        >
-          <QrPattern className="size-12 rounded-md" />
-          <span className="text-xs font-medium leading-snug">{qrLabel}</span>
-        </div>
+        {qrLabel && (
+          <div
+            className={cn(
+              "surface absolute bottom-4 flex items-center gap-3 p-2.5 pr-4",
+              flip ? "left-3 sm:-left-6" : "right-3 sm:-right-6",
+            )}
+          >
+            <QrPattern className="size-12 rounded-md" />
+            <span className="text-xs font-medium leading-snug">{qrLabel}</span>
+          </div>
+        )}
       </div>
     </div>
   );

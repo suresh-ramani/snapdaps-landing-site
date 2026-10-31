@@ -61,7 +61,7 @@ const awardSteps: WorkflowStep[] = [
     points: [
       "Bulk upload thousands of photos.",
       "Each category into its own folder.",
-      "Compress the photos if you want.",
+      "Add late photos to the same ceremony any time.",
     ],
   },
   {

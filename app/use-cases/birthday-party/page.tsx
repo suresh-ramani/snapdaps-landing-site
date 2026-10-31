@@ -61,7 +61,7 @@ const birthdaySteps: WorkflowStep[] = [
     points: [
       "Bulk upload hundreds or thousands of photos.",
       "Drop each moment into its own folder.",
-      "Compress the photos if you want.",
+      "Add more photos to the party any time.",
     ],
   },
   {

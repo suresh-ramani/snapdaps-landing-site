@@ -25,8 +25,8 @@ export function InfoCards({
     <List
       className={cn(
         "grid gap-4 sm:grid-cols-2",
-        items.length === 3 && "lg:grid-cols-3",
-        items.length >= 4 && "lg:grid-cols-4",
+        items.length % 3 === 0 && "lg:grid-cols-3",
+        items.length % 3 !== 0 && items.length >= 4 && "lg:grid-cols-4",
         className,
       )}
     >

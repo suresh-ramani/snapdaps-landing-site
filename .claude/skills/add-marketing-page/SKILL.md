@@ -9,7 +9,7 @@ Every marketing page is hand-built — no dynamic `[slug]` routes for features o
 
 ## Steps
 
-1. **Copy the closest page.** For a use case, start from `app/use-cases/wedding-photo-sharing-app/page.tsx`; for a simple page, `app/how-it-works/page.tsx`. Keep the header comment: content-doc name, target keywords, and what the doc still lacks.
+1. **Copy the closest page.** Feature pages (`/features/<slug>`) copy `app/features/ai-face-search/page.tsx`. For a use case, start from `app/use-cases/wedding-photo-sharing-app/page.tsx`; for a simple page, `app/how-it-works/page.tsx`. Keep the header comment: content-doc name, target keywords, and what the doc still lacks.
 2. **Copy inline** in the new `page.tsx`, word for word from the content doc. Shared bits (CTAs, plans) come from `content/site.ts`; use-case pages tell the workflow and features in their own event's words (`WorkflowSteps steps={…}`, `FeatureBento items={…}`, see the wedding and birthday pages) instead of the shared copy. Copy you draft (not from the doc) gets "Draft copy by Claude — not from the content doc; reviewed by: …" in the header comment and stays `indexed: false` until the team approves it. Never invent facts, numbers or testimonials; leave unconfirmed claims out rather than adding placeholders to indexed pages.
 3. **Metadata:**
    ```ts

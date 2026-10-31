@@ -1,9 +1,12 @@
-import { Images, PhoneMissed, QrCode, ScanFace, SearchX, Smile, Sparkles, Usb } from "lucide-react";
+import Link from "next/link";
+import { Globe, HardDrive, Heart, Images, Link2, Minimize2, PhoneMissed, QrCode, ScanFace, SearchX, Smartphone, Smile, Sparkles, Usb } from "lucide-react";
 import { ComparisonRows } from "@/components/blocks/comparison-rows";
 import { CtaBand } from "@/components/blocks/cta-band";
 import { FeatureBento } from "@/components/blocks/feature-bento";
 import { FeatureRows } from "@/components/blocks/feature-rows";
 import { Hero } from "@/components/blocks/hero";
+import { InfoCards } from "@/components/blocks/info-cards";
+import { PageByline } from "@/components/blocks/page-byline";
 import { Section } from "@/components/blocks/section";
 import {
   FaceMatchCard,
@@ -22,12 +25,20 @@ import { buildMetadata } from "@/lib/seo";
    planners pages. TODO: replace with Features-page copy (and meta) when it's ready.
 ------------------------------------------------------------------------------------ */
 
-export const metadata = buildMetadata({
-  title: "Features: AI face search, smart galleries, QR sharing",
-  description:
-    "AI face search, smart photo galleries, bulk upload, QR code and link sharing, mobile-first access and privacy-first sharing. Everything Snapdaps does for event photos.",
-  path: "/features",
-});
+const PATH = "/features";
+const TITLE = "Features: AI face search, smart galleries, QR sharing";
+const DESCRIPTION =
+  "AI face search, smart galleries, bulk upload and Google Drive import, QR code sharing, client photo selection and portfolios. Everything Snapdaps does for event photos.";
+
+export const metadata = buildMetadata({ title: TITLE, description: DESCRIPTION, path: PATH });
+
+const learnMore = (href: string, label: string) => (
+  <p>
+    <Link href={href} className="font-medium text-primary hover:underline">
+      {label}
+    </Link>
+  </p>
+);
 
 export default function FeaturesPage() {
   return (
@@ -36,6 +47,7 @@ export default function FeaturesPage() {
         title="Everything you need to deliver event photos smarter"
         subtitle="A complete client photo delivery system powered by AI."
         body={<p>Upload once. Let AI do the rest — your guests find their photos with a selfie, on any device.</p>}
+        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-31" />}
       />
 
       <Section id="overview" tone="panel" title="All features at a glance">
@@ -54,6 +66,7 @@ export default function FeaturesPage() {
                   photos instantly using AI face recognition.
                 </p>
               ),
+              more: learnMore("/features/ai-face-search", "How AI face search works"),
               benefits: [
                 "Instant photo search using a selfie",
                 "No scrolling through large galleries",
@@ -88,9 +101,11 @@ export default function FeaturesPage() {
                   Drive, and organise them into event folders.
                 </p>
               ),
+              more: learnMore("/features/google-drive-import", "Importing from Google Drive"),
               benefits: [
                 "Drag & drop photos to upload",
                 "Bulk upload thousands of photos",
+                "Import from a Google Drive link",
                 "Compress them if you want",
                 "Organise photos into event folders",
               ],
@@ -105,6 +120,7 @@ export default function FeaturesPage() {
                   individual sending, no follow-ups.
                 </p>
               ),
+              more: learnMore("/features/qr-code-photo-sharing", "How QR code sharing works"),
               powerLine: "One scan. Instant access to memories.",
               visual: <ShareCard className="mx-auto max-w-72" />,
             },
@@ -132,7 +148,73 @@ export default function FeaturesPage() {
         />
       </Section>
 
-      <Section id="compare" tone="panel" align="center" title="Before vs. with Snapdaps">
+      <Section
+        id="for-photographers"
+        tone="panel"
+        title="More for photographers"
+        intro={<p>Beyond delivery: show your work under your own brand, bring photos in from Drive, and let clients pick their favourites.</p>}
+      >
+        <InfoCards
+          items={[
+            {
+              Icon: Globe,
+              title: "Portfolio",
+              body: (
+                <>
+                  Show your best work next to the galleries you deliver.{" "}
+                  <Link href="/features/photographer-portfolio" className="font-medium text-primary hover:underline">
+                    About the portfolio
+                  </Link>
+                </>
+              ),
+            },
+            {
+              Icon: HardDrive,
+              title: "Google Drive import",
+              body: (
+                <>
+                  Paste a public Drive link and the whole shoot imports in the background.{" "}
+                  <Link href="/features/google-drive-import" className="font-medium text-primary hover:underline">
+                    How the import works
+                  </Link>
+                </>
+              ),
+            },
+            {
+              Icon: Heart,
+              title: "Client photo selection",
+              body: "Your client picks their favourites from the event gallery, and you see their selection — no lists of file numbers sent over WhatsApp.",
+            },
+            {
+              Icon: Link2,
+              title: "Your own domain",
+              body: (
+                <>
+                  Publish your portfolio on your own custom domain, or on a Snapdaps subdomain.{" "}
+                  <Link
+                    href="/features/photographer-portfolio#custom-domain"
+                    className="font-medium text-primary hover:underline"
+                  >
+                    Domain options
+                  </Link>
+                </>
+              ),
+            },
+            {
+              Icon: Smartphone,
+              title: "White-label mobile app",
+              body: "Give your clients a mobile app under your studio’s own brand.",
+            },
+            {
+              Icon: Minimize2,
+              title: "Compression while uploading",
+              body: "Choose to compress photos as you upload them, for lighter galleries.",
+            },
+          ]}
+        />
+      </Section>
+
+      <Section id="compare" align="center" title="Before vs. with Snapdaps">
         <ComparisonRows
           className="mx-auto max-w-4xl"
           beforeLabel="Before Snapdaps"
