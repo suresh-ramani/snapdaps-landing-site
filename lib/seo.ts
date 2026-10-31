@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { coreFeatures, site } from "@/content/site";
+import { coreFeatures, founders, site } from "@/content/site";
 import { absoluteUrl, stripHtml } from "@/lib/utils";
 import { videoPoster, youtubeId, type VideoTestimonial } from "@/content/video-testimonials";
 import type { WPAuthor, WPPost, WPSeo } from "@/lib/wp/types";
@@ -90,6 +90,7 @@ export function organizationLd() {
       areaServed: "IN",
       availableLanguage: ["English", "Hindi"],
     },
+    founder: founders.map((f) => ({ "@type": "Person", name: f.name })),
     // Social profiles link the brand entity for search and AI engines — filled from content/site.ts.
     ...(sameAs.length ? { sameAs } : {}),
   };

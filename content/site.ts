@@ -6,6 +6,17 @@
  * Source: Website_Content_v2_1.docx. Items marked TODO are still missing from the doc.
  */
 
+/**
+ * Snapdaps' founders (E-E-A-T): shown on /about and as `founder` in the Organization schema.
+ * Names only, as supplied by the team — add a role, photo, bio or LinkedIn URL (`sameAs`)
+ * only once the team provides them.
+ */
+export const founders = [
+  { name: "Ketan Bhimani" },
+  { name: "Dilip Vora" },
+  { name: "Renish Aghera" },
+] as const;
+
 export const site = {
   name: "Snapdaps",
   domain: "snapdaps.ai",

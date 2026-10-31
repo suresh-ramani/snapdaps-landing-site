@@ -4,6 +4,7 @@ import { LogoCloud } from "@/components/blocks/logo-cloud";
 import { PowerLine, Section } from "@/components/blocks/section";
 import { StatsBand } from "@/components/blocks/stats-band";
 import { isIndexed } from "@/content/routes";
+import { founders, site } from "@/content/site";
 import { buildMetadata } from "@/lib/seo";
 
 /* ------------------------------------------------------------------------------------
@@ -12,7 +13,8 @@ import { buildMetadata } from "@/lib/seo";
    Doc status: no About copy. The intro reuses the home page's promise; "Why we built
    Snapdaps" is a placeholder for the founding story; "What we believe" uses only things the
    site already states elsewhere (privacy controls, no app/login, made in India) — TODO:
-   confirm or replace with the doc's wording. noindex until the copy is final
+   confirm or replace with the doc's wording. Founders: names from the team (content/site.ts →
+   founders), no roles or bios until they're supplied. noindex until the copy is final
    (content/routes.ts → indexed: true).
 ------------------------------------------------------------------------------------ */
 
@@ -67,6 +69,28 @@ export default function AboutPage() {
           <p>Placeholder: the moment that led to Snapdaps, and who it is for.</p>
           <p>Placeholder: where Snapdaps is today and what comes next.</p>
         </div>
+      </Section>
+
+      <Section id="founders" title={`The people behind ${site.name}`}>
+        <ul className="grid gap-4 sm:grid-cols-3">
+          {founders.map((f) => (
+            <li key={f.name} className="surface flex items-center gap-4 p-6">
+              <span
+                aria-hidden="true"
+                className="flex size-12 shrink-0 items-center justify-center rounded-full bg-muted text-base font-semibold text-muted-foreground"
+              >
+                {f.name
+                  .split(" ")
+                  .map((w) => w[0])
+                  .join("")}
+              </span>
+              <div>
+                <h3 className="text-lg font-semibold tracking-tight">{f.name}</h3>
+                <p className="text-sm text-muted-foreground">Founder</p>
+              </div>
+            </li>
+          ))}
+        </ul>
       </Section>
 
       <StatsBand />
