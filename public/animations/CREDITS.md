@@ -7,7 +7,6 @@ attribution required — listed here anyway). Only free animations; never premiu
 | File | Title | Author | Source | Used on |
 |---|---|---|---|---|
 | `scan-qr-code.json` | Scan \| QR Code Concept Illustration | Mahendra Bhunwal | https://lottiefiles.com/free-animation/scan-qr-code-concept-illustration-digital-marketing-illustration-ucLCyK2Ylh | `/use-cases/wedding-photo-sharing-app` ("in short") |
-| `birthday-cake.json` | Happy Birthday Animation | Visual Flow | https://lottiefiles.com/free-animation/happy-birthday-animation-P8GPLS6Alr | `/use-cases/birthday-party` |
 | `seminar-room.json` | Seminar room | Nima | https://lottiefiles.com/free-animation/seminar-room-uNVO2OOFf3 | `/use-cases/corporate-events` |
 | `award-champion.json` | Champion | Mahendra Bhunwal | https://lottiefiles.com/free-animation/champion-lqppa1cbL9 | `/use-cases/award-ceremony` |
 | `photographer-studio.json` | photographer setup | Dharma Mehta | https://lottiefiles.com/free-animation/photographer-setup-jFbeeIE8vP | `/use-cases/photo-sharing-app-for-photographers` |
@@ -27,7 +26,7 @@ gradient → white → light indigo → indigo; teal-grey clothes/panels → blu
 neutrals (`#1C2438`, `#2A3552`, `#3A4870`). Skin tones, whites and greys unchanged. Recolour
 any new animation the same way before using it.
 
-**The other eight** (31 Oct 2026) were recoloured with one rule, by hue and lightness: neutrals,
+**The other recoloured animations** (31 Oct 2026) were recoloured with one rule, by hue and lightness: neutrals,
 skin and hair tones, and golds/yellows (trophies, candles) are kept; every other colour becomes a
 shade of logo blue (`#155DFC` family) for blues, indigo (`#5E5DF9` family) for greens/indigos,
 or violet (`#AA5CF6` family) for purples, pinks, reds and oranges, by lightness band; near-black

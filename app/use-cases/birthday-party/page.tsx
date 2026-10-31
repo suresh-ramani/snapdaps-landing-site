@@ -3,7 +3,8 @@ import { Breadcrumbs } from "@/components/blog/breadcrumbs";
 import { EventPhotoHero } from "@/components/blocks/event-photo-hero";
 import { LeadCapture } from "@/components/blocks/lead-capture";
 import { UseCaseLead } from "@/components/blocks/use-case-lead";
-import { LottieScene } from "@/components/motion/lottie-scene";
+import Image from "next/image";
+import birthdayIllustration from "@/public/illustrations/birthday-photo-sharing.webp";
 import { ComparisonRows } from "@/components/blocks/comparison-rows";
 import { CtaBand } from "@/components/blocks/cta-band";
 import { Faq } from "@/components/blocks/faq";
@@ -142,7 +143,16 @@ export default function BirthdayPartyPage() {
           "Nothing to install, for grandparents or friends.",
         ]}
         bestFor={["Parents and hosts", "Party photographers", "Party planners"]}
-        scene={<LottieScene src="/animations/birthday-cake.json" className="mx-auto max-w-md" />}
+        scene={
+          // Supplied illustration (public/illustrations/): QR card at the party → gallery with folders → each guest's phone.
+          <Image
+            src={birthdayIllustration}
+            alt="A guest scans the birthday party's QR code; the party gallery is sorted into Cake Cutting, Games and Dance folders, and a phone shows “We found your photos!” with the birthday girl's pictures."
+            sizes="(min-width: 1024px) 560px, 100vw"
+            placeholder="blur"
+            className="h-auto w-full rounded-xl"
+          />
+        }
         sceneCaption="The cake, the candles, the whole party — guests scan the QR code, take a selfie and get their party photos."
         tone="default"
       />
