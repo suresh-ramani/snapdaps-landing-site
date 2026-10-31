@@ -1,5 +1,6 @@
 import { Heart } from "lucide-react";
 import Link from "next/link";
+import { CookieSettingsButton } from "@/components/consent/cookie-settings-button";
 import { IndiaFlag } from "@/components/layout/india-flag";
 import { Logo } from "@/components/layout/logo";
 import { FacebookLogo, InstagramLogo } from "@/components/mock/brand-icons";
@@ -59,6 +60,11 @@ export function SiteFooter() {
                   </Link>
                 </li>
               ))}
+              {group.title === "Legal" && (
+                <li>
+                  <CookieSettingsButton />
+                </li>
+              )}
             </ul>
           </nav>
         ))}

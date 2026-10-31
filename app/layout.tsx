@@ -10,6 +10,8 @@ import { FloatingActions } from "@/components/layout/floating-actions";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SmoothAnchors } from "@/components/layout/smooth-anchors";
 import { MotionProvider } from "@/components/motion/reveal";
+import { Analytics } from "@/components/consent/analytics";
+import { CookieConsent } from "@/components/consent/cookie-consent";
 import { JsonLd } from "@/components/json-ld";
 import { site } from "@/content/site";
 import { organizationLd, websiteLd } from "@/lib/seo";
@@ -86,6 +88,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <FloatingActions />
           </MotionProvider>
           <SmoothAnchors />
+          {/* Cookie banner + settings, and Google Analytics only after an explicit yes. */}
+          <CookieConsent />
+          <Analytics />
         </ThemeProvider>
         <JsonLd data={[organizationLd(), websiteLd()]} />
       </body>
