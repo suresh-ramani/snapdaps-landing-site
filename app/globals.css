@@ -445,6 +445,147 @@
   .hub-pulse::after { animation: none; opacity: 0; }
 }
 
+/* Floating chips over an illustration (wedding "in short" Lottie): a slow bob, offset per chip. */
+@keyframes chip-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.chip-float { animation: chip-float 4s ease-in-out infinite; }
+.chip-float-late { animation-delay: -2s; }
+@media (prefers-reduced-motion: reduce) {
+  .chip-float { animation: none; }
+}
+
+/* Use-case and feature scenes (components/mock/event-scenes.tsx): one 6s "scan → photos" loop in
+   the shared parts — QR scan line (0–37%), selfie ring pulse (~36–50%), phone tiles pop in one by
+   one (40%+), hold, fade back. Photographer: upload bar fills, face-sorted tiles light up, guest
+   phones pop late. Planner: pins bounce in turn. Wedding: marigolds twinkle, hearts float up. Transform/opacity only; `--i` staggers. */
+.scene-anim :where(.scene-ring, .scene-tile, .scene-match, .scene-twinkle, .scene-float) { transform-box: fill-box; transform-origin: center; }
+.scene-anim :where(.scene-progress) { transform-box: fill-box; transform-origin: left center; }
+.scene-anim :where(.scene-pin) { transform-box: fill-box; transform-origin: 50% 100%; }
+@keyframes scene-qr-scan {
+  0% { transform: translateY(0); opacity: 0; }
+  5% { opacity: 0.85; }
+  33% { transform: translateY(var(--scan)); opacity: 0.85; }
+  37%, 100% { transform: translateY(var(--scan)); opacity: 0; }
+}
+@keyframes scene-ring {
+  0%, 34% { opacity: 0; transform: scale(1); }
+  38% { opacity: 1; }
+  50%, 100% { opacity: 0; transform: scale(2.2); }
+}
+@keyframes scene-tile {
+  0%, 38% { opacity: 0; transform: scale(0.6); }
+  46%, 90% { opacity: 1; transform: scale(1); }
+  97%, 100% { opacity: 0; transform: scale(1); }
+}
+@keyframes scene-tile-late {
+  0%, 58% { opacity: 0; transform: scale(0.6); }
+  66%, 90% { opacity: 1; transform: scale(1); }
+  97%, 100% { opacity: 0; transform: scale(1); }
+}
+@keyframes scene-progress {
+  0% { transform: scaleX(0.08); }
+  38%, 92% { transform: scaleX(1); }
+  100% { transform: scaleX(0.08); }
+}
+@keyframes scene-match {
+  0%, 40% { opacity: 0.35; transform: scale(1); }
+  46% { opacity: 1; transform: scale(1.12); }
+  52%, 90% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0.35; transform: scale(1); }
+}
+@keyframes scene-twinkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  10% { opacity: 0.45; transform: scale(0.8); }
+  20% { opacity: 1; transform: scale(1.15); }
+  28% { transform: scale(1); }
+}
+@keyframes scene-float {
+  0% { opacity: 0; transform: translateY(0) scale(0.6); }
+  12% { opacity: 1; transform: translateY(-8px) scale(1); }
+  45%, 100% { opacity: 0; transform: translateY(-46px) scale(1); }
+}
+@keyframes scene-pin {
+  0%, 16%, 100% { transform: translateY(0); }
+  6% { transform: translateY(-7px); }
+  11% { transform: translateY(0); }
+}
+.scene-qr-scan { opacity: 0; animation: scene-qr-scan 6s linear infinite; }
+.scene-ring { opacity: 0; animation: scene-ring 6s ease-out infinite; }
+.scene-tile { animation: scene-tile 6s ease-out calc(var(--i, 0) * 0.12s) infinite both; }
+.scene-tile-late { animation-name: scene-tile-late; animation-delay: calc(var(--i, 0) * 0.2s); }
+.scene-progress { animation: scene-progress 6s ease-in-out infinite; }
+.scene-match { animation: scene-match 6s ease-out calc(var(--i, 0) * 0.15s) infinite both; }
+.scene-twinkle { animation: scene-twinkle 3s ease-in-out calc(var(--i, 0) * 0.3s) infinite; }
+.scene-float { opacity: 0; animation: scene-float 6s ease-out calc(var(--i, 0) * 1.1s) infinite; }
+.scene-pin { animation: scene-pin 6s ease-in-out calc(var(--i, 0) * 1.2s) infinite; }
+@media (prefers-reduced-motion: reduce) {
+  /* The finished scene, still: tiles in, bars full, no scan line or pulse. */
+  .scene-qr-scan, .scene-ring, .scene-float { animation: none; opacity: 0; }
+  .scene-twinkle { animation: none; }
+  .scene-tile, .scene-match, .scene-progress, .scene-pin { animation: none; opacity: 1; transform: none; }
+}
+
+/* Face search explainer (components/mock/face-search-explainer.tsx): one 9s loop in three beats —
+   scan + face boxes (0–35%), the selfie pulses and sends its face across (35–55%), matches tick
+   and the rest dim (58–92%) — then a short fade back to the start. Transform/opacity only. */
+.fs-scene :where(.fs-ring, .fs-check) { transform-box: fill-box; transform-origin: center; }
+@keyframes fs-scan {
+  0% { transform: translateY(0); opacity: 0; }
+  3% { opacity: 1; }
+  30% { transform: translateY(264px); opacity: 1; }
+  34%, 100% { transform: translateY(264px); opacity: 0; }
+}
+@keyframes fs-box {
+  0%, 6% { opacity: 0; }
+  12%, 52% { opacity: 1; }
+  58%, 100% { opacity: 0; }
+}
+@keyframes fs-ring {
+  0%, 34% { opacity: 0; transform: scale(0.85); }
+  40% { opacity: 1; transform: scale(1); }
+  50%, 100% { opacity: 0; transform: scale(1.25); }
+}
+@keyframes fs-dot {
+  0%, 40% { opacity: 0; transform: translateX(0); }
+  43% { opacity: 1; }
+  54% { opacity: 1; transform: translateX(42px); }
+  57%, 100% { opacity: 0; transform: translateX(42px); }
+}
+@keyframes fs-dim {
+  0%, 56% { opacity: 0; }
+  62%, 90% { opacity: 0.72; }
+  97%, 100% { opacity: 0; }
+}
+@keyframes fs-match {
+  0%, 57% { opacity: 0; }
+  62%, 90% { opacity: 1; }
+  97%, 100% { opacity: 0; }
+}
+@keyframes fs-check {
+  0%, 59% { opacity: 0; transform: scale(0.4); }
+  64% { opacity: 1; transform: scale(1.15); }
+  68%, 90% { opacity: 1; transform: scale(1); }
+  97%, 100% { opacity: 0; transform: scale(1); }
+}
+.fs-scan { animation: fs-scan 9s linear infinite; }
+.fs-box { opacity: 0; animation: fs-box 9s ease-out infinite; }
+.fs-row-1 { animation-delay: 0.75s; }
+.fs-row-2 { animation-delay: 1.5s; }
+.fs-ring { opacity: 0; animation: fs-ring 9s ease-out infinite; }
+.fs-dot { opacity: 0; animation: fs-dot 9s ease-in-out infinite; }
+.fs-dot-2 { animation-delay: 0.35s; }
+.fs-dim { opacity: 0; animation: fs-dim 9s ease-in-out infinite; }
+.fs-match { opacity: 0; animation: fs-match 9s ease-in-out infinite; }
+.fs-check { opacity: 0; animation: fs-check 9s ease-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  /* The finished frame: the guest's photos ticked, the rest dimmed. */
+  .fs-scan, .fs-box, .fs-ring, .fs-dot { animation: none; opacity: 0; }
+  .fs-dim { animation: none; opacity: 0.72; }
+  .fs-match, .fs-check { animation: none; opacity: 1; transform: none; }
+}
+
 /* Home hero "New" badge (AnnouncementPill, launches only): a soft light sweeps across it, then
    rests — about one pass every 4.5s. Only the pseudo-element's transform moves; the text never does.
    Reduced motion: no sweep, the badge just stays as it is. */

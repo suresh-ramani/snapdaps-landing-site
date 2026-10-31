@@ -8,7 +8,17 @@ import { qrRows } from "./qr-rows";
  * figure's caption carries the meaning, so the SVG is aria-hidden; text inside is sample UI.
  *
  * Marigold/amber accents are illustration colours (allowed in components/mock/*).
+ *
+ * Motion lives in the shared parts, so every scene tells "scan → photos" the same way, in one 6s
+ * CSS loop (`.scene-*` keyframes in globals.css, transform/opacity only): a scan line sweeps each
+ * QR code, the phone's selfie ring pulses and its photo tiles pop in one by one. The photographer
+ * scene also fills its upload bar and lights up the face-sorted photos; the planner scene bounces
+ * its QR pins in turn along the guest path; the wedding scene twinkles its marigolds and floats
+ * hearts up from the couple. Reduced motion shows the finished, static scene.
  */
+
+/** Per-element stagger for the scene loop: `--i` feeds animation-delay in globals.css. */
+const stagger = (i: number) => ({ "--i": i }) as React.CSSProperties;
 
 type SceneProps = { className?: string };
 
@@ -17,7 +27,7 @@ function Svg({ className, children }: SceneProps & { children: React.ReactNode }
     <svg
       viewBox="0 0 480 320"
       aria-hidden="true"
-      className={cn("h-auto w-full", className)}
+      className={cn("scene-anim h-auto w-full", className)}
       fontFamily="inherit"
       shapeRendering="geometricPrecision"
     >
@@ -37,6 +47,17 @@ function Qr({ x, y, size }: { x: number; y: number; size: number }) {
           v === "1" ? <rect key={`${rx}-${ry}`} x={rx * c} y={ry * c} width={c} height={c} fill="#18181b" /> : null,
         ),
       )}
+      {/* Scan line sweeping the code (not on the tiny planner pins). */}
+      {size >= 30 && (
+        <rect
+          x={-3}
+          width={size + 6}
+          height={2.5}
+          rx={1.25}
+          className="scene-qr-scan fill-brand-blue"
+          style={{ "--scan": `${size}px` } as React.CSSProperties}
+        />
+      )}
     </g>
   );
 }
@@ -48,6 +69,7 @@ function Phone({ x, y, scale = 1, label = "Your photos" }: { x: number; y: numbe
       <rect width="64" height="116" rx="12" className="fill-card stroke-border" strokeWidth="1.5" />
       <rect x="22" y="6" width="20" height="4" rx="2" className="fill-muted" />
       <circle cx="16" cy="24" r="7" className="fill-primary/20 stroke-primary" strokeWidth="1.5" />
+      <circle cx="16" cy="24" r="7" fill="none" className="scene-ring stroke-primary" strokeWidth="1.5" />
       <text x="27" y="27" className="fill-foreground" fontSize="7" fontWeight="600">
         {label}
       </text>
@@ -59,7 +81,8 @@ function Phone({ x, y, scale = 1, label = "Your photos" }: { x: number; y: numbe
           width="23"
           height="22"
           rx="3"
-          className={i === 0 ? "fill-primary/35" : i % 3 === 1 ? "fill-brand-violet/25" : "fill-muted"}
+          className={cn("scene-tile", i === 0 ? "fill-primary/35" : i % 3 === 1 ? "fill-brand-violet/25" : "fill-muted")}
+          style={stagger(i)}
         />
       ))}
     </g>
@@ -147,10 +170,23 @@ export function WeddingScene({ className }: SceneProps) {
         strokeDasharray="1 9"
       />
       {[0, 1, 2, 3, 4].map((i) => (
-        <circle key={i} cx={174 + i * 33} cy={106 + (i % 2) * 6} r="5" className="fill-amber-400" />
+        <circle key={i} cx={174 + i * 33} cy={106 + (i % 2) * 6} r="5" className="scene-twinkle fill-amber-400" style={stagger(i)} />
       ))}
       <Person x={222} y={196} tone="primary" />
       <Person x={258} y={196} tone="violet" />
+      {/* Hearts rising from the couple (wedding-only touch) */}
+      {[
+        [232, 178, 0],
+        [250, 172, 1],
+        [242, 184, 2],
+      ].map(([x, y, i]) => (
+        <path
+          key={i}
+          d={`M${x} ${y + 4} c-4 -3 -7 -5 -7 -8 a3.5 3.5 0 0 1 7 -1 a3.5 3.5 0 0 1 7 1 c0 3 -3 5 -7 8z`}
+          className="scene-float fill-brand-violet/70"
+          style={stagger(i)}
+        />
+      ))}
       {/* Welcome board on an easel */}
       <path d="M70 262 L92 150 M130 262 L108 150" className="stroke-muted-foreground/40" strokeWidth="3" />
       <rect x="52" y="120" width="96" height="110" rx="8" className="fill-card stroke-border" strokeWidth="1.5" />
@@ -403,7 +439,7 @@ export function PhotographerScene({ className }: SceneProps) {
           strokeLinecap="round"
         />
         <rect x="16" y="64" width="72" height="7" rx="3.5" className="fill-muted" />
-        <rect x="16" y="64" width="52" height="7" rx="3.5" className="fill-primary/60" />
+        <rect x="16" y="64" width="52" height="7" rx="3.5" className="scene-progress fill-primary/60" />
         <text x="52" y="86" textAnchor="middle" className="fill-muted-foreground" fontSize="8">
           Faces detected
         </text>
@@ -423,7 +459,8 @@ export function PhotographerScene({ className }: SceneProps) {
             width="20"
             height="30"
             rx="3"
-            className={[0, 4, 8].includes(i) ? "fill-primary/40" : "fill-muted"}
+            className={[0, 4, 8].includes(i) ? "scene-match fill-primary/40" : "fill-muted"}
+            style={stagger([0, 4, 8].indexOf(i))}
           />
         ))}
       </g>
@@ -434,11 +471,11 @@ export function PhotographerScene({ className }: SceneProps) {
       <Arrow d="M382 128 C410 96 420 84 432 78" />
       <Arrow d="M382 156 L428 156" />
       <Arrow d="M382 184 C410 216 420 228 432 234" />
-      {[48, 136, 222].map((y) => (
+      {[48, 136, 222].map((y, i) => (
         <g key={y} transform={`translate(436 ${y})`}>
           <rect width="30" height="52" rx="6" className="fill-card stroke-border" strokeWidth="1.5" />
           <circle cx="15" cy="16" r="6" className="fill-primary/40" />
-          <rect x="6" y="28" width="18" height="14" rx="2" className="fill-muted" />
+          <rect x="6" y="28" width="18" height="14" rx="2" className="scene-tile scene-tile-late fill-primary/30" style={stagger(i)} />
         </g>
       ))}
       <Label x={240} y={292} anchor="middle">
@@ -493,11 +530,13 @@ export function PlannerScene({ className }: SceneProps) {
         strokeDasharray="5 6"
         fill="none"
       />
-      {pins.map(([x, y, label]) => (
+      {pins.map(([x, y, label], i) => (
         <g key={label}>
-          <path d={`M${x} ${y} l-11 -16 a13 13 0 1 1 22 0 z`} className="fill-primary" />
-          <rect x={x - 7} y={y - 32} width="14" height="14" rx="2" fill="white" />
-          <Qr x={x - 6} y={y - 31} size={12} />
+          <g className="scene-pin" style={stagger(i)}>
+            <path d={`M${x} ${y} l-11 -16 a13 13 0 1 1 22 0 z`} className="fill-primary" />
+            <rect x={x - 7} y={y - 32} width="14" height="14" rx="2" fill="white" />
+            <Qr x={x - 6} y={y - 31} size={12} />
+          </g>
           <text x={x} y={y + 14} textAnchor="middle" className="fill-muted-foreground" fontSize="9" fontWeight="500">
             {label}
           </text>

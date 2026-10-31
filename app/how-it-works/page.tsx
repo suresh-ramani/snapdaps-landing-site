@@ -10,7 +10,8 @@ import { QuestionSection } from "@/components/blocks/question-section";
 import { Section } from "@/components/blocks/section";
 import { JsonLd } from "@/components/json-ld";
 import { WhatsAppLogo } from "@/components/mock/brand-icons";
-import { FaceMatchCard, PrivacyCard, SelfieSearchCard } from "@/components/product/cards";
+import { FaceSearchExplainer } from "@/components/mock/face-search-explainer";
+import { PrivacyCard } from "@/components/product/cards";
 import { faqs } from "@/content/faqs";
 import { workflowSteps } from "@/content/site";
 import { buildMetadata, howToLd } from "@/lib/seo";
@@ -80,9 +81,9 @@ export default function HowItWorksPage() {
               },
             ]}
           />
-          <div aria-hidden="true" data-nosnippet className="surface-soft grid grid-cols-1 items-start gap-3 p-6 sm:grid-cols-[1fr_1.2fr] md:p-8">
-            <SelfieSearchCard className="sm:mt-8" />
-            <FaceMatchCard count={24} />
+          {/* Animated: photos scanned → selfie → the guest's photos ticked (the three steps on the left). */}
+          <div aria-hidden="true" data-nosnippet className="surface-soft p-4 md:p-6">
+            <FaceSearchExplainer />
           </div>
         </div>
       </QuestionSection>

@@ -3,7 +3,7 @@ import { Breadcrumbs } from "@/components/blog/breadcrumbs";
 import { EventPhotoHero } from "@/components/blocks/event-photo-hero";
 import { LeadCapture } from "@/components/blocks/lead-capture";
 import { UseCaseLead } from "@/components/blocks/use-case-lead";
-import { WeddingScene } from "@/components/mock/event-scenes";
+import { LottieScene } from "@/components/motion/lottie-scene";
 import { ComparisonRows } from "@/components/blocks/comparison-rows";
 import { CtaBand } from "@/components/blocks/cta-band";
 import { Faq } from "@/components/blocks/faq";
@@ -141,8 +141,22 @@ export default function WeddingPage() {
           "Relatives abroad get theirs too: the link opens anywhere.",
         ]}
         bestFor={["Couples and families", "Wedding photographers", "Wedding planners"]}
-        scene={<WeddingScene />}
-        sceneCaption="The welcome board QR code leads every guest from the mandap to their own photos."
+        scene={
+          // Lottie: a guest scanning the QR code (public/animations/CREDITS.md); the chips make it this wedding.
+          <div className="relative">
+            <LottieScene src="/animations/scan-qr-code.json" className="mx-auto max-w-md" />
+            <span className="chip-float surface absolute left-0 top-4 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium sm:left-2">
+              <span aria-hidden="true">💍</span> Haldi · Sangeet · Reception
+            </span>
+            <span className="chip-float chip-float-late surface absolute bottom-4 right-0 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium sm:right-2">
+              <span aria-hidden="true" className="flex size-4 items-center justify-center rounded-full bg-after text-[10px] text-after-ink">
+                ✓
+              </span>
+              Your photos are ready
+            </span>
+          </div>
+        }
+        sceneCaption="Guests scan the welcome board QR code, take a selfie, and their wedding photos arrive on their phone."
         tone="default"
       />
 

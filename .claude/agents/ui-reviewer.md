@@ -31,7 +31,7 @@ The files or routes you were given. Otherwise the current changes (`git diff` an
 - Content visible in server HTML; no `opacity: 0` start states.
 - CSS keyframes, not JS timers; JS state only in small `"use client"` leaves; IntersectionObserver, never `scroll` listeners; timers pause off-screen.
 - Scroll-linked sections use the shared `components/blocks/scroll-tabs.tsx` engine (flag any new scroll-spy or IntersectionObserver-driven swap written from scratch). Headings and main sentences stay visible in the pinned list; scroll swaps only the panel; below lg every item's text stays in the page (stacked, or a pinned swipe strip whose cards hold full text and stay in sync with scroll); the pinned block fits 36rem. No wheel/trackpad takeover (smooth-scroll libraries, wheel `preventDefault`, one-step-per-flick).
-- Scroll-triggered entrances only through `components/motion/reveal.tsx` presets (flag direct `motion.*`/`m.*` use, new libraries like GSAP/Lottie, and reveals on headings, the hero or every section). Every preset starts at 0.35 opacity.
+- Scroll-triggered entrances only through `components/motion/reveal.tsx` presets (flag direct `motion.*`/`m.*` use, new libraries like GSAP, Lottie outside `LottieScene` (light player, lazy, credited in `public/animations/CREDITS.md`), and reveals on headings, the hero or every section). Every preset starts at 0.35 opacity.
 - Section links use a plain `href="#id"` / `/page#id`; `SmoothAnchors` handles smooth scroll, focus and keeping the hash out of the URL — flag custom scroll or hash code.
 - Reserved space — no layout shift.
 - SVG gradients on straight lines (beams) use `gradientUnits="userSpaceOnUse"`; the default bounding-box units paint nothing on a zero-width/height line.
