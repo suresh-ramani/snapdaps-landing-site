@@ -9,8 +9,10 @@ function NavigationMenu({ className, children, ...props }: React.ComponentProps<
   return (
     <NavigationMenuPrimitive.Root className={cn("relative z-10 flex items-center", className)} {...props}>
       {children}
+      {/* Opens with a quick fade/zoom; closes at once — no exit animation, so the panel never
+          lingers after the pointer leaves (Radix already waits ~150ms before closing). */}
       <div className="absolute left-0 top-full flex justify-center">
-        <NavigationMenuPrimitive.Viewport className="relative mt-2 h-[var(--radix-navigation-menu-viewport-height)] w-[var(--radix-navigation-menu-viewport-width)] origin-top-left overflow-hidden rounded-xl border bg-popover shadow-[0_24px_60px_-20px_rgb(21_23_30/0.3)] data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95" />
+        <NavigationMenuPrimitive.Viewport className="relative mt-2 h-[var(--radix-navigation-menu-viewport-height)] w-[var(--radix-navigation-menu-viewport-width)] origin-top-left overflow-hidden rounded-xl border bg-popover shadow-[0_24px_60px_-20px_rgb(21_23_30/0.3)] data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95" />
       </div>
     </NavigationMenuPrimitive.Root>
   );
