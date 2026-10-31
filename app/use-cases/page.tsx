@@ -47,14 +47,12 @@ export default function UseCasesPage() {
             <PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-30" className="pt-2" />
           </>
         }
-        className="pb-0"
       />
 
       <QuestionSection
         id="by-role"
         question="Photographer or event planner — which page fits you?"
         answer="Choose by what you do at the event. Photographers use Snapdaps to deliver client photos the same day without sorting or sending them one by one. Event planners use it to give every guest their photos and keep the event talked about. Guests get their photos the same way in both cases: a link or QR code, then a selfie."
-        className="pt-14"
       >
         <UseCaseCards links={byRole.links} offset={0} className="md:grid-cols-2" />
       </QuestionSection>
@@ -63,7 +61,7 @@ export default function UseCasesPage() {
         id="by-event"
         question="Which events can you use Snapdaps for?"
         answer="Snapdaps works for any event where many people are photographed and everyone wants their own pictures: weddings and their functions, birthday parties, corporate conferences and offsites, award ceremonies and sports tournaments. Events of any size work the same way — upload the photos, share one link or QR code, and each guest finds their photos with a selfie."
-        className="pt-0"
+        tone="panel"
       >
         <UseCaseCards links={byEvent.links} offset={3} className="sm:grid-cols-2 lg:grid-cols-3" />
       </QuestionSection>

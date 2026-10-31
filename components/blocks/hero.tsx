@@ -112,9 +112,9 @@ export function Hero({
   }
 
   return (
-    <section className="relative isolate overflow-hidden">
+    <section data-tone="default" className="relative isolate overflow-hidden">
       <div aria-hidden="true" className="glow-brand pointer-events-none absolute inset-x-0 top-0 -z-10 h-[38rem]" />
-      <div className="container-page grid items-center gap-14 pb-20 pt-12 md:pb-24 md:pt-20 lg:grid-cols-[1.05fr_1fr] lg:gap-12">
+      <div className="container-page grid items-center gap-14 pb-[var(--section-y)] pt-12 md:pt-20 lg:grid-cols-[1.05fr_1fr] lg:gap-12">
         {copy}
         <div className="relative">{visual ?? <HeroCards />}</div>
       </div>

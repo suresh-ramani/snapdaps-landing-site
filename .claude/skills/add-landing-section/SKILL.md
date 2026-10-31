@@ -52,3 +52,7 @@ If you added or renamed a block, token, utility or convention, update CLAUDE.md'
 ## Done when
 
 `npm run typecheck`, `npm run lint` and `npm run build` pass; the page has one `<h1>` with headings in order; it works at 375px, with keyboard focus and with reduced motion. Consider running the `ui-reviewer` agent.
+
+## Spacing
+
+Use `<Section>` (or another band with `data-tone` + `section-y`). Don't add `pt-*`/`pb-*` overrides to fix gaps: same-tone neighbours collapse to one `--section-y` automatically (`globals.css`). A new top-level band component must set `data-tone` (`default`, `panel`, `card` or `ink`).

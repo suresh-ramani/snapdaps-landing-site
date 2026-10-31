@@ -18,6 +18,7 @@ type DemoRequest = {
   message?: string;
   website?: string; // honeypot
   source?: string;
+  event?: string;
   page?: string;
 };
 
@@ -39,6 +40,7 @@ export async function POST(req: NextRequest) {
     city: clean(body.city, 80),
     message: clean(body.message, 2000),
     source: clean(body.source, 20),
+    event: clean(body.event, 60),
     page: clean(body.page, 200),
   };
 

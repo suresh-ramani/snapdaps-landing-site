@@ -24,8 +24,8 @@ export default function PricingPage() {
       >
         <PricingTable />
       </Section>
-      <StatsBand className="pt-0" />
-      <LogoCloud className="pt-0" />
+      <StatsBand />
+      <LogoCloud />
       <CtaBand title="Start delivering photos the smart way" body="Upload once. Let AI do the rest." />
     </>
   );

@@ -1,5 +1,9 @@
-import { Images, QrCode, ScanFace } from "lucide-react";
+import { Images, QrCode, ScanFace, Send } from "lucide-react";
 import { Breadcrumbs } from "@/components/blog/breadcrumbs";
+import { EventPhotoHero } from "@/components/blocks/event-photo-hero";
+import { LeadCapture } from "@/components/blocks/lead-capture";
+import { UseCaseLead } from "@/components/blocks/use-case-lead";
+import { PhotographerScene } from "@/components/mock/event-scenes";
 import { ComparisonRows } from "@/components/blocks/comparison-rows";
 import { CtaBand } from "@/components/blocks/cta-band";
 import { Faq } from "@/components/blocks/faq";
@@ -12,6 +16,8 @@ import { QuestionSection } from "@/components/blocks/question-section";
 import { PowerLine, Section } from "@/components/blocks/section";
 import { Story } from "@/components/blocks/story";
 import { LogoCloud } from "@/components/blocks/logo-cloud";
+import { eventSamples } from "@/components/mock/photos";
+import { PhotoPool } from "@/components/mock/photo-pool";
 import { ChatMock } from "@/components/mock/screens";
 import { FaceMatchCard, SelfieSearchCard } from "@/components/product/cards";
 import { faqs } from "@/content/faqs";
@@ -32,11 +38,15 @@ const TITLE = "Photo Sharing App for Photographers with AI Face Search | Snapdap
 const DESCRIPTION =
   "Deliver client photos instantly with AI face search. No Google Drive links or Pendrive hassle. Built for photographers, weddings, and events.";
 
-export const metadata = buildMetadata({ absoluteTitle: TITLE, description: DESCRIPTION, path: PATH });
+export const metadata = buildMetadata({
+  absoluteTitle: TITLE,
+  description: DESCRIPTION,
+  path: PATH,
+});
 
 export default function PhotographersPage() {
   return (
-    <>
+    <PhotoPool {...eventSamples[PATH]}>
       {/* Section 1: Hero */}
       <Hero
         above={
@@ -61,6 +71,41 @@ export default function PhotographersPage() {
         hook="You shoot premium photos. Snapdaps delivers them."
         trustLine={["No credit card required", "Setup in minutes", "Built for photographers"]}
         note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-30" />}
+        visual={
+          <EventPhotoHero
+            photo="photographer-at-work"
+            alt="Photographer framing a shot through a DSLR camera"
+            chips={[
+              {
+                Icon: ScanFace,
+                title: "Faces detected",
+                sub: "Across the whole shoot",
+              },
+              {
+                Icon: Send,
+                title: "One link to your client",
+                sub: "Guests find their own photos",
+              },
+            ]}
+            qrLabel="Client gallery QR"
+            align="left"
+          />
+        }
+      />
+
+      <UseCaseLead
+        title="Snapdaps for photographers, in short"
+        summary="Snapdaps is an AI photo gallery for photographers. You upload a finished shoot once, Snapdaps detects every face, and you hand your client a single link or QR code. Each guest uploads a selfie and downloads only the photos they appear in — so delivery no longer means days of sorting and sending."
+        takeaways={[
+          "Upload from your computer or Google Drive, in folders per event.",
+          "No tagging — faces are detected automatically.",
+          "One link or QR code replaces pendrives and Drive folders.",
+          "Your clients’ guests need no app and no login.",
+        ]}
+        bestFor={["Wedding photographers", "Event photographers", "Studios"]}
+        scene={<PhotographerScene />}
+        sceneCaption="From your camera to every guest’s phone: upload once, Snapdaps sorts by face, and you send one link."
+        tone="default"
       />
 
       <LogoCloud />
@@ -91,8 +136,7 @@ export default function PhotographersPage() {
               <span className="quote">“Did you get our group pictures?”</span>
             </p>
             <p>
-              But your client doesn’t have anything to share yet — because the photographer hasn’t delivered the
-              photos.
+              But your client doesn’t have anything to share yet — because the photographer hasn’t delivered the photos.
             </p>
             <div>
               <p>Now your client is:</p>
@@ -107,7 +151,10 @@ export default function PhotographersPage() {
         powerLine="Your client wants to share memories instantly with their friends and family. But traditional photo delivery makes them wait."
         close={
           <>
-            <p>When your clients don’t get their photos on time, it doesn’t just delay delivery — it affects their experience.</p>
+            <p>
+              When your clients don’t get their photos on time, it doesn’t just delay delivery — it affects their
+              experience.
+            </p>
             <p className="font-semibold">In today’s instant-sharing world, waiting days for photos feels outdated.</p>
           </>
         }
@@ -129,17 +176,15 @@ export default function PhotographersPage() {
         narrative={
           <>
             <p>Now imagine a different experience.</p>
-            <p>
-              The event just got over. Instead of waiting a month… your client opens the event link you shared.
-            </p>
+            <p>The event just got over. Instead of waiting a month… your client opens the event link you shared.</p>
             <p>
               They upload a simple selfie. And within seconds, all their photos appear automatically by{" "}
               <strong>AI face recognition</strong>.
             </p>
             <p className="font-semibold text-foreground">No searching. No asking. No waiting.</p>
             <p>
-              Now when friends and relatives call — <strong className="text-foreground">“Send photos!”</strong> — your client
-              simply shares them instantly.
+              Now when friends and relatives call — <strong className="text-foreground">“Send photos!”</strong> — your
+              client simply shares them instantly.
             </p>
             <div className="grid gap-6 sm:grid-cols-2">
               <div>
@@ -306,15 +351,41 @@ export default function PhotographersPage() {
           beforeLabel="Shared Drive folder or pendrive"
           afterLabel="Snapdaps AI photo gallery"
           rows={[
-            { before: "One shared folder for everyone", after: "Each guest sees only the photos they’re in" },
-            { before: "Guests scroll through every photo to find themselves", after: "A selfie finds their photos in seconds" },
-            { before: "Pendrives handed over one by one", after: "One link or QR code for the whole event" },
-            { before: "Photos sorted and renamed by hand", after: "Faces detected automatically on upload" },
+            {
+              before: "One shared folder for everyone",
+              after: "Each guest sees only the photos they’re in",
+            },
+            {
+              before: "Guests scroll through every photo to find themselves",
+              after: "A selfie finds their photos in seconds",
+            },
+            {
+              before: "Pendrives handed over one by one",
+              after: "One link or QR code for the whole event",
+            },
+            {
+              before: "Photos sorted and renamed by hand",
+              after: "Faces detected automatically on upload",
+            },
           ]}
         />
       </QuestionSection>
 
-      <Faq items={faqs[PATH]} title="Questions photographers ask" tone="panel" />
+      <LeadCapture
+        title="See your next shoot delivered by face search"
+        body="Book a short demo and we’ll walk you through delivering a real event the Snapdaps way — from upload to a guest finding their photos with a selfie."
+        points={[
+          "See the guest experience on your own phone",
+          "Set up your first client event with our team",
+          "Questions answered within one working day",
+        ]}
+        event="Photographer delivery"
+        role="Photographer"
+        submitLabel="Book my photographer demo"
+        tone="panel"
+      />
+
+      <Faq items={faqs[PATH]} title="Questions photographers ask" />
 
       {/* Section 6: CTA */}
       <CtaBand
@@ -322,6 +393,6 @@ export default function PhotographersPage() {
         primaryLabel="Try Snapdaps now"
         trustLine={["No credit card required", "Setup in minutes", "Built for photographers"]}
       />
-    </>
+    </PhotoPool>
   );
 }

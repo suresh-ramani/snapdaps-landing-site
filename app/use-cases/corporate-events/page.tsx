@@ -1,5 +1,9 @@
 import { Mail, Presentation, QrCode, Share2 } from "lucide-react";
 import { Breadcrumbs } from "@/components/blog/breadcrumbs";
+import { EventPhotoHero } from "@/components/blocks/event-photo-hero";
+import { LeadCapture } from "@/components/blocks/lead-capture";
+import { UseCaseLead } from "@/components/blocks/use-case-lead";
+import { CorporateScene } from "@/components/mock/event-scenes";
 import { ComparisonRows } from "@/components/blocks/comparison-rows";
 import { CtaBand } from "@/components/blocks/cta-band";
 import { Faq } from "@/components/blocks/faq";
@@ -11,6 +15,8 @@ import { PageByline } from "@/components/blocks/page-byline";
 import { QuestionSection } from "@/components/blocks/question-section";
 import { Section } from "@/components/blocks/section";
 import { Story } from "@/components/blocks/story";
+import { eventSamples } from "@/components/mock/photos";
+import { PhotoPool } from "@/components/mock/photo-pool";
 import { ChatMock } from "@/components/mock/screens";
 import { faqs } from "@/content/faqs";
 import { isIndexed } from "@/content/routes";
@@ -30,7 +36,12 @@ const TITLE = "Corporate Event Photo Sharing with AI Face Search";
 const DESCRIPTION =
   "Share conference, offsite and corporate event photos with every attendee. They scan a QR code, upload a selfie and download their own photos in seconds.";
 
-export const metadata = buildMetadata({ title: TITLE, description: DESCRIPTION, path: PATH, noindex: !isIndexed(PATH) });
+export const metadata = buildMetadata({
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH,
+  noindex: !isIndexed(PATH),
+});
 
 const corporateSteps: WorkflowStep[] = [
   {
@@ -79,7 +90,7 @@ const corporateSteps: WorkflowStep[] = [
 
 export default function CorporateEventsPage() {
   return (
-    <>
+    <PhotoPool {...eventSamples[PATH]}>
       <Hero
         above={
           <Breadcrumbs
@@ -93,11 +104,46 @@ export default function CorporateEventsPage() {
         subtitle="Give every attendee their conference, offsite or launch photos instantly."
         body={
           <p>
-            Upload the event’s photos once and put one QR code on the screens. Every attendee, speaker and sponsor
-            gets the photos they’re in — ready for LinkedIn while people are still talking about the event.
+            Upload the event’s photos once and put one QR code on the screens. Every attendee, speaker and sponsor gets
+            the photos they’re in — ready for LinkedIn while people are still talking about the event.
           </p>
         }
         note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-30" />}
+        visual={
+          <EventPhotoHero
+            photo="corporate-conference"
+            alt="Attendees seated at a conference session"
+            chips={[
+              {
+                Icon: Presentation,
+                title: "QR on the stage screen",
+                sub: "Between sessions",
+              },
+              {
+                Icon: Share2,
+                title: "Ready for LinkedIn",
+                sub: "Attendees post their own",
+              },
+            ]}
+            qrLabel="Event photos QR"
+            align="left"
+          />
+        }
+      />
+
+      <UseCaseLead
+        title="Corporate event photo sharing, in short"
+        summary="Snapdaps gets conference, offsite and launch photos to every attendee without a shared drive. Upload each day’s photos into one event with folders by session, put the QR code on stage screens and badges, and attendees take a selfie to download their own photos — ready to post while the event is still fresh."
+        takeaways={[
+          "Folders by day, session, workshop or venue.",
+          "QR on screens, badges and the follow-up email.",
+          "Speakers, sponsors and attendees each find their own photos.",
+          "No drive access requests, no app, no login.",
+        ]}
+        bestFor={["Corporate event teams", "HR and internal comms", "Conference organisers"]}
+        scene={<CorporateScene />}
+        sceneCaption="The QR code on stage screens and badges takes attendees straight to their photos."
+        tone="default"
       />
 
       <Story
@@ -121,9 +167,7 @@ export default function CorporateEventsPage() {
             <p>Two days of sessions, panels and networking.</p>
             <p>Attendees photographed on stage, at the booths and over coffee.</p>
             <p>Then the emails start: the panel photo, the team photo, the link to the event pictures.</p>
-            <p>
-              Someone shares a drive folder with thousands of images. Most attendees never find themselves in it.
-            </p>
+            <p>Someone shares a drive folder with thousands of images. Most attendees never find themselves in it.</p>
             <p>And the posts that would have carried your event further never get written.</p>
           </>
         }
@@ -182,10 +226,26 @@ export default function CorporateEventsPage() {
       >
         <InfoCards
           items={[
-            { Icon: Presentation, title: "Between sessions", body: "The QR code on the stage screen while the room changes over." },
-            { Icon: QrCode, title: "On badges and standees", body: "Attendees scan whenever they have a moment — no link to type." },
-            { Icon: Mail, title: "In the follow-up email", body: "One link for everyone who attended, sent with the thank-you note." },
-            { Icon: Share2, title: "Ready to post", body: "Photos download to the attendee’s phone, ready for LinkedIn." },
+            {
+              Icon: Presentation,
+              title: "Between sessions",
+              body: "The QR code on the stage screen while the room changes over.",
+            },
+            {
+              Icon: QrCode,
+              title: "On badges and standees",
+              body: "Attendees scan whenever they have a moment — no link to type.",
+            },
+            {
+              Icon: Mail,
+              title: "In the follow-up email",
+              body: "One link for everyone who attended, sent with the thank-you note.",
+            },
+            {
+              Icon: Share2,
+              title: "Ready to post",
+              body: "Photos download to the attendee’s phone, ready for LinkedIn.",
+            },
           ]}
         />
       </QuestionSection>
@@ -199,19 +259,42 @@ export default function CorporateEventsPage() {
         <ComparisonRows
           beforeLabel="Shared drive"
           rows={[
-            { before: "A drive folder everyone requests access to", after: "One link in the team group" },
-            { before: "Scrolling the whole offsite to find yourself", after: "A selfie finds your photos" },
-            { before: "The organiser forwards photos on request", after: "Everyone downloads their own" },
+            {
+              before: "A drive folder everyone requests access to",
+              after: "One link in the team group",
+            },
+            {
+              before: "Scrolling the whole offsite to find yourself",
+              after: "A selfie finds your photos",
+            },
+            {
+              before: "The organiser forwards photos on request",
+              after: "Everyone downloads their own",
+            },
           ]}
         />
       </QuestionSection>
 
-      <Faq items={faqs[PATH]} title="Corporate event photo sharing questions" />
+      <LeadCapture
+        title="Running a conference or offsite? Let’s plan its photos"
+        body="Share your event dates and format, and we’ll show you how attendees will get their photos — and help set up folders and the QR code."
+        points={[
+          "A demo built around your event format",
+          "Folders and QR code set up together",
+          "A reply within one working day",
+        ]}
+        event="Corporate event"
+        role="Event planner"
+        submitLabel="Book my event demo"
+        tone="default"
+      />
+
+      <Faq items={faqs[PATH]} title="Corporate event photo sharing questions" tone="panel" />
 
       <CtaBand
         title="Make your next event the one attendees post about"
         body="Upload once, share one QR code, and every attendee gets their photos."
       />
-    </>
+    </PhotoPool>
   );
 }

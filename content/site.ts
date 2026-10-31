@@ -36,9 +36,21 @@ export const site = {
   signupUrl: "https://app.snapdaps.ai/signup", // TODO: confirm signup URL
   contactEmail: "hello@snapdaps.ai", // TODO: confirm
   social: {
-    instagram: "", // TODO
+    instagram: "https://www.instagram.com/snapdapsai",
+    facebook: "https://www.facebook.com/snapdapsai",
     linkedin: "", // TODO
     youtube: "", // TODO
+  },
+  /** The company that owns and operates Snapdaps — footer line and Organization `parentOrganization`. */
+  company: {
+    name: "Cygner Technolabs Pvt. Ltd.",
+    url: "https://www.cygner.net/?ref=snapdaps.ai",
+  },
+  /** The WhatsApp chat bubble (bottom-right on every page) opens wa.me with this number and message. */
+  whatsapp: {
+    number: "919409500085", // +91 94095 00085, digits only for wa.me
+    display: "+91 94095 00085",
+    message: "Hi Snapdaps, I’d like to know more about AI photo sharing for my event.",
   },
 };
 

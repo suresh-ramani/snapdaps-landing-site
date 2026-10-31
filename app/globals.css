@@ -206,6 +206,17 @@
   padding-block: var(--section-y);
 }
 
+/*
+ * One vertical rhythm on every page: each top-level band carries data-tone (default | panel |
+ * card | ink). Two neighbours with the same background would stack their padding into a double
+ * gap, so the second drops its top padding — the space between any two blocks of content is
+ * always one --section-y, and a colour change splits it evenly.
+ */
+[data-tone="default"] + [data-tone="default"],
+[data-tone="panel"] + [data-tone="panel"] {
+  padding-top: 0;
+}
+
 
 /* Blog article typography, driven by tokens so WordPress HTML inherits the brand. */
 .prose-snap {

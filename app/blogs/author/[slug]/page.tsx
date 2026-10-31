@@ -49,7 +49,11 @@ export default async function AuthorPage({ params, searchParams }: Props) {
           {author.description && <p className="mt-3 text-lg text-muted-foreground">{author.description}</p>}
         </div>
       </header>
-      <PostGrid posts={list.posts} emptyText={`${author.name} hasn't published anything yet.`} />
+      <PostGrid posts={list.posts} empty={{
+          title: `${author.name} hasn’t published anything yet`,
+          description: "Their posts will appear here.",
+          action: { label: "Browse all posts", href: "/blogs" },
+        }} />
       <Pagination basePath={`/blogs/author/${slug}`} pageInfo={list.pageInfo} />
       <JsonLd data={personLd(author)} />
     </div>

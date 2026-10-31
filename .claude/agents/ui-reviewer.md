@@ -57,6 +57,13 @@ The files or routes you were given. Otherwise the current changes (`git diff` an
 **Weight**
 - Heavy decorative illustrations below the fold use `LazyMount` with their real height reserved (no layout shift), or `isNear` in scroll-linked panels; popups/sheets load on demand (`next/dynamic`) and return focus to their trigger. Mock wrappers with sample data carry `data-nosnippet`.
 
+**Use-case pages**
+- Each is wrapped in `<PhotoPool {...eventSamples[PATH]}>`, so bento, workflow and story cards show that event's photos, name and folders (no wedding photos or Haldi/Sangeet folders on other events' pages).
+- Each has its own `EventPhotoHero` photo (real alt, `priority`), `UseCaseLead` scene from `components/mock/event-scenes.tsx` and `LeadCapture` offer — none shared with another use-case page. Scenes use theme tokens (check dark mode), stay `aria-hidden` with a visible `figcaption`, and nothing overflows at 375px (hero chips sit inside the photo below sm).
+
+**Spacing**
+- Top-level bands use `section-y` and set `data-tone`; no `pt-0`/`pb-0`/custom padding overrides on sections. Gaps between content blocks are one `--section-y` everywhere (same-tone neighbours collapse in `globals.css`).
+
 **Licences**
 - No Shadcn UI Kit premium/Pro code or illustrations (public repo). Stock photos only from free Unsplash/Pexels (not Unsplash+), each listed in `public/photos/CREDITS.md`; no stock face shown as a named sample person (avatars stay `Face`). Shadcn Space free items keep their copyright notice + licence text; their Pro items are not allowed. Adapted patterns carry an "after <source> (licence)" comment.
 

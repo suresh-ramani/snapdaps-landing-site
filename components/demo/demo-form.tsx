@@ -4,16 +4,32 @@ import { useState } from "react";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select";
+import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 
 const roles = ["Photographer", "Event planner", "Studio / agency", "Couple or host", "Other"];
 
 /**
- * Demo / contact form. Posts to /api/demo, which emails the Snapdaps team.
- * Used in the Book a demo popup and on /contact.
+ * Demo / contact form, built on shadcn/ui Field + NativeSelect (MIT). Posts to /api/demo, which emails the Snapdaps team.
+ * Used in the Book a demo popup, on /contact and in each use-case page's LeadCapture
+ * (`source="use-case"`, with the page's `event` and a preselected `defaultRole`).
  */
-export function DemoForm({ source, showMessage = false }: { source: "popup" | "contact"; showMessage?: boolean }) {
+export function DemoForm({
+  source,
+  showMessage = false,
+  defaultRole = "",
+  event,
+  submitLabel = "Request demo",
+}: {
+  source: "popup" | "contact" | "use-case";
+  showMessage?: boolean;
+  /** Preselects "I am a" (one of the roles). */
+  defaultRole?: string;
+  /** The event type the request is about, sent with the request (e.g. "Wedding"). */
+  event?: string;
+  submitLabel?: string;
+}) {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [error, setError] = useState<string>();
 
@@ -26,7 +42,7 @@ export function DemoForm({ source, showMessage = false }: { source: "popup" | "c
       const res = await fetch("/api/demo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, source, page: window.location.pathname }),
+        body: JSON.stringify({ ...data, source, event, page: window.location.pathname }),
       });
       const json = (await res.json().catch(() => ({}))) as { error?: string };
       if (!res.ok) throw new Error(json.error ?? "Your request didn't go through.");
@@ -51,50 +67,55 @@ export function DemoForm({ source, showMessage = false }: { source: "popup" | "c
 
   const id = (name: string) => `${source}-${name}`;
   return (
-    <form onSubmit={onSubmit} className="grid gap-4" noValidate={false}>
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="grid gap-2">
-          <Label htmlFor={id("name")}>Name</Label>
-          <Input id={id("name")} name="name" required autoComplete="name" />
+    <form onSubmit={onSubmit} noValidate={false}>
+      <FieldGroup className="gap-5">
+        <div className="grid gap-5 sm:grid-cols-2">
+          <Field>
+            <FieldLabel htmlFor={id("name")}>Name</FieldLabel>
+            <Input id={id("name")} name="name" required autoComplete="name" />
+          </Field>
+          <Field>
+            <FieldLabel htmlFor={id("phone")}>Phone / WhatsApp</FieldLabel>
+            <Input
+              id={id("phone")}
+              name="phone"
+              type="tel"
+              required
+              autoComplete="tel"
+              inputMode="tel"
+              aria-describedby={id("phone-help")}
+            />
+            <FieldDescription id={id("phone-help")}>Used only to set up your demo.</FieldDescription>
+          </Field>
         </div>
-        <div className="grid gap-2">
-          <Label htmlFor={id("phone")}>Phone / WhatsApp</Label>
-          <Input id={id("phone")} name="phone" type="tel" required autoComplete="tel" inputMode="tel" />
+        <Field>
+          <FieldLabel htmlFor={id("email")}>Email</FieldLabel>
+          <Input id={id("email")} name="email" type="email" required autoComplete="email" />
+        </Field>
+        <div className="grid gap-5 sm:grid-cols-2">
+          <Field>
+            <FieldLabel htmlFor={id("role")}>I am a</FieldLabel>
+            <NativeSelect id={id("role")} name="role" required defaultValue={defaultRole}>
+              <NativeSelectOption value="" disabled>
+                Choose one
+              </NativeSelectOption>
+              {roles.map((r) => (
+                <NativeSelectOption key={r}>{r}</NativeSelectOption>
+              ))}
+            </NativeSelect>
+          </Field>
+          <Field>
+            <FieldLabel htmlFor={id("city")}>City</FieldLabel>
+            <Input id={id("city")} name="city" autoComplete="address-level2" />
+          </Field>
         </div>
-      </div>
-      <div className="grid gap-2">
-        <Label htmlFor={id("email")}>Email</Label>
-        <Input id={id("email")} name="email" type="email" required autoComplete="email" />
-      </div>
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="grid gap-2">
-          <Label htmlFor={id("role")}>I am a</Label>
-          <select
-            id={id("role")}
-            name="role"
-            required
-            defaultValue=""
-            className="h-10 rounded-md border border-input bg-card px-3 text-sm focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring"
-          >
-            <option value="" disabled>
-              Choose one
-            </option>
-            {roles.map((r) => (
-              <option key={r}>{r}</option>
-            ))}
-          </select>
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor={id("city")}>City</Label>
-          <Input id={id("city")} name="city" autoComplete="address-level2" />
-        </div>
-      </div>
-      {showMessage && (
-        <div className="grid gap-2">
-          <Label htmlFor={id("message")}>Message (optional)</Label>
-          <Textarea id={id("message")} name="message" placeholder="Tell us about your events" />
-        </div>
-      )}
+        {showMessage && (
+          <Field>
+            <FieldLabel htmlFor={id("message")}>Message (optional)</FieldLabel>
+            <Textarea id={id("message")} name="message" placeholder="Tell us about your events" />
+          </Field>
+        )}
+      </FieldGroup>
       {/* Honeypot: hidden from people, bots fill it in. */}
       <div aria-hidden="true" className="absolute -left-[9999px]">
         <label>
@@ -103,21 +124,29 @@ export function DemoForm({ source, showMessage = false }: { source: "popup" | "c
         </label>
       </div>
       {error && (
-        <p role="alert" className="rounded-md bg-before px-3 py-2 text-sm text-before-ink">
+        <p role="alert" className="mt-5 rounded-md bg-before px-3 py-2 text-sm text-before-ink">
           {error}
         </p>
       )}
-      <Button type="submit" size="lg" disabled={status === "sending"}>
-        <SubmitState status={status} error={error} />
+      <Button type="submit" size="lg" className="mt-6 w-full" disabled={status === "sending"}>
+        <SubmitState status={status} error={error} label={submitLabel} />
       </Button>
-      <p className="text-xs text-muted-foreground">
+      <p className="mt-3 text-center text-xs text-muted-foreground">
         We only use these details to contact you about Snapdaps.
       </p>
     </form>
   );
 }
 
-function SubmitState({ status, error }: { status: "idle" | "sending" | "sent" | "error"; error?: string }) {
+function SubmitState({
+  status,
+  error,
+  label,
+}: {
+  status: "idle" | "sending" | "sent" | "error";
+  error?: string;
+  label: string;
+}) {
   if (status === "sending")
     return (
       <span className="inline-flex items-center gap-2">
@@ -130,5 +159,5 @@ function SubmitState({ status, error }: { status: "idle" | "sending" | "sent" | 
         <CheckCircle2 className="size-4" /> Request sent
       </span>
     );
-  return <>{error ? "Try again" : "Request demo"}</>;
+  return <>{error ? "Try again" : label}</>;
 }

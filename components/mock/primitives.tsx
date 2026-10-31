@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { photos, weddingPool, type PhotoName } from "./photos";
+import { qrRows } from "./qr-rows";
+import { TONES } from "./tones";
 
 /**
  * Building blocks for coded product illustrations. Everything here is decorative
@@ -8,65 +8,8 @@ import { photos, weddingPool, type PhotoName } from "./photos";
  * mock for <Image src="/screens/..." /> without changing the surrounding layout.
  */
 
-// Warm event-photo tones: stage lights, marigold, dusk, garden, sangeet.
-const TONES = [
-  ["#f6b38a", "#c25b52"],
-  ["#f3d48a", "#d98a2b"],
-  ["#a9b8f0", "#4b5bb8"],
-  ["#b8e0c2", "#3f8a63"],
-  ["#f2a6c3", "#a9437a"],
-  ["#c9b6f2", "#6b4fbf"],
-  ["#f5c9a0", "#8f5a3a"],
-  ["#9fd6e0", "#2f7f93"],
-];
-
-/**
- * One event photo (real Unsplash photo, see ./photos.ts). `photo` picks a specific image;
- * otherwise `seed` picks from the wedding pool. The tone gradient shows while it loads.
- * Decorative (aria-hidden, alt=""), lazy-loaded, sized small via `sizes`.
- */
-export function PhotoTile({
-  seed = 0,
-  photo,
-  sizes = "(min-width: 768px) 160px, 120px",
-  className,
-  highlight = false,
-  delayMs,
-}: {
-  seed?: number;
-  /** A specific photo (e.g. per event type); defaults to the wedding pool by `seed`. */
-  photo?: PhotoName;
-  /** next/image `sizes` — keep it close to the rendered size so small tiles stay light. */
-  sizes?: string;
-  className?: string;
-  /** @deprecated Ignored since tiles became real photos; kept so existing callers still type-check. */
-  people?: 0 | 1 | 2 | 3;
-  highlight?: boolean;
-  /** Animation delay, for staggered entrances. */
-  delayMs?: number;
-}) {
-  const [a, b] = TONES[seed % TONES.length];
-  const src = photos[photo ?? weddingPool[seed % weddingPool.length]];
-  return (
-    <div
-      aria-hidden="true"
-      className={cn(
-        "relative aspect-[4/5] overflow-hidden rounded-md",
-        highlight && "ring-2 ring-primary ring-offset-2 ring-offset-card",
-        className,
-      )}
-      style={{
-        background: `linear-gradient(160deg, ${a}, ${b})`,
-        ...(delayMs !== undefined ? { animationDelay: `${delayMs}ms` } : {}),
-      }}
-    >
-      <Image src={src} alt="" fill sizes={sizes} className="object-cover" />
-      {highlight && (
-        <span className="absolute left-1.5 top-1.5 size-2.5 rounded-full border-2 border-white bg-primary" />
-      )}
-    </div>
-  );
-}
+// PhotoTile lives in ./photo-tile (a client component, so it can read the page's photo pool).
+export { PhotoTile } from "./photo-tile";
 
 /** Abstract face: a person without a real likeness. */
 export function Face({ seed = 0, className }: { seed?: number; className?: string }) {
@@ -141,30 +84,6 @@ export function MockChip({ className, children }: { className?: string; children
   );
 }
 
-/* QR pattern adapted from shadcn/ui's homepage QR card (MIT). Decorative only — not scannable. */
-const qrRows = [
-  "111111100101101111111",
-  "100000101001001000001",
-  "101110101111101011101",
-  "101110100100001011101",
-  "101110101010101011101",
-  "100000100111001000001",
-  "111111101010101111111",
-  "000000001101000000000",
-  "101011111001111010110",
-  "010100001110010101001",
-  "111010111011101111010",
-  "001101000101000010101",
-  "110111101111010111011",
-  "000000001001010001010",
-  "111111101101111101001",
-  "100000100010001001111",
-  "101110101011101110100",
-  "101110100110100010011",
-  "101110101000111101110",
-  "100000101101000011001",
-  "111111101011101101111",
-];
 
 export function QrPattern({ className }: { className?: string }) {
   return (

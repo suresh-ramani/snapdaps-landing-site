@@ -28,7 +28,12 @@ export function Story({
 }) {
   const headingId = id ? `${id}-title` : undefined;
   return (
-    <section id={id} aria-labelledby={headingId} className={cn("section-y", tone === "problem" && "bg-muted/50")}>
+    <section
+      id={id}
+      aria-labelledby={headingId}
+      data-tone={tone === "problem" ? "panel" : "default"}
+      className={cn("section-y", tone === "problem" && "bg-muted/50")}
+    >
       <div className="container-page">
         <header className="max-w-3xl">
           <h2 id={headingId} className="text-3xl font-semibold leading-[1.1] tracking-tight md:text-[2.6rem]">

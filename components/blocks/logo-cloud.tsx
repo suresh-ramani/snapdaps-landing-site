@@ -35,7 +35,11 @@ export function LogoCloud({
   const headingId = embedded ? "clients-embedded-title" : "clients-title";
 
   return (
-    <Wrapper aria-labelledby={headingId} className={cn(!embedded && "py-12 md:py-16", className)}>
+    <Wrapper
+      aria-labelledby={headingId}
+      data-tone={embedded ? undefined : "default"}
+      className={cn(!embedded && "section-y", className)}
+    >
       <div className={cn(!embedded && "container-page")}>
         <H id={headingId} className="text-center text-sm font-medium tracking-normal text-muted-foreground">
           {heading}

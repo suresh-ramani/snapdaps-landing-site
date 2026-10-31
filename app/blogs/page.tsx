@@ -54,7 +54,11 @@ export default async function BlogIndexPage({ searchParams }: Props) {
             </div>
           )}
           <div className="mt-14">
-            <PostGrid posts={rest.filter(Boolean) as typeof posts} emptyText="No posts yet. Check back soon." />
+            <PostGrid posts={rest.filter(Boolean) as typeof posts} empty={{
+              title: "No posts yet",
+              description: "We’re writing our first guides on sharing event photos. Check back soon.",
+              action: { label: "See how Snapdaps works", href: "/how-it-works" },
+            }} />
           </div>
           <Pagination basePath="/blogs" pageInfo={list.pageInfo} />
         </>

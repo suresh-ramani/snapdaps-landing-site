@@ -27,7 +27,12 @@ export default async function SearchPage({ searchParams }: Props) {
       <BlogNav categories={categories} query={query} />
       <div className="mt-12">
         {query ? (
-          <PostGrid posts={list?.posts ?? []} emptyText="No posts match that search. Try a shorter or different word." />
+          <PostGrid posts={list?.posts ?? []} empty={{
+            icon: "search",
+            title: "No posts match that search",
+            description: "Try a shorter or different word.",
+            action: { label: "Browse all posts", href: "/blogs" },
+          }} />
         ) : (
           <p className="text-muted-foreground">Type a word or phrase above to search all posts.</p>
         )}

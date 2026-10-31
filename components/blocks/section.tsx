@@ -39,6 +39,7 @@ export function Section({
     <section
       id={id}
       aria-labelledby={title ? headingId : undefined}
+      data-tone={tone === "muted" ? "panel" : tone}
       className={cn(
         "section-y scroll-mt-16",
         (tone === "muted" || tone === "panel") && "bg-muted/50",

@@ -1,4 +1,9 @@
+import { Medal, UserRound } from "lucide-react";
 import { Breadcrumbs } from "@/components/blog/breadcrumbs";
+import { EventPhotoHero } from "@/components/blocks/event-photo-hero";
+import { LeadCapture } from "@/components/blocks/lead-capture";
+import { UseCaseLead } from "@/components/blocks/use-case-lead";
+import { SportsScene } from "@/components/mock/event-scenes";
 import { ComparisonRows } from "@/components/blocks/comparison-rows";
 import { CtaBand } from "@/components/blocks/cta-band";
 import { Faq } from "@/components/blocks/faq";
@@ -10,6 +15,8 @@ import { PageByline } from "@/components/blocks/page-byline";
 import { QuestionSection } from "@/components/blocks/question-section";
 import { Section } from "@/components/blocks/section";
 import { Story } from "@/components/blocks/story";
+import { eventSamples } from "@/components/mock/photos";
+import { PhotoPool } from "@/components/mock/photo-pool";
 import { ChatMock } from "@/components/mock/screens";
 import { faqs } from "@/content/faqs";
 import { isIndexed } from "@/content/routes";
@@ -29,7 +36,12 @@ const TITLE = "Sports Tournament Photo Sharing with AI Face Search";
 const DESCRIPTION =
   "Players, parents and fans find their tournament photos with a selfie. One QR code for every match day — no app, no login, no endless scrolling.";
 
-export const metadata = buildMetadata({ title: TITLE, description: DESCRIPTION, path: PATH, noindex: !isIndexed(PATH) });
+export const metadata = buildMetadata({
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH,
+  noindex: !isIndexed(PATH),
+});
 
 const sportsSteps: WorkflowStep[] = [
   {
@@ -78,7 +90,7 @@ const sportsSteps: WorkflowStep[] = [
 
 export default function SportsEventsPage() {
   return (
-    <>
+    <PhotoPool {...eventSamples[PATH]}>
       <Hero
         above={
           <Breadcrumbs
@@ -97,6 +109,41 @@ export default function SportsEventsPage() {
           </p>
         }
         note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-30" />}
+        visual={
+          <EventPhotoHero
+            photo="sports-batsman"
+            alt="Young cricketer in whites lifting his bat at the crease"
+            chips={[
+              {
+                Icon: Medal,
+                title: "Action shots found",
+                sub: "Warm-up to podium",
+              },
+              {
+                Icon: UserRound,
+                title: "Parents search too",
+                sub: "With their child’s photo",
+              },
+            ]}
+            qrLabel="Scoreboard QR"
+            align="left"
+          />
+        }
+      />
+
+      <UseCaseLead
+        title="Sports tournament photo sharing, in short"
+        summary="Snapdaps puts a whole tournament’s photos in one gallery that players, parents and fans search with a selfie. Upload each match day into folders by match, ground or team, share the QR code at the ground and the link in team groups, and everyone downloads the action shots they appear in."
+        takeaways={[
+          "One tournament gallery, folders per match day or team.",
+          "Parents can search with their child’s photo.",
+          "QR at the ground, link in every team group.",
+          "No scrolling through thousands of shots.",
+        ]}
+        bestFor={["Tournament organisers", "Schools and academies", "Sports photographers"]}
+        scene={<SportsScene />}
+        sceneCaption="A QR code on the scoreboard leads players and parents to their match-day photos."
+        tone="default"
       />
 
       <Story
@@ -120,8 +167,8 @@ export default function SportsEventsPage() {
             <p>Match after match, the photographers keep shooting.</p>
             <p>By the final whistle, there are thousands of photos.</p>
             <p>
-              Then every team group fills with requests. Parents want their child’s best shot. Players want the photo
-              of their catch. Coaches want the team picture.
+              Then every team group fills with requests. Parents want their child’s best shot. Players want the photo of
+              their catch. Coaches want the team picture.
             </p>
             <p>Someone shares one giant folder. Everyone scrolls. Most give up.</p>
           </>
@@ -182,9 +229,18 @@ export default function SportsEventsPage() {
         <InfoCards
           numbered
           items={[
-            { title: "Open the tournament link", body: "From the team group, or by scanning the QR code at the ground." },
-            { title: "Upload your child’s photo", body: "A clear, front-facing picture of their face works best." },
-            { title: "Download their best shots", body: "Every match, every day — saved straight to your phone." },
+            {
+              title: "Open the tournament link",
+              body: "From the team group, or by scanning the QR code at the ground.",
+            },
+            {
+              title: "Upload your child’s photo",
+              body: "A clear, front-facing picture of their face works best.",
+            },
+            {
+              title: "Download their best shots",
+              body: "Every match, every day — saved straight to your phone.",
+            },
           ]}
         />
       </QuestionSection>
@@ -197,19 +253,42 @@ export default function SportsEventsPage() {
       >
         <ComparisonRows
           rows={[
-            { before: "One giant folder for the whole tournament", after: "Folders by match day, ground or team" },
-            { before: "Players scroll through every match", after: "A selfie finds each player’s photos" },
-            { before: "Photos sent to each team separately", after: "One link for every team" },
+            {
+              before: "One giant folder for the whole tournament",
+              after: "Folders by match day, ground or team",
+            },
+            {
+              before: "Players scroll through every match",
+              after: "A selfie finds each player’s photos",
+            },
+            {
+              before: "Photos sent to each team separately",
+              after: "One link for every team",
+            },
           ]}
         />
       </QuestionSection>
 
-      <Faq items={faqs[PATH]} title="Sports tournament photo sharing questions" />
+      <LeadCapture
+        title="Organising a tournament? Set up its photo gallery"
+        body="Share your tournament dates and format, and we’ll help set up match-day folders and the QR code, so players and parents find their photos after every game."
+        points={[
+          "Match-day folders set up together",
+          "A QR code for the ground and team groups",
+          "A reply within one working day",
+        ]}
+        event="Sports tournament"
+        role="Other"
+        submitLabel="Book my tournament demo"
+        tone="default"
+      />
+
+      <Faq items={faqs[PATH]} title="Sports tournament photo sharing questions" tone="panel" />
 
       <CtaBand
         title="Give every player their moment"
         body="Upload each match day once. Players and parents find their photos with a selfie."
       />
-    </>
+    </PhotoPool>
   );
 }

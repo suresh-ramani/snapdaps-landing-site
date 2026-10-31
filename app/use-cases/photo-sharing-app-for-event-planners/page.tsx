@@ -1,5 +1,9 @@
 import { CalendarDays, Camera, Megaphone, QrCode, Send, Share2 } from "lucide-react";
 import { Breadcrumbs } from "@/components/blog/breadcrumbs";
+import { EventPhotoHero } from "@/components/blocks/event-photo-hero";
+import { LeadCapture } from "@/components/blocks/lead-capture";
+import { UseCaseLead } from "@/components/blocks/use-case-lead";
+import { PlannerScene } from "@/components/mock/event-scenes";
 import { CtaBand, MiniCta } from "@/components/blocks/cta-band";
 import { Faq } from "@/components/blocks/faq";
 import { FeatureRows } from "@/components/blocks/feature-rows";
@@ -11,6 +15,8 @@ import { QuestionSection } from "@/components/blocks/question-section";
 import { PowerLine, Section } from "@/components/blocks/section";
 import { LogoCloud } from "@/components/blocks/logo-cloud";
 import { FaceMatchCard, PrivacyCard, SelfieSearchCard, ShareCard, UploadCard } from "@/components/product/cards";
+import { eventSamples } from "@/components/mock/photos";
+import { PhotoPool } from "@/components/mock/photo-pool";
 import { faqs } from "@/content/faqs";
 import { buildMetadata } from "@/lib/seo";
 
@@ -27,11 +33,15 @@ const TITLE = "Event Photo Sharing Platform with AI Face Search | Snapdaps";
 const DESCRIPTION =
   "Share event photos instantly with AI face search. Best event photo sharing platform for corporate events, weddings, and parties. Free photo sharing for events.";
 
-export const metadata = buildMetadata({ absoluteTitle: TITLE, description: DESCRIPTION, path: PATH });
+export const metadata = buildMetadata({
+  absoluteTitle: TITLE,
+  description: DESCRIPTION,
+  path: PATH,
+});
 
 export default function EventPlannersPage() {
   return (
-    <>
+    <PhotoPool {...eventSamples[PATH]}>
       {/* Section 1: Hero */}
       <Hero
         above={
@@ -57,6 +67,41 @@ export default function EventPlannersPage() {
             <PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-30" className="mt-2" />
           </>
         }
+        visual={
+          <EventPhotoHero
+            photo="venue-banquet"
+            alt="Banquet hall set with round tables, ready for an event"
+            chips={[
+              {
+                Icon: QrCode,
+                title: "QR at registration",
+                sub: "Guests scan on arrival",
+              },
+              {
+                Icon: Share2,
+                title: "Shared the same day",
+                sub: "Guests post their own photos",
+              },
+            ]}
+            qrLabel="Scan for event photos"
+            align="right"
+          />
+        }
+      />
+
+      <UseCaseLead
+        title="Snapdaps for event planners, in short"
+        summary="Snapdaps gives every guest at your event their own photos without you sending a single file. The photographer uploads once, faces are detected automatically, and you place one QR code where guests pause — registration, tables, the stage. Guests take a selfie, download their photos and share them, carrying your event further."
+        takeaways={[
+          "One QR code or link covers the whole event.",
+          "Guests see only the photos they’re in.",
+          "Folders by day, session or venue, for events of any size.",
+          "No app or login for guests.",
+        ]}
+        bestFor={["Event planners", "Wedding planners", "Event management companies"]}
+        scene={<PlannerScene />}
+        sceneCaption="Place the QR code where guests naturally pause, from registration to the exit."
+        tone="panel"
       />
 
       <LogoCloud />
@@ -99,8 +144,8 @@ export default function EventPlannersPage() {
                 <>
                   <p>Share your entire event photo gallery with guests using a simple QR code or secure web link.</p>
                   <p>
-                    No need to send photos individually or share multiple folders — one link gives access to the
-                    entire event.
+                    No need to send photos individually or share multiple folders — one link gives access to the entire
+                    event.
                   </p>
                 </>
               ),
@@ -166,9 +211,7 @@ export default function EventPlannersPage() {
         tone="panel"
         title="Everything you need for smart event photo sharing"
         intro={
-          <p>
-            Deliver a seamless, AI-powered photo experience for every guest — before, during, and after your event.
-          </p>
+          <p>Deliver a seamless, AI-powered photo experience for every guest — before, during, and after your event.</p>
         }
       >
         <OfferGrid
@@ -242,14 +285,19 @@ export default function EventPlannersPage() {
       >
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_auto]">
           <ul className="grid gap-3 sm:grid-cols-2">
-            {["Registration desk", "Table cards", "Stage screens", "Photo backdrop", "Printed invitations", "Thank-you message"].map(
-              (place) => (
-                <li key={place} className="flex items-center gap-3 rounded-xl bg-muted/50 px-4 py-3 ring-1 ring-border">
-                  <QrCode className="size-4 shrink-0 text-primary" aria-hidden="true" />
-                  {place}
-                </li>
-              ),
-            )}
+            {[
+              "Registration desk",
+              "Table cards",
+              "Stage screens",
+              "Photo backdrop",
+              "Printed invitations",
+              "Thank-you message",
+            ].map((place) => (
+              <li key={place} className="flex items-center gap-3 rounded-xl bg-muted/50 px-4 py-3 ring-1 ring-border">
+                <QrCode className="size-4 shrink-0 text-primary" aria-hidden="true" />
+                {place}
+              </li>
+            ))}
           </ul>
           <div aria-hidden="true" data-nosnippet>
             <ShareCard className="mx-auto w-72" />
@@ -283,13 +331,27 @@ export default function EventPlannersPage() {
         />
       </QuestionSection>
 
-      <Faq items={faqs[PATH]} title="Questions event planners ask" tone="panel" />
+      <LeadCapture
+        title="Plan photo delivery into your next event"
+        body="Tell us about your next event and we’ll show you where Snapdaps fits — QR placement, folders and how guests get their photos."
+        points={[
+          "A walkthrough built around your event type",
+          "Help creating the event and its QR code",
+          "A reply within one working day",
+        ]}
+        event="Event planning"
+        role="Event planner"
+        submitLabel="Book my planner demo"
+        tone="panel"
+      />
+
+      <Faq items={faqs[PATH]} title="Questions event planners ask" />
 
       {/* Section 4: CTA */}
       <CtaBand
         title="AI-powered photo sharing app for event planners"
         body="Be among the first event planners in the world to offer AI-powered photo sharing. Upload once, share the event. Give your guests instant access to their photos — and an experience they’ll remember."
       />
-    </>
+    </PhotoPool>
   );
 }

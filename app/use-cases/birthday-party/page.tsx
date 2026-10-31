@@ -1,5 +1,9 @@
-import { Images, ScanFace, Send } from "lucide-react";
+import { Cake, Images, Lock, ScanFace, Send } from "lucide-react";
 import { Breadcrumbs } from "@/components/blog/breadcrumbs";
+import { EventPhotoHero } from "@/components/blocks/event-photo-hero";
+import { LeadCapture } from "@/components/blocks/lead-capture";
+import { UseCaseLead } from "@/components/blocks/use-case-lead";
+import { BirthdayScene } from "@/components/mock/event-scenes";
 import { ComparisonRows } from "@/components/blocks/comparison-rows";
 import { CtaBand } from "@/components/blocks/cta-band";
 import { Faq } from "@/components/blocks/faq";
@@ -11,6 +15,8 @@ import { PageByline } from "@/components/blocks/page-byline";
 import { QuestionSection } from "@/components/blocks/question-section";
 import { Section } from "@/components/blocks/section";
 import { Story } from "@/components/blocks/story";
+import { eventSamples } from "@/components/mock/photos";
+import { PhotoPool } from "@/components/mock/photo-pool";
 import { ChatMock } from "@/components/mock/screens";
 import { faqs } from "@/content/faqs";
 import { isIndexed } from "@/content/routes";
@@ -30,7 +36,12 @@ const TITLE = "Birthday Party Photo Sharing App with AI Face Search";
 const DESCRIPTION =
   "Share birthday party photos with every guest the same day. Guests scan a QR code, upload a selfie and get only their own photos — no app, no login, no group chat.";
 
-export const metadata = buildMetadata({ title: TITLE, description: DESCRIPTION, path: PATH, noindex: !isIndexed(PATH) });
+export const metadata = buildMetadata({
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH,
+  noindex: !isIndexed(PATH),
+});
 
 const birthdaySteps: WorkflowStep[] = [
   {
@@ -79,7 +90,7 @@ const birthdaySteps: WorkflowStep[] = [
 
 export default function BirthdayPartyPage() {
   return (
-    <>
+    <PhotoPool {...eventSamples[PATH]}>
       <Hero
         above={
           <Breadcrumbs
@@ -99,6 +110,41 @@ export default function BirthdayPartyPage() {
           </p>
         }
         note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-30" />}
+        visual={
+          <EventPhotoHero
+            photo="birthday-cake"
+            alt="Rainbow birthday cake with lit candles"
+            chips={[
+              {
+                Icon: Cake,
+                title: "Cake-cutting photos",
+                sub: "Found with a selfie",
+              },
+              {
+                Icon: Lock,
+                title: "Just your child’s photos",
+                sub: "Not the whole album",
+              },
+            ]}
+            qrLabel="Scan for party photos"
+            align="right"
+          />
+        }
+      />
+
+      <UseCaseLead
+        title="Birthday party photo sharing, in short"
+        summary="With Snapdaps, a birthday party’s photos reach every guest without flooding the family WhatsApp group. Upload the photos into one party event, share one link or the QR code on the cake table, and each guest — or each child’s parent — uploads a selfie to get just the photos they need."
+        takeaways={[
+          "One link in the group instead of hundreds of photos.",
+          "Parents find their child’s photos with a selfie.",
+          "Folders for cake cutting, games and dance.",
+          "Nothing to install, for grandparents or friends.",
+        ]}
+        bestFor={["Parents and hosts", "Party photographers", "Party planners"]}
+        scene={<BirthdayScene />}
+        sceneCaption="A QR standee by the cake: guests scan, take a selfie and get their party photos."
+        tone="default"
       />
 
       <Story
@@ -188,9 +234,18 @@ export default function BirthdayPartyPage() {
         <ComparisonRows
           beforeLabel="Photos in the group chat"
           rows={[
-            { before: "Hundreds of photos dropped into the group", after: "One link in the group" },
-            { before: "Everyone scrolls to find themselves", after: "A selfie finds each guest’s photos" },
-            { before: "Phones fill up with everyone’s photos", after: "Guests download only their own" },
+            {
+              before: "Hundreds of photos dropped into the group",
+              after: "One link in the group",
+            },
+            {
+              before: "Everyone scrolls to find themselves",
+              after: "A selfie finds each guest’s photos",
+            },
+            {
+              before: "Phones fill up with everyone’s photos",
+              after: "Guests download only their own",
+            },
           ]}
         />
       </QuestionSection>
@@ -222,12 +277,26 @@ export default function BirthdayPartyPage() {
         />
       </QuestionSection>
 
-      <Faq items={faqs[PATH]} title="Birthday photo sharing questions" />
+      <LeadCapture
+        title="Throwing a party soon? Get its photos sorted"
+        body="Tell us the date and we’ll help you set up the party event and its QR code, so every guest gets their photos the same day."
+        points={[
+          "Set up the party event together",
+          "A printable QR code for the venue",
+          "A reply within one working day",
+        ]}
+        event="Birthday party"
+        role="Couple or host"
+        submitLabel="Help me set up my party"
+        tone="default"
+      />
+
+      <Faq items={faqs[PATH]} title="Birthday photo sharing questions" tone="panel" />
 
       <CtaBand
         title="Give every party guest their photos the same day"
         body="Upload once. Share one link. Let every guest find their own photos."
       />
-    </>
+    </PhotoPool>
   );
 }

@@ -50,7 +50,11 @@ export default async function CategoryPage({ params, searchParams }: Props) {
       </header>
       <BlogNav categories={categories} active={slug} />
       <div className="mt-12">
-        <PostGrid posts={list.posts} emptyText={`No posts in ${category.name} yet.`} />
+        <PostGrid posts={list.posts} empty={{
+            title: `No posts in ${category.name} yet`,
+            description: "New posts in this category will appear here.",
+            action: { label: "Browse all posts", href: "/blogs" },
+          }} />
       </div>
       <Pagination basePath={`/blogs/category/${slug}`} pageInfo={list.pageInfo} />
     </div>

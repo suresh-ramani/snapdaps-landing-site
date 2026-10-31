@@ -1,5 +1,9 @@
-import { Gift, Mail, Signpost } from "lucide-react";
+import { Gift, Mail, ScanFace, Signpost, Users } from "lucide-react";
 import { Breadcrumbs } from "@/components/blog/breadcrumbs";
+import { EventPhotoHero } from "@/components/blocks/event-photo-hero";
+import { LeadCapture } from "@/components/blocks/lead-capture";
+import { UseCaseLead } from "@/components/blocks/use-case-lead";
+import { WeddingScene } from "@/components/mock/event-scenes";
 import { ComparisonRows } from "@/components/blocks/comparison-rows";
 import { CtaBand } from "@/components/blocks/cta-band";
 import { Faq } from "@/components/blocks/faq";
@@ -12,6 +16,8 @@ import { QuestionSection } from "@/components/blocks/question-section";
 import { Section } from "@/components/blocks/section";
 import { Story } from "@/components/blocks/story";
 import { LogoCloud } from "@/components/blocks/logo-cloud";
+import { eventSamples } from "@/components/mock/photos";
+import { PhotoPool } from "@/components/mock/photo-pool";
 import { ChatMock } from "@/components/mock/screens";
 import { faqs } from "@/content/faqs";
 import { buildMetadata } from "@/lib/seo";
@@ -31,7 +37,11 @@ const TITLE = "Wedding Photo Sharing App with AI Face Search | Snapdaps";
 const DESCRIPTION =
   "Share wedding photos by QR Code and secure link with guests. Guests can find their photos in seconds with AI face recognition by uploading a selfie.";
 
-export const metadata = buildMetadata({ absoluteTitle: TITLE, description: DESCRIPTION, path: PATH });
+export const metadata = buildMetadata({
+  absoluteTitle: TITLE,
+  description: DESCRIPTION,
+  path: PATH,
+});
 
 /** The five steps, told for a wedding (same keys, so the product visuals still match). */
 const weddingSteps: WorkflowStep[] = [
@@ -79,17 +89,13 @@ const weddingSteps: WorkflowStep[] = [
     key: "selfie",
     title: "Guests find themselves with a selfie",
     subtitle: "Every guest — from cousins to grandparents — finds their wedding photos in seconds.",
-    points: [
-      "One selfie searches every function.",
-      "No app or login to set up.",
-      "View and download on their phone.",
-    ],
+    points: ["One selfie searches every function.", "No app or login to set up.", "View and download on their phone."],
   },
 ];
 
 export default function WeddingPage() {
   return (
-    <>
+    <PhotoPool {...eventSamples[PATH]}>
       {/* Section 1: Hero */}
       <Hero
         above={
@@ -103,6 +109,41 @@ export default function WeddingPage() {
         title="World’s Best Wedding Photo Sharing App with AI Face Search"
         subtitle="Upload wedding photos once and let guests find their photos in a second using AI face recognition — just by uploading a selfie. No waiting, no manual searching."
         note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-30" />}
+        visual={
+          <EventPhotoHero
+            photo="wedding-guest-phone"
+            alt="Wedding guest in a red sari taking a photo with her phone"
+            chips={[
+              {
+                Icon: ScanFace,
+                title: "Found in every function",
+                sub: "Haldi to Reception",
+              },
+              {
+                Icon: Users,
+                title: "One link for the family",
+                sub: "Every relative, their own photos",
+              },
+            ]}
+            qrLabel="Welcome board QR"
+            align="left"
+          />
+        }
+      />
+
+      <UseCaseLead
+        title="Wedding photo sharing with Snapdaps, in short"
+        summary="Snapdaps turns the whole wedding — Haldi, Mehndi, Sangeet, Pheras and Reception — into one AI photo gallery. The photographer uploads each function into its folder, and guests scan the QR code on the welcome board or open the link in the family group. One selfie finds them across every function."
+        takeaways={[
+          "A folder for each function, one gallery for the wedding.",
+          "Relatives of every age get photos without an app or login.",
+          "Guests see only their own photos — family candids stay private.",
+          "Relatives abroad get theirs too: the link opens anywhere.",
+        ]}
+        bestFor={["Couples and families", "Wedding photographers", "Wedding planners"]}
+        scene={<WeddingScene />}
+        sceneCaption="The welcome board QR code leads every guest from the mandap to their own photos."
+        tone="default"
       />
 
       <LogoCloud />
@@ -138,9 +179,7 @@ export default function WeddingPage() {
               <br />
               The thousands of memories captured in photos.
             </p>
-            <p>
-              Now the couple is finally back home. Still overwhelmed. Still reliving every moment.
-            </p>
+            <p>Now the couple is finally back home. Still overwhelmed. Still reliving every moment.</p>
             <p>And then the calls and messages begin…</p>
             <p className="space-y-2">
               <span className="quote">“Send us the wedding photos!”</span>
@@ -182,7 +221,9 @@ export default function WeddingPage() {
         id="features"
         tone="panel"
         title="Everything you need to share wedding photos"
-        intro={<p>Snapdaps turns the wedding album into an AI photo gallery that every guest can search with a selfie.</p>}
+        intro={
+          <p>Snapdaps turns the wedding album into an AI photo gallery that every guest can search with a selfie.</p>
+        }
       >
         <FeatureBento
           items={[
@@ -254,19 +295,39 @@ export default function WeddingPage() {
       >
         <ComparisonRows
           rows={[
-            { before: "A pendrive couriered overseas", after: "One link that opens anywhere" },
-            { before: "Photos forwarded in group chats, batch by batch", after: "Each relative downloads their own photos" },
-            { before: "Asking someone back home to find your photos", after: "A selfie finds them for you" },
+            {
+              before: "A pendrive couriered overseas",
+              after: "One link that opens anywhere",
+            },
+            {
+              before: "Photos forwarded in group chats, batch by batch",
+              after: "Each relative downloads their own photos",
+            },
+            {
+              before: "Asking someone back home to find your photos",
+              after: "A selfie finds them for you",
+            },
           ]}
         />
       </QuestionSection>
 
-      <Faq items={faqs[PATH]} title="Wedding photo sharing questions" />
-
-      <CtaBand
-        title="Give every wedding guest their photos instantly"
-        body="Upload once. Let AI do the rest."
+      <LeadCapture
+        title="Planning a wedding? Set up its photo sharing with us"
+        body="Whether you’re the couple, the family or the photographer, we’ll show you how guests will get their wedding photos — and help set up the event before the first function."
+        points={[
+          "See the guest experience on your phone",
+          "Folders for every function, set up together",
+          "A reply within one working day",
+        ]}
+        event="Wedding"
+        role="Couple or host"
+        submitLabel="Book my wedding demo"
+        tone="default"
       />
-    </>
+
+      <Faq items={faqs[PATH]} title="Wedding photo sharing questions" tone="panel" />
+
+      <CtaBand title="Give every wedding guest their photos instantly" body="Upload once. Let AI do the rest." />
+    </PhotoPool>
   );
 }

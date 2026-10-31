@@ -91,6 +91,7 @@ export function organizationLd() {
       availableLanguage: ["English", "Hindi"],
     },
     founder: founders.map((f) => ({ "@type": "Person", name: f.name })),
+    parentOrganization: { "@type": "Organization", name: site.company.name, url: "https://www.cygner.net/" },
     // Social profiles link the brand entity for search and AI engines — filled from content/site.ts.
     ...(sameAs.length ? { sameAs } : {}),
   };

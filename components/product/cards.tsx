@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Bell,
   CircleCheckBig,
@@ -26,6 +28,7 @@ import {
   ItemTitle,
 } from "@/components/ui/item";
 import { Progress } from "@/components/ui/progress";
+import { useEventSample } from "@/components/mock/photo-pool";
 import { Face, PhotoTile, QrPattern } from "@/components/mock/primitives";
 import { cn } from "@/lib/utils";
 
@@ -50,11 +53,12 @@ function Static({ className, children }: { className?: string; children: React.R
 
 /* --------------------------------------------------------------------------- */
 export function EventOverviewCard({ className }: { className?: string }) {
+  const { name } = useEventSample();
   return (
     <Static className={className}>
       <Card className="gap-5">
         <CardHeader>
-          <CardTitle>Riya & Arjun&apos;s wedding</CardTitle>
+          <CardTitle>{name}</CardTitle>
           <CardDescription>Jaipur · 14 Dec · 6 folders</CardDescription>
           <CardAction>
             <Badge variant="secondary">Shared</Badge>
@@ -103,10 +107,11 @@ export function EventOverviewCard({ className }: { className?: string }) {
 
 /* --------------------------------------------------------------------------- */
 export function UploadCard({ className }: { className?: string }) {
+  const sample = useEventSample();
   const folders = [
-    { name: "Wedding ceremony", count: "1,204 photos", pct: 100 },
-    { name: "Sangeet", count: "860 photos", pct: 72 },
-    { name: "Reception", count: "1,530 photos", pct: 34 },
+    { name: sample.folders[2], count: "1,204 photos", pct: 100 },
+    { name: sample.folders[1], count: "860 photos", pct: 72 },
+    { name: sample.folders[3], count: "1,530 photos", pct: 34 },
   ];
   return (
     <Static className={className}>
@@ -119,7 +124,7 @@ export function UploadCard({ className }: { className?: string }) {
           <div className="flex flex-col items-center rounded-lg border border-dashed px-4 py-5 text-center">
             <UploadCloud className="size-6 text-muted-foreground" />
             <p className="mt-2 text-sm font-medium">Drag & drop photos here</p>
-            <p className="text-xs text-muted-foreground">JPG, PNG, HEIC · no size limit</p>
+            <p className="text-xs text-muted-foreground">Thousands of photos at once</p>
           </div>
           <ItemGroup className="gap-2">
             {folders.map((f) => (
@@ -315,7 +320,7 @@ export function PrivacyCard({ className }: { className?: string }) {
 
 /* --------------------------------------------------------------------------- */
 export function GalleryCard({ className }: { className?: string }) {
-  const folders = ["All", "Haldi", "Sangeet", "Wedding", "Reception"];
+  const folders = ["All", ...useEventSample().folders];
   return (
     <Static className={className}>
       <Card className="gap-4">
@@ -375,6 +380,7 @@ export function SelfieSearchCard({ className }: { className?: string }) {
 
 /* --------------------------------------------------------------------------- */
 export function CreateEventCard({ className }: { className?: string }) {
+  const sample = useEventSample();
   return (
     <Static className={className}>
       <Card className="gap-4">
@@ -385,12 +391,12 @@ export function CreateEventCard({ className }: { className?: string }) {
         <CardContent className="space-y-4">
           <div className="space-y-1.5">
             <p className="text-xs font-medium">Event name</p>
-            <div className="rounded-md border px-3 py-2 text-sm">Riya & Arjun&apos;s wedding</div>
+            <div className="rounded-md border px-3 py-2 text-sm">{sample.name}</div>
           </div>
           <div className="space-y-1.5">
             <p className="text-xs font-medium">Folders</p>
             <div className="flex flex-wrap gap-1.5">
-              {["Haldi", "Sangeet", "Wedding", "Reception"].map((f) => (
+              {sample.folders.map((f) => (
                 <Badge key={f} variant="secondary" className="gap-1 font-normal">
                   <FolderOpen /> {f}
                 </Badge>

@@ -1,5 +1,9 @@
 import { Sparkles, Trophy, Users } from "lucide-react";
 import { Breadcrumbs } from "@/components/blog/breadcrumbs";
+import { EventPhotoHero } from "@/components/blocks/event-photo-hero";
+import { LeadCapture } from "@/components/blocks/lead-capture";
+import { UseCaseLead } from "@/components/blocks/use-case-lead";
+import { AwardScene } from "@/components/mock/event-scenes";
 import { ComparisonRows } from "@/components/blocks/comparison-rows";
 import { CtaBand } from "@/components/blocks/cta-band";
 import { Faq } from "@/components/blocks/faq";
@@ -11,6 +15,8 @@ import { PageByline } from "@/components/blocks/page-byline";
 import { QuestionSection } from "@/components/blocks/question-section";
 import { Section } from "@/components/blocks/section";
 import { Story } from "@/components/blocks/story";
+import { eventSamples } from "@/components/mock/photos";
+import { PhotoPool } from "@/components/mock/photo-pool";
 import { ChatMock } from "@/components/mock/screens";
 import { faqs } from "@/content/faqs";
 import { isIndexed } from "@/content/routes";
@@ -30,7 +36,12 @@ const TITLE = "Award Ceremony Photo Sharing with AI Face Search";
 const DESCRIPTION =
   "Winners get their stage photos as soon as they're uploaded. Guests scan a QR code, upload a selfie and download every photo they're in — no app, no login.";
 
-export const metadata = buildMetadata({ title: TITLE, description: DESCRIPTION, path: PATH, noindex: !isIndexed(PATH) });
+export const metadata = buildMetadata({
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH,
+  noindex: !isIndexed(PATH),
+});
 
 const awardSteps: WorkflowStep[] = [
   {
@@ -47,7 +58,11 @@ const awardSteps: WorkflowStep[] = [
     key: "upload",
     title: "Upload the night’s photos",
     subtitle: "Add each category’s photos from a computer or Google Drive.",
-    points: ["Bulk upload thousands of photos.", "Each category into its own folder.", "Compress the photos if you want."],
+    points: [
+      "Bulk upload thousands of photos.",
+      "Each category into its own folder.",
+      "Compress the photos if you want.",
+    ],
   },
   {
     key: "detect",
@@ -75,7 +90,7 @@ const awardSteps: WorkflowStep[] = [
 
 export default function AwardCeremonyPage() {
   return (
-    <>
+    <PhotoPool {...eventSamples[PATH]}>
       <Hero
         above={
           <Breadcrumbs
@@ -94,6 +109,41 @@ export default function AwardCeremonyPage() {
           </p>
         }
         note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-30" />}
+        visual={
+          <EventPhotoHero
+            photo="award-trophies"
+            alt="Gold and silver trophies lined up on a table"
+            chips={[
+              {
+                Icon: Trophy,
+                title: "Stage moment found",
+                sub: "The trophy handover",
+              },
+              {
+                Icon: Users,
+                title: "Team table photos",
+                sub: "For everyone in them",
+              },
+            ]}
+            qrLabel="Big screen QR"
+            align="right"
+          />
+        }
+      />
+
+      <UseCaseLead
+        title="Award ceremony photo sharing, in short"
+        summary="Snapdaps lets every winner find their stage photos without anyone sorting the ceremony album. Upload the night’s photos into folders by award category, show the QR code on the big screen, and each winner, nominee or guest uploads a selfie to download the trophy handover, red-carpet and team photos they appear in."
+        takeaways={[
+          "Folders by award category, segment or venue area.",
+          "One QR code on the big screen and table cards.",
+          "Winners forward the link to family who weren’t there.",
+          "Each guest sees only their own photos.",
+        ]}
+        bestFor={["Award organisers", "Corporate event teams", "Event photographers"]}
+        scene={<AwardScene />}
+        sceneCaption="From the big-screen QR code to the winner’s phone, with their stage moment."
+        tone="default"
       />
 
       <Story
@@ -176,9 +226,21 @@ export default function AwardCeremonyPage() {
       >
         <InfoCards
           items={[
-            { Icon: Trophy, title: "On stage", body: "The announcement, the handshake and the trophy — found from one selfie." },
-            { Icon: Sparkles, title: "On the red carpet", body: "Arrival photos land in the same search, even from a separate folder." },
-            { Icon: Users, title: "With the team", body: "Table and group photos appear too, for everyone who’s in them." },
+            {
+              Icon: Trophy,
+              title: "On stage",
+              body: "The announcement, the handshake and the trophy — found from one selfie.",
+            },
+            {
+              Icon: Sparkles,
+              title: "On the red carpet",
+              body: "Arrival photos land in the same search, even from a separate folder.",
+            },
+            {
+              Icon: Users,
+              title: "With the team",
+              body: "Table and group photos appear too, for everyone who’s in them.",
+            },
           ]}
         />
       </QuestionSection>
@@ -191,19 +253,42 @@ export default function AwardCeremonyPage() {
       >
         <ComparisonRows
           rows={[
-            { before: "Family waits for someone to forward photos", after: "Winners forward one link" },
-            { before: "The stage moment lost in a long album", after: "A selfie finds each person’s photos" },
-            { before: "Shared weeks after the ceremony", after: "Shared as soon as it’s uploaded" },
+            {
+              before: "Family waits for someone to forward photos",
+              after: "Winners forward one link",
+            },
+            {
+              before: "The stage moment lost in a long album",
+              after: "A selfie finds each person’s photos",
+            },
+            {
+              before: "Shared weeks after the ceremony",
+              after: "Shared as soon as it’s uploaded",
+            },
           ]}
         />
       </QuestionSection>
 
-      <Faq items={faqs[PATH]} title="Award ceremony photo sharing questions" />
+      <LeadCapture
+        title="Hosting an awards night? Plan the photos with us"
+        body="Tell us about your ceremony and we’ll show you how winners will get their stage photos — and help set up category folders and the QR code."
+        points={[
+          "See a winner’s experience on your phone",
+          "Category folders set up together",
+          "A reply within one working day",
+        ]}
+        event="Award ceremony"
+        role="Event planner"
+        submitLabel="Book my awards demo"
+        tone="default"
+      />
+
+      <Faq items={faqs[PATH]} title="Award ceremony photo sharing questions" tone="panel" />
 
       <CtaBand
         title="Let every winner share their moment"
         body="Upload the ceremony once. Winners find their photos with a selfie."
       />
-    </>
+    </PhotoPool>
   );
 }

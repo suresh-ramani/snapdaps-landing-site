@@ -24,7 +24,7 @@ export function CtaBand({
   trustLine?: readonly string[];
 }) {
   return (
-    <section aria-labelledby="cta-title" className="section-y">
+    <section aria-labelledby="cta-title" data-tone="default" className="section-y">
       <div className="container-page">
         <div className="relative isolate overflow-hidden ink-card px-6 py-14 md:px-12 md:py-16 lg:px-16">
           {/* Logo-colour glows + a faint grid */}

@@ -109,7 +109,7 @@ export default function AboutPage() {
         </ul>
       </Section>
 
-      <LogoCloud className="pt-0" />
+      <LogoCloud />
       <CtaBand title="Start delivering photos the smart way" body="Upload once. Let AI do the rest." />
     </>
   );

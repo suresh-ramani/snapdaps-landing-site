@@ -5,6 +5,7 @@ import { connection } from "next/server";
 import Link from "next/link";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SiteHeader } from "@/components/layout/site-header";
+import { FloatingActions } from "@/components/layout/floating-actions";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SmoothAnchors } from "@/components/layout/smooth-anchors";
 import { MotionProvider } from "@/components/motion/reveal";
@@ -58,6 +59,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en" suppressHydrationWarning className={`${body.variable} ${devanagari.variable}`}>
       <body className="min-h-dvh flex flex-col">
+        <span id="top" tabIndex={-1} className="outline-none" />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
@@ -79,6 +81,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               {children}
             </main>
             <SiteFooter />
+            <FloatingActions />
           </MotionProvider>
           <SmoothAnchors />
         </ThemeProvider>
