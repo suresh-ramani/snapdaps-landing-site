@@ -335,12 +335,17 @@ export const faqs: Record<string, Faq[]> = {
       a: "Yes. The Free plan lets you try Snapdaps on your first events with 10 GB of storage, 2 events and unlimited AI face search — no credit card needed.",
     },
     {
+      q: "Is there a free trial?",
+      // Trial length from site.trialDays (the pricing cards prefer the plans API's trialDays when set).
+      a: `Yes. Every paid plan comes with a free ${site.trialDays}-day trial, so you can try it on a real event. Pick a plan on this page to start your trial in the Snapdaps app.`,
+    },
+    {
       q: "What's the difference between the paid plans?",
       a: "Storage and the largest photo you can upload. Every paid plan includes unlimited events, unlimited face search, original-quality photos and HEIC support; higher plans add more storage and bigger photo uploads. The comparison table lists each plan's limits.",
     },
     {
       q: "How much do I save with yearly billing?",
-      a: "Yearly billing costs less than paying monthly for twelve months. The badge next to the Monthly / Yearly switch shows the best saving, and each plan shows its yearly price and what it works out to per month.",
+      a: "Yearly billing costs less than paying monthly for twelve months. The Yearly button at the top of this page shows the best saving, and each plan shows its yearly price and what it works out to per month.",
     },
     // Billing answers below follow the Refund and Cancellation Policy (content/legal/refund-policy.ts,
     // last updated 15 Jul 2026) — keep them in step when it changes.

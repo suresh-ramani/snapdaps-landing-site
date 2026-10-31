@@ -1,5 +1,6 @@
 import {
   CalendarX,
+  Camera,
   Clock,
   Folder,
   Frown,
@@ -242,30 +243,40 @@ function StarSvg({ filled, className }: { filled: boolean; className?: string })
 
 function LostReferrals() {
   return (
-    <div className="rounded-2xl bg-card p-6 ring-1 ring-border">
-      <div className="flex items-center gap-4">
-        <span className="flex size-16 shrink-0 items-center justify-center rounded-full bg-before text-before-ink">
-          <Frown className="size-9" strokeWidth={1.6} />
+    <div className="rounded-2xl bg-card p-5 ring-1 ring-border">
+      {/* A client review of the studio's business ("Your Studio" = the photographer, as in BrandedApp). */}
+      <div className="flex items-center gap-3 border-b pb-3">
+        <span className="icon-tile size-10 shrink-0">
+          <Camera className="size-5" />
+        </span>
+        <div className="min-w-0">
+          <p className="text-sm font-semibold leading-tight">Your Studio</p>
+          <p className="text-xs text-muted-foreground">Photography studio · Client review</p>
+        </div>
+      </div>
+      <div className="mt-3 flex items-center gap-4">
+        <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-before text-before-ink">
+          <Frown className="size-7" strokeWidth={1.6} />
         </span>
         <div>
           <div className="flex gap-1">
             {[0, 1, 2, 3, 4].map((i) => (
-              <StarSvg key={i} filled={i < 2} className="size-7" />
+              <StarSvg key={i} filled={i < 2} className="size-6" />
             ))}
           </div>
-          <p className="mt-1 text-sm text-muted-foreground">“Waited 3 weeks 😞”</p>
+          <p className="mt-1 text-sm text-muted-foreground">“Waited 3 weeks for our photos 😞”</p>
         </div>
       </div>
 
       {/* Referrals falling off */}
-      <div className="mt-6 rounded-xl bg-muted/60 p-4">
+      <div className="mt-4 rounded-xl bg-muted/60 p-3">
         <div className="flex items-center justify-between text-xs font-semibold">
           <span className="flex items-center gap-1.5">
             <TrendingDown className="size-4 text-before-ink" /> Referrals
           </span>
           <span className="text-before-ink">↓</span>
         </div>
-        <svg viewBox="0 0 240 70" className="mt-2 w-full" aria-hidden="true">
+        <svg viewBox="0 0 240 70" preserveAspectRatio="none" className="mt-2 h-12 w-full" aria-hidden="true">
           <defs>
             <linearGradient id="ref-fill" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0" stopColor="var(--before-ink)" stopOpacity="0.25" />
@@ -279,8 +290,8 @@ function LostReferrals() {
             stroke="var(--before-ink)"
             strokeWidth="2.5"
             strokeLinecap="round"
+            vectorEffect="non-scaling-stroke"
           />
-          <circle cx="240" cy="64" r="4" fill="var(--before-ink)" />
         </svg>
       </div>
     </div>

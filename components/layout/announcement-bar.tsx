@@ -10,7 +10,8 @@ import { ANNOUNCEMENT_KEY } from "./announcement-key";
 
 const styles: Record<Announcement["style"], { bar: string; Icon: typeof Megaphone }> = {
   info: { bar: "bg-muted text-foreground border-b", Icon: Megaphone },
-  offer: { bar: "bg-primary text-primary-foreground", Icon: Tag },
+  // Logo blue + white in both themes: dark mode's lighter --primary would need black text, which reads poorly.
+  offer: { bar: "bg-brand-blue text-white", Icon: Tag },
   launch: { bar: "bg-foreground text-background", Icon: Rocket },
 };
 
@@ -107,7 +108,7 @@ export function AnnouncementPill({ announcement: a }: { announcement: Announceme
 }
 
 const cardStyles: Record<Announcement["style"], { label: string; card: string; tag: string; Icon: typeof Megaphone }> = {
-  offer: { label: "Offer", card: "bg-primary/5 ring-1 ring-primary/25", tag: "bg-primary text-primary-foreground", Icon: Tag },
+  offer: { label: "Offer", card: "bg-primary/5 ring-1 ring-primary/25", tag: "bg-brand-blue text-white", Icon: Tag },
   launch: { label: "New", card: "surface", tag: "bg-brand-gradient text-white", Icon: Rocket },
   info: { label: "Update", card: "surface", tag: "bg-muted text-foreground ring-1 ring-border", Icon: Megaphone },
 };

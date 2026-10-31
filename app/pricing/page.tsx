@@ -9,6 +9,7 @@ import { PlanComparison } from "@/components/blocks/plan-comparison";
 import { PricingPlans, type PlanCard } from "@/components/blocks/pricing-plans";
 import { Section } from "@/components/blocks/section";
 import { StatsBand } from "@/components/blocks/stats-band";
+import { VideoTestimonials, hasVideoTestimonials } from "@/components/blocks/video-testimonials";
 import { JsonLd } from "@/components/json-ld";
 import { faqs } from "@/content/faqs";
 import { comingSoonPlanFeatures, paidPlanFeatures, planTaglines, site } from "@/content/site";
@@ -58,7 +59,8 @@ function toCard(p: Plan): PlanCard {
         }
       : undefined,
     href: planSignupHref(p.monthly?.puid ?? p.yearly?.puid),
-    cta: p.free ? "Start free" : `Get started with ${p.name}`,
+    // The free trial is named only on the button.
+    cta: p.free ? "Start free" : p.trialDays > 0 ? `Try ${p.name} free for ${p.trialDays} days` : `Get started with ${p.name}`,
   };
 }
 
@@ -128,8 +130,15 @@ export default async function PricingPage() {
       </Section>
 
       {plans && (
-        <Section id="compare" title="Compare plans" intro={<p>Every plan side by side — prices, storage and limits.</p>}>
+        <Section id="compare" title="Compare plans" intro={<p>Every plan side by side — storage, prices and limits.</p>}>
           <PlanComparison plans={plans} />
+        </Section>
+      )}
+
+      {/* Real customer videos only — the band is skipped on the live site until there are some. */}
+      {hasVideoTestimonials() && (
+        <Section id="testimonials">
+          <VideoTestimonials headingAs="h2" />
         </Section>
       )}
 

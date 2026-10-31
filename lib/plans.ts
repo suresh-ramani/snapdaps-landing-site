@@ -34,6 +34,8 @@ type ApiPlan = {
   isActive: boolean;
   isPopular: boolean;
   sortOrder: number;
+  /** Free trial days the app gives on this plan (0 = none set). */
+  trialDays: number;
   planFeatures: ApiFeature[];
 };
 
@@ -58,6 +60,8 @@ export type Plan = {
   monthly?: PlanPrice;
   yearly?: PlanPrice;
   limits: PlanLimits;
+  /** Free trial length in days on paid plans (0 on Free): the API's `trialDays`, else `site.trialDays`. */
+  trialDays: number;
 };
 
 const num = (s: string) => Math.round(Number.parseFloat(s) || 0);
@@ -122,6 +126,7 @@ export async function getPlans(): Promise<Plan[] | null> {
           monthly: price(monthly) ?? (free ? { regular: 0, price: 0, puid: main.puid } : undefined),
           yearly: price(yearly) ?? (free ? { regular: 0, price: 0, puid: main.puid } : undefined),
           limits: limitsOf(main.planFeatures),
+          trialDays: free ? 0 : Math.max(0, ...group.map((p) => Number(p.trialDays) || 0)) || site.trialDays,
         };
       });
   } catch (err) {

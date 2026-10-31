@@ -25,15 +25,24 @@ import { VideoPlayer } from "./video-player";
  * - Hidden on the live site while the list is empty; `npm run dev` shows placeholder slots.
  * - Entries with `placeholder: true` (layout previews) render only in dev and never get schema.
  *
- * Renders an h3 + grid, meant to sit inside a <Section> (SocialProof uses it).
+ * Renders a heading (h3 by default, `headingAs="h2"` as a page section) + grid, inside a <Section>
+ * (SocialProof uses it; /pricing gives it its own band, skipped via `hasVideoTestimonials()`).
  */
+/** True when the testimonials block would render (real videos, or dev placeholders) — so a page can skip its band. */
+export function hasVideoTestimonials(videos: VideoTestimonial[] = videoTestimonials) {
+  return process.env.NODE_ENV !== "production" || videos.some((v) => !v.placeholder);
+}
+
 export function VideoTestimonials({
   videos = videoTestimonials,
   heading = videoTestimonialsHeading,
+  headingAs: Heading = "h3",
   className,
 }: {
   videos?: VideoTestimonial[];
   heading?: string;
+  /** h2 when the block is a page section of its own (e.g. /pricing), h3 inside SocialProof. */
+  headingAs?: "h2" | "h3";
   className?: string;
 }) {
   const isDev = process.env.NODE_ENV !== "production";
@@ -44,9 +53,15 @@ export function VideoTestimonials({
 
   return (
     <div className={cn("text-left", className)}>
-      <h3 id="video-testimonials-title" className="text-center text-xl font-semibold tracking-tight md:text-2xl">
+      <Heading
+        id="video-testimonials-title"
+        className={cn(
+          "text-center font-semibold tracking-tight",
+          Heading === "h2" ? "text-3xl md:text-[2.6rem] md:leading-[1.1]" : "text-xl md:text-2xl",
+        )}
+      >
         {heading}
-      </h3>
+      </Heading>
 
       {!videos.length ? (
         <Placeholder />

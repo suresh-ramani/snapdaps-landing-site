@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
-import { Check } from "lucide-react";
+import { Check, HardDrive } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -24,7 +24,7 @@ export type PlanCard = {
 /**
  * Pricing that fits the first screen: a Monthly / Yearly switch, then every plan as one compact row
  * (name, storage, price) next to a detail card for the selected plan (price, limits, button). The only
- * saving shown is the one "Save up to N% with yearly billing" badge — no per-plan % next to it.
+ * saving shown is "Save up to N%" inside the Yearly button — no per-plan % next to it.
  * Our own build of the "plan list + detail card" pattern (after Shadcn UI Kit's Pricing Table 4 —
  * a Pro block, so no code from it is used). Rows are real radio inputs (arrow keys move between
  * plans); the server renders every price into the HTML, and the popular plan (`isPopular`, Pro)
@@ -38,31 +38,42 @@ export function PricingPlans({ plans, yearlySaving }: { plans: PlanCard[]; yearl
   const priceOf = (p: PlanCard) => (billing === "yearly" ? p.yearly : p.monthly);
   const per = billing === "yearly" ? "year" : "month";
   const current = plan ? priceOf(plan) : undefined;
+  const planStorage = plan?.limits.find((l) => l.label === "Storage")?.value;
 
   return (
     <div className="mx-auto max-w-5xl">
-      <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-        <div role="group" aria-label="Billing period" className="inline-flex rounded-full bg-muted p-1 ring-1 ring-border">
-          {(["monthly", "yearly"] as const).map((b) => (
-            <button
-              key={b}
-              type="button"
-              aria-pressed={billing === b}
-              onClick={() => setBilling(b)}
-              className={cn(
-                "rounded-full px-5 py-1.5 text-sm font-medium transition-colors",
-                billing === b ? "bg-card text-foreground shadow-sm ring-1 ring-border" : "text-muted-foreground hover:text-foreground",
-              )}
-            >
-              {b === "monthly" ? "Monthly" : "Yearly"}
-            </button>
-          ))}
+      {/* Billing switch in white and brand blue: the chosen period is solid blue, the other is blue text on
+          white (clearly a button), and Yearly carries its saving, so the cheaper option is hard to miss. */}
+      <div className="flex justify-center">
+        <div role="group" aria-label="Billing period" className="inline-flex rounded-full bg-card p-1 shadow-sm ring-1 ring-primary/30">
+          {(["monthly", "yearly"] as const).map((b) => {
+            const on = billing === b;
+            return (
+              <button
+                key={b}
+                type="button"
+                aria-pressed={on}
+                onClick={() => setBilling(b)}
+                className={cn(
+                  "inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold transition-colors",
+                  on ? "bg-primary text-primary-foreground shadow-sm" : "text-primary hover:bg-primary/10",
+                )}
+              >
+                {b === "monthly" ? "Monthly" : "Yearly"}
+                {b === "yearly" && yearlySaving > 0 && (
+                  <span
+                    className={cn(
+                      "rounded-full px-2 py-0.5 text-xs font-semibold",
+                      on ? "bg-white/20 text-primary-foreground" : "bg-primary/10 text-primary ring-1 ring-primary/25",
+                    )}
+                  >
+                    Save up to {yearlySaving}%
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </div>
-        {yearlySaving > 0 && (
-          <p className="rounded-full bg-after px-3 py-1 text-xs font-medium text-after-ink">
-            Save up to {yearlySaving}% with yearly billing
-          </p>
-        )}
       </div>
 
       <div className="mt-6 grid items-start gap-5 lg:grid-cols-[1.15fr_1fr]">
@@ -108,7 +119,15 @@ export function PricingPlans({ plans, yearlySaving }: { plans: PlanCard[]; yearl
                           </span>
                         )}
                       </span>
-                      {storage && <span className="block text-xs text-muted-foreground">{storage} storage</span>}
+                      <span className="mt-1 flex flex-wrap gap-1.5">
+                        {storage && (
+                          <span className="inline-flex items-center gap-1 rounded-md bg-card px-1.5 py-0.5 text-xs font-semibold tabular-nums ring-1 ring-border">
+                            <HardDrive className="size-3 text-primary" aria-hidden="true" />
+                            {storage}
+                            <span className="font-normal text-muted-foreground">storage</span>
+                          </span>
+                        )}
+                      </span>
                     </span>
                     <span className="text-right">
                       {p.free ? (
@@ -156,26 +175,40 @@ export function PricingPlans({ plans, yearlySaving }: { plans: PlanCard[]; yearl
             </div>
             {plan.tagline && <p className="mt-1 text-sm text-muted-foreground">{plan.tagline}</p>}
 
-            <div className="mt-5">
-              {plan.free ? (
-                <p className="text-4xl font-semibold tracking-tight">₹0</p>
-              ) : current ? (
-                <>
-                  {current.regular !== current.price && (
-                    <p className="text-sm text-muted-foreground">
-                      <s>{current.regular}</s>
+            {/* Price and storage side by side — the two things people compare plans on. */}
+            <div className="mt-5 flex flex-wrap items-end justify-between gap-4">
+              <div>
+                {plan.free ? (
+                  <p className="text-4xl font-semibold tracking-tight">₹0</p>
+                ) : current ? (
+                  <>
+                    {current.regular !== current.price && (
+                      <p className="text-sm text-muted-foreground">
+                        <s>{current.regular}</s>
+                      </p>
+                    )}
+                    <p className="mt-0.5 flex items-baseline gap-1">
+                      <span className="text-4xl font-semibold tracking-tight tabular-nums">{current.price}</span>
+                      <span className="text-sm text-muted-foreground">/{per}</span>
                     </p>
-                  )}
-                  <p className="mt-0.5 flex items-baseline gap-1">
-                    <span className="text-4xl font-semibold tracking-tight tabular-nums">{current.price}</span>
-                    <span className="text-sm text-muted-foreground">/{per}</span>
-                  </p>
-                  {billing === "yearly" && plan.yearly && (
-                    <p className="mt-1 text-xs text-muted-foreground">≈ {plan.yearly.perMonth}/month, billed yearly</p>
-                  )}
-                </>
-              ) : (
-                <p className="text-sm text-muted-foreground">Not available {billing === "yearly" ? "yearly" : "monthly"}</p>
+                    {billing === "yearly" && plan.yearly && (
+                      <p className="mt-1 text-xs text-muted-foreground">≈ {plan.yearly.perMonth}/month, billed yearly</p>
+                    )}
+                  </>
+                ) : (
+                  <p className="text-sm text-muted-foreground">Not available {billing === "yearly" ? "yearly" : "monthly"}</p>
+                )}
+              </div>
+              {planStorage && (
+                <div className="flex items-center gap-2.5 rounded-xl bg-muted/50 px-3 py-2 ring-1 ring-border">
+                  <span aria-hidden="true" className="icon-tile size-8">
+                    <HardDrive className="size-4" />
+                  </span>
+                  <span className="leading-tight">
+                    <span className="block text-lg font-semibold tabular-nums">{planStorage}</span>
+                    <span className="block text-xs text-muted-foreground">storage</span>
+                  </span>
+                </div>
               )}
             </div>
 
@@ -184,7 +217,7 @@ export function PricingPlans({ plans, yearlySaving }: { plans: PlanCard[]; yearl
             </Button>
 
             <ul className="mt-6 space-y-2.5 border-t pt-5 text-sm">
-              {plan.limits.map((l) => (
+              {plan.limits.filter((l) => l.label !== "Storage").map((l) => (
                 <li key={l.label} className="flex items-baseline justify-between gap-3">
                   <span className="text-muted-foreground">{l.label}</span>
                   <span className="font-medium">{l.value}</span>

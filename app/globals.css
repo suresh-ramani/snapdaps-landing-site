@@ -162,6 +162,13 @@
   * {
     @apply border-border outline-ring/50;
   }
+  /* Tailwind v4 dropped the pointer cursor on buttons; every clickable control gets it back. */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  summary,
+  label:has(> input[type="radio"]:not(:disabled)) {
+    cursor: pointer;
+  }
   html {
     scroll-padding-top: 5rem;
   }

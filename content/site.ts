@@ -34,6 +34,8 @@ export const site = {
   twitter: "@snapdaps", // TODO: confirm handle
   appUrl: "https://app.snapdaps.ai", // TODO: confirm app URL
   signupUrl: "https://app.snapdaps.ai/signup", // TODO: confirm signup URL
+  /** Free trial length on paid plans, used when the plans API sends no `trialDays` (0). */
+  trialDays: 7,
   contactEmail: "hello@snapdaps.ai", // TODO: confirm
   social: {
     instagram: "https://www.instagram.com/snapdapsai",
