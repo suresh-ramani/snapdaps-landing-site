@@ -19,7 +19,8 @@ import { AnnouncementPill, showsHeroPill } from "@/components/layout/announcemen
 import { JsonLd } from "@/components/json-ld";
 import { faqs } from "@/content/faqs";
 import { site } from "@/content/site";
-import { buildMetadata, softwareLd } from "@/lib/seo";
+import { getPlans } from "@/lib/plans";
+import { buildMetadata, schemaIds, softwareLd, webPageLd } from "@/lib/seo";
 import { getAnnouncement } from "@/lib/wp/api";
 
 /* ------------------------------------------------------------------------------------
@@ -28,12 +29,13 @@ import { getAnnouncement } from "@/lib/wp/api";
    photo sharing for photographers, event photo sharing.
 ------------------------------------------------------------------------------------ */
 
-export const metadata = buildMetadata({
-  absoluteTitle: "Best AI Photo Sharing & Face Search for Events | Snapdaps",
-  description:
-    "Upload event photos once and let AI do the rest. Find photos quickly using AI face recognition. Perfect for photographers and event planners. Start Free Trial!",
-  path: "/",
-});
+const TITLE = "Best AI Photo Sharing & Face Search for Events | Snapdaps";
+const DESCRIPTION =
+  "Upload event photos once and let AI do the rest. Find photos quickly using AI face recognition. Perfect for photographers and event planners. Start Free Trial!";
+/** Bump when the home page's copy changes (WebPage dateModified). */
+const UPDATED = "2026-10-31";
+
+export const metadata = buildMetadata({ absoluteTitle: TITLE, description: DESCRIPTION, path: "/" });
 
 const painPoints: PainPoint[] = [
   {
@@ -66,7 +68,9 @@ const painPoints: PainPoint[] = [
 export default async function HomePage() {
   // Same cached request as the bar in the layout (React cache + data cache), resolved before the hero
   // renders, so the pill never pops in and shifts the headline.
-  const announcement = await getAnnouncement();
+  // Plans: real prices for the SoftwareApplication offers (same cached request as /pricing).
+  const [announcement, plans] = await Promise.all([getAnnouncement(), getPlans()]);
+  const offers = (plans ?? []).filter((p) => p.monthly).map((p) => ({ name: `${p.name} (monthly)`, price: p.monthly!.price }));
   return (
     <>
       {/* Section 1: Hero */}
@@ -235,7 +239,12 @@ export default async function HomePage() {
         secondaryLabel="Request a demo"
       />
 
-      <JsonLd data={softwareLd()} />
+      <JsonLd
+        data={[
+          softwareLd(offers),
+          webPageLd({ name: TITLE, description: DESCRIPTION, path: "/", dateModified: UPDATED, about: schemaIds.software() }),
+        ]}
+      />
     </>
   );
 }

@@ -115,7 +115,7 @@ add_filter('preview_post_link', function ($link, $post) {
 
 ## SEO checklist before launch
 
-- [ ] `NEXT_PUBLIC_SITE_URL` set to the production URL (canonicals, sitemap, OG all use it)
+- [ ] `NEXT_PUBLIC_SITE_URL` set to the production URL (canonicals, sitemap, OG, schema and llms.txt all use it) and `SITE_URL_STRICT=1` in the production build env, so a localhost/http value fails the build
 - [ ] Every placeholder in `content/site.ts` replaced; descriptions 150–160 chars
 - [ ] Real product visual in the hero (`components/blocks/hero.tsx`) via `next/image` with `priority`
 - [ ] Old WordPress URLs redirected (`redirects()` in `next.config.ts`)

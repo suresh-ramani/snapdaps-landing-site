@@ -158,7 +158,11 @@ export function WorkflowSteps({
           <li key={s.key} className="grid items-center gap-8 md:grid-cols-5 md:gap-12">
             <div className="md:col-span-2">
               <p className="text-sm font-medium text-muted-foreground">Step {i + 1}</p>
-              <H className="mt-3 text-2xl font-semibold tracking-tight md:text-[1.75rem]">{s.title}</H>
+              {/* The desktop list above holds the real <hN> for each step; this copy (shown below lg) is a
+                  heading for screen readers only (role="heading"), so the page outline has each step once. */}
+              <p role="heading" aria-level={H === "h2" ? 2 : 3} className="mt-3 text-2xl font-semibold tracking-tight md:text-[1.75rem]">
+                {s.title}
+              </p>
               <p className="mt-3 text-lg text-muted-foreground">{s.subtitle}</p>
               <ul className="mt-6 divide-y border-y text-[15px]">
                 {s.points.map((pt) => (

@@ -23,3 +23,24 @@ export const qrRows = [
   "100000101101000011001",
   "111111101011101101111",
 ];
+
+/**
+ * The same pattern as one SVG path in a 21×21 grid — each row's dark cells merged into runs — so a QR
+ * is one DOM node instead of ~220 <rect>s (keeps the DOM small wherever a QR shows).
+ */
+export const qrPath = qrRows
+  .map((row, y) => {
+    let d = "";
+    for (let x = 0; x < row.length; ) {
+      if (row[x] !== "1") {
+        x++;
+        continue;
+      }
+      let w = 1;
+      while (row[x + w] === "1") w++;
+      d += `M${x} ${y}h${w}v1h-${w}z`;
+      x += w;
+    }
+    return d;
+  })
+  .join("");

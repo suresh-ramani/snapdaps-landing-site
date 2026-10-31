@@ -13,6 +13,20 @@ const wpHost = (() => {
 // by default. Allow it only for those hosts, so the live CMS keeps the protection.
 const wpIsLocal = Boolean(wpHost && (wpHost === "localhost" || /\.(test|localhost)$/.test(wpHost)));
 
+// Every canonical, og:url, sitemap entry, robots line, schema URL and llms.txt link is built from
+// NEXT_PUBLIC_SITE_URL. A production build with a missing, localhost or http:// value would point
+// search engines at a dead host, so it fails on the production deploy (Vercel production, or any
+// build with SITE_URL_STRICT=1) and warns loudly on every other production build (e.g. local tests).
+(() => {
+  if (process.env.NODE_ENV !== "production") return;
+  const url = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+  const bad = !url || /localhost|127\.0\.0\.1|\.test\b/.test(url) || !url.startsWith("https://");
+  if (!bad) return;
+  const msg = `NEXT_PUBLIC_SITE_URL is "${url || "(unset)"}" — set it to the live https URL (e.g. https://www.snapdaps.ai) before a production deploy; canonicals, sitemap, robots, schema and llms.txt all use it.`;
+  if (process.env.SITE_URL_STRICT === "1" || process.env.VERCEL_ENV === "production") throw new Error(msg);
+  console.warn(`\n⚠ ${msg}\n`);
+})();
+
 const nextConfig: NextConfig = {
   // Self-contained server bundle for Docker / plain Node hosting. Harmless on Vercel.
   output: "standalone",

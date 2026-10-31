@@ -41,4 +41,5 @@ export const clients: Client[] = [
   { name: "TCS", logo: "/clients/tcs.webp", width: 347, height: 96 },
 ];
 
-export const clientsHeading = "Trusted by businesses worldwide";
+/** No geography claim beyond what the logos show (the clients are Indian studios and companies). */
+export const clientsHeading = "Trusted by photographers and businesses across India";

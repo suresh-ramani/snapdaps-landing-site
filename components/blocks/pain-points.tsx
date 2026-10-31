@@ -201,7 +201,10 @@ function PainCards({ points }: { points: PainPoint[] }) {
                     {i + 1} of {points.length}
                   </span>
                 </span>
-                <h3 className="mt-4 text-lg font-semibold">{p.title}</h3>
+                {/* Desktop tabs hold the real <h3>s; this phone/tablet copy is a heading for screen readers only. */}
+                <p role="heading" aria-level={3} className="mt-4 text-lg font-semibold">
+                  {p.title}
+                </p>
                 <p className="mt-1.5 text-muted-foreground">{p.body}</p>
               </div>
             </li>

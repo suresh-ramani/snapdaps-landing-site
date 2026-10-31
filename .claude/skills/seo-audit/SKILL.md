@@ -53,3 +53,5 @@ curl -s http://localhost:3000/robots.txt
 - Rich results test on home, pricing, one use case and one post; Lighthouse mobile LCP < 2.5s, CLS < 0.1.
 
 For a deeper independent pass, run the `seo-reviewer` agent.
+
+Also check: every JSON-LD node joins the `schemaIds` graph (`lib/seo.ts`); no heading text appears twice as `<hN>` (responsive double-renders use `role="heading"` on the hidden copy); canonical, sitemap, robots and schema URLs use the https production host (a production build warns/fails on localhost via `SITE_URL_STRICT`).

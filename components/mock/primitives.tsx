@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { qrRows } from "./qr-rows";
+import { qrPath } from "./qr-rows";
 import { TONES } from "./tones";
 
 /**
@@ -89,9 +89,7 @@ export function QrPattern({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 21 21" aria-hidden="true" className={cn("text-black", className)} shapeRendering="crispEdges">
       <rect width="21" height="21" fill="white" />
-      {qrRows.map((row, y) =>
-        [...row].map((c, x) => (c === "1" ? <rect key={`${x}-${y}`} x={x} y={y} width="1" height="1" fill="currentColor" /> : null)),
-      )}
+      <path d={qrPath} fill="currentColor" />
     </svg>
   );
 }

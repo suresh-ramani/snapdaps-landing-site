@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { qrRows } from "./qr-rows";
+import { qrPath } from "./qr-rows";
 
 /**
  * Hand-drawn SVG scenes (our own art) with theme tokens, so they work in light and dark mode —
@@ -34,11 +34,7 @@ function Qr({ x, y, size }: { x: number; y: number; size: number }) {
   return (
     <g transform={`translate(${x} ${y})`}>
       <rect width={size} height={size} rx={2} fill="white" />
-      {qrRows.map((row, ry) =>
-        [...row].map((v, rx) =>
-          v === "1" ? <rect key={`${rx}-${ry}`} x={rx * c} y={ry * c} width={c} height={c} fill="#18181b" /> : null,
-        ),
-      )}
+      <path d={qrPath} transform={`scale(${c})`} fill="#18181b" />
       {/* Scan line sweeping the code (not on the tiny planner pins). */}
       {size >= 30 && (
         <rect

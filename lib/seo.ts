@@ -85,11 +85,23 @@ export function postMetadata(post: WPPost): Metadata {
 
 /* ---------------------------- JSON-LD builders ---------------------------- */
 
+/**
+ * Stable @ids so every page's schema joins one entity graph: the Organization publishes the WebSite
+ * and the SoftwareApplication, and each WebPage is part of the WebSite (search engines and AI answer
+ * engines then treat them as one brand instead of disconnected nodes).
+ */
+export const schemaIds = {
+  organization: () => absoluteUrl("/#organization"),
+  website: () => absoluteUrl("/#website"),
+  software: () => absoluteUrl("/#software"),
+};
+
 export function organizationLd() {
   const sameAs = Object.values(site.social).filter(Boolean);
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": schemaIds.organization(),
     name: site.name,
     url: absoluteUrl("/"),
     logo: absoluteUrl("/brand/snapdaps-mark-512.png"),
@@ -100,11 +112,25 @@ export function organizationLd() {
       "@type": "ContactPoint",
       contactType: "customer support",
       email: site.contactEmail,
+      telephone: `+${site.whatsapp.number}`,
       areaServed: "IN",
       availableLanguage: ["English", "Hindi"],
     },
     founder: founders.map((f) => ({ "@type": "Person", name: f.name })),
-    parentOrganization: { "@type": "Organization", name: site.company.name, url: "https://www.cygner.net/" },
+    // Registered office as published in the legal pages (content/legal/*).
+    parentOrganization: {
+      "@type": "Organization",
+      name: site.company.name,
+      url: "https://www.cygner.net/",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "104, Twin Star, North Block, 150 Feet Ring Road",
+        addressLocality: "Rajkot",
+        addressRegion: "Gujarat",
+        postalCode: "360004",
+        addressCountry: "IN",
+      },
+    },
     // Social profiles link the brand entity for search and AI engines — filled from content/site.ts.
     ...(sameAs.length ? { sameAs } : {}),
   };
@@ -114,13 +140,12 @@ export function websiteLd() {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": schemaIds.website(),
     name: site.name,
     url: absoluteUrl("/"),
-    potentialAction: {
-      "@type": "SearchAction",
-      target: { "@type": "EntryPoint", urlTemplate: `${absoluteUrl("/blogs/search")}?q={search_term_string}` },
-      "query-input": "required name=search_term_string",
-    },
+    inLanguage: "en-IN",
+    publisher: { "@id": schemaIds.organization() },
+    // No SearchAction: Google retired the sitelinks search box (2024) and /blogs/search is noindex.
   };
 }
 
@@ -128,6 +153,7 @@ export function softwareLd(offers: { name: string; price: number }[] = []) {
   return {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
+    "@id": schemaIds.software(),
     name: site.name,
     // One of Google's supported values (PhotographyApplication isn't).
     applicationCategory: "MultimediaApplication",
@@ -135,9 +161,19 @@ export function softwareLd(offers: { name: string; price: number }[] = []) {
     url: absoluteUrl("/"),
     description: site.definition,
     featureList: coreFeatures.map((f) => f.title),
-    // Only list offers once real pricing exists — placeholder prices must not reach search results.
+    publisher: { "@id": schemaIds.organization() },
+    provider: { "@id": schemaIds.organization() },
+    // Real prices only (from the plans API) — never placeholders.
     ...(offers.length
-      ? { offers: offers.map((o) => ({ "@type": "Offer", name: o.name, price: o.price, priceCurrency: "INR" })) }
+      ? {
+          offers: offers.map((o) => ({
+            "@type": "Offer",
+            name: o.name,
+            price: o.price,
+            priceCurrency: "INR",
+            url: absoluteUrl("/pricing"),
+          })),
+        }
       : {}),
   };
 }
@@ -274,11 +310,19 @@ export function itemListLd(items: { name: string; path: string }[]) {
  * The page itself, with who wrote it and when it was last updated (E-E-A-T). Author and publisher
  * are the Snapdaps organisation until named authors exist.
  */
-export function webPageLd(input: { name: string; description: string; path: string; dateModified: string }) {
-  const org = { "@type": "Organization", name: site.name, url: absoluteUrl("/") };
+export function webPageLd(input: {
+  name: string;
+  description: string;
+  path: string;
+  dateModified: string;
+  /** What the page is about — the home page points at the SoftwareApplication. */
+  about?: string;
+}) {
+  const org = { "@id": schemaIds.organization() };
   return {
     "@context": "https://schema.org",
     "@type": "WebPage",
+    "@id": `${absoluteUrl(input.path)}#webpage`,
     name: input.name,
     description: input.description,
     url: absoluteUrl(input.path),
@@ -286,6 +330,7 @@ export function webPageLd(input: { name: string; description: string; path: stri
     dateModified: input.dateModified,
     author: org,
     publisher: org,
-    isPartOf: { "@type": "WebSite", name: site.name, url: absoluteUrl("/") },
+    isPartOf: { "@id": schemaIds.website() },
+    ...(input.about ? { about: { "@id": input.about } } : {}),
   };
 }
