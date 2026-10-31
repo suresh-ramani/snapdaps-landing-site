@@ -3,7 +3,7 @@ import { Breadcrumbs } from "@/components/blog/breadcrumbs";
 import { EventPhotoHero } from "@/components/blocks/event-photo-hero";
 import { LeadCapture } from "@/components/blocks/lead-capture";
 import { UseCaseLead } from "@/components/blocks/use-case-lead";
-import { BirthdayScene } from "@/components/mock/event-scenes";
+import { LottieScene } from "@/components/motion/lottie-scene";
 import { ComparisonRows } from "@/components/blocks/comparison-rows";
 import { CtaBand } from "@/components/blocks/cta-band";
 import { Faq } from "@/components/blocks/faq";
@@ -109,7 +109,7 @@ export default function BirthdayPartyPage() {
             family group.
           </p>
         }
-        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-30" />}
+        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-31" />}
         visual={
           <EventPhotoHero
             photo="birthday-cake"
@@ -142,8 +142,8 @@ export default function BirthdayPartyPage() {
           "Nothing to install, for grandparents or friends.",
         ]}
         bestFor={["Parents and hosts", "Party photographers", "Party planners"]}
-        scene={<BirthdayScene />}
-        sceneCaption="A QR standee by the cake: guests scan, take a selfie and get their party photos."
+        scene={<LottieScene src="/animations/birthday-cake.json" className="mx-auto max-w-md" />}
+        sceneCaption="The cake, the candles, the whole party — guests scan the QR code, take a selfie and get their party photos."
         tone="default"
       />
 
@@ -178,6 +178,7 @@ export default function BirthdayPartyPage() {
             <p>Or nobody sends anything, and the photos stay on one phone.</p>
           </>
         }
+        waiting={{ title: "Party photos", steps: ["Party over", "Photos on a few phones", "Someone sorting and sending", "Photos with every guest"], waiting: "Parents and guests are still waiting" }}
         powerLine="Party photos are best shared the same day — not dug out a month later."
       />
 

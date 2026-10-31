@@ -3,7 +3,7 @@ import { Breadcrumbs } from "@/components/blog/breadcrumbs";
 import { EventPhotoHero } from "@/components/blocks/event-photo-hero";
 import { LeadCapture } from "@/components/blocks/lead-capture";
 import { UseCaseLead } from "@/components/blocks/use-case-lead";
-import { SportsScene } from "@/components/mock/event-scenes";
+import { LottieScene } from "@/components/motion/lottie-scene";
 import { ComparisonRows } from "@/components/blocks/comparison-rows";
 import { CtaBand } from "@/components/blocks/cta-band";
 import { Faq } from "@/components/blocks/faq";
@@ -108,7 +108,7 @@ export default function SportsEventsPage() {
             action shots, parents find their kids and teams find their podium photo — each with a selfie.
           </p>
         }
-        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-30" />}
+        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-31" />}
         visual={
           <EventPhotoHero
             photo="sports-batsman"
@@ -141,8 +141,8 @@ export default function SportsEventsPage() {
           "No scrolling through thousands of shots.",
         ]}
         bestFor={["Tournament organisers", "Schools and academies", "Sports photographers"]}
-        scene={<SportsScene />}
-        sceneCaption="A QR code on the scoreboard leads players and parents to their match-day photos."
+        scene={<LottieScene src="/animations/sports-team.json" ratio="1044 / 856" className="mx-auto max-w-md" />}
+        sceneCaption="The whole team in one gallery — players and parents scan the QR code and find their own match-day photos."
         tone="default"
       />
 
@@ -173,6 +173,7 @@ export default function SportsEventsPage() {
             <p>Someone shares one giant folder. Everyone scrolls. Most give up.</p>
           </>
         }
+        waiting={{ title: "Match photos", steps: ["Final over", "Sorting thousands of shots", "Drive link to the club", "Photos with players and parents"], waiting: "Players and parents are still waiting" }}
         powerLine="Every player deserves their moment — without scrolling through everyone else’s."
       />
 

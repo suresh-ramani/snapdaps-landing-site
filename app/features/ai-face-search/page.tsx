@@ -8,7 +8,7 @@ import { InfoCards } from "@/components/blocks/info-cards";
 import { PageByline } from "@/components/blocks/page-byline";
 import { QuestionSection } from "@/components/blocks/question-section";
 import { UseCaseLead } from "@/components/blocks/use-case-lead";
-import { FaceSearchScene } from "@/components/mock/event-scenes";
+import { LottieScene } from "@/components/motion/lottie-scene";
 import { FaceMatchCard, SelfieSearchCard } from "@/components/product/cards";
 import { faqs } from "@/content/faqs";
 import { isIndexed } from "@/content/routes";
@@ -74,7 +74,7 @@ export default function AiFaceSearchPage() {
           "Works in the phone’s browser: no app, no login.",
         ]}
         bestFor={["Guests at large events", "Photographers", "Event planners"]}
-        scene={<FaceSearchScene />}
+        scene={<LottieScene src="/animations/face-scan.json" ratio="404 / 472" className="mx-auto max-w-xs" />}
         sceneCaption="One selfie in, the guest’s own photos out — matched across the whole event."
         tone="default"
       />

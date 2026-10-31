@@ -7,7 +7,7 @@ import { Hero } from "@/components/blocks/hero";
 import { PageByline } from "@/components/blocks/page-byline";
 import { QuestionSection } from "@/components/blocks/question-section";
 import { UseCaseLead } from "@/components/blocks/use-case-lead";
-import { PortfolioScene } from "@/components/mock/event-scenes";
+import { LottieScene } from "@/components/motion/lottie-scene";
 import { faqs } from "@/content/faqs";
 import { isIndexed } from "@/content/routes";
 import { buildMetadata } from "@/lib/seo";
@@ -78,8 +78,8 @@ export default function PhotographerPortfolioPage() {
           "Your portfolio and event galleries live together.",
         ]}
         bestFor={["Wedding photographers", "Event photographers", "Studios"]}
-        scene={<PortfolioScene />}
-        sceneCaption="Your portfolio and the event galleries you deliver, side by side."
+        scene={<LottieScene src="/animations/web-design.json" ratio="1427 / 1350" className="mx-auto max-w-md" />}
+        sceneCaption="Your portfolio site under your own brand, next to the event galleries you deliver."
         tone="default"
       />
 

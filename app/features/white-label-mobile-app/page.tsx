@@ -9,7 +9,7 @@ import { PageByline } from "@/components/blocks/page-byline";
 import { QuestionSection } from "@/components/blocks/question-section";
 import { UseCaseLead } from "@/components/blocks/use-case-lead";
 import { BrandedApp } from "@/components/mock/branded-app";
-import { WhiteLabelScene } from "@/components/mock/event-scenes";
+import { LottieScene } from "@/components/motion/lottie-scene";
 import { faqs } from "@/content/faqs";
 import { isIndexed } from "@/content/routes";
 import { buildMetadata } from "@/lib/seo";
@@ -75,8 +75,8 @@ export default function WhiteLabelMobileAppPage() {
           "Snapdaps sets it up and publishes it for you.",
         ]}
         bestFor={["Photography studios", "Wedding photographers", "Event photography agencies"]}
-        scene={<WhiteLabelScene />}
-        sceneCaption="You share your brand, Snapdaps publishes the app, your clients download it from both stores."
+        scene={<LottieScene src="/animations/app-development.json" className="mx-auto max-w-md" />}
+        sceneCaption="You share your brand, Snapdaps builds and publishes the app, and your clients download it on Android and iOS."
         tone="default"
       />
 

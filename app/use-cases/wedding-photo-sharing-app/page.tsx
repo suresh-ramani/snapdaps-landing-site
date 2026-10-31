@@ -214,6 +214,7 @@ export default function WeddingPage() {
             </p>
           </>
         }
+        waiting={{ title: "Wedding photos", steps: ["Wedding done", "Photographer editing", "Album and pendrive", "Photos with the family"], waiting: "The couple and family are still waiting" }}
         powerLine="A wedding lasts a day. Memories should last forever — not wait."
         close={
           <p>

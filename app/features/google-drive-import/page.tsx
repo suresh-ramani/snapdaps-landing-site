@@ -7,7 +7,7 @@ import { InfoCards } from "@/components/blocks/info-cards";
 import { PageByline } from "@/components/blocks/page-byline";
 import { QuestionSection } from "@/components/blocks/question-section";
 import { UseCaseLead } from "@/components/blocks/use-case-lead";
-import { DriveImportScene } from "@/components/mock/event-scenes";
+import { LottieScene } from "@/components/motion/lottie-scene";
 import { UploadCard } from "@/components/product/cards";
 import { faqs } from "@/content/faqs";
 import { isIndexed } from "@/content/routes";
@@ -74,8 +74,8 @@ export default function GoogleDriveImportPage() {
           "Faces are detected automatically once photos arrive.",
         ]}
         bestFor={["Photographers who edit to Drive", "Studios on shared Drive storage", "Event teams"]}
-        scene={<DriveImportScene />}
-        sceneCaption="From one Drive link to event folders to faces found — all in the background."
+        scene={<LottieScene src="/animations/cloud-import.json" className="mx-auto max-w-md" />}
+        sceneCaption="Photos move from one public Drive link into your event folders, in the background."
         tone="default"
       />
 

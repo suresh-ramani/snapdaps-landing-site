@@ -3,7 +3,7 @@ import { Breadcrumbs } from "@/components/blog/breadcrumbs";
 import { EventPhotoHero } from "@/components/blocks/event-photo-hero";
 import { LeadCapture } from "@/components/blocks/lead-capture";
 import { UseCaseLead } from "@/components/blocks/use-case-lead";
-import { CorporateScene } from "@/components/mock/event-scenes";
+import { LottieScene } from "@/components/motion/lottie-scene";
 import { ComparisonRows } from "@/components/blocks/comparison-rows";
 import { CtaBand } from "@/components/blocks/cta-band";
 import { Faq } from "@/components/blocks/faq";
@@ -108,7 +108,7 @@ export default function CorporateEventsPage() {
             the photos they’re in — ready for LinkedIn while people are still talking about the event.
           </p>
         }
-        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-30" />}
+        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-31" />}
         visual={
           <EventPhotoHero
             photo="corporate-conference"
@@ -141,8 +141,8 @@ export default function CorporateEventsPage() {
           "No drive access requests, no app, no login.",
         ]}
         bestFor={["Corporate event teams", "HR and internal comms", "Conference organisers"]}
-        scene={<CorporateScene />}
-        sceneCaption="The QR code on stage screens and badges takes attendees straight to their photos."
+        scene={<LottieScene src="/animations/seminar-room.json" className="mx-auto max-w-md" />}
+        sceneCaption="Between sessions, attendees scan the QR code on the stage screen and get their own event photos."
         tone="default"
       />
 
@@ -171,6 +171,7 @@ export default function CorporateEventsPage() {
             <p>And the posts that would have carried your event further never get written.</p>
           </>
         }
+        waiting={{ title: "Event photos", steps: ["Event wrapped", "Agency sorting photos", "Drive folder shared", "Photos with every attendee"], waiting: "Attendees and speakers are still waiting" }}
         powerLine="An event that isn’t shared after it ends is an event fewer people hear about."
       />
 

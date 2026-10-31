@@ -1,9 +1,9 @@
-import { Images, QrCode, ScanFace, Send } from "lucide-react";
+import { Images, Link2, QrCode, ScanFace, Send, Upload, X } from "lucide-react";
 import { Breadcrumbs } from "@/components/blog/breadcrumbs";
 import { EventPhotoHero } from "@/components/blocks/event-photo-hero";
 import { LeadCapture } from "@/components/blocks/lead-capture";
 import { UseCaseLead } from "@/components/blocks/use-case-lead";
-import { PhotographerScene } from "@/components/mock/event-scenes";
+import { LottieScene } from "@/components/motion/lottie-scene";
 import { ComparisonRows } from "@/components/blocks/comparison-rows";
 import { CtaBand } from "@/components/blocks/cta-band";
 import { Faq } from "@/components/blocks/faq";
@@ -19,7 +19,7 @@ import { LogoCloud } from "@/components/blocks/logo-cloud";
 import { eventSamples } from "@/components/mock/photos";
 import { PhotoPool } from "@/components/mock/photo-pool";
 import { ChatMock } from "@/components/mock/screens";
-import { FaceMatchCard, SelfieSearchCard } from "@/components/product/cards";
+import { FaceMatchCard, SelfieSearchCard, ShareCard } from "@/components/product/cards";
 import { faqs } from "@/content/faqs";
 import { buildMetadata } from "@/lib/seo";
 
@@ -70,7 +70,7 @@ export default function PhotographersPage() {
         }
         hook="You shoot premium photos. Snapdaps delivers them."
         trustLine={["No credit card required", "Setup in minutes", "Built for photographers"]}
-        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-30" />}
+        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-31" />}
         visual={
           <EventPhotoHero
             photo="photographer-at-work"
@@ -103,8 +103,8 @@ export default function PhotographersPage() {
           "Your clients’ guests need no app and no login.",
         ]}
         bestFor={["Wedding photographers", "Event photographers", "Studios"]}
-        scene={<PhotographerScene />}
-        sceneCaption="From your camera to every guest’s phone: upload once, Snapdaps sorts by face, and you send one link."
+        scene={<LottieScene src="/animations/photographer-studio.json" className="mx-auto max-w-md" />}
+        sceneCaption="You shoot and upload once; Snapdaps sorts the photos by face, and every guest gets theirs from one link."
         tone="default"
       />
 
@@ -148,6 +148,7 @@ export default function PhotographersPage() {
             <p>And slowly… frustration starts building.</p>
           </>
         }
+        waiting={{ title: "Your client’s photos", steps: ["Event done", "Editing and sorting", "Pendrive or Drive link", "Photos with your client"], waiting: "Your client and their guests are still waiting" }}
         powerLine="Your client wants to share memories instantly with their friends and family. But traditional photo delivery makes them wait."
         close={
           <>
@@ -160,68 +161,147 @@ export default function PhotographersPage() {
         }
       />
 
-      {/* Section 3: Story-driven solution */}
-      <Story
+      {/* Section 3: Story-driven solution — the content doc's narrative as a client's journey, then how it
+          feels (after-green) and what you no longer do (before-red), beside the real product cards. */}
+      <Section
         id="solution"
-        tone="solution"
-        reverse
         title="What if your customers could share their event photos instantly?"
-        subtitle="You deliver your customer’s event photos instantly, and they can share them with friends and family on time."
-        visual={
-          <div className="surface-soft grid grid-cols-1 items-start gap-3 p-6 sm:grid-cols-[1fr_1.2fr] md:p-8">
-            <SelfieSearchCard className="sm:mt-8" />
-            <FaceMatchCard />
-          </div>
+        intro={
+          <p>
+            You deliver your customer’s event photos instantly, and they can share them with friends and family on
+            time.
+          </p>
         }
-        narrative={
-          <>
-            <p>Now imagine a different experience.</p>
-            <p>The event just got over. Instead of waiting a month… your client opens the event link you shared.</p>
-            <p>
-              They upload a simple selfie. And within seconds, all their photos appear automatically by{" "}
-              <strong>AI face recognition</strong>.
-            </p>
-            <p className="font-semibold text-foreground">No searching. No asking. No waiting.</p>
-            <p>
-              Now when friends and relatives call — <strong className="text-foreground">“Send photos!”</strong> — your
-              client simply shares them instantly.
-            </p>
-            <div className="grid gap-6 sm:grid-cols-2">
-              <div>
-                <p className="font-medium text-foreground">They feel:</p>
-                <ul className="mt-2 list-disc pl-6">
-                  <li>Happy</li>
-                  <li>Confident</li>
-                  <li>Excited to share</li>
+      >
+        <p className="text-lg font-medium">Now imagine a different experience.</p>
+        <ol className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            {
+              Icon: Link2,
+              title: "The event just got over.",
+              body: "Instead of waiting a month… your client opens the event link you shared.",
+            },
+            { Icon: ScanFace, title: "They upload a simple selfie.", body: "No login, no searching through folders." },
+            {
+              Icon: Images,
+              title: "All their photos appear.",
+              body: (
+                <>
+                  Within seconds, automatically by <strong className="text-foreground">AI face recognition</strong>.
+                </>
+              ),
+            },
+            {
+              Icon: Send,
+              title: "They share them instantly.",
+              body: "When friends and relatives call — “Send photos!” — your client simply shares them.",
+            },
+          ].map(({ Icon, title, body }, i) => (
+            <li key={title} className="surface relative flex flex-col gap-3 p-5">
+              <div className="flex items-center justify-between">
+                <span aria-hidden="true" className="icon-tile size-9">
+                  <Icon className="size-5" />
+                </span>
+                <span className="text-xs font-medium text-muted-foreground">Step {i + 1}</span>
+              </div>
+              <h3 className="text-lg font-semibold tracking-tight">{title}</h3>
+              <p className="text-[15px] text-muted-foreground">{body}</p>
+            </li>
+          ))}
+        </ol>
+
+        <div className="mt-12 grid items-center gap-10 lg:grid-cols-[1fr_1.05fr] lg:gap-16">
+          <div>
+            <PowerLine>No searching. No asking. No waiting.</PowerLine>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              <div className="rounded-xl bg-after p-5 ring-1 ring-after-border">
+                <p className="font-semibold text-after-ink">They feel:</p>
+                <ul className="mt-3 flex flex-wrap gap-2">
+                  {[
+                    ["😊", "Happy"],
+                    ["💪", "Confident"],
+                    ["🎉", "Excited to share"],
+                  ].map(([emoji, label]) => (
+                    <li key={label} className="inline-flex items-center gap-1.5 rounded-full bg-card px-3 py-1 text-sm font-medium ring-1 ring-after-border">
+                      <span aria-hidden="true">{emoji}</span>
+                      {label}
+                    </li>
+                  ))}
                 </ul>
               </div>
-              <div>
-                <p className="font-medium text-foreground">And you didn’t have to:</p>
-                <ul className="mt-2 list-disc pl-6">
-                  <li>Deliver a pendrive of photos to their doorstep</li>
-                  <li>Reply to every call and message</li>
+              <div className="rounded-xl bg-before p-5 ring-1 ring-before-border">
+                <p className="font-semibold text-before-ink">And you didn’t have to:</p>
+                <ul className="mt-3 space-y-2 text-sm">
+                  {["Deliver a pendrive of photos to their doorstep", "Reply to every call and message"].map((t) => (
+                    <li key={t} className="flex items-start gap-2">
+                      <X aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-before-ink" />
+                      <span className="text-muted-foreground line-through decoration-before-ink/60">{t}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
-          </>
-        }
-      />
-
-      <Section id="what-snapdaps-does" tone="panel" title="This is exactly what Snapdaps does.">
-        <div className="grid gap-10 md:grid-cols-[1.3fr_1fr] md:items-end">
-          <div className="space-y-4 text-lg leading-relaxed text-muted-foreground">
-            <p>
-              Snapdaps is an AI-powered photo sharing app for photographers that turns your photo delivery into an
-              instant experience.
-            </p>
-            <p>You upload photos once. Your customers find their photos themselves using AI face search.</p>
-            <p>
-              You just upload the photos on Snapdaps and let AI do the rest. You only share the QR code or web link with
-              your customers.
-            </p>
           </div>
-          <PowerLine className="surface p-6">Your customers get their photos instantly with Snapdaps.</PowerLine>
+          <div
+            aria-hidden="true"
+            data-nosnippet
+            className="surface-soft grid grid-cols-1 items-start gap-3 rounded-2xl p-6 sm:grid-cols-[1fr_1.2fr] md:p-8"
+          >
+            <SelfieSearchCard className="sm:mt-8" />
+            <FaceMatchCard />
+          </div>
         </div>
+      </Section>
+
+      <Section
+        id="what-snapdaps-does"
+        tone="panel"
+        title="This is exactly what Snapdaps does."
+        intro={
+          <p>
+            Snapdaps is an AI-powered photo sharing app for photographers that turns your photo delivery into an instant
+            experience.
+          </p>
+        }
+      >
+        <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+          {/* The content doc's three sentences as the real sequence they describe. */}
+          <ol className="relative space-y-4">
+            <span aria-hidden="true" className="absolute bottom-8 left-[2.15rem] top-8 w-px bg-border" />
+            {[
+              {
+                Icon: Upload,
+                title: "You upload photos once.",
+                body: "You just upload the photos on Snapdaps and let AI do the rest.",
+              },
+              {
+                Icon: ScanFace,
+                title: "Your customers find their photos themselves.",
+                body: "AI face search shows each customer only the photos they appear in.",
+              },
+              {
+                Icon: QrCode,
+                title: "You only share the QR code or web link.",
+                body: "One QR code or link for the whole event — that’s all you send your customers.",
+              },
+            ].map(({ Icon, title, body }, i) => (
+              <li key={title} className="surface relative flex items-start gap-4 p-5">
+                <span aria-hidden="true" className="icon-tile relative size-9 shrink-0">
+                  <Icon className="size-5" />
+                </span>
+                <div>
+                  <p className="text-xs font-medium text-muted-foreground">Step {i + 1}</p>
+                  <h3 className="mt-0.5 text-lg font-semibold tracking-tight">{title}</h3>
+                  <p className="mt-1 text-[15px] text-muted-foreground">{body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <div aria-hidden="true" data-nosnippet className="surface-soft relative flex justify-center rounded-2xl p-6 md:p-8">
+            <ShareCard className="w-full max-w-72" />
+          </div>
+        </div>
+        <PowerLine className="mt-12 text-center">Your customers get their photos instantly with Snapdaps.</PowerLine>
       </Section>
 
       {/* Section 4: How Snapdaps works */}

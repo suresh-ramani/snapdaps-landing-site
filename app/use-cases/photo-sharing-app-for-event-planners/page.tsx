@@ -3,7 +3,7 @@ import { Breadcrumbs } from "@/components/blog/breadcrumbs";
 import { EventPhotoHero } from "@/components/blocks/event-photo-hero";
 import { LeadCapture } from "@/components/blocks/lead-capture";
 import { UseCaseLead } from "@/components/blocks/use-case-lead";
-import { PlannerScene } from "@/components/mock/event-scenes";
+import { LottieScene } from "@/components/motion/lottie-scene";
 import { CtaBand, MiniCta } from "@/components/blocks/cta-band";
 import { Faq } from "@/components/blocks/faq";
 import { FeatureRows } from "@/components/blocks/feature-rows";
@@ -64,7 +64,7 @@ export default function EventPlannersPage() {
         note={
           <>
             <p>Perfect for corporate events, weddings, parties, and large gatherings.</p>
-            <PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-30" className="mt-2" />
+            <PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-31" className="mt-2" />
           </>
         }
         visual={
@@ -99,8 +99,8 @@ export default function EventPlannersPage() {
           "No app or login for guests.",
         ]}
         bestFor={["Event planners", "Wedding planners", "Event management companies"]}
-        scene={<PlannerScene />}
-        sceneCaption="Place the QR code where guests naturally pause, from registration to the exit."
+        scene={<LottieScene src="/animations/event-planning.json" className="mx-auto max-w-md" />}
+        sceneCaption="Plan the event, place the QR code where guests pause, and every guest leaves with their photos."
         tone="panel"
       />
 

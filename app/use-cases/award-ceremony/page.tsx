@@ -3,7 +3,7 @@ import { Breadcrumbs } from "@/components/blog/breadcrumbs";
 import { EventPhotoHero } from "@/components/blocks/event-photo-hero";
 import { LeadCapture } from "@/components/blocks/lead-capture";
 import { UseCaseLead } from "@/components/blocks/use-case-lead";
-import { AwardScene } from "@/components/mock/event-scenes";
+import { LottieScene } from "@/components/motion/lottie-scene";
 import { ComparisonRows } from "@/components/blocks/comparison-rows";
 import { CtaBand } from "@/components/blocks/cta-band";
 import { Faq } from "@/components/blocks/faq";
@@ -108,7 +108,7 @@ export default function AwardCeremonyPage() {
             selfie and download every photo they’re in — the trophy moment, the red carpet, the team table.
           </p>
         }
-        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-30" />}
+        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-31" />}
         visual={
           <EventPhotoHero
             photo="award-trophies"
@@ -141,8 +141,8 @@ export default function AwardCeremonyPage() {
           "Each guest sees only their own photos.",
         ]}
         bestFor={["Award organisers", "Corporate event teams", "Event photographers"]}
-        scene={<AwardScene />}
-        sceneCaption="From the big-screen QR code to the winner’s phone, with their stage moment."
+        scene={<LottieScene src="/animations/award-champion.json" className="mx-auto max-w-md" />}
+        sceneCaption="The winner’s stage moment: they scan the QR code, take a selfie, and the photos are on their phone."
         tone="default"
       />
 
@@ -171,6 +171,7 @@ export default function AwardCeremonyPage() {
             <p>By then, the congratulations have moved on.</p>
           </>
         }
+        waiting={{ title: "Stage photos", steps: ["Ceremony done", "Sorting the stage shots", "Sent to the organisers", "On the winners’ phones"], waiting: "Winners are still waiting" }}
         powerLine="Recognition is best shared while the applause is still fresh."
       />
 
