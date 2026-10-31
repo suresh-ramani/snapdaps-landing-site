@@ -47,8 +47,13 @@ function NavigationMenuTrigger({
   );
 }
 
+/**
+ * `w-max`: the content sizes itself to what's inside it. Radix measures this element to set the
+ * viewport's width; if the content filled the viewport instead (`w-full` / `w-auto`), each
+ * measurement lost the viewport's 2px border and the panel shrank frame by frame to a sliver.
+ */
 function NavigationMenuContent({ className, ...props }: React.ComponentProps<typeof NavigationMenuPrimitive.Content>) {
-  return <NavigationMenuPrimitive.Content className={cn("left-0 top-0 w-full md:w-auto", className)} {...props} />;
+  return <NavigationMenuPrimitive.Content className={cn("left-0 top-0 w-max", className)} {...props} />;
 }
 
 export {
