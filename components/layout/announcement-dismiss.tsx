@@ -3,7 +3,7 @@
 import { X } from "lucide-react";
 import { ANNOUNCEMENT_KEY } from "./announcement-key";
 
-/** Closes the announcement bar and remembers this announcement (by id) in this browser. */
+/** Closes the announcement bar and remembers it (by id, with the time) in this browser for DISMISS_DAYS. */
 export function AnnouncementDismiss({ id }: { id: string }) {
   return (
     <button
@@ -11,7 +11,7 @@ export function AnnouncementDismiss({ id }: { id: string }) {
       aria-label="Dismiss announcement"
       onClick={() => {
         try {
-          localStorage.setItem(ANNOUNCEMENT_KEY, id);
+          localStorage.setItem(ANNOUNCEMENT_KEY, JSON.stringify({ id, at: Date.now() }));
         } catch {
           /* storage blocked: it just hides for this page view */
         }

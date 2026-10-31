@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { getAnnouncement } from "@/lib/wp/api";
 import type { Announcement } from "@/lib/wp/types";
 import { AnnouncementDismiss } from "./announcement-dismiss";
-import { ANNOUNCEMENT_KEY } from "./announcement-key";
+import { ANNOUNCEMENT_KEY, DISMISS_DAYS } from "./announcement-key";
 
 const styles: Record<Announcement["style"], { bar: string; Icon: typeof Megaphone }> = {
   info: { bar: "bg-muted text-foreground border-b", Icon: Megaphone },
@@ -19,7 +19,7 @@ const styles: Record<Announcement["style"], { bar: string; Icon: typeof Megaphon
  * Announcement bar above the header on every page, managed in WordPress → Settings → Announcement
  * (see README). Server-rendered, so it's in the HTML with no layout shift; renders nothing when the
  * announcement is off, empty or outside its dates. It scrolls away with the page (only the header is
- * sticky). A visitor's dismissal is remembered per announcement id; the inline script hides a
+ * sticky). A visitor's dismissal is remembered per announcement id for DISMISS_DAYS (7); the inline script hides a
  * dismissed bar before first paint, so it never flashes. Plain text, not a heading — it must not
  * compete with each page's H1.
  */
@@ -68,9 +68,10 @@ export async function AnnouncementBar() {
         </div>
       </div>
       <script
-        // Runs while the HTML is parsed: hides the bar before paint if this announcement was dismissed.
+        // Runs while the HTML is parsed: hides the bar before paint if this announcement was dismissed
+        // in the last DISMISS_DAYS (anything else — expired, another announcement, old format — shows it).
         dangerouslySetInnerHTML={{
-          __html: `try{if(localStorage.getItem(${JSON.stringify(ANNOUNCEMENT_KEY)})===${JSON.stringify(a.id)})document.getElementById("announcement").hidden=true}catch(e){}`,
+          __html: `try{var d=JSON.parse(localStorage.getItem(${JSON.stringify(ANNOUNCEMENT_KEY)})||"null");if(d&&d.id===${JSON.stringify(a.id)}&&Date.now()-d.at<${DISMISS_DAYS * 864e5})document.getElementById("announcement").hidden=true}catch(e){}`,
         }}
       />
     </>
