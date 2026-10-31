@@ -10,7 +10,7 @@ import { UseCaseLead } from "@/components/blocks/use-case-lead";
 import { LottieScene } from "@/components/motion/lottie-scene";
 import { UploadCard } from "@/components/product/cards";
 import { faqs } from "@/content/faqs";
-import { isIndexed } from "@/content/routes";
+import { isIndexed, updatedOf } from "@/content/routes";
 import { buildMetadata } from "@/lib/seo";
 
 /* ------------------------------------------------------------------------------------
@@ -56,7 +56,7 @@ export default function GoogleDriveImportPage() {
             whole shoot comes in while you get on with your next one.
           </p>
         }
-        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-31" />}
+        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated={updatedOf(PATH)} />}
         visual={
           <div aria-hidden="true" data-nosnippet>
             <UploadCard className="mx-auto max-w-sm" />

@@ -13,6 +13,7 @@ import { WhatsAppLogo } from "@/components/mock/brand-icons";
 import { FaceSearchExplainer } from "@/components/mock/face-search-explainer";
 import { PrivacyCard } from "@/components/product/cards";
 import { faqs } from "@/content/faqs";
+import { updatedOf } from "@/content/routes";
 import { workflowSteps } from "@/content/site";
 import { buildMetadata, howToLd } from "@/lib/seo";
 
@@ -46,7 +47,7 @@ export default function HowItWorksPage() {
               Snapdaps detects every face automatically. Then you share one link or QR code, and each guest uploads a
               selfie to see only the photos they appear in — on their phone, in seconds, with no app or login.
             </p>
-            <PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-30" className="pt-2" />
+            <PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated={updatedOf(PATH)} className="pt-2" />
           </>
         }
       >

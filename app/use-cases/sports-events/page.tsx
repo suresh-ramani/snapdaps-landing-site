@@ -19,7 +19,7 @@ import { eventSamples } from "@/components/mock/photos";
 import { PhotoPool } from "@/components/mock/photo-pool";
 import { ChatMock } from "@/components/mock/screens";
 import { faqs } from "@/content/faqs";
-import { isIndexed } from "@/content/routes";
+import { isIndexed, updatedOf } from "@/content/routes";
 import { buildMetadata } from "@/lib/seo";
 
 /* ------------------------------------------------------------------------------------
@@ -108,7 +108,7 @@ export default function SportsEventsPage() {
             action shots, parents find their kids and teams find their podium photo — each with a selfie.
           </p>
         }
-        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-31" />}
+        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated={updatedOf(PATH)} />}
         visual={
           <EventPhotoHero
             photo="sports-batsman"

@@ -11,6 +11,7 @@ import { navIcons } from "@/components/layout/nav-icons";
 import { eventPhotos } from "@/components/mock/photos";
 import { PhotoTile } from "@/components/mock/primitives";
 import { faqs } from "@/content/faqs";
+import { updatedOf } from "@/content/routes";
 import { useCaseNav, type NavLink } from "@/content/site";
 import { buildMetadata, itemListLd } from "@/lib/seo";
 import { cn } from "@/lib/utils";
@@ -44,7 +45,7 @@ export default function UseCasesPage() {
               Whether you shoot the event or run it, Snapdaps gets every guest their photos with a selfie. Pick your
               role or your event to see how.
             </p>
-            <PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-30" className="pt-2" />
+            <PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated={updatedOf(PATH)} className="pt-2" />
           </>
         }
       />

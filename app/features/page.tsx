@@ -17,6 +17,7 @@ import {
   ShareCard,
   UploadCard,
 } from "@/components/product/cards";
+import { updatedOf } from "@/content/routes";
 import { buildMetadata } from "@/lib/seo";
 
 /* ------------------------------------------------------------------------------------
@@ -47,7 +48,7 @@ export default function FeaturesPage() {
         title="Everything you need to deliver event photos smarter"
         subtitle="A complete client photo delivery system powered by AI."
         body={<p>Upload once. Let AI do the rest — your guests find their photos with a selfie, on any device.</p>}
-        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-31" />}
+        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated={updatedOf(PATH)} />}
       />
 
       <Section id="overview" tone="panel" title="All features at a glance">

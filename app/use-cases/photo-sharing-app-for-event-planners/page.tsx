@@ -18,6 +18,7 @@ import { FaceMatchCard, PrivacyCard, SelfieSearchCard, ShareCard, UploadCard } f
 import { eventSamples } from "@/components/mock/photos";
 import { PhotoPool } from "@/components/mock/photo-pool";
 import { faqs } from "@/content/faqs";
+import { updatedOf } from "@/content/routes";
 import { buildMetadata } from "@/lib/seo";
 
 /* ------------------------------------------------------------------------------------
@@ -64,7 +65,7 @@ export default function EventPlannersPage() {
         note={
           <>
             <p>Perfect for corporate events, weddings, parties, and large gatherings.</p>
-            <PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-31" className="mt-2" />
+            <PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated={updatedOf(PATH)} className="mt-2" />
           </>
         }
         visual={

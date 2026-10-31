@@ -21,6 +21,7 @@ import { PhotoPool } from "@/components/mock/photo-pool";
 import { ChatMock } from "@/components/mock/screens";
 import { FaceMatchCard, SelfieSearchCard, ShareCard } from "@/components/product/cards";
 import { faqs } from "@/content/faqs";
+import { updatedOf } from "@/content/routes";
 import { buildMetadata } from "@/lib/seo";
 
 /* ------------------------------------------------------------------------------------
@@ -70,7 +71,7 @@ export default function PhotographersPage() {
         }
         hook="You shoot premium photos. Snapdaps delivers them."
         trustLine={["No credit card required", "Setup in minutes", "Built for photographers"]}
-        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-31" />}
+        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated={updatedOf(PATH)} />}
         visual={
           <EventPhotoHero
             photo="photographer-at-work"

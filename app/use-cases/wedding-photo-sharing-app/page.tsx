@@ -20,6 +20,7 @@ import { eventSamples } from "@/components/mock/photos";
 import { PhotoPool } from "@/components/mock/photo-pool";
 import { ChatMock } from "@/components/mock/screens";
 import { faqs } from "@/content/faqs";
+import { updatedOf } from "@/content/routes";
 import { buildMetadata } from "@/lib/seo";
 
 /* ------------------------------------------------------------------------------------
@@ -108,7 +109,7 @@ export default function WeddingPage() {
         }
         title="World’s Best Wedding Photo Sharing App with AI Face Search"
         subtitle="Upload wedding photos once and let guests find their photos in a second using AI face recognition — just by uploading a selfie. No waiting, no manual searching."
-        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-30" />}
+        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated={updatedOf(PATH)} />}
         visual={
           <EventPhotoHero
             photo="wedding-guest-phone"

@@ -11,7 +11,7 @@ import { UseCaseLead } from "@/components/blocks/use-case-lead";
 import { QrPlacementScene } from "@/components/mock/event-scenes";
 import { ShareCard } from "@/components/product/cards";
 import { faqs } from "@/content/faqs";
-import { isIndexed } from "@/content/routes";
+import { isIndexed, updatedOf } from "@/content/routes";
 import { buildMetadata } from "@/lib/seo";
 
 /* ------------------------------------------------------------------------------------
@@ -62,7 +62,7 @@ export default function QrCodePhotoSharingPage() {
             photos they appear in — no app, no login, no link to type.
           </p>
         }
-        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-31" />}
+        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated={updatedOf(PATH)} />}
         visual={
           <div aria-hidden="true" data-nosnippet>
             <ShareCard className="mx-auto max-w-72" />

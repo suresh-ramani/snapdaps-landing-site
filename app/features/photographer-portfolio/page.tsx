@@ -9,7 +9,7 @@ import { QuestionSection } from "@/components/blocks/question-section";
 import { UseCaseLead } from "@/components/blocks/use-case-lead";
 import { LottieScene } from "@/components/motion/lottie-scene";
 import { faqs } from "@/content/faqs";
-import { isIndexed } from "@/content/routes";
+import { isIndexed, updatedOf } from "@/content/routes";
 import { buildMetadata } from "@/lib/seo";
 
 /* ------------------------------------------------------------------------------------
@@ -54,7 +54,7 @@ export default function PhotographerPortfolioPage() {
             in the same place, so they can see more of it.
           </p>
         }
-        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-31" />}
+        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated={updatedOf(PATH)} />}
         visual={
           <EventPhotoHero
             photo="wedding-couple"

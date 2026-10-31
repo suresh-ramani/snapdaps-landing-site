@@ -9,7 +9,7 @@ export default function robots(): MetadataRoute.Robots {
   }
   return {
     rules: [{ userAgent: "*", allow: "/", disallow: ["/api/", "/blogs/preview/", "/blogs/search"] }],
+    // No `host`: the Host directive is non-standard (only Yandex ever read it); canonicals do that job.
     sitemap: absoluteUrl("/sitemap.xml"),
-    host: absoluteUrl("/"),
   };
 }

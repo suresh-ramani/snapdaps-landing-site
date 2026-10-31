@@ -1,4 +1,4 @@
-import { Images, PhoneMissed, QrCode, ScanFace, SearchX, Smile, Sparkles, Usb } from "lucide-react";
+import { Images, PhoneMissed, QrCode, Smile, Sparkles, Usb } from "lucide-react";
 import { Suspense } from "react";
 import { ComparisonRows } from "@/components/blocks/comparison-rows";
 import { DeliveryComparison } from "@/components/blocks/delivery-comparison";
@@ -22,6 +22,7 @@ import { TypingWords } from "@/components/blocks/typing-words";
 import { AnnouncementPill, showsHeroPill } from "@/components/layout/announcement-bar";
 import { JsonLd } from "@/components/json-ld";
 import { faqs } from "@/content/faqs";
+import { updatedOf } from "@/content/routes";
 import { site } from "@/content/site";
 import { getPlans } from "@/lib/plans";
 import { formatPrice } from "@/lib/plans";
@@ -38,8 +39,8 @@ import { getAnnouncement } from "@/lib/wp/api";
 const TITLE = "AI Photo Sharing App for Photographers & Events | Snapdaps";
 const DESCRIPTION =
   "Upload event photos once. Guests scan a QR code or open a link, take a selfie, and AI face search shows only their photos — no app, no login. Start free.";
-/** Bump when the home page's copy changes (WebPage dateModified). */
-const UPDATED = "2026-10-31";
+/** Bump `updated` for "/" in content/routes.ts when the home page's copy changes. */
+const UPDATED = updatedOf("/");
 
 export const metadata = buildMetadata({ absoluteTitle: TITLE, description: DESCRIPTION, path: "/" });
 
@@ -157,22 +158,14 @@ export default async function HomePage() {
         id="solution"
         align="center"
         glow
-        headerClassName="max-w-6xl"
-        // Two lines from md up: brand line, then the descriptor sized to fit one line at each
-        // breakpoint (26px md, 34px lg, full heading size xl). Phones: brand line + a smaller
-        // two-line descriptor. The space keeps the text "Meet Snapdaps — smart…" for SEO/readers.
-        title={
-          <>
-            <span className="block">Meet Snapdaps —</span>{" "}
-            <span className="mt-1 block text-[1.375rem] leading-snug md:text-[1.625rem] lg:text-[2.125rem] xl:text-[2.6rem] xl:leading-[1.1]">
-              smart AI-powered photo sharing and AI face search platform
-            </span>
-          </>
-        }
+        // Short brand heading; the descriptor ("smart AI-powered photo sharing and AI face search platform")
+        // opens the intro, so the keywords stay without a keyword-heavy H2.
+        title="Meet Snapdaps"
         intro={
           <p>
-            Upload photos once. Let AI automatically organise and deliver them to the right people instantly. No
-            manual searching — just instant photo discovery by AI face recognition.
+            The smart, AI-powered photo sharing and AI face search platform. Upload photos once. Let AI automatically
+            organise and deliver them to the right people instantly. No manual searching — just instant photo
+            discovery by AI face recognition.
           </p>
         }
       >
@@ -200,15 +193,14 @@ export default async function HomePage() {
         </div>
 
         <h3 className="mb-6 mt-20 text-center text-2xl font-semibold tracking-tight md:text-3xl">
-          See how Snapdaps transforms your photo sharing experience
+          What changes in your workflow
         </h3>
         <ComparisonRows
           className="mx-auto max-w-4xl"
           beforeLabel="Before Snapdaps"
           rows={[
             { before: "Manually sorting thousands of photos", after: "Upload once — AI does the sorting", beforeIcon: Images, afterIcon: Sparkles },
-            { before: "Sending Google Drive links or a pendrive", after: "Share one QR code or secure link", beforeIcon: Usb, afterIcon: QrCode },
-            { before: "Clients struggling to find their photos", after: "Instant photo access via face search", beforeIcon: SearchX, afterIcon: ScanFace },
+            { before: "Copying photos for every client, one by one", after: "One upload serves the whole event", beforeIcon: Usb, afterIcon: QrCode },
             { before: "Endless calls and follow-ups", after: "Zero manual effort — happy clients, more referrals", beforeIcon: PhoneMissed, afterIcon: Smile },
           ]}
         />

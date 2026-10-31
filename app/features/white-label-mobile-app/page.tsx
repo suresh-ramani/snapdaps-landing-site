@@ -11,7 +11,7 @@ import { UseCaseLead } from "@/components/blocks/use-case-lead";
 import { BrandedApp } from "@/components/mock/branded-app";
 import { LottieScene } from "@/components/motion/lottie-scene";
 import { faqs } from "@/content/faqs";
-import { isIndexed } from "@/content/routes";
+import { isIndexed, updatedOf } from "@/content/routes";
 import { buildMetadata } from "@/lib/seo";
 
 /* ------------------------------------------------------------------------------------
@@ -60,7 +60,7 @@ export default function WhiteLabelMobileAppPage() {
             favourites and download. Snapdaps builds and publishes it for you.
           </p>
         }
-        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-31" />}
+        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated={updatedOf(PATH)} />}
         visual={<BrandedApp />}
       />
 

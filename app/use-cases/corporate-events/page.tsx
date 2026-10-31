@@ -19,7 +19,7 @@ import { eventSamples } from "@/components/mock/photos";
 import { PhotoPool } from "@/components/mock/photo-pool";
 import { ChatMock } from "@/components/mock/screens";
 import { faqs } from "@/content/faqs";
-import { isIndexed } from "@/content/routes";
+import { isIndexed, updatedOf } from "@/content/routes";
 import { buildMetadata } from "@/lib/seo";
 
 /* ------------------------------------------------------------------------------------
@@ -108,7 +108,7 @@ export default function CorporateEventsPage() {
             the photos they’re in — ready for LinkedIn while people are still talking about the event.
           </p>
         }
-        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-31" />}
+        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated={updatedOf(PATH)} />}
         visual={
           <EventPhotoHero
             photo="corporate-conference"

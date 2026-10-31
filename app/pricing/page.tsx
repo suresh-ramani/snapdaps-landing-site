@@ -12,6 +12,7 @@ import { StatsBand } from "@/components/blocks/stats-band";
 import { VideoTestimonials, hasVideoTestimonials } from "@/components/blocks/video-testimonials";
 import { JsonLd } from "@/components/json-ld";
 import { faqs } from "@/content/faqs";
+import { updatedOf } from "@/content/routes";
 import { comingSoonPlanFeatures, paidPlanFeatures, planTaglines, site } from "@/content/site";
 import { bestYearlySaving, formatPrice, getPlans, planSignupHref, type Plan } from "@/lib/plans";
 import { buildMetadata, softwareLd } from "@/lib/seo";
@@ -106,7 +107,7 @@ export default async function PricingPage() {
           name={`${TITLE} | ${site.name}`}
           description={DESCRIPTION}
           path={PATH}
-          updated="2026-10-31"
+          updated={updatedOf(PATH)}
           className="mt-8 text-center"
         />
       </Section>

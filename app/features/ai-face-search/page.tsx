@@ -11,7 +11,7 @@ import { UseCaseLead } from "@/components/blocks/use-case-lead";
 import { LottieScene } from "@/components/motion/lottie-scene";
 import { FaceMatchCard, SelfieSearchCard } from "@/components/product/cards";
 import { faqs } from "@/content/faqs";
-import { isIndexed } from "@/content/routes";
+import { isIndexed, updatedOf } from "@/content/routes";
 import { useCaseNav } from "@/content/site";
 import { buildMetadata } from "@/lib/seo";
 
@@ -55,7 +55,7 @@ export default function AiFaceSearchPage() {
             shows every event photo they appear in.
           </p>
         }
-        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated="2026-10-31" />}
+        note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated={updatedOf(PATH)} />}
         visual={
           <div aria-hidden="true" data-nosnippet className="mx-auto grid max-w-md grid-cols-1 items-start gap-3 sm:grid-cols-[1fr_1.2fr]">
             <SelfieSearchCard className="sm:mt-10" />
