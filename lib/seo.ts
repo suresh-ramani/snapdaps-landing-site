@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { coreFeatures, founders, site } from "@/content/site";
-import { absoluteUrl, stripHtml } from "@/lib/utils";
+import { absoluteUrl, stripHtml, wpDate } from "@/lib/utils";
 import { videoPoster, youtubeId, type VideoTestimonial } from "@/content/video-testimonials";
 import type { WPAuthor, WPPost, WPSeo } from "@/lib/wp/types";
 
@@ -18,6 +18,17 @@ type BuildMetadataInput = {
   modifiedTime?: string;
   authors?: string[];
 };
+
+/**
+ * Path of a cursor-paginated blog listing (`?after=` / `?before=`). Paginated pages get a
+ * self-referencing canonical (not page one — they list different posts) plus noindex, follow:
+ * crawlers still follow them to every post, but only page one competes in results.
+ */
+export function pagedPath(base: string, { after, before }: { after?: string; before?: string }) {
+  if (after) return `${base}?after=${encodeURIComponent(after)}`;
+  if (before) return `${base}?before=${encodeURIComponent(before)}`;
+  return base;
+}
 
 /** One place that builds title, canonical, Open Graph and Twitter tags for every route. */
 export function buildMetadata(input: BuildMetadataInput): Metadata {
@@ -63,9 +74,11 @@ export function postMetadata(post: WPPost): Metadata {
     path: `/blogs/${post.slug}`,
     image: seo.opengraphImage?.sourceUrl ?? post.featuredImage?.node.sourceUrl,
     type: "article",
+    // Yoast's per-post "Allow search engines to show this post?". WordPress must NOT have "Discourage
+    // search engines" on — with Yoast that sets noindex on every post (see README → WordPress setup).
     noindex: seo.metaRobotsNoindex === "noindex",
-    publishedTime: post.date,
-    modifiedTime: post.modified,
+    publishedTime: wpDate(post.dateGmt, post.date),
+    modifiedTime: wpDate(post.modifiedGmt, post.modified),
     authors: post.author?.node.name ? [post.author.node.name] : undefined,
   });
 }
@@ -156,23 +169,49 @@ export function breadcrumbLd(items: { name: string; path: string }[]) {
 
 export function blogPostingLd(post: WPPost) {
   const author = post.author?.node;
+  const url = absoluteUrl(`/blogs/${post.slug}`);
+  const words = stripHtml(post.content ?? "").split(/\s+/).filter(Boolean).length;
   return {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
+    "@id": `${url}#article`,
+    url,
     headline: stripHtml(post.title),
     description: stripHtml(post.excerpt).slice(0, 200),
     image: post.featuredImage?.node.sourceUrl ? [post.featuredImage.node.sourceUrl] : undefined,
-    datePublished: post.date,
-    dateModified: post.modified,
-    mainEntityOfPage: absoluteUrl(`/blogs/${post.slug}`),
+    datePublished: wpDate(post.dateGmt, post.date),
+    dateModified: wpDate(post.modifiedGmt, post.modified),
+    inLanguage: "en-IN",
+    wordCount: words || undefined,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    isPartOf: { "@type": "Blog", name: `${site.name} blog`, url: absoluteUrl("/blogs") },
     author: author ? personLd(author, false) : undefined,
     publisher: {
       "@type": "Organization",
       name: site.name,
+      url: absoluteUrl("/"),
       logo: { "@type": "ImageObject", url: absoluteUrl("/brand/snapdaps-logo-1200.png") },
     },
     articleSection: post.categories?.nodes[0]?.name,
     keywords: post.tags?.nodes.map((t) => t.name).join(", ") || undefined,
+  };
+}
+
+/** The blog index as a Blog with its newest posts (page one only). */
+export function blogLd(posts: { title: string; slug: string; date: string; dateGmt?: string | null }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: `${site.name} blog`,
+    url: absoluteUrl("/blogs"),
+    inLanguage: "en-IN",
+    publisher: { "@type": "Organization", name: site.name, url: absoluteUrl("/") },
+    blogPost: posts.map((p) => ({
+      "@type": "BlogPosting",
+      headline: stripHtml(p.title),
+      url: absoluteUrl(`/blogs/${p.slug}`),
+      datePublished: wpDate(p.dateGmt, p.date),
+    })),
   };
 }
 

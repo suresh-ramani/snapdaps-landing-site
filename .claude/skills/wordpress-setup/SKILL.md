@@ -10,7 +10,7 @@ The full mu-plugin snippet and plugin list are in `README.md` → "WordPress set
 ## Setup checklist
 
 1. WordPress on its own host (e.g. `cms.snapdaps.ai`) with **WPGraphQL**. Optional: **Yoast SEO** + **WPGraphQL for Yoast SEO**.
-2. WordPress → Settings → Reading: discourage search engines (only the Next.js site should be indexed). Permalinks: `/%postname%/`.
+2. WordPress → Settings → Reading: leave *Discourage search engines* **off** — with Yoast it turns every post's `seo.metaRobotsNoindex` into `noindex`, and `postMetadata` honours it, so the blog would be noindexed. The mu-plugin sends `X-Robots-Tag: noindex, nofollow` on the WordPress front end instead. Permalinks: `/%postname%/`.
 3. `.env.local` (copy from `.env.example`):
    - `WP_URL`, `WP_GRAPHQL_URL` (`…/graphql`)
    - `WP_SEO_PLUGIN=yoast` only if the Yoast GraphQL plugin is active — queries then ask for `seo {}` fields.
@@ -23,12 +23,21 @@ The full mu-plugin snippet and plugin list are in `README.md` → "WordPress set
 
 Never commit real secrets; `.env*.local` is gitignored and Claude is denied reading it (`.claude/settings.json`).
 
+## Local WordPress (Herd / Valet)
+
+The team's local CMS is `https://cms.snapdaps.test` (Herd, files in `../blog`). To run this site against it:
+- `WP_URL=https://cms.snapdaps.test`, `WP_GRAPHQL_URL=https://cms.snapdaps.test/graphql` (in `.env.local`, or exported for one build).
+- Node doesn't trust Herd's local certificate: `NODE_EXTRA_CA_CERTS="$HOME/Library/Application Support/Herd/config/valet/CA/LaravelValetCASelfSigned.pem"`.
+- `*.test` resolves to 127.0.0.1, which next/image blocks; `next.config.ts` sets `dangerouslyAllowLocalIP` only when the WordPress host is `*.test`, `*.localhost` or `localhost`.
+- Installed and active there: WPGraphQL, Yoast SEO and WPGraphQL Yoast SEO Addon (`add-wpgraphql-seo`), so `WP_SEO_PLUGIN=yoast` works. Permalinks `/%postname%/`; *Discourage search engines* off; `wp-content/mu-plugins/snapdaps-noindex.php` adds the front-end `X-Robots-Tag` (the revalidate/preview part of the README mu-plugin isn't installed locally). Seven posts titled "Sample: …" by "Sample Author" (user `sample-author`), in Wedding photography / Photo delivery / Event planning, exist only to preview the design — delete them (and the sample author) before real content goes in. "Hello world!" was moved to drafts.
+
 ## Debugging
 
 | Symptom | Check |
 |---|---|
+| Every blog post is `noindex` | Settings → Reading → *Discourage search engines* is on; with Yoast that makes `seo.metaRobotsNoindex` = `noindex` for every post. Turn it off and rely on the mu-plugin's `X-Robots-Tag` header |
 | Blog shows empty states | `WP_GRAPHQL_URL` unset → dev console warns `[wp] WP_GRAPHQL_URL is not set`. Test: `curl -s -X POST "$WP_GRAPHQL_URL" -H 'content-type: application/json' -d '{"query":"{ posts(first:1){ nodes { slug } } }"}'` |
-| GraphQL errors about `seo` | `WP_SEO_PLUGIN=yoast` set but the WPGraphQL-for-Yoast plugin isn't active |
+| `[wp] WP_SEO_PLUGIN=yoast is set but WordPress has no seo field` warning | `WP_SEO_PLUGIN=yoast` set but the WPGraphQL-for-Yoast plugin isn't active. Pages still work: `wpQuery` drops the `seo { … }` selections and retries, and metadata falls back to the post's own title/excerpt. Fix by installing Yoast SEO + WPGraphQL for Yoast SEO, or unset `WP_SEO_PLUGIN` |
 | Edits take minutes to appear | Webhook not firing. Test: `curl -X POST https://<site>/api/revalidate -H 'x-revalidate-secret: <secret>' -H 'content-type: application/json' -d '{"type":"all"}'` → expect `{"ok":true,…}`; 401 = secret mismatch. The CDN may still hold HTML for 60s (`proxy.ts`). |
 | Preview button 401/404 | `PREVIEW_SECRET` mismatch, or app password missing/wrong → `getPostPreview` returns null |
 | Images fail to load | Host missing from `images.remotePatterns` |

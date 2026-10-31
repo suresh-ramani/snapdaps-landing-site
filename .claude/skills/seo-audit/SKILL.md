@@ -25,6 +25,7 @@ For every `app/**/page.tsx`:
 - [ ] Internal links use `next/link`; pagination uses real URLs.
 - [ ] Question-led content: every marketing page except home has 2–4 question H2s (`QuestionSection`) each followed by a 40–60-word answer, a `faqs[PATH]` FAQ with no question repeated across pages, a `PageByline` (WebPage + `dateModified`), and its own keyword cluster (no two use-case pages targeting the same query). `/how-it-works` has HowTo, `/use-cases` has ItemList.
 - [ ] Duplicate copy: no sentence of 12+ words repeated across use-case pages (compare server HTML); no "Placeholder"/"TODO" text on indexed pages.
+- [ ] Blog: paginated pages (`?after=`/`?before=`) have a self canonical + `noindex, follow` + "(older posts)" title; `/blogs/search` has its own canonical; posts output BlogPosting with timezone dates, BreadcrumbList, and FAQPage only when a Yoast FAQ block is present; `/blogs` outputs Blog; WordPress doesn't have "Discourage search engines" on (with Yoast it noindexes every post).
 - [ ] GEO/AEO: "What is Snapdaps?" definition + FAQ (FAQPage) on home; `/llms.txt` 200; decorative mock wrappers have `data-nosnippet`; Organization schema has contact details (and `sameAs` once social links exist).
 
 ## 2. Runtime checks

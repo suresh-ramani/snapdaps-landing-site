@@ -241,6 +241,26 @@
   font-family: var(--font-display);
   scroll-margin-top: 6rem;
 }
+/* Yoast FAQ block inside posts: each question as a card, matching the site's FAQ. */
+.prose-snap :where(.schema-faq) {
+  display: grid;
+  gap: 0.75rem;
+  margin-block: 1.75em;
+}
+.prose-snap :where(.schema-faq-section) {
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  background: var(--card);
+  padding: 1rem 1.25rem;
+}
+.prose-snap :where(.schema-faq-question) {
+  display: block;
+  color: var(--foreground);
+  font-size: 1.05em;
+}
+.prose-snap :where(.schema-faq-answer) {
+  margin: 0.4em 0 0;
+}
 .prose-snap :where(img) {
   border-radius: var(--radius);
 }

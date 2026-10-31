@@ -9,12 +9,17 @@ const wpHost = (() => {
   }
 })();
 
+// A local WordPress (Herd/Valet `*.test`, `localhost`) resolves to 127.0.0.1, which next/image refuses
+// by default. Allow it only for those hosts, so the live CMS keeps the protection.
+const wpIsLocal = Boolean(wpHost && (wpHost === "localhost" || /\.(test|localhost)$/.test(wpHost)));
+
 const nextConfig: NextConfig = {
   // Self-contained server bundle for Docker / plain Node hosting. Harmless on Vercel.
   output: "standalone",
   poweredByHeader: false,
   images: {
     formats: ["image/avif", "image/webp"],
+    dangerouslyAllowLocalIP: wpIsLocal,
     remotePatterns: [
       ...(wpHost ? [{ protocol: "https" as const, hostname: wpHost }] : []),
       { protocol: "https", hostname: "secure.gravatar.com" },

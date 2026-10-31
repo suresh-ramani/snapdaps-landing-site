@@ -305,4 +305,27 @@ export const faqs: Record<string, Faq[]> = {
       a: "You don't need to. Share the Snapdaps event link or QR code instead — each guest gets only their own photos rather than browsing the whole folder.",
     },
   ],
+
+  "/features/white-label-mobile-app": [
+    {
+      q: "Is the studio app available on both Android and iOS?",
+      a: "Yes. Snapdaps publishes your studio's app on both Android and iOS, under your studio's own name.",
+    },
+    {
+      q: "Is the white-label app included in every Snapdaps plan?",
+      a: "No. The white-label app is available on selected Snapdaps plans. Book a demo and we'll tell you which plan fits your studio.",
+    },
+    {
+      q: "Will my app show other photographers' events?",
+      a: "No. Your app shows only your studio — your portfolio and the events you deliver. Other Snapdaps studios never appear in it.",
+    },
+    {
+      q: "Can guests without the app still get their photos?",
+      a: "Yes. Every event still has its secure link and QR code, so anyone can find their photos with a selfie in their phone's browser, with or without your app.",
+    },
+    {
+      q: "Do clients get notified when their photos are ready?",
+      a: "Yes. Your app sends clients a notification when their photos are ready, so they open your app — not a chat thread — to see them.",
+    },
+  ],
 };

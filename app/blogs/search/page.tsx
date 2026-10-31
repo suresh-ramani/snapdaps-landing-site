@@ -1,8 +1,14 @@
+import { BlogHeader } from "@/components/blog/blog-header";
 import { BlogNav } from "@/components/blog/blog-nav";
 import { PostGrid } from "@/components/blog/post-grid";
 import { getCategories, getPosts } from "@/lib/wp/api";
 
-export const metadata = { title: "Search the blog", robots: { index: false, follow: true } };
+// Own canonical (otherwise it inherits the home page's from the root layout); never indexed.
+export const metadata = {
+  title: "Search the blog",
+  alternates: { canonical: "/blogs/search" },
+  robots: { index: false, follow: true },
+};
 
 type Props = { searchParams: Promise<{ q?: string }> };
 
@@ -15,28 +21,43 @@ export default async function SearchPage({ searchParams }: Props) {
   ]);
 
   return (
-    <div className="container-page pb-[var(--section-y)] pt-14 md:pt-20">
-      <header className="mb-10 max-w-2xl">
-        <h1 className="text-5xl font-bold tracking-[-0.03em]">Search</h1>
-        {query && (
-          <p className="mt-4 text-lg text-muted-foreground" aria-live="polite">
-            {list?.posts.length ?? 0} result{list?.posts.length === 1 ? "" : "s"} for “{query}”
-          </p>
-        )}
-      </header>
-      <BlogNav categories={categories} query={query} />
-      <div className="mt-12">
-        {query ? (
-          <PostGrid posts={list?.posts ?? []} empty={{
-            icon: "search",
-            title: "No posts match that search",
-            description: "Try a shorter or different word.",
-            action: { label: "Browse all posts", href: "/blogs" },
-          }} />
-        ) : (
-          <p className="text-muted-foreground">Type a word or phrase above to search all posts.</p>
-        )}
-      </div>
-    </div>
+    <>
+      <BlogHeader
+        breadcrumbs={[
+          { name: "Blog", path: "/blogs" },
+          { name: "Search", path: "/blogs/search" },
+        ]}
+        title={query ? <>Results for “{query}”</> : "Search the blog"}
+        description={
+          query ? (
+            <p aria-live="polite">
+              {list?.posts.length ?? 0} post{list?.posts.length === 1 ? "" : "s"} found
+            </p>
+          ) : (
+            <p>Search every guide on sharing event photos.</p>
+          )
+        }
+      >
+        <BlogNav categories={categories} query={query} />
+      </BlogHeader>
+      <section data-tone="default" aria-label="Results" className="section-y pt-10 md:pt-12">
+        <div className="container-page">
+          {query ? (
+            <PostGrid
+              headingLevel="h2"
+              posts={list?.posts ?? []}
+              empty={{
+                icon: "search",
+                title: "No posts match that search",
+                description: "Try a shorter or different word.",
+                action: { label: "Browse all posts", href: "/blogs" },
+              }}
+            />
+          ) : (
+            <p className="text-muted-foreground">Type a word or phrase above to search all posts.</p>
+          )}
+        </div>
+      </section>
+    </>
   );
 }

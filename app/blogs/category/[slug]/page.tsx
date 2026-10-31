@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
 import { BlogNav } from "@/components/blog/blog-nav";
-import { Breadcrumbs } from "@/components/blog/breadcrumbs";
+import { BlogHeader } from "@/components/blog/blog-header";
 import { Pagination } from "@/components/blog/pagination";
 import { PostGrid } from "@/components/blog/post-grid";
-import { buildMetadata } from "@/lib/seo";
+import { buildMetadata, pagedPath } from "@/lib/seo";
 import { stripHtml } from "@/lib/utils";
 import { getCategories, getCategory, getPosts } from "@/lib/wp/api";
 
@@ -17,10 +17,13 @@ export async function generateMetadata({ params, searchParams }: Props) {
   const category = await getCategory(slug);
   if (!category) return {};
   return buildMetadata({
-    title: category.seo?.title?.replace(/\s[-|–]\s[^-|–]+$/, "") || `${category.name} articles`,
+    // Yoast's default term title is "<Name> Archives - <Site>": drop the site suffix and "Archives".
+    title:
+      (category.seo?.title?.replace(/\s[-|–]\s[^-|–]+$/, "").replace(/\s+Archives$/i, "") ||
+        `${category.name} articles`) + (after || before ? " (older posts)" : ""),
     description:
       category.seo?.metaDesc || stripHtml(category.description ?? "") || `Articles about ${category.name}.`,
-    path: `/blogs/category/${slug}`,
+    path: pagedPath(`/blogs/category/${slug}`, { after, before }),
     noindex: Boolean(after || before),
   });
 }
@@ -35,28 +38,32 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   if (!category) notFound();
 
   return (
-    <div className="container-page pb-[var(--section-y)] pt-10 md:pt-14">
-      <Breadcrumbs
-        items={[
+    <>
+      <BlogHeader
+        breadcrumbs={[
           { name: "Blog", path: "/blogs" },
           { name: category.name, path: `/blogs/category/${slug}` },
         ]}
-      />
-      <header className="mb-10 mt-8 max-w-2xl">
-        <h1 className="text-5xl font-bold tracking-[-0.03em]">{category.name}</h1>
-        {category.description && (
-          <p className="mt-5 text-xl text-muted-foreground">{stripHtml(category.description)}</p>
-        )}
-      </header>
-      <BlogNav categories={categories} active={slug} />
-      <div className="mt-12">
-        <PostGrid posts={list.posts} empty={{
-            title: `No posts in ${category.name} yet`,
-            description: "New posts in this category will appear here.",
-            action: { label: "Browse all posts", href: "/blogs" },
-          }} />
-      </div>
-      <Pagination basePath={`/blogs/category/${slug}`} pageInfo={list.pageInfo} />
-    </div>
+        title={category.name}
+        description={category.description ? <p>{stripHtml(category.description)}</p> : undefined}
+        meta={typeof category.count === "number" ? `${category.count} post${category.count === 1 ? "" : "s"}` : undefined}
+      >
+        <BlogNav categories={categories} active={slug} />
+      </BlogHeader>
+      <section data-tone="default" aria-label="Posts" className="section-y pt-10 md:pt-12">
+        <div className="container-page">
+          <PostGrid
+            headingLevel="h2"
+            posts={list.posts}
+            empty={{
+              title: `No posts in ${category.name} yet`,
+              description: "New posts in this category will appear here.",
+              action: { label: "Browse all posts", href: "/blogs" },
+            }}
+          />
+          <Pagination basePath={`/blogs/category/${slug}`} pageInfo={list.pageInfo} />
+        </div>
+      </section>
+    </>
   );
 }

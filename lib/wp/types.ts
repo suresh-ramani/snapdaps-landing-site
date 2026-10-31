@@ -35,6 +35,9 @@ export type WPPostCard = {
   excerpt: string;
   date: string;
   modified: string;
+  /** UTC, without the trailing Z — use `wpDate()` for an ISO-8601 timestamp. */
+  dateGmt?: string | null;
+  modifiedGmt?: string | null;
   featuredImage?: { node: WPImage } | null;
   author?: { node: WPAuthor } | null;
   categories?: { nodes: WPCategory[] } | null;

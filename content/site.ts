@@ -122,6 +122,7 @@ export const nav = {
         { label: "QR code sharing", href: "/features/qr-code-photo-sharing" },
         { label: "Google Drive import", href: "/features/google-drive-import" },
         { label: "Portfolio", href: "/features/photographer-portfolio" },
+        { label: "White-label app", href: "/features/white-label-mobile-app" },
       ],
     },
     {

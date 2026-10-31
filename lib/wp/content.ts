@@ -2,6 +2,34 @@ import "server-only";
 import sanitizeHtml from "sanitize-html";
 
 export type TocItem = { id: string; text: string; level: 2 | 3 };
+export type FaqItem = { q: string; a: string };
+
+const textOf = (html: string) =>
+  html
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#0?39;|&#8217;|&rsquo;/g, "’")
+    .replace(/&[a-z0-9#]+;/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+/**
+ * Questions and answers from the post's FAQ, for FAQPage schema. Reads the Yoast SEO FAQ block
+ * (`.schema-faq-section` → `.schema-faq-question` + `.schema-faq-answer`), which is how editors
+ * add FAQs in WordPress. Headless sites don't get Yoast's own schema output, so we build it here.
+ */
+function extractFaq(html: string): FaqItem[] {
+  const items: FaqItem[] = [];
+  const section = /<div[^>]*class="[^"]*\bschema-faq-section\b[^"]*"[^>]*>([\s\S]*?)<\/div>/g;
+  for (const m of html.matchAll(section)) {
+    const q = /<strong[^>]*class="[^"]*\bschema-faq-question\b[^"]*"[^>]*>([\s\S]*?)<\/strong>/.exec(m[1])?.[1];
+    const a = /<p[^>]*class="[^"]*\bschema-faq-answer\b[^"]*"[^>]*>([\s\S]*?)<\/p>/.exec(m[1])?.[1];
+    if (q && a && textOf(q) && textOf(a)) items.push({ q: textOf(q), a: textOf(a) });
+  }
+  return items;
+}
 
 const slugify = (s: string) =>
   s
@@ -19,9 +47,11 @@ const slugify = (s: string) =>
  * - lazy-loads images
  * - gives every h2/h3 a stable id and returns a table of contents
  * - rewrites absolute links to the old WP domain to relative site links
+ * - returns the Yoast FAQ block's questions for FAQPage schema
  */
-export function prepareContent(html: string): { html: string; toc: TocItem[] } {
+export function prepareContent(html: string): { html: string; toc: TocItem[]; faq: FaqItem[] } {
   const wpOrigin = process.env.WP_URL?.replace(/\/$/, "");
+  const faq = extractFaq(html);
 
   let clean = sanitizeHtml(html, {
     allowedTags: sanitizeHtml.defaults.allowedTags.concat([
@@ -89,5 +119,5 @@ export function prepareContent(html: string): { html: string; toc: TocItem[] } {
     return `<h${lvl}${nextAttrs}>${inner}</h${lvl}>`;
   });
 
-  return { html: clean, toc };
+  return { html: clean, toc, faq };
 }

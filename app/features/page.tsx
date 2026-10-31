@@ -203,7 +203,14 @@ export default function FeaturesPage() {
             {
               Icon: Smartphone,
               title: "White-label mobile app",
-              body: "Give your clients a mobile app under your studio’s own brand.",
+              body: (
+                <>
+                  Your studio’s own app on Android and iOS — your name, icon, logo and colours.{" "}
+                  <Link href="/features/white-label-mobile-app" className="font-medium text-primary hover:underline">
+                    About the studio app
+                  </Link>
+                </>
+              ),
             },
             {
               Icon: Minimize2,

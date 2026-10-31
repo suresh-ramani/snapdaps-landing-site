@@ -70,7 +70,7 @@ If you self-host on multiple Node instances, the data cache is per-instance by d
 ## WordPress setup
 
 1. Install plugins: **WPGraphQL**, **Yoast SEO** + **WPGraphQL for Yoast SEO** (optional; set `WP_SEO_PLUGIN=yoast`).
-2. Put WordPress on its own host (e.g. `cms.snapdaps.ai`). In Yoast/Settings → Reading, tick **Discourage search engines** so only the Next.js site is indexed.
+2. Put WordPress on its own host (e.g. `cms.snapdaps.ai`). **Don't** tick Settings → Reading → *Discourage search engines*: with Yoast active it makes every post report `noindex` over GraphQL, and the Next.js blog honours that, so the whole blog would drop out of search. The mu-plugin below keeps the WordPress front end out of search with an `X-Robots-Tag` header instead.
 3. Set **Settings → Permalinks** to `/%postname%/` (slugs map to `/blogs/<slug>`).
 4. Add this as `wp-content/mu-plugins/snapdaps-revalidate.php`:
 
@@ -94,6 +94,14 @@ add_action('transition_post_status', function ($new, $old, $post) {
 }, 10, 3);
 add_action('edited_category', fn() => snapdaps_revalidate(['type' => 'category']));
 add_action('profile_update',  fn() => snapdaps_revalidate(['type' => 'user']));
+
+/* Keep the WordPress front end out of search (the Next.js site is the public one). A header, not
+   "Discourage search engines", so Yoast still reports each post's own index/noindex choice. */
+add_action('send_headers', function () {
+  if (is_admin() || (defined('REST_REQUEST') && REST_REQUEST)) return;
+  if (function_exists('is_graphql_http_request') && is_graphql_http_request()) return;
+  header('X-Robots-Tag: noindex, nofollow', true);
+});
 
 /* Point WordPress "Preview" at the Next.js draft route. */
 add_filter('preview_post_link', function ($link, $post) {

@@ -103,12 +103,15 @@ export const getAuthor = cache(async (slug: string): Promise<WPAuthor | null> =>
 });
 
 type SitemapResponse = {
-  posts: { nodes: { slug: string; modified: string }[]; pageInfo: { hasNextPage: boolean; endCursor: string } };
+  posts: {
+    nodes: { slug: string; modified: string; modifiedGmt?: string | null }[];
+    pageInfo: { hasNextPage: boolean; endCursor: string };
+  };
   categories: { nodes: { slug: string }[] };
 };
 
 export async function getSitemapEntries() {
-  const posts: { slug: string; modified: string }[] = [];
+  const posts: { slug: string; modified: string; modifiedGmt?: string | null }[] = [];
   let categories: { slug: string }[] = [];
   let after: string | null = null;
   // Walk all pages, capped to avoid runaway loops.

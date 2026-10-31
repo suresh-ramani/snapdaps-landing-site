@@ -5,6 +5,16 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+/**
+ * WordPress dates as ISO-8601 with a timezone. WPGraphQL's `date`/`modified` are the site's local
+ * time with no offset, which search engines can't place; `dateGmt`/`modifiedGmt` are UTC without
+ * the "Z". Prefer GMT, fall back to the local value.
+ */
+export function wpDate(gmt?: string | null, local?: string) {
+  if (gmt) return gmt.endsWith("Z") ? gmt : `${gmt}Z`;
+  return local ?? "";
+}
+
 export function absoluteUrl(path = "/") {
   const base = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
   return `${base}${path.startsWith("/") ? path : `/${path}`}`;

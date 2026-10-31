@@ -1,9 +1,12 @@
+import { BlogHeader } from "@/components/blog/blog-header";
 import { BlogNav } from "@/components/blog/blog-nav";
 import { Pagination } from "@/components/blog/pagination";
 import { PostCard } from "@/components/blog/post-card";
 import { PostGrid } from "@/components/blog/post-grid";
+import { CtaBand } from "@/components/blocks/cta-band";
 import { site } from "@/content/site";
-import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/json-ld";
+import { blogLd, buildMetadata, pagedPath } from "@/lib/seo";
 import { getCategories, getPosts } from "@/lib/wp/api";
 
 type Props = { searchParams: Promise<{ after?: string; before?: string }> };
@@ -12,10 +15,10 @@ export async function generateMetadata({ searchParams }: Props) {
   const { after, before } = await searchParams;
   const paged = Boolean(after || before);
   return buildMetadata({
-    title: paged ? "Blog (older posts)" : "Blog",
-    description: `Guides, product updates and ideas from the ${site.name} team.`,
-    path: "/blogs",
-    // Paginated pages stay crawlable (follow) but don't compete with page one in results.
+    title: paged ? "Blog (older posts)" : "Blog: guides to sharing event photos",
+    description: `Guides on sharing event photos with every guest — QR codes, AI face search, wedding and event photo delivery — from the ${site.name} team.`,
+    path: pagedPath("/blogs", { after, before }),
+    // Paginated pages: self canonical, noindex/follow (see pagedPath).
     noindex: paged,
   });
 }
@@ -32,37 +35,50 @@ export default async function BlogIndexPage({ searchParams }: Props) {
   const [featured, ...rest] = firstPage ? posts : [undefined, ...posts];
 
   return (
-    <div className="container-page pb-[var(--section-y)] pt-14 md:pt-20">
-      <header className="mb-10 max-w-2xl">
-        <h1 className="text-5xl font-bold tracking-[-0.03em] md:text-6xl">Blog</h1>
-        <p className="mt-5 text-xl text-muted-foreground">
-          Guides, product updates and ideas from the {site.name} team.
-        </p>
-      </header>
+    <>
+      <BlogHeader
+        title="The Snapdaps blog"
+        description={
+          <p>
+            Guides to sharing event photos with every guest — QR codes, AI face search, and photo delivery for
+            weddings, parties and conferences.
+          </p>
+        }
+      >
+        <BlogNav categories={categories} />
+      </BlogHeader>
 
-      <BlogNav categories={categories} />
-
-      {!list ? (
-        <p className="mt-12 rounded-xl border border-dashed p-10 text-muted-foreground">
-          Posts couldn&apos;t load right now. Refresh the page in a minute.
-        </p>
-      ) : (
-        <>
-          {featured && (
-            <div className="mt-12 border-b pb-14">
-              <PostCard post={featured} featured priority />
-            </div>
+      <section data-tone="default" aria-label="Posts" className="section-y pt-10 md:pt-12">
+        <div className="container-page">
+          {!list ? (
+            <p className="rounded-xl border border-dashed p-10 text-muted-foreground">
+              Posts couldn&apos;t load right now. Refresh the page in a minute.
+            </p>
+          ) : (
+            <>
+              {featured && (
+                <div className="mb-10">
+                  <PostCard post={featured} featured priority headingLevel="h2" />
+                </div>
+              )}
+              <PostGrid
+                headingLevel="h2"
+                posts={rest.filter(Boolean) as typeof posts}
+                empty={{
+                  title: "No posts yet",
+                  description: "We’re writing our first guides on sharing event photos. Check back soon.",
+                  action: { label: "See how Snapdaps works", href: "/how-it-works" },
+                }}
+              />
+              <Pagination basePath="/blogs" pageInfo={list.pageInfo} />
+            </>
           )}
-          <div className="mt-14">
-            <PostGrid posts={rest.filter(Boolean) as typeof posts} empty={{
-              title: "No posts yet",
-              description: "We’re writing our first guides on sharing event photos. Check back soon.",
-              action: { label: "See how Snapdaps works", href: "/how-it-works" },
-            }} />
-          </div>
-          <Pagination basePath="/blogs" pageInfo={list.pageInfo} />
-        </>
-      )}
-    </div>
+        </div>
+      </section>
+
+      <CtaBand title="Put these guides to work at your next event" body="Upload once. Let AI do the rest." />
+
+      {firstPage && posts.length > 0 && <JsonLd data={blogLd(posts)} />}
+    </>
   );
 }

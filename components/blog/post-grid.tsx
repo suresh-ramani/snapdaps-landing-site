@@ -16,11 +16,19 @@ type EmptyState = {
 const icons: Record<NonNullable<EmptyState["icon"]>, LucideIcon> = { posts: FileText, search: SearchX };
 
 /** Post cards in a grid; with no posts, a shadcn/ui Empty state (MIT) that says why and offers a next step. */
-export function PostGrid({ posts, empty }: { posts: WPPostCard[]; empty: EmptyState }) {
+export function PostGrid({
+  posts,
+  empty,
+  headingLevel = "h3",
+}: {
+  posts: WPPostCard[];
+  empty: EmptyState;
+  headingLevel?: "h2" | "h3";
+}) {
   if (!posts.length) {
     const Icon = icons[empty.icon ?? "posts"];
     return (
-      <Empty className="border border-dashed">
+      <Empty className="border border-dashed bg-card">
         <EmptyHeader>
           <EmptyMedia variant="icon">
             <Icon aria-hidden="true" />
@@ -37,10 +45,12 @@ export function PostGrid({ posts, empty }: { posts: WPPostCard[]; empty: EmptySt
     );
   }
   return (
-    <div className="grid gap-x-8 gap-y-14 md:grid-cols-2 lg:grid-cols-3">
+    <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {posts.map((post) => (
-        <PostCard key={post.slug} post={post} />
+        <li key={post.slug}>
+          <PostCard post={post} headingLevel={headingLevel} />
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }

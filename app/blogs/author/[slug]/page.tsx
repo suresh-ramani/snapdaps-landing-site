@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { Breadcrumbs } from "@/components/blog/breadcrumbs";
+import { BlogHeader } from "@/components/blog/blog-header";
 import { Pagination } from "@/components/blog/pagination";
 import { PostGrid } from "@/components/blog/post-grid";
 import { JsonLd } from "@/components/json-ld";
-import { buildMetadata, personLd } from "@/lib/seo";
+import { buildMetadata, pagedPath, personLd } from "@/lib/seo";
 import { getAuthor, getPosts } from "@/lib/wp/api";
 
 type Props = {
@@ -17,9 +17,9 @@ export async function generateMetadata({ params, searchParams }: Props) {
   const author = await getAuthor(slug);
   if (!author) return {};
   return buildMetadata({
-    title: `${author.name}, author`,
+    title: `${author.name}, author` + (after || before ? " (older posts)" : ""),
     description: author.seo?.metaDesc || author.description || `Articles written by ${author.name}.`,
-    path: `/blogs/author/${slug}`,
+    path: pagedPath(`/blogs/author/${slug}`, { after, before }),
     image: author.avatar?.url,
     noindex: Boolean(after || before),
   });
@@ -33,29 +33,42 @@ export default async function AuthorPage({ params, searchParams }: Props) {
   const list = await getPosts({ author: slug, after, before });
 
   return (
-    <div className="container-page pb-[var(--section-y)] pt-10 md:pt-14">
-      <Breadcrumbs
-        items={[
+    <>
+      <BlogHeader
+        breadcrumbs={[
           { name: "Blog", path: "/blogs" },
           { name: author.name, path: `/blogs/author/${slug}` },
         ]}
+        aside={
+          author.avatar?.url ? (
+            <Image
+              src={author.avatar.url}
+              alt=""
+              width={96}
+              height={96}
+              className="size-16 shrink-0 rounded-full ring-1 ring-border md:size-20"
+            />
+          ) : undefined
+        }
+        title={author.name}
+        description={author.description ? <p>{author.description}</p> : undefined}
+        meta={`${list.posts.length}${list.pageInfo.hasNextPage ? "+" : ""} post${list.posts.length === 1 ? "" : "s"}`}
       />
-      <header className="mb-12 mt-8 flex max-w-2xl items-start gap-6 border-b pb-10">
-        {author.avatar?.url && (
-          <Image src={author.avatar.url} alt="" width={96} height={96} className="size-20 rounded-full" />
-        )}
-        <div>
-          <h1 className="text-4xl font-bold tracking-[-0.03em]">{author.name}</h1>
-          {author.description && <p className="mt-3 text-lg text-muted-foreground">{author.description}</p>}
+      <section data-tone="default" aria-label={`Posts by ${author.name}`} className="section-y pt-10 md:pt-12">
+        <div className="container-page">
+          <PostGrid
+            headingLevel="h2"
+            posts={list.posts}
+            empty={{
+              title: `${author.name} hasn’t published anything yet`,
+              description: "Their posts will appear here.",
+              action: { label: "Browse all posts", href: "/blogs" },
+            }}
+          />
+          <Pagination basePath={`/blogs/author/${slug}`} pageInfo={list.pageInfo} />
         </div>
-      </header>
-      <PostGrid posts={list.posts} empty={{
-          title: `${author.name} hasn’t published anything yet`,
-          description: "Their posts will appear here.",
-          action: { label: "Browse all posts", href: "/blogs" },
-        }} />
-      <Pagination basePath={`/blogs/author/${slug}`} pageInfo={list.pageInfo} />
+      </section>
       <JsonLd data={personLd(author)} />
-    </div>
+    </>
   );
 }

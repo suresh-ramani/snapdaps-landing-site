@@ -685,3 +685,66 @@ export function DriveImportScene({ className }: SceneProps) {
     </Svg>
   );
 }
+
+/** White-label app: the studio's brand assets go in, Snapdaps publishes the app on Android and iOS. */
+export function WhiteLabelScene({ className }: SceneProps) {
+  const assets = ["App name", "App icon", "Logo", "Colours"];
+  return (
+    <Svg className={className}>
+      <ArrowDef />
+      {/* Brand kit */}
+      <g transform="translate(20 64)">
+        <rect width="132" height="190" rx="12" className="fill-card stroke-border" strokeWidth="1.5" />
+        <text x="14" y="26" className="fill-foreground" fontSize="10" fontWeight="600">
+          Your brand
+        </text>
+        {assets.map((a, i) => (
+          <g key={a} transform={`translate(12 ${40 + i * 36})`}>
+            <rect width="108" height="28" rx="7" className="fill-muted" />
+            <circle cx="14" cy="14" r="6" className={i === 3 ? "fill-brand-violet" : "fill-primary/50"} />
+            <text x="28" y="18" className="fill-foreground" fontSize="9" fontWeight="500">
+              {a}
+            </text>
+          </g>
+        ))}
+      </g>
+      <Label x={86} y={278} anchor="middle">You share it</Label>
+      <Arrow d="M158 158 L196 158" />
+      {/* Snapdaps sets up and publishes */}
+      <g transform="translate(202 112)">
+        <rect width="96" height="92" rx="14" className="fill-card stroke-border" strokeWidth="1.5" />
+        <circle cx="48" cy="38" r="16" className="fill-primary/20 stroke-primary" strokeWidth="1.5" />
+        <path d="M41 38 l5 5 9 -10" className="stroke-primary" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+        <text x="48" y="74" textAnchor="middle" className="fill-muted-foreground" fontSize="8">
+          Set up &amp; published
+        </text>
+      </g>
+      <Label x={250} y={234} anchor="middle">Snapdaps does it</Label>
+      <Arrow d="M304 140 C326 112 338 100 352 96" />
+      <Arrow d="M304 176 C326 204 338 216 352 220" />
+      {/* Two stores */}
+      {[
+        [62, "Google Play", "Android"],
+        [186, "App Store", "iOS"],
+      ].map(([y, store, os]) => (
+        <g key={String(store)} transform={`translate(358 ${y})`}>
+          <rect width="114" height="72" rx="12" className="fill-card stroke-border" strokeWidth="1.5" />
+          <rect x="12" y="14" width="26" height="26" rx="7" className="fill-brand-violet" />
+          <text x="25" y="31" textAnchor="middle" fill="white" fontSize="9" fontWeight="700">
+            YS
+          </text>
+          <text x="46" y="26" className="fill-foreground" fontSize="9" fontWeight="600">
+            {store}
+          </text>
+          <text x="46" y="38" className="fill-muted-foreground" fontSize="8">
+            {os}
+          </text>
+          <text x="12" y="60" className="fill-muted-foreground" fontSize="8">
+            Your Studio
+          </text>
+        </g>
+      ))}
+      <Label x={415} y={290} anchor="middle">Your clients download it</Label>
+    </Svg>
+  );
+}

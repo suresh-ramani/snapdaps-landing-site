@@ -14,6 +14,8 @@ export const POST_CARD_FIELDS = /* GraphQL */ `
     excerpt
     date
     modified
+    dateGmt
+    modifiedGmt
     featuredImage { node { sourceUrl altText mediaDetails { width height } } }
     author { node { name slug avatar(size: 96) { url } } }
     categories(first: 3) { nodes { name slug } }
@@ -39,7 +41,8 @@ export const POST_BY_SLUG_QUERY = /* GraphQL */ `
       ...PostCard
       content
       tags { nodes { name slug } }
-      author { node { name slug description avatar(size: 160) { url } } }
+      # Same avatar size as the PostCard fragment — GraphQL rejects one field with two different arguments.
+      author { node { description } }
       ${SEO_POST}
     }
   }
@@ -52,7 +55,8 @@ export const POST_PREVIEW_QUERY = /* GraphQL */ `
       ...PostCard
       content
       tags { nodes { name slug } }
-      author { node { name slug description avatar(size: 160) { url } } }
+      # Same avatar size as the PostCard fragment — GraphQL rejects one field with two different arguments.
+      author { node { description } }
     }
   }
 `;
@@ -87,7 +91,7 @@ export const AUTHOR_QUERY = /* GraphQL */ `
 export const SITEMAP_QUERY = /* GraphQL */ `
   query Sitemap($after: String) {
     posts(first: 100, after: $after) {
-      nodes { slug modified }
+      nodes { slug modified modifiedGmt }
       pageInfo { hasNextPage endCursor }
     }
     categories(first: 100, where: { hideEmpty: true }) { nodes { slug } }

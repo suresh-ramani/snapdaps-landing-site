@@ -9,7 +9,7 @@ export async function LatestPosts() {
   if (!posts.length) return null;
   return (
     <Section id="blog" title="From the blog" tone="card">
-      <div className="grid gap-8 md:grid-cols-3">
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {posts.map((post) => (
           <PostCard key={post.slug} post={post} />
         ))}

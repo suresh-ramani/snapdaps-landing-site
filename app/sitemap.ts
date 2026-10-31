@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { marketingRoutes } from "@/content/routes";
-import { absoluteUrl } from "@/lib/utils";
+import { absoluteUrl, wpDate } from "@/lib/utils";
 import { getSitemapEntries } from "@/lib/wp/api";
 
 export const revalidate = 3600;
@@ -22,7 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     blogRoutes = [
       ...posts.map((p) => ({
         url: absoluteUrl(`/blogs/${p.slug}`),
-        lastModified: new Date(p.modified),
+        lastModified: new Date(wpDate(p.modifiedGmt, p.modified)),
         changeFrequency: "monthly" as const,
         priority: 0.6,
       })),

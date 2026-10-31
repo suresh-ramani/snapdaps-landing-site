@@ -4,7 +4,10 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import type { WPCategory } from "@/lib/wp/types";
 
-/** Category chips + search. Plain links and a GET form, so it works without JavaScript. */
+/**
+ * Category chips (with post counts) + search. Plain links and a GET form, so it works without
+ * JavaScript. Chips scroll sideways on phones instead of wrapping into a tall block.
+ */
 export function BlogNav({
   categories,
   active,
@@ -16,16 +19,18 @@ export function BlogNav({
 }) {
   const chip = (isActive: boolean) =>
     cn(
-      "rounded-full border px-3.5 py-1.5 text-sm transition-colors",
-      isActive ? "border-foreground bg-foreground text-background" : "bg-card hover:border-foreground/40",
+      "inline-flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium ring-1 transition-colors",
+      isActive
+        ? "bg-foreground text-background ring-foreground"
+        : "bg-card text-muted-foreground ring-border hover:text-foreground",
     );
   return (
-    <div className="flex flex-col gap-4 border-b pb-8 md:flex-row md:items-center md:justify-between">
-      <nav aria-label="Blog categories">
-        <ul className="flex flex-wrap gap-2">
+    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <nav aria-label="Blog categories" className="-mx-4 overflow-x-auto px-4 py-1 [scrollbar-width:none] md:mx-0 md:px-0">
+        <ul className="flex gap-2">
           <li>
-            <Link href="/blogs" className={chip(!active)} aria-current={!active ? "page" : undefined}>
-              All
+            <Link href="/blogs" className={chip(!active && !query)} aria-current={!active && !query ? "page" : undefined}>
+              All posts
             </Link>
           </li>
           {categories.map((c) => (
@@ -36,6 +41,11 @@ export function BlogNav({
                 aria-current={active === c.slug ? "page" : undefined}
               >
                 {c.name}
+                {typeof c.count === "number" && (
+                  <span className={cn("text-xs tabular-nums", active === c.slug ? "text-background/70" : "text-muted-foreground/70")}>
+                    {c.count}
+                  </span>
+                )}
               </Link>
             </li>
           ))}
@@ -46,7 +56,14 @@ export function BlogNav({
           Search the blog
         </label>
         <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-        <Input id="blog-search" name="q" type="search" defaultValue={query} placeholder="Search posts" className="pl-9" />
+        <Input
+          id="blog-search"
+          name="q"
+          type="search"
+          defaultValue={query}
+          placeholder="Search guides"
+          className="h-10 rounded-full bg-card pl-9"
+        />
       </form>
     </div>
   );
