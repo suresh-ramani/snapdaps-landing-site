@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Globe, HardDrive, Heart, Images, Link2, Minimize2, PhoneMissed, QrCode, ScanFace, SearchX, Smartphone, Smile, Sparkles, Usb } from "lucide-react";
+import { Globe, HardDrive, Heart, Images, Link2, PhoneMissed, QrCode, ScanFace, SearchX, Smartphone, Smile, Sparkles, Usb } from "lucide-react";
 import { ComparisonRows } from "@/components/blocks/comparison-rows";
 import { CtaBand } from "@/components/blocks/cta-band";
 import { FeatureBento } from "@/components/blocks/feature-bento";
@@ -106,7 +106,6 @@ export default function FeaturesPage() {
                 "Drag & drop photos to upload",
                 "Bulk upload thousands of photos",
                 "Import from a Google Drive link",
-                "Compress them if you want",
                 "Organise photos into event folders",
               ],
               visual: <UploadCard className="mx-auto max-w-md" />,
@@ -154,7 +153,7 @@ export default function FeaturesPage() {
         title="More for photographers"
         intro={<p>Beyond delivery: show your work under your own brand, bring photos in from Drive, and let clients pick their favourites.</p>}
       >
-        <InfoCards
+        <InfoCards className="lg:grid-cols-3"
           items={[
             {
               Icon: Globe,
@@ -211,11 +210,6 @@ export default function FeaturesPage() {
                   </Link>
                 </>
               ),
-            },
-            {
-              Icon: Minimize2,
-              title: "Compression while uploading",
-              body: "Choose to compress photos as you upload them, for lighter galleries.",
             },
           ]}
         />

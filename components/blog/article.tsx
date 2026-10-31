@@ -8,6 +8,7 @@ import { Breadcrumbs } from "@/components/blog/breadcrumbs";
 import { PostCard } from "@/components/blog/post-card";
 import { ShareLinks } from "@/components/blog/share-links";
 import { Toc } from "@/components/blog/toc";
+import { AnnouncementCard } from "@/components/layout/announcement-bar";
 import { CtaBand } from "@/components/blocks/cta-band";
 import { JsonLd } from "@/components/json-ld";
 import { cta, site } from "@/content/site";
@@ -22,8 +23,8 @@ import type { WPPost } from "@/lib/wp/types";
  *
  * - Header band (brand glow): breadcrumbs, category, H1, excerpt, author avatar + name, dates,
  *   reading time — who wrote it and when, up front (E-E-A-T). Then the featured image.
- * - Body: reading-width prose; on desktop a sticky sidebar with "On this page", share links and a
- *   small product card; on phones the contents sit in a collapsible box above the text.
+ * - Body: reading-width prose; on desktop a sticky sidebar with "On this page", the current
+ *   announcement card (offer / launch / update, when one is on) and a small product card; on phones the contents sit in a collapsible box above the text.
  * - After the text: tags, share, author box; then related posts (panel band) and the CTA band.
  */
 export function Article({ post, isPreview = false }: { post: WPPost; isPreview?: boolean }) {
@@ -37,7 +38,7 @@ export function Article({ post, isPreview = false }: { post: WPPost; isPreview?:
 
   return (
     <article>
-      <header data-tone="default" className="relative isolate overflow-hidden pt-10 md:pt-14">
+      <header data-tone="default" className="relative isolate overflow-hidden pb-12 pt-10 md:pb-16 md:pt-14">
         <div aria-hidden="true" className="glow-brand pointer-events-none absolute inset-x-0 top-0 -z-10 h-[32rem]" />
         <div className="container-page">
           <Breadcrumbs
@@ -103,7 +104,8 @@ export function Article({ post, isPreview = false }: { post: WPPost; isPreview?:
         </div>
       </header>
 
-      <section data-tone="default" aria-label="Article" className="section-y pt-12 md:pt-16">
+      {/* Top gap comes from the header band's pb-* (same-tone neighbours drop their top padding). */}
+      <section data-tone="default" aria-label="Article" className="section-y">
         <div className="container-page grid gap-12 lg:grid-cols-[minmax(0,var(--reading))_17rem] lg:justify-center lg:gap-16">
           <div className="min-w-0">
             {toc.length > 1 && (
@@ -151,8 +153,14 @@ export function Article({ post, isPreview = false }: { post: WPPost; isPreview?:
           </div>
 
           <aside className="hidden lg:block">
-            <div className="sticky top-24 space-y-8">
+            <div className="sticky top-24 max-h-[calc(100vh-7rem)] space-y-6 overflow-y-auto px-1 pb-4">
               <Toc items={toc} />
+              {/* Current offer / launch / update from WordPress → Settings → Announcement (none in previews). */}
+              {!isPreview && (
+                <Suspense fallback={null}>
+                  <AnnouncementCard />
+                </Suspense>
+              )}
               <div className="surface p-5">
                 <p className="font-semibold tracking-tight">Share event photos the smart way</p>
                 <p className="mt-1.5 text-sm text-muted-foreground">

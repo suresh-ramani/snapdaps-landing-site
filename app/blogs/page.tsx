@@ -48,7 +48,7 @@ export default async function BlogIndexPage({ searchParams }: Props) {
         <BlogNav categories={categories} />
       </BlogHeader>
 
-      <section data-tone="default" aria-label="Posts" className="section-y pt-10 md:pt-12">
+      <section data-tone="default" aria-label="Posts" className="section-y">
         <div className="container-page">
           {!list ? (
             <p className="rounded-xl border border-dashed p-10 text-muted-foreground">

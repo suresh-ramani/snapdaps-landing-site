@@ -11,6 +11,28 @@ import "server-only";
  */
 
 const ENDPOINT = process.env.WP_GRAPHQL_URL;
+const WP_ORIGIN = process.env.WP_URL?.replace(/\/$/, "");
+
+/** Public path WordPress uploads are served from on this site (proxied by a rewrite in next.config.ts). */
+export const MEDIA_PATH = "/media";
+
+/**
+ * Keeps the WordPress domain out of everything the site renders: every
+ * `<WP_URL>/wp-content/uploads/…` in a response (featured images, inline images and their srcset,
+ * Yoast OG images, links to files) becomes `/media/…` on this site. Runs on the raw JSON, where
+ * WordPress may escape slashes as `\/`, so both spellings are replaced.
+ */
+function hideWordPressMedia(json: string) {
+  if (!WP_ORIGIN) return json;
+  const plain = `${WP_ORIGIN}/wp-content/uploads/`;
+  const escaped = plain.replace(/\//g, "\\/"); // https:\/\/cms…\/wp-content\/uploads\/
+  return json
+    .split(plain)
+    .join(`${MEDIA_PATH}/`)
+    .split(escaped)
+    .join(`${MEDIA_PATH.replace(/\//g, "\\/")}\\/`); // \/media\/
+}
+
 const CACHE_SECONDS = Number(process.env.WP_CACHE_SECONDS ?? 300);
 
 export const WP_TAGS = {
@@ -18,6 +40,7 @@ export const WP_TAGS = {
   post: (slug: string) => `wp:post:${slug}`,
   categories: "wp:categories",
   authors: "wp:authors",
+  announcement: "wp:announcement",
 } as const;
 
 type QueryOptions = {
@@ -96,7 +119,7 @@ export async function wpQuery<T>(query: string, opts: QueryOptions = {}): Promis
 
   if (!res.ok) throw new WPError(`WordPress responded ${res.status}`);
 
-  const json = (await res.json()) as { data?: T; errors?: { message: string }[] };
+  const json = JSON.parse(hideWordPressMedia(await res.text())) as { data?: T; errors?: { message: string }[] };
   if (!seoUnavailable && json.errors?.some((e) => /Cannot query field "seo"/.test(e.message))) {
     seoUnavailable = true;
     console.warn(

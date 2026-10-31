@@ -35,8 +35,11 @@ export const marketingRoutes: MarketingRoute[] = [
   { path: "/about", label: "About", indexed: false }, // copy not in the content doc yet
   { path: "/contact", label: "Contact", indexed: true, priority: 0.5 },
   { path: "/blogs", label: "Blogs", indexed: true, priority: 0.7 },
-  { path: "/legal/privacy", label: "Privacy", indexed: false },
-  { path: "/legal/terms", label: "Terms", indexed: false },
+  // Legal text from the live snapdaps.ai pages (content/legal/*), same URLs as the old site.
+  { path: "/privacy-policy", label: "Privacy policy", indexed: true, priority: 0.3 },
+  { path: "/terms-and-conditions", label: "Terms of service", indexed: true, priority: 0.3 },
+  { path: "/refund-policy", label: "Refund policy", indexed: true, priority: 0.3 },
+  { path: "/cookie-policy", label: "Cookie policy", indexed: true, priority: 0.3 },
 ];
 
 export const isIndexed = (path: string) => marketingRoutes.find((r) => r.path === path)?.indexed ?? true;

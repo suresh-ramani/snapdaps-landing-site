@@ -97,3 +97,10 @@ export const SITEMAP_QUERY = /* GraphQL */ `
     categories(first: 100, where: { hideEmpty: true }) { nodes { slug } }
   }
 `;
+
+/** Settings → Announcement (mu-plugin snapdaps-announcement.php, see README). */
+export const ANNOUNCEMENT_QUERY = /* GraphQL */ `
+  query Announcement {
+    announcement { enabled message linkLabel linkUrl style startsAt endsAt onHero }
+  }
+`;

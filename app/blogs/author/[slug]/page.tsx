@@ -54,7 +54,7 @@ export default async function AuthorPage({ params, searchParams }: Props) {
         description={author.description ? <p>{author.description}</p> : undefined}
         meta={`${list.posts.length}${list.pageInfo.hasNextPage ? "+" : ""} post${list.posts.length === 1 ? "" : "s"}`}
       />
-      <section data-tone="default" aria-label={`Posts by ${author.name}`} className="section-y pt-10 md:pt-12">
+      <section data-tone="default" aria-label={`Posts by ${author.name}`} className="section-y">
         <div className="container-page">
           <PostGrid
             headingLevel="h2"

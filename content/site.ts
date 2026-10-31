@@ -97,6 +97,14 @@ export const useCaseNav: { title: string; links: NavLink[] }[] = [
   },
 ];
 
+/** The four legal pages (text in content/legal/*): footer "Legal" column and "Other policies" links. */
+export const legalNav = [
+  { label: "Privacy policy", href: "/privacy-policy" },
+  { label: "Terms of service", href: "/terms-and-conditions" },
+  { label: "Refund policy", href: "/refund-policy" },
+  { label: "Cookie policy", href: "/cookie-policy" },
+];
+
 export const nav = {
   main: [
     { label: "How it works", href: "/how-it-works" },
@@ -135,10 +143,9 @@ export const nav = {
         { label: "About", href: "/about" },
         { label: "Blogs", href: "/blogs" },
         { label: "Contact", href: "/contact" },
-        { label: "Privacy", href: "/legal/privacy" },
-        { label: "Terms", href: "/legal/terms" },
       ],
     },
+    { title: "Legal", links: legalNav },
   ],
 };
 
@@ -162,7 +169,7 @@ export const workflowSteps = [
     subtitle: "Upload your event photos in one place, in their respective folders.",
     points: [
       "Bulk upload thousands of photos.",
-      "Compress them if you want.",
+      "Drag and drop photos to upload.",
       "Upload from your computer and Google Drive.",
     ],
   },
@@ -236,39 +243,44 @@ export const coreFeatures = [
 
 export type CoreFeatureKey = (typeof coreFeatures)[number]["key"];
 
-export type Plan = {
-  name: string;
-  price: string;
-  period?: string;
-  description: string;
-  features: string[];
-  cta: { label: string; href: string };
-  featured?: boolean;
-};
+/**
+ * Pricing: plans, prices and limits come from the app's plans API (lib/plans.ts). This is the copy
+ * around them. `paidPlanFeatures`: included in every paid plan today (from the live pricing page).
+ * `comingSoonPlanFeatures`: confirmed by the team as not live yet (31 Oct 2026) — shown on /pricing
+ * with a "Coming soon" tag only, never claimed anywhere else. Move one up when it ships.
+ */
+export const paidPlanFeatures = [
+  "Unlimited face search",
+  "Unlimited events",
+  "Event analytics",
+  "Business portfolio",
+  "Custom domain for your portfolio",
+  "Dynamic watermark",
+  "Guest selfie pre-registration",
+  "Common QR code",
+  "Switch downloads on or off",
+  "Bulk downloads",
+  "Original-quality uploads",
+  "Apple HEIC photo support",
+  "Photo selection for albums",
+  "Mobile apps",
+] as const;
 
-// TODO: pricing isn't in the content doc yet.
-export const plans: Plan[] = [
-  {
-    name: "Free",
-    price: "₹0",
-    description: "Placeholder: who the free plan is for.",
-    features: ["Placeholder: events included", "Placeholder: photo limit", "AI face search"],
-    cta: { label: "Start free trial", href: site.signupUrl },
-  },
-  {
-    name: "Pro",
-    price: "₹—",
-    period: "/month",
-    description: "Placeholder: for working photographers.",
-    features: ["Everything in Free", "Placeholder: higher limits", "Placeholder: branding", "Priority support"],
-    cta: { label: "Start free trial", href: `${site.signupUrl}?plan=pro` },
-    featured: true,
-  },
-  {
-    name: "Studio",
-    price: "Custom",
-    description: "Placeholder: for studios and event companies.",
-    features: ["Everything in Pro", "Placeholder: team logins", "Placeholder: custom domain"],
-    cta: { label: "Talk to us", href: "/contact" },
-  },
-];
+export const comingSoonPlanFeatures = [
+  "SnapReel",
+  "Photo sharing through a WhatsApp bot",
+  "Multiple face search",
+  "Compression while uploading",
+] as const;
+
+/** One-line positioning per plan key from the API (unknown keys show none). */
+export const planTaglines: Record<string, string> = {
+  free: "Try Snapdaps on your first events",
+  lite: "For photographers getting started",
+  starter: "For regular shoots",
+  pro: "For busy photographers",
+  "pro-plus": "For high-volume photographers",
+  "pro-max": "For large studios",
+  studio: "For studios and agencies",
+  "studio-plus": "For studios and agencies",
+};

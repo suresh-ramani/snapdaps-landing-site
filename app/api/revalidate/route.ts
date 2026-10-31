@@ -1,5 +1,6 @@
 import { revalidateTag } from "next/cache";
 import { NextResponse, type NextRequest } from "next/server";
+import { PLANS_TAG } from "@/lib/plans";
 import { WP_TAGS } from "@/lib/wp/client";
 
 /**
@@ -8,7 +9,7 @@ import { WP_TAGS } from "@/lib/wp/client";
  * Call from WordPress on save/delete (see README for the mu-plugin snippet):
  *   POST /api/revalidate
  *   Header: x-revalidate-secret: <REVALIDATE_SECRET>
- *   Body:   { "type": "post", "slug": "my-post" }   // or { "type": "all" }
+ *   Body:   { "type": "post", "slug": "my-post" }   // or "category", "user", "announcement", "plans", "all"
  */
 export async function POST(req: NextRequest) {
   const secret = req.headers.get("x-revalidate-secret");
@@ -22,6 +23,8 @@ export async function POST(req: NextRequest) {
   if (body.type === "post" && body.slug) tags.push(WP_TAGS.post(body.slug));
   if (body.type === "category" || body.type === "all") tags.push(WP_TAGS.categories);
   if (body.type === "user" || body.type === "all") tags.push(WP_TAGS.authors);
+  if (body.type === "announcement" || body.type === "all") tags.push(WP_TAGS.announcement);
+  if (body.type === "plans" || body.type === "all") tags.push(PLANS_TAG);
 
   // { expire: 0 } expires the cached data immediately, so the next SSR request refetches from WordPress.
   for (const tag of tags) revalidateTag(tag, { expire: 0 });

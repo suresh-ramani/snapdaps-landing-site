@@ -15,10 +15,12 @@ import { SocialProof } from "@/components/blocks/social-proof";
 import { SolutionFlow } from "@/components/blocks/solution-flow";
 import { TurningPoint } from "@/components/blocks/turning-point";
 import { TypingWords } from "@/components/blocks/typing-words";
+import { AnnouncementPill, showsHeroPill } from "@/components/layout/announcement-bar";
 import { JsonLd } from "@/components/json-ld";
 import { faqs } from "@/content/faqs";
 import { site } from "@/content/site";
 import { buildMetadata, softwareLd } from "@/lib/seo";
+import { getAnnouncement } from "@/lib/wp/api";
 
 /* ------------------------------------------------------------------------------------
    HOME — content from Website_Content_v2_1.docx (Home). Edit copy directly in this file.
@@ -61,12 +63,17 @@ const painPoints: PainPoint[] = [
   },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  // Same cached request as the bar in the layout (React cache + data cache), resolved before the hero
+  // renders, so the pill never pops in and shifts the headline.
+  const announcement = await getAnnouncement();
   return (
     <>
       {/* Section 1: Hero */}
       <Hero
         layout="center"
+        // Launch / offer pill from WordPress → Settings → Announcement ("home hero" ticked, Style: Launch or Offer).
+        above={showsHeroPill(announcement) ? <AnnouncementPill announcement={announcement} /> : undefined}
         // Server HTML (what Google indexes) reads "Photo Sharing App for Photographers with AI Face
         // Search"; after load the middle line types through the other audiences.
         titleLabel="Photo Sharing App for Photographers with AI Face Search"

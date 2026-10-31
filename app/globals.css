@@ -241,6 +241,13 @@
   font-family: var(--font-display);
   scroll-margin-top: 6rem;
 }
+/* Legal pages (components/legal/legal-page.tsx): wide tables scroll inside the column on phones. */
+.prose-legal :where(table) {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 /* Yoast FAQ block inside posts: each question as a card, matching the site's FAQ. */
 .prose-snap :where(.schema-faq) {
   display: grid;
@@ -263,6 +270,27 @@
 }
 .prose-snap :where(img) {
   border-radius: var(--radius);
+}
+/* Images in posts: never wider than the column, tall (portrait) photos capped so one image doesn't
+   fill the screen; centred with a hairline ring, caption small and centred under it. */
+.prose-snap :where(figure) {
+  margin-block: 2em;
+}
+.prose-snap :where(figure img, p > img) {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 36rem;
+  margin-inline: auto;
+  border-radius: 0.75rem;
+  box-shadow: 0 0 0 1px var(--border);
+}
+.prose-snap :where(figcaption) {
+  margin-top: 0.75em;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
 }
 .prose-snap :where(pre) {
   background: var(--ink);
@@ -408,6 +436,29 @@
 @media (prefers-reduced-motion: reduce) {
   .beam-pulse { animation: none; stroke-dasharray: none; opacity: 0.35; }
   .hub-pulse::after { animation: none; opacity: 0; }
+}
+
+/* Home hero "New" badge (AnnouncementPill, launches only): a soft light sweeps across it, then
+   rests — about one pass every 4.5s. Only the pseudo-element's transform moves; the text never does.
+   Reduced motion: no sweep, the badge just stays as it is. */
+@keyframes badge-shine {
+  0% { transform: translateX(-120%) skewX(-20deg); }
+  35%, 100% { transform: translateX(220%) skewX(-20deg); }
+}
+.badge-shine { position: relative; overflow: hidden; isolation: isolate; }
+.badge-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 60%;
+  z-index: -1;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.55), transparent);
+  transform: translateX(-120%) skewX(-20deg);
+  animation: badge-shine 4.5s ease-in-out 1s infinite;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .badge-shine::after { animation: none; opacity: 0; }
 }
 
 /* Hero typing word (components/blocks/typing-words.tsx): CSS-drawn emoji (kept out of the

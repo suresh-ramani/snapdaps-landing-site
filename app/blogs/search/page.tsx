@@ -40,7 +40,7 @@ export default async function SearchPage({ searchParams }: Props) {
       >
         <BlogNav categories={categories} query={query} />
       </BlogHeader>
-      <section data-tone="default" aria-label="Results" className="section-y pt-10 md:pt-12">
+      <section data-tone="default" aria-label="Results" className="section-y">
         <div className="container-page">
           {query ? (
             <PostGrid

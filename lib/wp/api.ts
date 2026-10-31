@@ -2,6 +2,7 @@ import "server-only";
 import { cache } from "react";
 import { wpQuery, WP_TAGS } from "./client";
 import {
+  ANNOUNCEMENT_QUERY,
   AUTHOR_QUERY,
   CATEGORIES_QUERY,
   CATEGORY_QUERY,
@@ -11,7 +12,7 @@ import {
   RELATED_POSTS_QUERY,
   SITEMAP_QUERY,
 } from "./queries";
-import type { PageInfo, PostList, WPAuthor, WPCategory, WPPost, WPPostCard } from "./types";
+import type { Announcement, PageInfo, PostList, WPAnnouncement, WPAuthor, WPCategory, WPPost, WPPostCard } from "./types";
 
 export const PAGE_SIZE = 12;
 
@@ -125,3 +126,45 @@ export async function getSitemapEntries() {
   }
   return { posts, categories: categories.filter((c) => c.slug !== "uncategorized") };
 }
+
+/** Short stable id for a message, so a dismissal only hides that exact announcement. */
+function announcementId(a: { message: string; href?: string; style: string }) {
+  let h = 5381;
+  for (const ch of `${a.style}|${a.message}|${a.href ?? ""}`) h = ((h << 5) + h + ch.charCodeAt(0)) | 0;
+  return (h >>> 0).toString(36);
+}
+
+/**
+ * The announcement bar (WordPress → Settings → Announcement), or null when it's off, empty, outside
+ * its start/end dates, or WordPress can't answer within 1.5s — the bar sits above the header, so it
+ * must never hold up or break a page. Links: site paths (`/pricing`) or full https URLs only.
+ */
+export const getAnnouncement = cache(async (): Promise<Announcement | null> => {
+  const timeout = new Promise<null>((resolve) => setTimeout(() => resolve(null), 1500));
+  const data = await Promise.race([
+    wpQuery<{ announcement: WPAnnouncement | null }>(ANNOUNCEMENT_QUERY, { tags: [WP_TAGS.announcement] }).catch(() => null),
+    timeout,
+  ]);
+  const a = data?.announcement;
+  const message = a?.message?.trim();
+  if (!a?.enabled || !message) return null;
+
+  const now = Date.now();
+  if (a.startsAt && Date.parse(a.startsAt) > now) return null;
+  if (a.endsAt && Date.parse(a.endsAt) <= now) return null;
+
+  const url = a.linkUrl?.trim() ?? "";
+  const label = a.linkLabel?.trim() ?? "";
+  const internal = url.startsWith("/") && !url.startsWith("//");
+  const external = /^https:\/\//.test(url);
+  const style = a.style === "offer" || a.style === "launch" ? a.style : "info";
+  const link = label && (internal || external) ? { label, href: url, external } : undefined;
+  return {
+    id: announcementId({ message, href: link?.href, style }),
+    message,
+    link,
+    style,
+    onHero: Boolean(a.onHero),
+    endsAt: a.endsAt ?? undefined,
+  };
+});

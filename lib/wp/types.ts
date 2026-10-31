@@ -57,3 +57,25 @@ export type PageInfo = {
 };
 
 export type PostList = { posts: WPPostCard[]; pageInfo: PageInfo };
+
+export type WPAnnouncement = {
+  enabled?: boolean | null;
+  message?: string | null;
+  linkLabel?: string | null;
+  linkUrl?: string | null;
+  style?: string | null;
+  startsAt?: string | null;
+  endsAt?: string | null;
+  onHero?: boolean | null;
+};
+
+/** An announcement that is switched on, inside its dates and safe to render. */
+export type Announcement = {
+  id: string;
+  message: string;
+  link?: { label: string; href: string; external: boolean };
+  style: "info" | "offer" | "launch";
+  onHero: boolean;
+  /** ISO 8601 end time, when the announcement has one. */
+  endsAt?: string;
+};

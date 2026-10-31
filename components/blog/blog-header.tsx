@@ -4,7 +4,8 @@ import { cn } from "@/lib/utils";
 /**
  * Top band of every blog listing page (index, category, author, search): breadcrumbs, the H1, a
  * short description and the page's controls (category chips + search). A `default` tone band with
- * the brand glow, so the listing below follows the site's one spacing rhythm.
+ * the brand glow. It carries its own bottom gap (`pb-*`): the listing below is the same tone, so the
+ * site's spacing rule (globals.css) drops that band's top padding.
  */
 export function BlogHeader({
   title,
@@ -24,7 +25,7 @@ export function BlogHeader({
   children?: React.ReactNode;
 }) {
   return (
-    <section data-tone="default" className="relative isolate overflow-hidden pt-12 md:pt-16">
+    <section data-tone="default" className="relative isolate overflow-hidden pb-10 pt-12 md:pb-12 md:pt-16">
       <div aria-hidden="true" className="glow-brand pointer-events-none absolute inset-x-0 top-0 -z-10 h-[28rem]" />
       <div className="container-page">
         {breadcrumbs && (

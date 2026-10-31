@@ -27,6 +27,13 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "i.ytimg.com", pathname: "/vi/**" },
     ],
   },
+  // WordPress uploads are served from this site at /media/… (lib/wp/client.ts rewrites the URLs),
+  // so the CMS domain never appears in HTML, image URLs, OG tags or schema. The rewrite proxies on
+  // the server; next/image optimizes /media/… like any local image.
+  async rewrites() {
+    const wpUrl = process.env.WP_URL?.replace(/\/$/, "");
+    return wpUrl ? [{ source: "/media/:path*", destination: `${wpUrl}/wp-content/uploads/:path*` }] : [];
+  },
   async headers() {
     return [
       {
@@ -48,6 +55,9 @@ const nextConfig: NextConfig = {
       { source: "/use-cases/photographers", destination: "/use-cases/photo-sharing-app-for-photographers", permanent: true },
       { source: "/use-cases/event-planners", destination: "/use-cases/photo-sharing-app-for-event-planners", permanent: true },
       { source: "/use-cases/wedding", destination: "/use-cases/wedding-photo-sharing-app", permanent: true },
+      // Placeholder legal URLs → the legal pages at the live site's URLs
+      { source: "/legal/privacy", destination: "/privacy-policy", permanent: true },
+      { source: "/legal/terms", destination: "/terms-and-conditions", permanent: true },
       // Old WordPress-style permalinks → new blog routes. Adjust to your current WP permalink structure.
       { source: "/category/:slug", destination: "/blogs/category/:slug", permanent: true },
       { source: "/author/:slug", destination: "/blogs/author/:slug", permanent: true },

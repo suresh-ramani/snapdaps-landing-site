@@ -109,8 +109,9 @@ add_filter('preview_post_link', function ($link, $post) {
 }, 10, 2);
 ```
 
-5. For previews, create an **Application Password** for an editor user and set `WP_PREVIEW_USER` / `WP_PREVIEW_APP_PASSWORD`.
-6. If media is served from a different host than `WP_URL` (e.g. a CDN), add that host to `images.remotePatterns` in `next.config.ts`.
+5. Copy `wordpress/mu-plugins/*.php` from this repo into `wp-content/mu-plugins/` (announcement bar settings + front-end noindex header; see `wordpress/README.md`).
+6. For previews, create an **Application Password** for an editor user and set `WP_PREVIEW_USER` / `WP_PREVIEW_APP_PASSWORD`.
+7. If media is served from a different host than `WP_URL` (e.g. a CDN), add that host to `images.remotePatterns` in `next.config.ts`.
 
 ## SEO checklist before launch
 

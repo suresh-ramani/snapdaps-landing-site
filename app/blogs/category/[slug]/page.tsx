@@ -50,7 +50,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
       >
         <BlogNav categories={categories} active={slug} />
       </BlogHeader>
-      <section data-tone="default" aria-label="Posts" className="section-y pt-10 md:pt-12">
+      <section data-tone="default" aria-label="Posts" className="section-y">
         <div className="container-page">
           <PostGrid
             headingLevel="h2"

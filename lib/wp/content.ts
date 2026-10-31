@@ -41,6 +41,28 @@ const slugify = (s: string) =>
     .replace(/\s+/g, "-")
     .slice(0, 80);
 
+/** next/image widths (defaults) used for images inside post content. */
+const CONTENT_WIDTHS = [640, 828, 1080, 1200, 1920];
+const optimizerUrl = (src: string, w: number) => `/_next/image?url=${encodeURIComponent(src)}&w=${w}&q=75`;
+
+/**
+ * Images inside a post (served from /media/…, see lib/wp/client.ts) go through the Next image
+ * optimizer like the featured image: AVIF/WebP, sized for the reading column, never full-size
+ * originals. WordPress's own srcset (same files, unoptimized) is replaced. Other images pass through.
+ */
+function optimizedImage(attribs: Record<string, string>): Record<string, string> {
+  const src = attribs.src ?? "";
+  if (!src.startsWith("/media/")) return {};
+  const natural = Number(attribs.width) || Infinity;
+  const widths = CONTENT_WIDTHS.filter((w) => w <= natural * 2);
+  const list = widths.length ? widths : [CONTENT_WIDTHS[0]];
+  return {
+    src: optimizerUrl(src, list.find((w) => w >= 1080) ?? list[list.length - 1]),
+    srcset: list.map((w) => `${optimizerUrl(src, w)} ${w}w`).join(", "),
+    sizes: "(min-width: 768px) 42rem, 100vw",
+  };
+}
+
 /**
  * Cleans WordPress HTML and prepares it for the article page:
  * - strips scripts, inline styles and unknown tags
@@ -80,7 +102,7 @@ export function prepareContent(html: string): { html: string; toc: TocItem[]; fa
     transformTags: {
       img: (tagName, attribs) => ({
         tagName,
-        attribs: { ...attribs, loading: "lazy", decoding: "async" },
+        attribs: { ...attribs, ...optimizedImage(attribs), loading: "lazy", decoding: "async" },
       }),
       iframe: (tagName, attribs) => ({ tagName, attribs: { ...attribs, loading: "lazy" } }),
       a: (tagName, attribs) => {

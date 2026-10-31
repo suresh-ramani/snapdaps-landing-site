@@ -16,12 +16,15 @@ export function CtaBand({
   primaryLabel = cta.trial.label,
   secondaryLabel = cta.demo.label,
   trustLine = cta.trustLine,
+  note,
 }: {
   title: React.ReactNode;
   body?: React.ReactNode;
   primaryLabel?: string;
   secondaryLabel?: string;
   trustLine?: readonly string[];
+  /** One short line under the buttons, e.g. the current offer on /pricing (OfferNote). */
+  note?: React.ReactNode;
 }) {
   return (
     <section aria-labelledby="cta-title" data-tone="default" className="section-y">
@@ -57,6 +60,7 @@ export function CtaBand({
                   className="border-white/20 bg-white/5 text-white hover:bg-white/10 hover:text-white"
                 />
               </div>
+              {note && <div className="mt-5 text-sm text-white/85">{note}</div>}
               <ul className="mt-7 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-white/65 lg:justify-start">
                 {trustLine.map((t) => (
                   <li key={t} className="flex items-center gap-1.5">

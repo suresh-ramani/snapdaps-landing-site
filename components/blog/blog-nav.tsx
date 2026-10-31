@@ -19,22 +19,23 @@ export function BlogNav({
 }) {
   const chip = (isActive: boolean) =>
     cn(
-      "inline-flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium ring-1 transition-colors",
+      "inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 py-1.5 text-sm font-medium ring-1 transition-colors",
       isActive
         ? "bg-foreground text-background ring-foreground"
         : "bg-card text-muted-foreground ring-border hover:text-foreground",
     );
   return (
-    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-      <nav aria-label="Blog categories" className="-mx-4 overflow-x-auto px-4 py-1 [scrollbar-width:none] md:mx-0 md:px-0">
+    <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+      <nav aria-label="Blog categories" className="-mx-4 overflow-x-auto px-4 py-1 [scrollbar-width:none] lg:mx-0 lg:px-0">
+        {/* li shrink-0: on phones the row scrolls sideways instead of squeezing chips onto two lines. */}
         <ul className="flex gap-2">
-          <li>
+          <li className="shrink-0">
             <Link href="/blogs" className={chip(!active && !query)} aria-current={!active && !query ? "page" : undefined}>
               All posts
             </Link>
           </li>
           {categories.map((c) => (
-            <li key={c.slug}>
+            <li key={c.slug} className="shrink-0">
               <Link
                 href={`/blogs/category/${c.slug}`}
                 className={chip(active === c.slug)}
@@ -51,7 +52,7 @@ export function BlogNav({
           ))}
         </ul>
       </nav>
-      <form action="/blogs/search" method="get" role="search" className="relative w-full md:w-72">
+      <form action="/blogs/search" method="get" role="search" className="relative w-full sm:max-w-sm lg:w-72">
         <label htmlFor="blog-search" className="sr-only">
           Search the blog
         </label>

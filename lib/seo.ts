@@ -178,7 +178,8 @@ export function blogPostingLd(post: WPPost) {
     url,
     headline: stripHtml(post.title),
     description: stripHtml(post.excerpt).slice(0, 200),
-    image: post.featuredImage?.node.sourceUrl ? [post.featuredImage.node.sourceUrl] : undefined,
+    // WordPress media arrive as /media/… (see lib/wp/client.ts); schema needs absolute URLs.
+    image: post.featuredImage?.node.sourceUrl ? [absoluteUrl(post.featuredImage.node.sourceUrl)] : undefined,
     datePublished: wpDate(post.dateGmt, post.date),
     dateModified: wpDate(post.modifiedGmt, post.modified),
     inLanguage: "en-IN",

@@ -5,6 +5,7 @@ import { connection } from "next/server";
 import Link from "next/link";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SiteHeader } from "@/components/layout/site-header";
+import { AnnouncementBar } from "@/components/layout/announcement-bar";
 import { FloatingActions } from "@/components/layout/floating-actions";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SmoothAnchors } from "@/components/layout/smooth-anchors";
@@ -76,6 +77,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             </div>
           )}
           <MotionProvider>
+            <AnnouncementBar />
             <SiteHeader />
             <main id="main" className="flex-1">
               {children}

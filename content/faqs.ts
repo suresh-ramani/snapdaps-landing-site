@@ -62,7 +62,7 @@ export const faqs: Record<string, Faq[]> = {
     },
     {
       q: "Where can I upload photos from?",
-      a: "From your computer, or from a Google Drive link — paste it and Snapdaps imports every image in the background. You can bulk upload thousands of photos in one go and compress them as you upload if you want lighter files.",
+      a: "From your computer, or from a Google Drive link — paste it and Snapdaps imports every image in the background. You can bulk upload thousands of photos in one go.",
     },
     {
       q: "How quickly can guests get their photos?",
@@ -326,6 +326,39 @@ export const faqs: Record<string, Faq[]> = {
     {
       q: "Do clients get notified when their photos are ready?",
       a: "Yes. Your app sends clients a notification when their photos are ready, so they open your app — not a chat thread — to see them.",
+    },
+  ],
+
+  "/pricing": [
+    {
+      q: "Is there a free plan?",
+      a: "Yes. The Free plan lets you try Snapdaps on your first events with 10 GB of storage, 2 events and unlimited AI face search — no credit card needed.",
+    },
+    {
+      q: "What's the difference between the paid plans?",
+      a: "Storage and the largest photo you can upload. Every paid plan includes unlimited events, unlimited face search, original-quality photos and HEIC support; higher plans add more storage and bigger photo uploads. The comparison table lists each plan's limits.",
+    },
+    {
+      q: "How much do I save with yearly billing?",
+      a: "Yearly billing costs less than paying monthly for twelve months. The badge next to the Monthly / Yearly switch shows the best saving, and each plan shows its yearly price and what it works out to per month.",
+    },
+    // Billing answers below follow the Refund and Cancellation Policy (content/legal/refund-policy.ts,
+    // last updated 15 Jul 2026) — keep them in step when it changes.
+    {
+      q: "How do I pay for a plan?",
+      a: "Payments are processed securely through Razorpay, our payment partner. Prices are in Indian rupees, and applicable taxes are shown at checkout. Your plan's features become available as soon as the payment is confirmed.",
+    },
+    {
+      q: "Do plans renew automatically?",
+      a: "Auto-renewing plans renew at the end of each monthly or yearly billing period, and the renewal is charged at the start of the new period. You can turn off auto-renewal anytime before your next billing date, in your account settings or by contacting us; access continues until the paid period ends.",
+    },
+    {
+      q: "Can I cancel my plan anytime?",
+      a: "Yes. Cancel from your account settings or by emailing support@snapdaps.ai. Your plan won't renew, you keep access until the end of the period you've paid for, and your account and photos stay intact. Cancel at least 24 hours before your renewal date so it's processed in time.",
+    },
+    {
+      q: "Can I get a refund?",
+      a: "Plans are generally non-refundable, because their features are available as soon as you pay. We refund duplicate charges and verified unauthorised payments, and may refund in full or part if a fault on our side keeps your plan's features from working. Email support@snapdaps.ai within 7 days; approved refunds usually reach your original payment method in 5–10 business days.",
     },
   ],
 };
