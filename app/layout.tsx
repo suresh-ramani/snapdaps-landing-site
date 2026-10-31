@@ -58,7 +58,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const { isEnabled: isDraft } = await draftMode();
 
   return (
-    <html lang="en" suppressHydrationWarning className={`${body.variable} ${devanagari.variable}`}>
+    <html lang="en-IN" suppressHydrationWarning className={`${body.variable} ${devanagari.variable}`}>
       <body className="min-h-dvh flex flex-col">
         <span id="top" tabIndex={-1} className="outline-none" />
         <a

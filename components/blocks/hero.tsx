@@ -61,9 +61,10 @@ export function Hero({
         {title}
       </h1>
       {subtitle && (
-        <h2 className="mt-5 text-xl font-semibold leading-snug tracking-tight md:text-2xl">
+        // A tagline, not a section: styled text, so the outline goes H1 → first real section H2.
+        <p className="mt-5 text-xl font-semibold leading-snug tracking-tight md:text-2xl">
           <span className="text-brand-gradient">{subtitle}</span>
-        </h2>
+        </p>
       )}
       {body && (
         <div

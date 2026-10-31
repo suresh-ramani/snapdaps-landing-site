@@ -46,8 +46,11 @@ export function SiteFooter() {
           )}
         </div>
         {nav.footer.map((group) => (
-          <div key={group.title}>
-            <h2 className="text-sm font-medium tracking-normal">{group.title}</h2>
+          // Link groups are navigation, not page sections: a labelled <nav> instead of an H2 each.
+          <nav key={group.title} aria-labelledby={`footer-${group.title.toLowerCase().replace(/\s+/g, "-")}`}>
+            <p id={`footer-${group.title.toLowerCase().replace(/\s+/g, "-")}`} className="text-sm font-medium">
+              {group.title}
+            </p>
             <ul className="mt-4 space-y-3">
               {group.links.map((link) => (
                 <li key={link.href}>
@@ -57,7 +60,7 @@ export function SiteFooter() {
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
         ))}
       </div>
       {/* Right padding keeps the bar clear of the WhatsApp bubble (FloatingActions). */}
@@ -72,6 +75,7 @@ export function SiteFooter() {
           >
             {site.company.name}
           </a>
+          , Rajkot, India
         </p>
         <p className="flex items-center gap-1.5 font-medium text-foreground">
           <span>Made with</span>{" "}

@@ -20,7 +20,6 @@ export type Faq = { q: string; a: string };
 
 export const faqs: Record<string, Faq[]> = {
   "/": [
-    { q: "What is Snapdaps?", a: site.definition },
     {
       q: "How do guests find their photos?",
       a: "Guests open the event link or scan its QR code, then upload a selfie. Snapdaps uses AI face recognition to find every photo they appear in and shows them in seconds. They can view and download their photos right from their phone — no scrolling through thousands of images.",
@@ -48,6 +47,11 @@ export const faqs: Record<string, Faq[]> = {
     {
       q: "Is there a free trial?",
       a: "Yes. You can start a free trial with no credit card required, and setup takes minutes.",
+    },
+    {
+      // "What is Snapdaps?" is answered by the definition block above the FAQ, so it isn't repeated here.
+      q: "How much does Snapdaps cost?",
+      a: `You can start on the Free plan. Paid plans are billed monthly or yearly and differ mainly by storage; each comes with a free ${site.trialDays}-day trial. The pricing page lists every plan's current price.`,
     },
   ],
 
@@ -335,9 +339,9 @@ export const faqs: Record<string, Faq[]> = {
       a: "Yes. The Free plan lets you try Snapdaps on your first events with 10 GB of storage, 2 events and unlimited AI face search — no credit card needed.",
     },
     {
-      q: "Is there a free trial?",
+      q: "How long is the free trial on paid plans?",
       // Trial length from site.trialDays (the pricing cards prefer the plans API's trialDays when set).
-      a: `Yes. Every paid plan comes with a free ${site.trialDays}-day trial, so you can try it on a real event. Pick a plan on this page to start your trial in the Snapdaps app.`,
+      a: `${site.trialDays} days. Every paid plan comes with a free ${site.trialDays}-day trial, so you can try it on a real event. Pick a plan on this page to start your trial in the Snapdaps app.`,
     },
     {
       q: "What's the difference between the paid plans?",

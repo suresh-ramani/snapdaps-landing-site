@@ -14,12 +14,15 @@ export function PageByline({
   description,
   path,
   updated,
+  about,
   className,
 }: {
   name: string;
   description: string;
   path: string;
   updated: string;
+  /** @id of what the page is about (the home page passes the SoftwareApplication). */
+  about?: string;
   className?: string;
 }) {
   const date = new Date(`${updated}T00:00:00Z`).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
@@ -32,7 +35,7 @@ export function PageByline({
         </Link>{" "}
         · Updated <time dateTime={updated}>{date}</time>
       </p>
-      <JsonLd data={webPageLd({ name, description, path, dateModified: updated })} />
+      <JsonLd data={webPageLd({ name, description, path, dateModified: updated, about })} />
     </>
   );
 }

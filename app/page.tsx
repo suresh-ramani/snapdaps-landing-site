@@ -1,6 +1,10 @@
 import { Images, PhoneMissed, QrCode, ScanFace, SearchX, Smile, Sparkles, Usb } from "lucide-react";
 import { Suspense } from "react";
 import { ComparisonRows } from "@/components/blocks/comparison-rows";
+import { DeliveryComparison } from "@/components/blocks/delivery-comparison";
+import { PricingTeaser } from "@/components/blocks/pricing-teaser";
+import { QuestionSection } from "@/components/blocks/question-section";
+import { PageByline } from "@/components/blocks/page-byline";
 import { CtaBand, MiniCta } from "@/components/blocks/cta-band";
 import { FeatureBento } from "@/components/blocks/feature-bento";
 import { Hero } from "@/components/blocks/hero";
@@ -20,7 +24,8 @@ import { JsonLd } from "@/components/json-ld";
 import { faqs } from "@/content/faqs";
 import { site } from "@/content/site";
 import { getPlans } from "@/lib/plans";
-import { buildMetadata, schemaIds, softwareLd, webPageLd } from "@/lib/seo";
+import { formatPrice } from "@/lib/plans";
+import { buildMetadata, schemaIds, softwareLd } from "@/lib/seo";
 import { getAnnouncement } from "@/lib/wp/api";
 
 /* ------------------------------------------------------------------------------------
@@ -29,9 +34,10 @@ import { getAnnouncement } from "@/lib/wp/api";
    photo sharing for photographers, event photo sharing.
 ------------------------------------------------------------------------------------ */
 
-const TITLE = "Best AI Photo Sharing & Face Search for Events | Snapdaps";
+// One intent with the H1 (photo sharing app for photographers, and the events they shoot); no "Best".
+const TITLE = "AI Photo Sharing App for Photographers & Events | Snapdaps";
 const DESCRIPTION =
-  "Upload event photos once and let AI do the rest. Find photos quickly using AI face recognition. Perfect for photographers and event planners. Start Free Trial!";
+  "Upload event photos once. Guests scan a QR code or open a link, take a selfie, and AI face search shows only their photos — no app, no login. Start free.";
 /** Bump when the home page's copy changes (WebPage dateModified). */
 const UPDATED = "2026-10-31";
 
@@ -71,6 +77,10 @@ export default async function HomePage() {
   // Plans: real prices for the SoftwareApplication offers (same cached request as /pricing).
   const [announcement, plans] = await Promise.all([getAnnouncement(), getPlans()]);
   const offers = (plans ?? []).filter((p) => p.monthly).map((p) => ({ name: `${p.name} (monthly)`, price: p.monthly!.price }));
+  // Cheapest paid monthly price for the pricing teaser (live from the plans API; omitted if it's down).
+  const cheapest = (plans ?? []).filter((p) => !p.free && p.monthly?.price).sort((a, b) => a.monthly!.price - b.monthly!.price)[0];
+  const fromPrice = cheapest ? formatPrice(cheapest.monthly!.price, cheapest.currency) : undefined;
+  const trialDays = cheapest?.trialDays || site.trialDays;
   return (
     <>
       {/* Section 1: Hero */}
@@ -178,6 +188,15 @@ export default async function HomePage() {
         <div className="mx-auto mt-16 max-w-2xl text-center">
           <h3 className="text-xl font-semibold tracking-tight md:text-2xl">What is Snapdaps?</h3>
           <p className="mt-3 text-lg leading-relaxed text-muted-foreground">{site.definition}</p>
+          {/* Who wrote it and when (E-E-A-T) + the home WebPage schema. */}
+          <PageByline
+            name={TITLE}
+            description={DESCRIPTION}
+            path="/"
+            updated={UPDATED}
+            about={schemaIds.software()}
+            className="mt-4"
+          />
         </div>
 
         <h3 className="mb-6 mt-20 text-center text-2xl font-semibold tracking-tight md:text-3xl">
@@ -217,11 +236,21 @@ export default async function HomePage() {
       <Section
         id="how-it-works"
         tone="panel"
-        title="How Snapdaps works"
+        title="How does Snapdaps work?"
         intro={<p>From photo upload to instant photo delivery by AI face search — everything happens automatically.</p>}
       >
         <WorkflowSteps />
       </Section>
+
+      {/* Comparison + what it costs: question-led (AEO) — a real table, then the live pricing answer. */}
+      <QuestionSection
+        id="compare"
+        question="How does Snapdaps compare with a Google Drive link, a pendrive or WhatsApp?"
+        answer="A Google Drive link, a pendrive or a WhatsApp group gives guests the whole set of photos, or only the ones someone forwards. Snapdaps gives each guest just the photos they appear in: they open one link or scan a QR code, take a selfie, and AI face search finds them — no app, no account."
+      >
+        <DeliveryComparison />
+        <PricingTeaser fromPrice={fromPrice} trialDays={trialDays} className="mt-8" />
+      </QuestionSection>
 
       {/* Latest blog posts (WordPress, streamed) */}
       <Suspense fallback={null}>
@@ -239,12 +268,7 @@ export default async function HomePage() {
         secondaryLabel="Request a demo"
       />
 
-      <JsonLd
-        data={[
-          softwareLd(offers),
-          webPageLd({ name: TITLE, description: DESCRIPTION, path: "/", dateModified: UPDATED, about: schemaIds.software() }),
-        ]}
-      />
+      <JsonLd data={softwareLd(offers)} />
     </>
   );
 }
