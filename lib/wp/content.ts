@@ -67,6 +67,7 @@ function optimizedImage(attribs: Record<string, string>): Record<string, string>
  * Cleans WordPress HTML and prepares it for the article page:
  * - strips scripts, inline styles and unknown tags
  * - lazy-loads images
+ * - wraps tables in a horizontal scroll box (`.table-scroll`)
  * - gives every h2/h3 a stable id and returns a table of contents
  * - rewrites absolute links to the old WP domain to relative site links
  * - returns the Yoast FAQ block's questions for FAQPage schema
@@ -124,6 +125,12 @@ export function prepareContent(html: string): { html: string; toc: TocItem[]; fa
       },
     },
   });
+
+  // Wide tables scroll sideways inside their own box on phones (keyboard-focusable region) instead of
+  // widening the page; styled by `.prose-snap .table-scroll`.
+  clean = clean
+    .replace(/<table(\s[^>]*)?>/g, '<div class="table-scroll" tabindex="0" role="region" aria-label="Table"><table$1>')
+    .replace(/<\/table>/g, "</table></div>");
 
   // Demote stray h1s — the page title is the only h1.
   clean = clean.replace(/<h1(\s[^>]*)?>/g, "<h2$1>").replace(/<\/h1>/g, "</h2>");

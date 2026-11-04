@@ -255,6 +255,88 @@
   overflow-x: auto;
 }
 
+/* Tables in posts: prepareContent wraps each in .table-scroll, so wide tables scroll inside their box
+   on phones instead of widening the page. Header row tinted, rows divided, numbers line up. */
+.prose-snap :where(.table-scroll) {
+  position: relative;
+  margin-block: 1.75em;
+  overflow-x: auto;
+  border-radius: 0.75rem;
+  box-shadow: 0 0 0 1px var(--border);
+}
+.prose-snap :where(.table-scroll:focus-visible) {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.prose-snap :where(.table-scroll table) {
+  margin: 0;
+  min-width: 32rem;
+  font-size: 0.9em;
+  font-variant-numeric: tabular-nums;
+}
+.prose-snap :where(.table-scroll thead th) {
+  background: var(--muted);
+  padding: 0.65rem 0.9rem;
+}
+.prose-snap :where(.table-scroll td) {
+  padding: 0.6rem 0.9rem;
+}
+.prose-snap :where(.wp-block-table) {
+  margin-block: 1.75em;
+}
+.prose-snap :where(.wp-block-table .table-scroll) {
+  margin: 0;
+}
+
+/* Writer callouts — a WordPress Group block with "Additional CSS class" set:
+   `key-takeaways` → a tinted summary box (put a heading “Key takeaways” and a list inside);
+   `stat-callout`  → a stat with its source: first <strong> shows large, then a sentence and a
+                     linked source (e.g. a small “Source: …” line). */
+.prose-snap :where(.key-takeaways) {
+  margin-block: 1.75em;
+  border-radius: 0.75rem;
+  background: var(--accent);
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--primary) 25%, transparent);
+  padding: 1.25rem 1.5rem;
+}
+.prose-snap :where(.key-takeaways > :first-child) {
+  margin-top: 0;
+}
+.prose-snap :where(.key-takeaways > :last-child) {
+  margin-bottom: 0;
+}
+.prose-snap :where(.key-takeaways :is(h2, h3, h4)) {
+  margin-top: 0;
+  font-size: 1.05em;
+}
+.prose-snap :where(.stat-callout) {
+  margin-block: 1.75em;
+  border-left: 4px solid var(--primary);
+  border-radius: 0 0.75rem 0.75rem 0;
+  background: var(--muted);
+  padding: 1rem 1.25rem;
+}
+.prose-snap :where(.stat-callout > :first-child) {
+  margin-top: 0;
+}
+.prose-snap :where(.stat-callout > :last-child) {
+  margin-bottom: 0;
+}
+.prose-snap :where(.stat-callout strong:first-of-type) {
+  display: block;
+  color: var(--primary);
+  font-size: 2em;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.prose-snap :where(.stat-callout :is(small, cite, .source)) {
+  display: block;
+  margin-top: 0.4rem;
+  color: var(--muted-foreground);
+  font-size: 0.85em;
+  font-style: normal;
+}
+
 /* Yoast FAQ block inside posts: each question as a card, matching the site's FAQ. */
 .prose-snap :where(.schema-faq) {
   display: grid;

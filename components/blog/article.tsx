@@ -7,6 +7,7 @@ import { AuthorBox } from "@/components/blog/author-box";
 import { Breadcrumbs } from "@/components/blog/breadcrumbs";
 import { PostCard } from "@/components/blog/post-card";
 import { ShareLinks } from "@/components/blog/share-links";
+import { PostInlineCta, PostIntroCta } from "@/components/blog/post-cta";
 import { Toc } from "@/components/blog/toc";
 import { AnnouncementCard } from "@/components/layout/announcement-bar";
 import { CtaBand } from "@/components/blocks/cta-band";
@@ -29,6 +30,8 @@ import type { WPPost } from "@/lib/wp/types";
  */
 export function Article({ post, isPreview = false }: { post: WPPost; isPreview?: boolean }) {
   const { html, toc, faq } = prepareContent(post.content ?? "");
+  // Contextual CTA before the third H2 (after two full sections), only when the post has one.
+  const [before, after] = splitBeforeNthH2(html, 3);
   const title = stripHtml(post.title);
   const category = post.categories?.nodes[0];
   const author = post.author?.node;
@@ -128,10 +131,20 @@ export function Article({ post, isPreview = false }: { post: WPPost; isPreview?:
               </details>
             )}
 
+            <PostIntroCta />
             <div
               className="prose prose-lg prose-snap max-w-none dark:prose-invert"
-              dangerouslySetInnerHTML={{ __html: html }}
+              dangerouslySetInnerHTML={{ __html: before }}
             />
+            {after && (
+              <>
+                <PostInlineCta />
+                <div
+                  className="prose prose-lg prose-snap max-w-none dark:prose-invert"
+                  dangerouslySetInnerHTML={{ __html: after }}
+                />
+              </>
+            )}
 
             {post.tags?.nodes.length ? (
               <ul aria-label="Tags" className="mt-10 flex flex-wrap gap-2">
@@ -209,4 +222,21 @@ async function RelatedPosts({ post }: { post: WPPost }) {
       </div>
     </section>
   );
+}
+
+/**
+ * Splits post HTML right before its nth top-level <h2> (one not nested in a block such as a
+ * key-takeaways group or details); returns [html, ""] when there are fewer.
+ */
+function splitBeforeNthH2(html: string, n: number): [string, string] {
+  const opens = (s: string) => (s.match(/<(div|section|aside|details|figure|blockquote|ul|ol|table)\b/g) ?? []).length;
+  const closes = (s: string) => (s.match(/<\/(div|section|aside|details|figure|blockquote|ul|ol|table)>/g) ?? []).length;
+  let seen = 0;
+  for (let at = html.indexOf("<h2"); at !== -1; at = html.indexOf("<h2", at + 3)) {
+    const head = html.slice(0, at);
+    if (opens(head) !== closes(head)) continue; // nested — not a section boundary
+    seen += 1;
+    if (seen === n) return [head, html.slice(at)];
+  }
+  return [html, ""];
 }
