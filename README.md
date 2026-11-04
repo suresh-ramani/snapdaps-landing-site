@@ -131,4 +131,4 @@ Colors and type are defined once in `app/globals.css`. The look follows ui.shadc
 - **Semantic**: shadcn's names (`--background`, `--primary`, `--muted`, …) mapped to primitives; `.dark` only redefines primitives.
 - **Marketing**: `--section-y` (section rhythm), `--reading` (article width), `surface` / `surface-soft` utilities (hairline-ring cards), `animate-marquee` (client logos).
 - **Font**: Geist via `next/font` in `app/layout.tsx`, for headings and body.
-- **Adapted sources (MIT)**: shadcn/ui (components in `components/ui`, product wall pattern), Magic UI (bento grid, marquee), Tailark (section layouts). Attribution comments are kept at the top of adapted files.
+- **Adapted sources (MIT)**: shadcn/ui (components in `components/ui`), Magic UI (bento grid, marquee), Tailark (section layouts). Attribution comments are kept at the top of adapted files.

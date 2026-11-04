@@ -83,7 +83,7 @@ export default function HowItWorksPage() {
             ]}
           />
           {/* Animated: photos scanned → selfie → the guest's photos ticked (the three steps on the left). */}
-          <div aria-hidden="true" data-nosnippet className="surface-soft p-4 md:p-6">
+          <div aria-hidden="true" data-nosnippet className="surface-soft overflow-hidden py-4 pl-4 md:py-6 md:pl-6">
             <FaceSearchExplainer />
           </div>
         </div>

@@ -11,10 +11,9 @@ import {
   MessageCircle,
   QrCode,
   ScanFace,
-  Sparkles,
   UploadCloud,
 } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarGroup, AvatarGroupCount } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -48,60 +47,6 @@ function Static({ className, children }: { className?: string; children: React.R
     <div aria-hidden="true" data-nosnippet inert className={cn("pointer-events-none select-none", className)}>
       {children}
     </div>
-  );
-}
-
-/* --------------------------------------------------------------------------- */
-export function EventOverviewCard({ className }: { className?: string }) {
-  const { name } = useEventSample();
-  return (
-    <Static className={className}>
-      <Card className="gap-5">
-        <CardHeader>
-          <CardTitle>{name}</CardTitle>
-          <CardDescription>Jaipur · 14 Dec · 6 folders</CardDescription>
-          <CardAction>
-            <Badge variant="secondary">Shared</Badge>
-          </CardAction>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-3 gap-3 text-center">
-            {[
-              ["4,812", "Photos"],
-              ["612", "Guests"],
-              ["9,340", "Downloads"],
-            ].map(([n, l]) => (
-              <div key={l} className="rounded-lg bg-muted/60 py-3">
-                <p className="text-lg font-semibold tabular-nums">{n}</p>
-                <p className="text-xs text-muted-foreground">{l}</p>
-              </div>
-            ))}
-          </div>
-          <div className="space-y-2">
-            <div className="flex items-center justify-between text-xs">
-              <span className="flex items-center gap-1.5 font-medium">
-                <ScanFace className="size-3.5 text-primary" /> Faces indexed
-              </span>
-              <span className="text-muted-foreground">100%</span>
-            </div>
-            <Progress value={100} />
-          </div>
-        </CardContent>
-        <CardFooter className="justify-between">
-          <AvatarGroup>
-            {[0, 1, 2, 3].map((s) => (
-              <Avatar key={s} size="sm">
-                <AvatarFallback className="p-0">
-                  <Face seed={s} className="size-full" />
-                </AvatarFallback>
-              </Avatar>
-            ))}
-            <AvatarGroupCount className="size-6 text-[10px]">+608</AvatarGroupCount>
-          </AvatarGroup>
-          <Button size="sm">Share event</Button>
-        </CardFooter>
-      </Card>
-    </Static>
   );
 }
 
@@ -169,9 +114,7 @@ export function FaceMatchCard({ className, count = 38 }: { className?: string; c
             </div>
             <div className="grid gap-1">
               <CardTitle>{count} photos found</CardTitle>
-              <CardDescription className="flex items-center gap-1">
-                <Sparkles className="size-3 text-primary" /> Matched in 2.1 seconds
-              </CardDescription>
+              <CardDescription>Matched from your selfie</CardDescription>
             </div>
           </div>
         </CardHeader>
@@ -285,9 +228,8 @@ function FakeSwitch({ on }: { on: boolean }) {
 export function PrivacyCard({ className }: { className?: string }) {
   const settings = [
     { title: "Guests see only their photos", desc: "Face search shows each guest their own matches", on: true },
-    { title: "Allow downloads", desc: "Original quality, one photo or all", on: true },
-    { title: "Watermark photos", desc: "Add your studio logo", on: false },
-    { title: "PIN-protect event", desc: "Ask for a 4-digit PIN", on: true },
+    { title: "Allow downloads", desc: "One photo or all at once", on: true },
+    { title: "Client photo selection", desc: "Your client picks their favourites", on: true },
   ];
   return (
     <Static className={className}>

@@ -11,3 +11,7 @@ npm-debug.log*
 .vercel
 # Personal Claude Code settings (shared ones live in .claude/settings.json)
 .claude/settings.local.json
+
+# Stageshow skill: app icons are third-party app artwork, not covered by its MIT licence — keep local, never publish
+.claude/skills/stageshow/assets/app-icons.ts
+.claude/skills/stageshow/node_modules/

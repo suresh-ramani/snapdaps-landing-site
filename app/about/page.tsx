@@ -32,7 +32,7 @@ const beliefs = [
   {
     icon: Lock,
     title: "Every guest sees only their own photos",
-    body: "Face search shows each guest their own matches, and you decide on downloads, watermarks and PIN access.",
+    body: "Face search shows each guest their own matches, and you decide whether guests can download them.",
   },
   {
     icon: QrCode,

@@ -26,6 +26,10 @@ The files or routes you were given. Otherwise the current changes (`git diff` an
 **Template tells**
 - ALL-CAPS eyebrow labels, numbered markers on non-sequences, fade-in on every section, `→` in button text, generic gradient blobs.
 
+**Faux product UI** (`components/product`, `components/mock`; rules from `.claude/skills/stageshow/references/craft.md`)
+- One focal moment per visual and a few real strings — no walls of cards, no plate behind a window, no window or card floating with even margins (draw it large and crop it at an edge), no pane whose content stops well above its bottom, no phone drawn small.
+- No sparkle icon for "AI", no invented figures (match speeds, accuracy), no claims the product doesn't make (watermarks, PINs).
+
 **Animation and performance**
 - Animates only `transform`/`opacity` (exception: SVG `stroke-dashoffset` beams in `SolutionFlow`). No `box-shadow`, `filter`, size/position or `background` animation.
 - Content visible in server HTML; no `opacity: 0` start states.

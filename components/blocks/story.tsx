@@ -75,7 +75,7 @@ export function Story({
                 tone === "problem" ? "bg-[color-mix(in_oklab,var(--muted)_50%,var(--background))]" : "bg-background",
               )}
             >
-              <div className="mx-auto max-w-sm max-lg:[zoom:0.62] lg:sticky lg:top-28 lg:max-w-none">{visual}</div>
+              <div className="mx-auto max-w-sm max-lg:[zoom:0.62] lg:sticky lg:top-24 lg:max-w-none lg:[zoom:1.2] xl:[zoom:1.3]">{visual}</div>
             </div>
           )}
 

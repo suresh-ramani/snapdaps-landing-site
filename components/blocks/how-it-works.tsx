@@ -15,27 +15,26 @@ import { cn } from "@/lib/utils";
 import { LazyMount } from "./lazy-mount";
 import { ScrollTrack, useScrollTabs } from "./scroll-tabs";
 
-/** Measured height of each card on phones/tablets, reserved before it mounts so nothing shifts. */
-const visualMinH: Record<WorkflowStepKey, string> = {
-  create: "min-h-[19.25rem]",
-  upload: "min-h-[28.5rem]",
-  detect: "min-h-[20.75rem]",
-  share: "min-h-[24rem]",
-  selfie: "min-h-[24.5rem]",
-};
-
+/**
+ * Each step's product visual. In both layouts it sits at the top of its panel in a fixed-height
+ * stage and runs off the stage's bottom edge (cropped, never floating with even margins — the
+ * stageshow framing rule), so the card reads large and the stage height never shifts.
+ */
 const visuals: Record<WorkflowStepKey, React.ReactNode> = {
-  create: <CreateEventCard className="mx-auto max-w-sm" />,
-  upload: <UploadCard className="mx-auto max-w-sm" />,
-  detect: <DetectFacesCard className="mx-auto max-w-sm" />,
+  create: <CreateEventCard className="mx-auto max-w-md" />,
+  upload: <UploadCard className="mx-auto max-w-md" />,
+  detect: <DetectFacesCard className="mx-auto max-w-md" />,
   share: <ShareCard className="mx-auto max-w-72" />,
   selfie: (
-    <div className="mx-auto grid max-w-md grid-cols-[1fr_1.2fr] items-start gap-3">
+    <div className="mx-auto grid max-w-lg grid-cols-[1fr_1.2fr] items-start gap-3">
       <SelfieSearchCard className="mt-8" />
       <FaceMatchCard count={24} />
     </div>
   ),
 };
+
+/** The stage a visual is cropped by: muted band, card anchored to the top, cut at the bottom. */
+const stage = "relative overflow-hidden bg-muted/50 px-6 pt-8 sm:px-10";
 
 /**
  * Five-step workflow as scroll-linked tabs (layout adapted from Tailark's features blocks, MIT,
@@ -122,7 +121,7 @@ export function WorkflowSteps({
           })}
         </ol>
 
-        <div id={panelId} className="surface-soft grid overflow-hidden p-6">
+        <div id={panelId} className="surface-soft grid overflow-hidden">
           {workflowSteps.map((s, i) => {
             const isActive = i === active;
             return (
@@ -130,15 +129,15 @@ export function WorkflowSteps({
                 key={s.key}
                 inert={!isActive}
                 className={cn(
-                  "flex flex-col gap-6 [grid-area:1/1] motion-safe:transition-[opacity,transform] motion-safe:duration-500",
+                  "flex flex-col [grid-area:1/1] motion-safe:transition-[opacity,transform] motion-safe:duration-500",
                   isActive ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0",
                 )}
               >
-                {/* zoom (not scale) shrinks the layout box too, so the tallest card fits the 36rem block. */}
-                <div aria-hidden="true" data-nosnippet className="flex flex-1 items-center">
-                  <div className="w-full [zoom:0.85]">{isNear(i) && visuals[s.key]}</div>
+                {/* Fixed stage height keeps the pinned block within 36rem; the card is cut at its bottom edge. */}
+                <div aria-hidden="true" data-nosnippet className={cn(stage, "h-[19rem] flex-1 border-b")}>
+                  <div className="xl:[zoom:1.08]">{isNear(i) && visuals[s.key]}</div>
                 </div>
-                <ul className="divide-y border-y text-[15px]">
+                <ul className="divide-y px-6 py-2 text-[15px]">
                   {s.points.map((pt) => (
                     <li key={pt} className="flex items-start gap-3 py-2.5">
                       <Check className="mt-0.5 size-4 shrink-0 text-purple" aria-hidden="true" />
@@ -173,8 +172,8 @@ export function WorkflowSteps({
                 ))}
               </ul>
             </div>
-            <div className="surface-soft relative flex min-h-80 items-center overflow-hidden p-6 md:col-span-3 md:p-10">
-              <LazyMount className={cn("w-full", visualMinH[s.key])} rootMargin="600px 0px">
+            <div className={cn("surface-soft h-80 md:col-span-3 md:h-96", stage)}>
+              <LazyMount className="h-full" rootMargin="600px 0px">
                 {visuals[s.key]}
               </LazyMount>
             </div>

@@ -2,7 +2,7 @@ import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BookDemoButton } from "@/components/demo/book-demo";
 import { FaceMatchCard, SelfieSearchCard, ShareCard } from "@/components/product/cards";
-import { ProductWall } from "@/components/product/product-wall";
+import { HeroGallery } from "@/components/product/hero-gallery";
 import { cta } from "@/content/site";
 import { cn } from "@/lib/utils";
 
@@ -21,7 +21,7 @@ export function HeroCards() {
 
 /**
  * Product hero used by every page.
- * - `layout="center"`: shadcn-homepage style — centred copy, product wall below (home page).
+ * - `layout="center"`: centred copy, one gallery window below, fading out at the bottom (home page).
  * - `layout="split"`: copy left, product cards right (use-case pages).
  * Heading levels follow the content doc: h1 = keyword headline, h2 = promise line.
  */
@@ -107,7 +107,7 @@ export function Hero({
       <section className="relative isolate overflow-hidden pt-14 md:pt-24">
         <div aria-hidden="true" className="glow-brand pointer-events-none absolute inset-x-0 top-0 -z-10 h-[38rem]" />
         <div className="container-page">{copy}</div>
-        <div className="container-page mt-14 md:mt-20">{visual ?? <ProductWall />}</div>
+        <div className="container-page mt-14 md:mt-20">{visual ?? <HeroGallery />}</div>
       </section>
     );
   }
