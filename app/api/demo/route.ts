@@ -6,6 +6,9 @@ import { NextResponse, type NextRequest } from "next/server";
  * Sends through Resend's HTTP API when RESEND_API_KEY is set (no SDK needed).
  * Without a key it logs the request and returns 200, so the form works in development.
  *
+ * The form also sends the visit's attribution (UTM tags, landing page, referring site — see
+ * lib/attribution.ts), shown in the email so the team knows which campaign or page brought the lead.
+ *
  * Env: RESEND_API_KEY, DEMO_INBOX (where requests go), DEMO_FROM (verified sender).
  */
 
@@ -20,7 +23,21 @@ type DemoRequest = {
   source?: string;
   event?: string;
   page?: string;
+  attribution?: Record<string, unknown>;
 };
+
+/** Only the known attribution keys, as short strings. */
+const ATTRIBUTION_KEYS = [
+  "utm_source",
+  "utm_medium",
+  "utm_campaign",
+  "utm_term",
+  "utm_content",
+  "gclid",
+  "fbclid",
+  "landing_page",
+  "referrer_host",
+];
 
 const clean = (v: unknown, max = 200) => (typeof v === "string" ? v.trim().slice(0, max) : "");
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -42,7 +59,10 @@ export async function POST(req: NextRequest) {
     source: clean(body.source, 20),
     event: clean(body.event, 60),
     page: clean(body.page, 200),
-  };
+    ...Object.fromEntries(
+      ATTRIBUTION_KEYS.map((k) => [k, clean(body.attribution?.[k])]).filter(([, v]) => v),
+    ),
+  } as Record<string, string>;
 
   if (!data.name || !data.phone || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
     return NextResponse.json({ error: "Add your name, phone number and a valid email." }, { status: 422 });

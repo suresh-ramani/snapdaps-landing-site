@@ -3,6 +3,7 @@
 import { useId, useState } from "react";
 import { Check, HardDrive } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { track } from "@/lib/track";
 import { cn } from "@/lib/utils";
 
 /** A plan as the pricing UI needs it — built on the server from lib/plans.ts (prices already formatted). */
@@ -53,7 +54,10 @@ export function PricingPlans({ plans, yearlySaving }: { plans: PlanCard[]; yearl
                 key={b}
                 type="button"
                 aria-pressed={on}
-                onClick={() => setBilling(b)}
+                onClick={() => {
+                  setBilling(b);
+                  if (!on) track("select_billing", { billing: b });
+                }}
                 className={cn(
                   "inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold transition-colors",
                   on ? "bg-primary text-primary-foreground shadow-sm" : "text-primary hover:bg-primary/10",
@@ -98,7 +102,10 @@ export function PricingPlans({ plans, yearlySaving }: { plans: PlanCard[]; yearl
                       name={name}
                       value={p.key}
                       checked={active}
-                      onChange={() => setSelected(p.key)}
+                      onChange={() => {
+                        setSelected(p.key);
+                        track("select_plan", { plan: p.key, billing });
+                      }}
                       className="sr-only"
                     />
                     <span
@@ -147,7 +154,7 @@ export function PricingPlans({ plans, yearlySaving }: { plans: PlanCard[]; yearl
                   </label>
                   {/* Below lg the detail card is under the whole list, so the chosen row carries its own button. */}
                   {active && (
-                    <div className="px-3.5 pb-3 lg:hidden">
+                    <div className="px-3.5 pb-3 lg:hidden" data-track-location="pricing plans" data-track-plan={p.key} data-track-billing={billing}>
                       <Button asChild className="w-full">
                         <a href={priceOf(p)?.href ?? p.href}>{p.cta}</a>
                       </Button>
@@ -213,7 +220,14 @@ export function PricingPlans({ plans, yearlySaving }: { plans: PlanCard[]; yearl
             </div>
 
             <Button asChild size="lg" className="mt-6 w-full">
-              <a href={current?.href ?? plan.href}>{plan.cta}</a>
+              <a
+                href={current?.href ?? plan.href}
+                data-track-location="pricing plans"
+                data-track-plan={plan.key}
+                data-track-billing={billing}
+              >
+                {plan.cta}
+              </a>
             </Button>
 
             <ul className="mt-6 space-y-2.5 border-t pt-5 text-sm">

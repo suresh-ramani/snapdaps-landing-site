@@ -12,6 +12,7 @@ import { SmoothAnchors } from "@/components/layout/smooth-anchors";
 import { MotionProvider } from "@/components/motion/reveal";
 import { Analytics } from "@/components/consent/analytics";
 import { CookieConsent } from "@/components/consent/cookie-consent";
+import { ClickTracking } from "@/components/consent/click-tracking";
 import { JsonLd } from "@/components/json-ld";
 import { site } from "@/content/site";
 import { organizationLd, websiteLd } from "@/lib/seo";
@@ -91,6 +92,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           {/* Cookie banner + settings, and Google Analytics only after an explicit yes. */}
           <CookieConsent />
           <Analytics />
+          {/* Conversion clicks → GA events (consent-gated) + campaign attribution on links to the app. */}
+          <ClickTracking />
         </ThemeProvider>
         <JsonLd data={[organizationLd(), websiteLd()]} />
       </body>

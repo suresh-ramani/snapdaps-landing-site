@@ -113,6 +113,23 @@ add_filter('preview_post_link', function ($link, $post) {
 6. For previews, create an **Application Password** for an editor user and set `WP_PREVIEW_USER` / `WP_PREVIEW_APP_PASSWORD`.
 7. If media is served from a different host than `WP_URL` (e.g. a CDN), add that host to `images.remotePatterns` in `next.config.ts`.
 
+## Conversion tracking
+
+GA4 (`NEXT_PUBLIC_GA_ID`, loads only after analytics consent) receives these events from `lib/track.ts` and `components/consent/click-tracking.tsx`:
+
+| Event | When | Params |
+|---|---|---|
+| `trial_click` | any link to the app (sign-up, plan buttons) | `cta_location`, `link_text`, `plan`, `billing` |
+| `generate_lead` | demo form sent | `lead_source`, `event_type`, `role` |
+| `whatsapp_click` | WhatsApp chat bubble | `cta_location` |
+| `demo_open` | "Book a demo" button / menu link | `cta_location`, `link_text` |
+| `contact_click` | mailto: / tel: links | `method`, `cta_location` |
+| `select_billing`, `select_plan` | pricing switch / plan rows | `billing`, `plan` |
+
+In GA4: mark `trial_click`, `generate_lead` and `whatsapp_click` as key events (Admin → Events), and register `cta_location`, `plan`, `billing`, `lead_source`, `event_type` as custom dimensions (Admin → Custom definitions) so reports can split by them.
+
+**Attribution for the app team.** Every link to `app.snapdaps.ai` gets the visit's first touch added at click time: `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`, `gclid`, `fbclid` (as they arrived), `landing_page` (first page of the visit), `referrer_host` (referring site when there were no UTMs) and `ref_page` (where the link was clicked). The app should read these on the sign-up and pricing pages and store them with the new account, so sign-ups and payments can be traced to campaigns and pages. Demo-request emails list the same fields.
+
 ## SEO checklist before launch
 
 - [ ] `NEXT_PUBLIC_SITE_URL` set to the production URL (canonicals, sitemap, OG, schema and llms.txt all use it) and `SITE_URL_STRICT=1` in the production build env, so a localhost/http value fails the build
@@ -122,6 +139,7 @@ add_filter('preview_post_link', function ($link, $post) {
 - [ ] Search Console: verify domain, submit `/sitemap.xml`
 - [ ] Validate schema at search.google.com/test/rich-results (home, pricing, one post)
 - [ ] Lighthouse on mobile: LCP < 2.5s, CLS < 0.1, TTFB < 600ms
+- [ ] GA4 key events and custom dimensions set up (see Conversion tracking); the app stores the attribution params at sign-up
 
 ## Design tokens
 

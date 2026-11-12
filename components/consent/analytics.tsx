@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Script from "next/script";
+import { APP_HOST } from "@/lib/attribution";
 import { CONSENT_CHANGED, readConsent, type Consent } from "@/lib/consent";
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
@@ -32,6 +33,8 @@ function clearGaCookies() {
  * signal at "denied" (ads signals stay denied — the site runs no ads); analytics_storage is granted
  * only from the visitor's choice. Withdrawing consent switches it back to denied and deletes the GA
  * cookies. gtag.js loads after the page is interactive, so it never delays the first paint.
+ * The linker carries the GA session to the app's host, so if the app uses the same GA4 property a
+ * visit and its sign-up count as one journey. Conversion events: lib/track.ts.
  */
 export function Analytics() {
   const [granted, setGranted] = useState(false);
@@ -57,7 +60,7 @@ export function Analytics() {
       <Script id="ga-consent" strategy="afterInteractive">
         {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;
 gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'granted'});
-gtag('js',new Date());gtag('config',${JSON.stringify(GA_ID)},{anonymize_ip:true});`}
+gtag('js',new Date());gtag('config',${JSON.stringify(GA_ID)},{anonymize_ip:true,linker:{domains:[${JSON.stringify(APP_HOST)}]}});`}
       </Script>
       <Script id="ga-src" src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
     </>

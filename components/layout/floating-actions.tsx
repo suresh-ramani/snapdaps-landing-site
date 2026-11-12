@@ -32,7 +32,7 @@ export function FloatingActions() {
   return (
     <>
       <div id="top-sentinel" aria-hidden="true" className="pointer-events-none absolute left-0 top-0 h-[150vh] w-px" />
-      <div className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-40 flex flex-col items-end gap-3 print:hidden md:right-6">
+      <div data-track-location="floating button" className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-40 flex flex-col items-end gap-3 print:hidden md:right-6">
         <a
           href="#top"
           aria-label="Back to top"

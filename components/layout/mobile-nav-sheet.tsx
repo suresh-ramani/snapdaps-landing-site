@@ -43,7 +43,7 @@ export function MobileNavSheet({
             <a href={cta.trial.href}>{cta.trial.label}</a>
           </Button>
           <Button asChild variant="outline">
-            <Link href="/contact" onClick={close}>
+            <Link href="/contact" onClick={close} data-track="demo_open">
               Book a demo
             </Link>
           </Button>

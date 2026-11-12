@@ -33,6 +33,7 @@ export function BookDemoButton({
         size={size}
         className={className}
         aria-haspopup="dialog"
+        data-track="demo_open"
         aria-expanded={open}
         onPointerEnter={preload}
         onFocus={preload}

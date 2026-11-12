@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input";
 import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select";
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
+import { getAttribution } from "@/lib/attribution";
+import { track } from "@/lib/track";
 
 const roles = ["Photographer", "Event planner", "Studio / agency", "Couple or host", "Other"];
 
@@ -42,11 +44,12 @@ export function DemoForm({
       const res = await fetch("/api/demo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, source, event, page: window.location.pathname }),
+        body: JSON.stringify({ ...data, source, event, page: window.location.pathname, attribution: getAttribution() }),
       });
       const json = (await res.json().catch(() => ({}))) as { error?: string };
       if (!res.ok) throw new Error(json.error ?? "Your request didn't go through.");
       setStatus("sent");
+      track("generate_lead", { lead_source: source, event_type: event, role: String(data.role ?? "") });
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "Your request didn't go through.");
