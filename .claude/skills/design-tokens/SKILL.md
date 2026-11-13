@@ -15,7 +15,7 @@ Everything lives in `app/globals.css`. Components use only semantic tokens and t
 | 2. Semantic | `:root` below primitives | shadcn set (`--background`, `--primary`, `--muted-foreground`, `--border`, `--ring`…) + site set (`--panel`, `--before*`, `--after*`, `--ink-surface*`, `--ink-success`, `--heart`, `--whatsapp`, `--section-y`, `--reading`) |
 | 3. Tailwind mapping | `@theme inline` | `--color-panel: var(--panel)` → `bg-panel`; `--font-sans`/`--font-display` (both Geist) |
 | Utilities | `@utility` blocks | `container-page`, `section-y`, `surface`, `surface-soft`, `ink-card`, `icon-tile`, `bg-brand-gradient`, `text-brand-gradient`, `glow-brand`, `fade-b`, `animate-marquee` (vars `--marquee-duration`, `--marquee-gap`, `--marquee-direction`; set them as variables, not `animation-*` properties, which the shorthand overrides) |
-| Animations | `@keyframes` + classes | `orbit`/`.orbit-item` (vars `--angle`, `--radius`, `--orbit-duration`, `--orbit-direction`), `upload-fill`/`.upload-fill` (`--fill-from`), `feed-in`/`.feed-row` (`--i`), `pop-in`, `scan`, `shake`, `marquee`, `beam-travel`/`.beam-pulse`, `hub-ring`/`.hub-pulse`, `emoji-pop`, `.typing-caret`, `old-*`/`.old-card`, `qr-in`/`.qr-card` |
+| Animations | `@keyframes` + classes | `orbit`/`.orbit-item` (vars `--angle`, `--radius`, `--orbit-duration`, `--orbit-direction`), `upload-fill`/`.upload-fill` (`--fill-from`), `feed-in`/`.feed-row` (`--i`), `pop-in`, `scan`, `shake`, `marquee`, `beam-travel`/`.beam-pulse`, `hub-ring`/`.hub-pulse`, `emoji-pop`, `.typing-caret`, `old-*`/`.old-card`, `qr-in`/`.qr-card`, `demo-scan`, scroll-linked `sd-tilt` / `sd-rise` / `sd-drift` / `sd-settle` (vars `--drift`, `--drift-scale`, `--sx`/`--sy`/`--sr`; CSS scroll-driven, see CLAUDE.md → Animation) |
 | Blog prose | `.prose-snap` | WordPress article typography |
 
 ## Add a colour
@@ -35,7 +35,7 @@ Everything lives in `app/globals.css`. Components use only semantic tokens and t
 
 ## Add an animation
 
-Keyframes in `globals.css`, animating `transform`/`opacity` only (pseudo-element trick for glows, see `.hub-pulse::after`). Start from a visible state. Add a `prefers-reduced-motion` rule that shows the finished state. No JS timers or animation libraries.
+Keyframes in `globals.css`, animating `transform`/`opacity` only (pseudo-element trick for glows, see `.hub-pulse::after`). Start from a visible state. Add a `prefers-reduced-motion` rule that shows the finished state. No JS timers or animation libraries. Scroll-linked motion: extend the `sd-*` set (inside its `@supports (animation-timeline: view())` + `prefers-reduced-motion: no-preference` block, `animation` shorthand first, then `animation-timeline` and `animation-range`), never a scroll listener.
 
 ## Keep docs current
 

@@ -19,6 +19,8 @@ import { cn } from "@/lib/utils";
  * team supplies a real demo event, set `site.sampleGalleryUrl` and an "Open a real sample gallery"
  * button appears. Everything stays in the server HTML (all photos, the guest list); state only
  * changes which tiles are dimmed. Scan: one CSS sweep (`.demo-scan`), skipped under reduced motion.
+ * As the gallery scrolls into view its photos fly in from a loose scatter and land in the grid
+ * (`sd-settle`, CSS scroll-driven); without support or under reduced motion they're simply in place.
  */
 
 const EVENT = "Riya & Arjun’s wedding";
@@ -36,6 +38,14 @@ const GALLERY: PhotoName[] = [
   "venue-banquet",
   "photographer-at-work",
 ];
+
+/** Where each tile flies in from (sd-settle): a loose scatter, as if photos were dropped onto the gallery. */
+const SCATTER = [
+  ["-2.5rem", "2rem", "-8deg"], ["1rem", "3rem", "5deg"], ["-1rem", "2.5rem", "-4deg"],
+  ["2rem", "3.5rem", "7deg"], ["-1.5rem", "3rem", "6deg"], ["2.5rem", "2rem", "-6deg"],
+  ["-2rem", "4rem", "4deg"], ["1.5rem", "4.5rem", "-7deg"], ["-1rem", "3.5rem", "8deg"],
+  ["2rem", "5rem", "-5deg"], ["-2.5rem", "4rem", "-3deg"], ["1rem", "5.5rem", "6deg"],
+] as const;
 
 const GUESTS = [
   { id: "meera", name: "Meera", face: 1, matches: [0, 4, 7, 9] },
@@ -129,7 +139,7 @@ export function GuestViewDemo({ className }: { className?: string }) {
       </div>
 
       {/* Step 2: the event gallery */}
-      <div className="surface overflow-hidden">
+      <div className="surface overflow-clip">
         <div className="flex items-center justify-between gap-3 border-b px-4 py-3">
           <div className="min-w-0">
             <p className="truncate font-semibold">{EVENT}</p>
@@ -148,13 +158,17 @@ export function GuestViewDemo({ className }: { className?: string }) {
           </span>
         </div>
 
-        <div className="relative overflow-hidden p-3">
+        <div className="relative overflow-clip p-3">
           <ul className="grid grid-cols-3 gap-2 sm:grid-cols-4 lg:grid-cols-6">
             {GALLERY.map((photo, i) => {
               const match = phase === "found" && guest?.matches.includes(i as never);
               const dim = phase === "found" && !match;
               return (
-                <li key={photo} className={cn("relative transition-opacity duration-500", dim && "opacity-25")}>
+                <li
+                  key={photo}
+                  className={cn("sd-settle relative transition-opacity duration-500", dim && "opacity-25")}
+                  style={{ "--sx": SCATTER[i][0], "--sy": SCATTER[i][1], "--sr": SCATTER[i][2] } as React.CSSProperties}
+                >
                   <PhotoTile photo={photo} sizes="(min-width: 1024px) 140px, (min-width: 640px) 22vw, 30vw" className={cn(match && "ring-2 ring-primary")} />
                   {match && (
                     <span className="animate-pop absolute right-1.5 top-1.5 grid size-6 place-items-center rounded-full bg-primary text-primary-foreground shadow-sm">

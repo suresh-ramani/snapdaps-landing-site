@@ -10,6 +10,9 @@ import { cn } from "@/lib/utils";
  * that say what Snapdaps does at that event. Each page passes its own photo, chips and QR label,
  * and `align` mirrors the layout, so no two heroes look the same.
  *
+ * Depth on scroll (`sd-rise`, CSS scroll-driven): the photo is drawn 10% larger and rises slowly inside
+ * its frame while the chips rise faster, each at its own speed — resting state without support.
+ *
  * Chips are sample UI: aria-hidden + data-nosnippet. They sit inside the photo's box on phones
  * and hang off its edges from sm, so nothing overflows at 375px.
  */
@@ -32,14 +35,17 @@ export function EventPhotoHero({
     <div className="relative mx-auto w-full max-w-md">
       <div className="glow-brand pointer-events-none absolute -inset-10 -z-10" aria-hidden="true" />
       <div className="relative aspect-[4/5] overflow-hidden rounded-2xl ring-1 ring-border">
-        <Image
-          src={photos[photo]}
-          alt={alt}
-          fill
-          priority
-          sizes="(min-width: 1024px) 28rem, 90vw"
-          className="object-cover"
-        />
+        {/* The motion sits on a wrapper, not the LCP <img>, so the image paints like any other. */}
+        <div className="sd-rise absolute inset-0 scale-110 [--drift:1.5rem]">
+          <Image
+            src={photos[photo]}
+            alt={alt}
+            fill
+            priority
+            sizes="(min-width: 1024px) 28rem, 90vw"
+            className="object-cover"
+          />
+        </div>
       </div>
 
       <div aria-hidden="true" data-nosnippet>
@@ -47,7 +53,8 @@ export function EventPhotoHero({
           <div
             key={title}
             className={cn(
-              "surface absolute flex max-w-[15rem] items-center gap-3 px-4 py-3",
+              "sd-rise surface absolute flex max-w-[15rem] items-center gap-3 px-4 py-3",
+              i === 0 ? "[--drift:0] lg:[--drift:3.5rem]" : "[--drift:0] lg:[--drift:5rem]",
               i === 0 ? "top-6" : "bottom-24",
               (i === 0) !== flip ? "left-3 sm:-left-8" : "right-3 sm:-right-8",
             )}
@@ -64,7 +71,7 @@ export function EventPhotoHero({
         {qrLabel && (
           <div
             className={cn(
-              "surface absolute bottom-4 flex items-center gap-3 p-2.5 pr-4",
+              "sd-rise surface absolute bottom-4 flex items-center gap-3 p-2.5 pr-4 [--drift:0] lg:[--drift:6.5rem]",
               flip ? "left-3 sm:-left-6" : "right-3 sm:-right-6",
             )}
           >

@@ -23,7 +23,7 @@ export type FeatureRow = {
 /**
  * Alternating text / product-visual rows. Layout after Tailark's feature blocks (MIT):
  * copy in 2 of 5 columns with a divided list; the visual sits in a soft-tinted frame
- * in the other 3 and fades out at the bottom edge.
+ * in the other 3 and fades out at the bottom edge, drifting up through the frame on scroll (`sd-drift`).
  */
 export function FeatureRows({ rows, headingLevel = "h3" }: { rows: FeatureRow[]; headingLevel?: "h2" | "h3" }) {
   const H = headingLevel;
@@ -58,11 +58,12 @@ export function FeatureRows({ rows, headingLevel = "h3" }: { rows: FeatureRow[];
           </div>
           <div
             className={cn(
-              "surface-soft relative flex min-h-80 items-start overflow-hidden px-6 pt-8 md:col-span-3 md:px-10 md:pt-10",
+              "surface-soft relative flex min-h-80 items-start overflow-clip px-6 pt-8 md:col-span-3 md:px-10 md:pt-10",
               i % 2 === 1 && "md:order-1",
             )}
           >
-            <div className="fade-b w-full pb-6">{row.visual}</div>
+            {/* Parallax: the product card drifts up through its frame as the row crosses the screen (sd-drift). */}
+            <div className="fade-b sd-drift w-full pb-6 [--drift:1.75rem]">{row.visual}</div>
           </div>
         </article>
       ))}

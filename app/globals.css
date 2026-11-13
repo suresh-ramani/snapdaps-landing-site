@@ -428,6 +428,59 @@
 }
 
 /* ------------------------------------------------------------------
+   Scroll-linked depth (sd-*): CSS scroll-driven animations — the browser ties each keyframe to
+   the scroll position on the compositor, so no JS, no scroll listeners, no library, and the page
+   scrolls natively. Decorative visuals only (product windows, chips, photos), never text.
+   Progressive enhancement: browsers without `animation-timeline` (Firefox today) and reduced
+   motion get the resting state — every from-state is visible, so nothing is ever hidden.
+   - sd-tilt        a product window lies back and flattens as the page scrolls (above the fold)
+   - sd-rise        an above-the-fold layer rises at its own speed (`--drift`, default 2rem)
+   - sd-drift       a layer moves from +--drift to -–drift while its box crosses the screen
+   - sd-settle      a tile flies in from `--sx/--sy/--sr` and lands in its grid slot
+   ------------------------------------------------------------------ */
+@keyframes sd-tilt {
+  from { transform: perspective(1600px) rotateX(14deg) scale(0.95); }
+  to { transform: none; }
+}
+@keyframes sd-rise {
+  from { transform: none; }
+  to { transform: translateY(calc(var(--drift, 2rem) * -1)); }
+}
+@keyframes sd-drift {
+  from { transform: translateY(var(--drift, 2rem)) scale(var(--drift-scale, 1)); }
+  to { transform: translateY(calc(var(--drift, 2rem) * -1)) scale(var(--drift-scale, 1)); }
+}
+@keyframes sd-settle {
+  from { transform: translate(var(--sx, 0), var(--sy, 0)) rotate(var(--sr, 0deg)) scale(0.92); }
+  to { transform: none; }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .sd-tilt {
+      transform-origin: 50% 0;
+      animation: sd-tilt linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 60vh;
+    }
+    .sd-rise {
+      animation: sd-rise linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+    }
+    .sd-drift {
+      animation: sd-drift linear both;
+      animation-timeline: view();
+      animation-range: cover;
+    }
+    .sd-settle {
+      animation: sd-settle cubic-bezier(0.2, 0.8, 0.3, 1) both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 40%;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------
    shadcn / Tailark surface helpers
    ------------------------------------------------------------------ */
 /* Card with a hairline ring + soft shadow (Tailark "default" card). */

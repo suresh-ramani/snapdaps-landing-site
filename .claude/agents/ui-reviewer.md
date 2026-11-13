@@ -81,3 +81,4 @@ If a dev server is running (or you can start `npm run dev`), you may fetch pages
 ## Output
 
 Findings ordered by impact: **file:line — problem — concrete fix**, tagged `blocker` (a11y failure, broken at 375px, content hidden behind animation, invented content), `should fix`, or `nit`. End with what you did not check. No praise.
+- Scroll-linked parallax: only `sd-*` utilities (CSS scroll-driven, `globals.css`) on decorative visuals; flag JS scroll listeners, GSAP/Lenis, `sd-*` on text, an `overflow-hidden` ancestor of `sd-drift`/`sd-settle` (breaks `view()`; use `overflow-clip`), or a from-state that hides content.
