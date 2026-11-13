@@ -1,6 +1,6 @@
 import { Sparkles, Trophy, Users } from "lucide-react";
 import { Breadcrumbs } from "@/components/blog/breadcrumbs";
-import { EventPhotoHero } from "@/components/blocks/event-photo-hero";
+import { EventGalleryHero } from "@/components/product/event-gallery-hero";
 import { LeadCapture } from "@/components/blocks/lead-capture";
 import { UseCaseLead } from "@/components/blocks/use-case-lead";
 import { LottieScene } from "@/components/motion/lottie-scene";
@@ -110,23 +110,12 @@ export default function AwardCeremonyPage() {
         }
         note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated={updatedOf(PATH)} />}
         visual={
-          <EventPhotoHero
+          <EventGalleryHero
             photo="award-trophies"
             alt="Gold and silver trophies lined up on a table"
-            chips={[
-              {
-                Icon: Trophy,
-                title: "Stage moment found",
-                sub: "The trophy handover",
-              },
-              {
-                Icon: Users,
-                title: "Team table photos",
-                sub: "For everyone in them",
-              },
-            ]}
-            qrLabel="Big screen QR"
-            align="right"
+            found={9}
+            folder={2}
+            selfie={0}
           />
         }
       />

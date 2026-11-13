@@ -1,6 +1,6 @@
 import { Images, Link2, QrCode, ScanFace, Send, Upload, X } from "lucide-react";
 import { Breadcrumbs } from "@/components/blog/breadcrumbs";
-import { EventPhotoHero } from "@/components/blocks/event-photo-hero";
+import { EventGalleryHero } from "@/components/product/event-gallery-hero";
 import { LeadCapture } from "@/components/blocks/lead-capture";
 import { UseCaseLead } from "@/components/blocks/use-case-lead";
 import { LottieScene } from "@/components/motion/lottie-scene";
@@ -73,23 +73,12 @@ export default function PhotographersPage() {
         trustLine={["No credit card required", "Setup in minutes", "Built for photographers"]}
         note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated={updatedOf(PATH)} />}
         visual={
-          <EventPhotoHero
+          <EventGalleryHero
             photo="photographer-at-work"
             alt="Photographer framing a shot through a DSLR camera"
-            chips={[
-              {
-                Icon: ScanFace,
-                title: "Faces detected",
-                sub: "Across the whole shoot",
-              },
-              {
-                Icon: Send,
-                title: "One link to your client",
-                sub: "Guests find their own photos",
-              },
-            ]}
-            qrLabel="Client gallery QR"
-            align="left"
+            found={31}
+            folder={0}
+            selfie={2}
           />
         }
       />

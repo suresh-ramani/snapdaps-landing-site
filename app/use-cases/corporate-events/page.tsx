@@ -1,6 +1,6 @@
 import { Mail, Presentation, QrCode, Share2 } from "lucide-react";
 import { Breadcrumbs } from "@/components/blog/breadcrumbs";
-import { EventPhotoHero } from "@/components/blocks/event-photo-hero";
+import { EventGalleryHero } from "@/components/product/event-gallery-hero";
 import { LeadCapture } from "@/components/blocks/lead-capture";
 import { UseCaseLead } from "@/components/blocks/use-case-lead";
 import { LottieScene } from "@/components/motion/lottie-scene";
@@ -110,23 +110,12 @@ export default function CorporateEventsPage() {
         }
         note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated={updatedOf(PATH)} />}
         visual={
-          <EventPhotoHero
+          <EventGalleryHero
             photo="corporate-conference"
             alt="Attendees seated at a conference session"
-            chips={[
-              {
-                Icon: Presentation,
-                title: "QR on the stage screen",
-                sub: "Between sessions",
-              },
-              {
-                Icon: Share2,
-                title: "Ready for LinkedIn",
-                sub: "Attendees post their own",
-              },
-            ]}
-            qrLabel="Event photos QR"
-            align="left"
+            found={12}
+            folder={1}
+            selfie={4}
           />
         }
       />

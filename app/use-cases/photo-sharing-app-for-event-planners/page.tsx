@@ -1,6 +1,6 @@
 import { CalendarDays, Camera, Megaphone, QrCode, Send, Share2 } from "lucide-react";
 import { Breadcrumbs } from "@/components/blog/breadcrumbs";
-import { EventPhotoHero } from "@/components/blocks/event-photo-hero";
+import { EventGalleryHero } from "@/components/product/event-gallery-hero";
 import { LeadCapture } from "@/components/blocks/lead-capture";
 import { UseCaseLead } from "@/components/blocks/use-case-lead";
 import { LottieScene } from "@/components/motion/lottie-scene";
@@ -69,23 +69,12 @@ export default function EventPlannersPage() {
           </>
         }
         visual={
-          <EventPhotoHero
+          <EventGalleryHero
             photo="venue-banquet"
             alt="Banquet hall set with round tables, ready for an event"
-            chips={[
-              {
-                Icon: QrCode,
-                title: "QR at registration",
-                sub: "Guests scan on arrival",
-              },
-              {
-                Icon: Share2,
-                title: "Shared the same day",
-                sub: "Guests post their own photos",
-              },
-            ]}
-            qrLabel="Scan for event photos"
-            align="right"
+            found={27}
+            folder={0}
+            selfie={5}
           />
         }
       />

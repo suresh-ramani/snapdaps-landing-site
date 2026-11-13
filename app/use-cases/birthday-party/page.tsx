@@ -1,6 +1,6 @@
-import { Cake, Images, Lock, ScanFace, Send } from "lucide-react";
+import { Images, ScanFace, Send } from "lucide-react";
 import { Breadcrumbs } from "@/components/blog/breadcrumbs";
-import { EventPhotoHero } from "@/components/blocks/event-photo-hero";
+import { EventGalleryHero } from "@/components/product/event-gallery-hero";
 import { LeadCapture } from "@/components/blocks/lead-capture";
 import { UseCaseLead } from "@/components/blocks/use-case-lead";
 import Image from "next/image";
@@ -112,23 +112,12 @@ export default function BirthdayPartyPage() {
         }
         note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated={updatedOf(PATH)} />}
         visual={
-          <EventPhotoHero
+          <EventGalleryHero
             photo="birthday-cake"
             alt="Rainbow birthday cake with lit candles"
-            chips={[
-              {
-                Icon: Cake,
-                title: "Cake-cutting photos",
-                sub: "Found with a selfie",
-              },
-              {
-                Icon: Lock,
-                title: "Just your child’s photos",
-                sub: "Not the whole album",
-              },
-            ]}
-            qrLabel="Scan for party photos"
-            align="right"
+            found={17}
+            folder={2}
+            selfie={3}
           />
         }
       />

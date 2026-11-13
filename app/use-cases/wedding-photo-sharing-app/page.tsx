@@ -1,6 +1,6 @@
-import { Gift, Mail, ScanFace, Signpost, Users } from "lucide-react";
+import { Gift, Mail, Signpost } from "lucide-react";
 import { Breadcrumbs } from "@/components/blog/breadcrumbs";
-import { EventPhotoHero } from "@/components/blocks/event-photo-hero";
+import { EventGalleryHero } from "@/components/product/event-gallery-hero";
 import { LeadCapture } from "@/components/blocks/lead-capture";
 import { UseCaseLead } from "@/components/blocks/use-case-lead";
 import { LottieScene } from "@/components/motion/lottie-scene";
@@ -111,23 +111,12 @@ export default function WeddingPage() {
         subtitle="Upload wedding photos once and let guests find their photos in a second using AI face recognition — just by uploading a selfie. No waiting, no manual searching."
         note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated={updatedOf(PATH)} />}
         visual={
-          <EventPhotoHero
+          <EventGalleryHero
             photo="wedding-guest-phone"
             alt="Wedding guest in a red sari taking a photo with her phone"
-            chips={[
-              {
-                Icon: ScanFace,
-                title: "Found in every function",
-                sub: "Haldi to Reception",
-              },
-              {
-                Icon: Users,
-                title: "One link for the family",
-                sub: "Every relative, their own photos",
-              },
-            ]}
-            qrLabel="Welcome board QR"
-            align="left"
+            found={46}
+            folder={0}
+            selfie={1}
           />
         }
       />

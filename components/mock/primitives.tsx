@@ -43,21 +43,24 @@ export function PhoneFrame({ className, children }: { className?: string; childr
 export function BrowserFrame({
   url = "app.snapdaps.ai",
   className,
+  decorative = true,
   children,
 }: {
   url?: string;
   className?: string;
+  /** Hide the whole window from screen readers (default). Pass false when it holds a real, described image. */
+  decorative?: boolean;
   children: React.ReactNode;
 }) {
   return (
     <div
-      aria-hidden="true" data-nosnippet
+      aria-hidden={decorative || undefined} data-nosnippet
       className={cn(
         "overflow-hidden rounded-xl border bg-card shadow-[0_24px_60px_-28px_rgb(21_23_30/0.35)]",
         className,
       )}
     >
-      <div className="flex items-center gap-1.5 border-b bg-muted/50 px-3.5 py-2.5">
+      <div aria-hidden="true" className="flex items-center gap-1.5 border-b bg-muted/50 px-3.5 py-2.5">
         <span className="size-2.5 rounded-full bg-[#ff6159]" />
         <span className="size-2.5 rounded-full bg-[#ffbd2e]" />
         <span className="size-2.5 rounded-full bg-[#28c941]" />

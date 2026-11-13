@@ -1,6 +1,6 @@
-import { Medal, UserRound } from "lucide-react";
+import {  } from "lucide-react";
 import { Breadcrumbs } from "@/components/blog/breadcrumbs";
-import { EventPhotoHero } from "@/components/blocks/event-photo-hero";
+import { EventGalleryHero } from "@/components/product/event-gallery-hero";
 import { LeadCapture } from "@/components/blocks/lead-capture";
 import { UseCaseLead } from "@/components/blocks/use-case-lead";
 import { LottieScene } from "@/components/motion/lottie-scene";
@@ -110,23 +110,12 @@ export default function SportsEventsPage() {
         }
         note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated={updatedOf(PATH)} />}
         visual={
-          <EventPhotoHero
+          <EventGalleryHero
             photo="sports-batsman"
             alt="Young cricketer in whites lifting his bat at the crease"
-            chips={[
-              {
-                Icon: Medal,
-                title: "Action shots found",
-                sub: "Warm-up to podium",
-              },
-              {
-                Icon: UserRound,
-                title: "Parents search too",
-                sub: "With their child’s photo",
-              },
-            ]}
-            qrLabel="Scoreboard QR"
-            align="left"
+            found={23}
+            folder={1}
+            selfie={6}
           />
         }
       />
