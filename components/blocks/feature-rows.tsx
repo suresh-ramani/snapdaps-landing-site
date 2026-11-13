@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { Check } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export type FeatureRow = {
@@ -9,6 +11,12 @@ export type FeatureRow = {
   powerLine?: string;
   /** A "learn more" link to the feature's own page, under the copy. */
   more?: React.ReactNode;
+  /**
+   * A "try it" button beside the "learn more" link: the home guest-view demo (`/#try-it`) for what a
+   * guest sees, or sign-up (`cta.trial.href`) for what the photographer does. Tracked by ClickTracking
+   * with the row's title as `cta_location`.
+   */
+  tryIt?: { label: string; href: string };
   visual: React.ReactNode;
 };
 
@@ -37,7 +45,16 @@ export function FeatureRows({ rows, headingLevel = "h3" }: { rows: FeatureRow[];
               </ul>
             )}
             {row.powerLine && <p className="mt-6 text-lg font-semibold tracking-tight">{row.powerLine}</p>}
-            {row.more && <div className="mt-5">{row.more}</div>}
+            {(row.tryIt || row.more) && (
+              <div data-track-location={row.title} className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
+                {row.tryIt && (
+                  <Button asChild>
+                    <Link href={row.tryIt.href}>{row.tryIt.label}</Link>
+                  </Button>
+                )}
+                {row.more}
+              </div>
+            )}
           </div>
           <div
             className={cn(

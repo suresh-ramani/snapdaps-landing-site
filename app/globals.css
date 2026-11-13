@@ -417,6 +417,15 @@
 .animate-pop {
   animation: pop-in 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
 }
+/* GuestViewDemo: one sweep of a soft band down the gallery while it "searches" (transform only).
+   Under reduced motion the demo skips the search phase, so the band never shows. */
+@keyframes demo-scan {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(100%); }
+}
+.demo-scan {
+  animation: demo-scan 1.4s ease-in-out both;
+}
 
 /* ------------------------------------------------------------------
    shadcn / Tailark surface helpers

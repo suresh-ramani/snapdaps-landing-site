@@ -18,6 +18,7 @@ import {
   UploadCard,
 } from "@/components/product/cards";
 import { updatedOf } from "@/content/routes";
+import { cta } from "@/content/site";
 import { buildMetadata } from "@/lib/seo";
 
 /* ------------------------------------------------------------------------------------
@@ -32,6 +33,9 @@ const DESCRIPTION =
   "AI face search, smart galleries, bulk upload and Google Drive import, QR code sharing, client photo selection and portfolios. Everything Snapdaps does for event photos.";
 
 export const metadata = buildMetadata({ title: TITLE, description: DESCRIPTION, path: PATH });
+
+/** "Try it" targets: the home guest-view demo, or sign-up for what the photographer does. */
+const DEMO = "/#try-it";
 
 const learnMore = (href: string, label: string) => (
   <p>
@@ -60,6 +64,7 @@ export default function FeaturesPage() {
           rows={[
             {
               id: "ai-face-search",
+              tryIt: { label: "Try face search", href: DEMO },
               title: "Find photos instantly with AI face search",
               body: (
                 <p>
@@ -84,6 +89,7 @@ export default function FeaturesPage() {
             },
             {
               id: "smart-gallery",
+              tryIt: { label: "See a guest gallery", href: DEMO },
               title: "Smart photo gallery for clients",
               body: (
                 <p>
@@ -95,6 +101,7 @@ export default function FeaturesPage() {
             },
             {
               id: "bulk-upload",
+              tryIt: { label: "Upload your first event", href: cta.trial.href },
               title: "Upload thousands of photos in minutes",
               body: (
                 <p>
@@ -113,6 +120,7 @@ export default function FeaturesPage() {
             },
             {
               id: "qr-sharing",
+              tryIt: { label: "Create your event link", href: cta.trial.href },
               title: "Share the event with a link or QR code",
               body: (
                 <p>
@@ -126,6 +134,7 @@ export default function FeaturesPage() {
             },
             {
               id: "mobile",
+              tryIt: { label: "Try the guest view", href: DEMO },
               title: "Works seamlessly on mobile",
               body: (
                 <p>Guests find, view, and download their photos directly from their phones — no app required.</p>
@@ -134,6 +143,7 @@ export default function FeaturesPage() {
             },
             {
               id: "privacy",
+              tryIt: { label: "See what a guest sees", href: DEMO },
               title: "Secure & private photo access",
               body: (
                 <p>

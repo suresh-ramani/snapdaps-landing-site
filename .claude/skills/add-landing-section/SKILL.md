@@ -18,7 +18,9 @@ Check the blocks listed in CLAUDE.md's "Where things go" table first — most re
 | Old way vs new way | `ComparisonRows` (`before-*` red / `after-*` green) |
 | Steps | `WorkflowSteps` inside a `<Section>` or `QuestionSection`; pass `steps` with the page's own wording for the same 5 keys on use-case pages |
 | Anything new that changes on scroll | Build it on `useScrollTabs` + `ScrollTrack` from `scroll-tabs.tsx` (see `PainPoints`, `WorkflowSteps`) |
-| Feature overview | `FeatureBento` (fixed composition — one hero, one picture per tile, each thing once), `BentoGrid`/`BentoCard` (`background` omitted = statement tile), `FeatureRows`, `OfferGrid` |
+| Feature overview | `FeatureBento` (fixed composition — one hero, one picture per tile, each thing once), `BentoGrid`/`BentoCard` (`background` omitted = statement tile), `FeatureRows` (`tryIt` = a "try it" button per row), `OfferGrid` |
+| Route visitors by audience | `AudienceCards` (default list = photographers, planners, weddings, all use cases; pass `items` for another set) |
+| Let visitors try the product | `GuestViewDemo` (home `#try-it`; one per site — link to `/#try-it` instead of repeating it) |
 | Dark bridge / closing | `TurningPoint`, `CtaBand` / `MiniCta` (one `ink-card` per screen) |
 | Proof | `LogoCloud`, `SocialProof`, `ChatMarquee` |
 | Questions | `Faq items={faqs[PATH]}` from `content/faqs.ts` (emits `faqLd`) |

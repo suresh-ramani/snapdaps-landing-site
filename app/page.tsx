@@ -1,5 +1,7 @@
 import { Images, PhoneMissed, QrCode, Smile, Sparkles, Usb } from "lucide-react";
 import { Suspense } from "react";
+import { AudienceCards } from "@/components/blocks/audience-cards";
+import { GuestViewDemo } from "@/components/blocks/guest-view-demo";
 import { ComparisonRows } from "@/components/blocks/comparison-rows";
 import { DeliveryComparison } from "@/components/blocks/delivery-comparison";
 import { PricingTeaser } from "@/components/blocks/pricing-teaser";
@@ -121,6 +123,15 @@ export default async function HomePage() {
       {/* Client logos (content/clients.ts) — scrolling strip, any number of logos */}
       <LogoCloud />
 
+      {/* Who it's for — each audience jumps to its own page (draft copy by Claude; reviewed by: pending) */}
+      <Section
+        id="who-its-for"
+        title="Who is Snapdaps for?"
+        intro={<p>Anyone who shoots an event or runs one. Pick yours to see how it works for you.</p>}
+      >
+        <AudienceCards />
+      </Section>
+
       {/* Section 2: Problem + pain */}
       <Section
         id="problem"
@@ -215,6 +226,15 @@ export default async function HomePage() {
         intro={<p>A complete client photo delivery system powered by AI.</p>}
       >
         <FeatureBento />
+      </Section>
+
+      {/* Hands-on guest view: pick a selfie, see that guest's photos (draft copy by Claude; reviewed by: pending) */}
+      <Section
+        id="try-it"
+        title="Try it: find your photos with a selfie"
+        intro={<p>This is what your guests see. Pick a selfie and watch AI face search pull out that guest’s photos from the event.</p>}
+      >
+        <GuestViewDemo />
       </Section>
 
       {/* Section 4: Social proof */}

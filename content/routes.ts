@@ -14,9 +14,9 @@ export type MarketingRoute = {
 };
 
 export const marketingRoutes: MarketingRoute[] = [
-  { path: "/", label: "Home", indexed: true, priority: 1, updated: "2026-10-31" },
+  { path: "/", label: "Home", indexed: true, priority: 1, updated: "2026-11-13" },
   { path: "/how-it-works", label: "How it works", indexed: true, priority: 0.8, updated: "2026-10-30" },
-  { path: "/features", label: "Features", indexed: true, priority: 0.8, updated: "2026-10-31" },
+  { path: "/features", label: "Features", indexed: true, priority: 0.8, updated: "2026-11-13" },
   // Feature pages — draft copy by Claude; noindex until the team approves it.
   { path: "/features/ai-face-search", label: "AI face search", indexed: false, updated: "2026-10-31" },
   { path: "/features/qr-code-photo-sharing", label: "QR code photo sharing", indexed: false, updated: "2026-10-31" },

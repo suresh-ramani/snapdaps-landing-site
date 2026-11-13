@@ -34,6 +34,11 @@ export const site = {
   twitter: "@snapdaps", // TODO: confirm handle
   appUrl: "https://app.snapdaps.ai", // TODO: confirm app URL
   signupUrl: "https://app.snapdaps.ai/signup", // TODO: confirm signup URL
+  /**
+   * A real, public sample event gallery in the app (the guest view). Empty until the app team
+   * supplies one; when set, the home "Try the guest view" demo shows an "Open a real sample gallery" button.
+   */
+  sampleGalleryUrl: "",
   /** Free trial length on paid plans, used when the plans API sends no `trialDays` (0). */
   trialDays: 7,
   contactEmail: "hello@snapdaps.ai", // TODO: confirm
