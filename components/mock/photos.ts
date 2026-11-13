@@ -101,7 +101,7 @@ export const weddingPool: PhotoName[] = [
   "wedding-reception",
 ];
 
-/** Photos for each event type (event-type wall, use-cases page), keyed by use-case path. */
+/** Photos for each event type (use-cases page), keyed by use-case path. */
 export const eventPhotos: Record<string, PhotoName[]> = {
   "/use-cases/wedding-photo-sharing-app": ["wedding-couple", "wedding-guest-phone", "wedding-haldi", "wedding-canopy"],
   "/use-cases/birthday-party": ["birthday-cake", "birthday-balloons", "party-toast", "birthday-confetti"],

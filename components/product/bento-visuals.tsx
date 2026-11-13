@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Download, FolderOpen, Share2, UploadCloud } from "lucide-react";
+import { Check, Download, FolderOpen, Lock, Share2, UploadCloud } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { GoogleDriveLogo } from "@/components/mock/brand-icons";
@@ -43,6 +43,56 @@ export function FaceSearchVisual() {
             </span>
           </div>
         ))}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Privacy: one fanned stack of prints rising from the bottom edge. The guest's own photo is in front,
+ * clear and ticked; the two behind are other guests' photos, blurred and locked. Says "you see only
+ * your photos" without repeating the hero's grid.
+ */
+export function PrivacyVisual() {
+  const { pool } = useEventSample();
+  const [mine, left, right] = [pool[1 % pool.length], pool[3 % pool.length], pool[4 % pool.length]];
+  const locked = (photo: (typeof pool)[number], side: "left" | "right") => (
+    <div
+      className={cn(
+        "relative w-24 shrink-0 translate-y-4 sm:w-28",
+        side === "left" ? "-mr-12 -rotate-[8deg]" : "order-last -ml-12 rotate-[8deg]",
+      )}
+    >
+      <PhotoTile photo={photo} sizes="112px" className="rounded-lg ring-1 ring-border [&_img]:scale-125 [&_img]:blur-lg" />
+      <span className="absolute inset-0 rounded-lg bg-card/35" />
+      <span
+        className={cn(
+          "absolute top-6 flex size-7 items-center justify-center rounded-full bg-card text-muted-foreground shadow-sm ring-1 ring-border",
+          side === "left" ? "left-2.5" : "right-2.5",
+        )}
+      >
+        <Lock className="size-3.5" />
+      </span>
+    </div>
+  );
+  return (
+    <div className="flex h-full items-end justify-center pt-5">
+      <div className="flex translate-y-6 items-end">
+        {locked(left, "left")}
+        <div className="relative z-10 w-32 shrink-0 sm:w-36">
+          <PhotoTile
+            photo={mine}
+            sizes="144px"
+            className="rounded-lg shadow-[0_18px_36px_-16px_rgb(21_23_30/0.5)] ring-4 ring-card"
+          />
+          <span className="absolute left-2 top-2 flex items-center gap-1 rounded-full bg-after-ink py-0.5 pl-1 pr-2 text-xs font-semibold text-white shadow-sm">
+            <span className="flex size-4 items-center justify-center rounded-full bg-white/25">
+              <Check className="size-3" strokeWidth={3} />
+            </span>
+            Yours
+          </span>
+        </div>
+        {locked(right, "right")}
       </div>
     </div>
   );

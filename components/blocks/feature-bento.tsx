@@ -1,5 +1,5 @@
-import { Lock, type LucideIcon } from "lucide-react";
-import { FaceSearchVisual, FoldersVisual, PhoneVisual, UploadVisual } from "@/components/product/bento-visuals";
+import { type LucideIcon } from "lucide-react";
+import { FaceSearchVisual, FoldersVisual, PhoneVisual, PrivacyVisual, UploadVisual } from "@/components/product/bento-visuals";
 import { ShareOrbit } from "@/components/mock/share-orbit";
 import { coreFeatures, type CoreFeatureKey } from "@/content/site";
 import { BentoCard, BentoGrid } from "./bento-grid";
@@ -7,9 +7,9 @@ import { BentoCard, BentoGrid } from "./bento-grid";
 /**
  * Each feature's tile: its picture (or none → a statement tile with `Icon`), its spans, and its
  * section on /features. Tiles render in `order`, so the DOM order is the visual order:
- * lg — face search 2×2 hero, privacy statement and folders stacked beside it, then upload, share
- * and phone in a row; md — hero and statement full width, the rest in pairs; phones — one column.
- * Neighbours differ in kind: hero UI, statement, component, component, diagram, object.
+ * lg — face search 2×2 hero, privacy and folders stacked beside it, then upload, share and phone
+ * in a row; md — hero and privacy full width, the rest in pairs; phones — one column.
+ * Neighbours differ in kind: hero UI, photo stack, component, component, diagram, object.
  */
 const order: CoreFeatureKey[] = ["face-search", "privacy", "gallery", "upload", "share", "mobile"];
 
@@ -21,7 +21,7 @@ const meta: Record<CoreFeatureKey, { visual?: React.ReactNode; Icon?: LucideIcon
     span: "h-[24rem] md:col-span-2 md:h-[26rem] lg:row-span-2 lg:h-auto",
     href: "/features#ai-face-search",
   },
-  privacy: { Icon: Lock, span: "md:col-span-2 lg:col-span-1", href: "/features#privacy" },
+  privacy: { visual: <PrivacyVisual />, span: "h-[19rem] md:col-span-2 lg:col-span-1 lg:h-auto", href: "/features#privacy" },
   gallery: { visual: <FoldersVisual />, span: tile, href: "/features#smart-gallery" },
   upload: { visual: <UploadVisual />, span: tile, href: "/features#bulk-upload" },
   share: {

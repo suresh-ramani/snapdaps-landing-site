@@ -16,6 +16,13 @@ import { cn } from "@/lib/utils";
  * - Placeholder (dummy) entries render only in dev, without a source line; with no real entries
  *   the band is hidden on the live site.
  */
+/** The stats a visitor sees: real ones on the live site, plus the dummy ones in dev. */
+const shownStats = (stats: Stat[]) =>
+  process.env.NODE_ENV !== "production" ? stats : stats.filter((s) => !s.placeholder);
+
+/** True when StatsBand would render — so a section can skip itself when it has nothing to show. */
+export const hasStats = (stats: Stat[] = allStats) => shownStats(stats).length > 0;
+
 export function StatsBand({
   stats = allStats,
   embedded = false,
@@ -27,8 +34,7 @@ export function StatsBand({
   heading?: string;
   className?: string;
 }) {
-  const isDev = process.env.NODE_ENV !== "production";
-  const shown = isDev ? stats : stats.filter((s) => !s.placeholder);
+  const shown = shownStats(stats);
   if (!shown.length) return null;
 
   const Wrapper = embedded ? "div" : "section";

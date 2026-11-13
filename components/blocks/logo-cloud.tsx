@@ -63,7 +63,7 @@ export function LogoCloud({
   );
 }
 
-/** One client logo (also used by the client grid in SocialProof). */
+/** One client logo. */
 export function ClientLogo({ client, className }: { client: Client; className?: string }) {
   const img = (
     <Image
