@@ -22,7 +22,7 @@ export default function ContactPage() {
             See how Snapdaps lets your clients and guests find their photos with a selfie. Tell us a little about your
             events and we&apos;ll set up a short walkthrough.
           </p>
-          <ul className="mt-10 space-y-4">
+          <ul className="mt-10 flex flex-col gap-4">
             <li className="flex items-start gap-4">
               <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-accent text-accent-foreground">
                 <Mail className="size-5" aria-hidden="true" />

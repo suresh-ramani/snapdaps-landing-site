@@ -39,6 +39,7 @@ Check the blocks listed in CLAUDE.md's "Where things go" table first — most re
 - Cards: `surface` / `surface-soft`; inner tiles `bg-muted/50 ring-1 ring-border rounded-xl`. Radius ladder `rounded-md` → `xl` → `2xl` → `3xl` (ink-card only).
 - Colour meaning: blue = action, gradient/violet = highlight, `before-*` = problem, `after-*` = fix. Semantic tokens only — raw hex only in `components/mock/*`, brand marks and the flag.
 - Icons: lucide `size-4`/`size-5`; `icon-tile` for feature icons.
+- shadcn first (`components/ui/*`, see the shadcn row in CLAUDE.md): `Badge` for labels, `Table` for tables, `ToggleGroup` / `RadioGroup` for choices, `Separator` for lines. Stacks use `flex flex-col gap-*`, not `space-y-*` (except rich-text containers). Add new primitives with `npx shadcn@latest add <name>` and fix its `import { cn } from "cn"` + drop the `cn` npm package it adds.
 - Images: `next/image`, real `alt`, `priority` if above the fold.
 
 ## 4. Animation (only if it explains something)

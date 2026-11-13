@@ -196,7 +196,7 @@ export default function WeddingPage() {
             </p>
             <p>Now the couple is finally back home. Still overwhelmed. Still reliving every moment.</p>
             <p>And then the calls and messages begin…</p>
-            <p className="space-y-2">
+            <p className="flex flex-col gap-2">
               <span className="quote">“Send us the wedding photos!”</span>
               <span className="quote">“Did you get our family pictures?”</span>
               <span className="quote">“Mera photo bhejna…”</span>

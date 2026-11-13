@@ -28,7 +28,7 @@ export function Toc({ items }: { items: TocItem[] }) {
   return (
     <nav aria-label="On this page" className="text-sm">
       <p className="mb-3 font-semibold">On this page</p>
-      <ul className="space-y-2 border-l">
+      <ul className="flex flex-col gap-2 border-l">
         {items.map((item) => (
           <li key={item.id}>
             <a

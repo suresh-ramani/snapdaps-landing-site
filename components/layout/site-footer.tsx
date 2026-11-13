@@ -52,7 +52,7 @@ export function SiteFooter() {
             <p id={`footer-${group.title.toLowerCase().replace(/\s+/g, "-")}`} className="text-sm font-medium">
               {group.title}
             </p>
-            <ul className="mt-4 space-y-3">
+            <ul className="mt-4 flex flex-col gap-3">
               {group.links.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="text-sm text-muted-foreground transition-colors hover:text-foreground">

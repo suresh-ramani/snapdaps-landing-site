@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Megaphone, Rocket, Tag } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { endsLabel } from "@/components/blocks/offer-callout";
 import { cn } from "@/lib/utils";
@@ -88,9 +89,7 @@ export const showsHeroPill = (a: Announcement | null): a is Announcement & { lin
 export function AnnouncementPill({ announcement: a }: { announcement: Announcement & { link: NonNullable<Announcement["link"]> } }) {
   const inner = (
     <>
-      <span className="badge-shine rounded-full bg-brand-gradient px-2 py-0.5 text-xs font-semibold text-white">
-        {a.style === "offer" ? "Offer" : "New"}
-      </span>
+      <Badge className="badge-shine bg-brand-gradient font-semibold text-white">{a.style === "offer" ? "Offer" : "New"}</Badge>
       <span className="truncate">{a.message}</span>
       <ArrowRight className="size-3.5 shrink-0 text-muted-foreground" aria-hidden="true" />
     </>
@@ -111,7 +110,7 @@ export function AnnouncementPill({ announcement: a }: { announcement: Announceme
 const cardStyles: Record<Announcement["style"], { label: string; card: string; tag: string; Icon: typeof Megaphone }> = {
   offer: { label: "Offer", card: "bg-primary/5 ring-1 ring-primary/25", tag: "bg-brand-blue text-white", Icon: Tag },
   launch: { label: "New", card: "surface", tag: "bg-brand-gradient text-white", Icon: Rocket },
-  info: { label: "Update", card: "surface", tag: "bg-muted text-foreground ring-1 ring-border", Icon: Megaphone },
+  info: { label: "Update", card: "surface", tag: "border-border bg-muted text-foreground", Icon: Megaphone },
 };
 
 /**
@@ -128,10 +127,10 @@ export async function AnnouncementCard({ className }: { className?: string }) {
 
   return (
     <aside aria-label="Announcement" className={cn("rounded-xl p-5", card, className)}>
-      <span className={cn("inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-semibold", tag)}>
-        <Icon className="size-3.5" aria-hidden="true" />
+      <Badge className={cn("gap-1.5 font-semibold", tag)}>
+        <Icon aria-hidden="true" />
         {label}
-      </span>
+      </Badge>
       <p className="mt-3 font-semibold leading-snug tracking-tight">{a.message}</p>
       {ends && <p className="mt-1 text-sm text-muted-foreground">{ends}</p>}
       {a.link && (

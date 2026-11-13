@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { cn } from "@/lib/utils";
 
 /**
  * Shared engine for scroll-linked tabs (PainPoints, WorkflowSteps). One rule for every section
@@ -129,7 +130,7 @@ export function ScrollTrack({
 }) {
   const half = `${blockRem / 2}rem`;
   return (
-    <div className={`relative ${display}`} style={{ height: `calc(${blockRem}rem + ${count * STEP_VH}vh)` }}>
+    <div className={cn("relative", display)} style={{ height: `calc(${blockRem}rem + ${count * STEP_VH}vh)` }}>
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 flex flex-col" style={{ top: half, bottom: half }}>
         {Array.from({ length: count }, (_, i) => (
           <div key={i} data-index={i} ref={sliceRef(i)} className="flex-1" />

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Check } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { Section } from "./section";
 
 /**
@@ -35,7 +36,7 @@ export function UseCaseLead({
         <div>
           <p className="text-lg leading-relaxed text-foreground/85">{summary}</p>
           <h3 className="mt-8 text-lg font-semibold tracking-tight">Key takeaways</h3>
-          <ul className="mt-4 space-y-3 text-[15px]">
+          <ul className="mt-4 flex flex-col gap-3 text-[15px]">
             {takeaways.map((t) => (
               <li key={t} className="flex items-start gap-3">
                 <span
@@ -51,9 +52,9 @@ export function UseCaseLead({
           <div className="mt-8 flex flex-wrap items-center gap-2 text-sm">
             <span className="font-medium">Best for:</span>
             {bestFor.map((b) => (
-              <span key={b} className="rounded-full bg-muted/70 px-3 py-1 text-muted-foreground ring-1 ring-border">
+              <Badge key={b} variant="muted" className="border-border px-3 py-1 text-sm font-normal">
                 {b}
-              </span>
+              </Badge>
             ))}
           </div>
           <p className="mt-8 border-t pt-4 text-xs leading-relaxed text-muted-foreground">

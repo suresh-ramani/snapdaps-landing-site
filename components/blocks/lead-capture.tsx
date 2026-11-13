@@ -34,7 +34,7 @@ export function LeadCapture({
         <div>
           <h2 className="text-3xl font-semibold leading-[1.1] tracking-tight md:text-[2.6rem]">{title}</h2>
           <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{body}</p>
-          <ul className="mt-8 space-y-3">
+          <ul className="mt-8 flex flex-col gap-3">
             {points.map((p) => (
               <li key={p} className="flex items-start gap-3">
                 <span aria-hidden="true" className="icon-tile size-7 rounded-lg">

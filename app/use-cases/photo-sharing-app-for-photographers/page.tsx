@@ -131,7 +131,7 @@ export default function PhotographersPage() {
               Your client is back home.
             </p>
             <p>Friends and relatives start calling your customer…</p>
-            <p className="space-y-2">
+            <p className="flex flex-col gap-2">
               <span className="quote">“Hey, send me the wedding photos!”</span>
               <span className="quote">“Mera photo bhejo na…”</span>
               <span className="quote">“Did you get our group pictures?”</span>
@@ -232,7 +232,7 @@ export default function PhotographersPage() {
               </div>
               <div className="rounded-xl bg-before p-5 ring-1 ring-before-border">
                 <p className="font-semibold text-before-ink">And you didn’t have to:</p>
-                <ul className="mt-3 space-y-2 text-sm">
+                <ul className="mt-3 flex flex-col gap-2 text-sm">
                   {["Deliver a pendrive of photos to their doorstep", "Reply to every call and message"].map((t) => (
                     <li key={t} className="flex items-start gap-2">
                       <X aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-before-ink" />
@@ -267,7 +267,7 @@ export default function PhotographersPage() {
       >
         <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
           {/* The content doc's three sentences as the real sequence they describe. */}
-          <ol className="relative space-y-4">
+          <ol className="relative flex flex-col gap-4">
             <span aria-hidden="true" className="absolute bottom-8 left-[2.15rem] top-8 w-px bg-border" />
             {[
               {

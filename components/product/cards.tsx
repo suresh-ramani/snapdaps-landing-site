@@ -65,7 +65,7 @@ export function UploadCard({ className }: { className?: string }) {
           <CardTitle>Upload photos</CardTitle>
           <CardDescription>From your computer or Google Drive</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="flex flex-col gap-4">
           <div className="flex flex-col items-center rounded-lg border border-dashed px-4 py-5 text-center">
             <UploadCloud className="size-6 text-muted-foreground" />
             <p className="mt-2 text-sm font-medium">Drag & drop photos here</p>
@@ -273,7 +273,7 @@ export function GalleryCard({ className }: { className?: string }) {
             <QrCode className="size-4 text-muted-foreground" />
           </CardAction>
         </CardHeader>
-        <CardContent className="space-y-3">
+        <CardContent className="flex flex-col gap-3">
           <div className="flex flex-wrap gap-1.5">
             {folders.map((f, i) => (
               <Badge key={f} variant={i === 3 ? "default" : "outline"} className="font-normal">
@@ -330,12 +330,12 @@ export function CreateEventCard({ className }: { className?: string }) {
           <CardTitle>New event</CardTitle>
           <CardDescription>Ready in under two minutes</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-1.5">
+        <CardContent className="flex flex-col gap-4">
+          <div className="flex flex-col gap-1.5">
             <p className="text-xs font-medium">Event name</p>
             <div className="rounded-md border px-3 py-2 text-sm">{sample.name}</div>
           </div>
-          <div className="space-y-1.5">
+          <div className="flex flex-col gap-1.5">
             <p className="text-xs font-medium">Folders</p>
             <div className="flex flex-wrap gap-1.5">
               {sample.folders.map((f) => (
@@ -370,7 +370,7 @@ export function DetectFacesCard({ className }: { className?: string }) {
           </CardTitle>
           <CardDescription>Runs in the background after upload</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="flex flex-col gap-4">
           <div className="relative overflow-hidden rounded-lg">
             <PhotoTile seed={5} people={3} className="aspect-[16/10] w-full rounded-lg" />
             {[26, 50, 74].map((x, i) => (
@@ -381,7 +381,7 @@ export function DetectFacesCard({ className }: { className?: string }) {
               />
             ))}
           </div>
-          <div className="space-y-2">
+          <div className="flex flex-col gap-2">
             <div className="flex justify-between text-xs">
               <span className="font-medium">Scanning photos</span>
               <span className="tabular-nums text-muted-foreground">3,904 / 4,812</span>

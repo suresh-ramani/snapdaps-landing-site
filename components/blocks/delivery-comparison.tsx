@@ -1,4 +1,5 @@
 import { Check, Minus, X } from "lucide-react";
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 
 type Mark = "yes" | "partly" | "no";
@@ -59,45 +60,45 @@ function MarkIcon({ mark }: { mark: Mark }) {
 
 export function DeliveryComparison({ className }: { className?: string }) {
   return (
-    // `relative`: the cells' sr-only labels are absolutely positioned — without a positioned scroll box
-    // they escape it and widen the page on phones.
-    <div className={cn("surface relative overflow-x-auto", className)}>
-      <table className="w-full min-w-[44rem] border-collapse text-sm">
-        <caption className="sr-only">Snapdaps compared with a Google Drive link, a pendrive and a WhatsApp group</caption>
-        <thead>
-          <tr className="border-b">
-            <th scope="col" className="w-[30%] px-4 py-3 text-left font-medium text-muted-foreground">
+    // shadcn Table: its own scroll box is `relative`, so the cells' sr-only labels stay inside it and
+    // don't widen the page on phones. The card clips the scrolled content to its rounded corners.
+    <div className={cn("surface overflow-hidden", className)}>
+      <Table className="min-w-[44rem]">
+        <TableCaption className="sr-only">Snapdaps compared with a Google Drive link, a pendrive and a WhatsApp group</TableCaption>
+        <TableHeader>
+          <TableRow className="hover:bg-transparent">
+            <TableHead scope="col" className="h-auto w-[30%] px-4 py-3 font-medium whitespace-normal text-muted-foreground">
               Delivering event photos
-            </th>
+            </TableHead>
             {COLUMNS.map((c, i) => (
-              <th
+              <TableHead
                 key={c}
                 scope="col"
-                className={cn("px-4 py-3 text-center font-semibold", i === 0 && "bg-after/60 text-after-ink")}
+                className={cn("h-auto px-4 py-3 text-center font-semibold whitespace-normal", i === 0 && "bg-after/60 text-after-ink")}
               >
                 {c}
-              </th>
+              </TableHead>
             ))}
-          </tr>
-        </thead>
-        <tbody>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {ROWS.map((r) => (
-            <tr key={r.label} className="border-b last:border-b-0">
-              <th scope="row" className="px-4 py-3 text-left font-medium">
+            <TableRow key={r.label} className="hover:bg-transparent">
+              <TableHead scope="row" className="h-auto px-4 py-3 whitespace-normal">
                 {r.label}
-              </th>
+              </TableHead>
               {r.cells.map((m, i) => (
-                <td key={i} className={cn("px-4 py-3 text-center align-top", i === 0 && "bg-after/40")}>
+                <TableCell key={i} className={cn("px-4 py-3 text-center align-top whitespace-normal", i === 0 && "bg-after/40")}>
                   <MarkIcon mark={m} />
                   {r.notes?.[i as 0 | 1 | 2 | 3] && (
                     <span className="mt-1 block text-xs text-muted-foreground">{r.notes[i as 0 | 1 | 2 | 3]}</span>
                   )}
-                </td>
+                </TableCell>
               ))}
-            </tr>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   );
 }

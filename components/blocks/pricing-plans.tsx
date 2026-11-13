@@ -1,8 +1,12 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useState } from "react";
 import { Check, HardDrive } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Separator } from "@/components/ui/separator";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { track } from "@/lib/track";
 import { cn } from "@/lib/utils";
 
@@ -27,14 +31,13 @@ export type PlanCard = {
  * (name, storage, price) next to a detail card for the selected plan (price, limits, button). The only
  * saving shown is "Save up to N%" inside the Yearly button — no per-plan % next to it.
  * Our own build of the "plan list + detail card" pattern (after Shadcn UI Kit's Pricing Table 4 —
- * a Pro block, so no code from it is used). Rows are real radio inputs (arrow keys move between
- * plans); the server renders every price into the HTML, and the popular plan (`isPopular`, Pro)
+ * a Pro block, so no code from it is used). Monthly / Yearly is a shadcn ToggleGroup and the rows a
+ * shadcn RadioGroup (arrow keys move between periods and plans); the server renders every price into the HTML, and the popular plan (`isPopular`, Pro)
  * starts selected. Below lg the detail card follows the list.
  */
 export function PricingPlans({ plans, yearlySaving }: { plans: PlanCard[]; yearlySaving: number }) {
   const [billing, setBilling] = useState<"monthly" | "yearly">("yearly");
   const [selected, setSelected] = useState(plans.find((p) => p.popular)?.key ?? plans[0]?.key);
-  const name = useId();
   const plan = plans.find((p) => p.key === selected) ?? plans[0];
   const priceOf = (p: PlanCard) => (billing === "yearly" ? p.yearly : p.monthly);
   const per = billing === "yearly" ? "year" : "month";
@@ -46,44 +49,47 @@ export function PricingPlans({ plans, yearlySaving }: { plans: PlanCard[]; yearl
       {/* Billing switch in white and brand blue: the chosen period is solid blue, the other is blue text on
           white (clearly a button), and Yearly carries its saving, so the cheaper option is hard to miss. */}
       <div className="flex justify-center">
-        <div role="group" aria-label="Billing period" className="inline-flex rounded-full bg-card p-1 shadow-sm ring-1 ring-primary/30">
-          {(["monthly", "yearly"] as const).map((b) => {
-            const on = billing === b;
-            return (
-              <button
-                key={b}
-                type="button"
-                aria-pressed={on}
-                onClick={() => {
-                  setBilling(b);
-                  if (!on) track("select_billing", { billing: b });
-                }}
-                className={cn(
-                  "inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold transition-colors",
-                  on ? "bg-primary text-primary-foreground shadow-sm" : "text-primary hover:bg-primary/10",
-                )}
-              >
-                {b === "monthly" ? "Monthly" : "Yearly"}
-                {b === "yearly" && yearlySaving > 0 && (
-                  <span
-                    className={cn(
-                      "rounded-full px-2 py-0.5 text-xs font-semibold",
-                      on ? "bg-white/20 text-primary-foreground" : "bg-primary/10 text-primary ring-1 ring-primary/25",
-                    )}
-                  >
-                    Save up to {yearlySaving}%
-                  </span>
-                )}
-              </button>
-            );
-          })}
-        </div>
+        <ToggleGroup
+          type="single"
+          spacing={1}
+          value={billing}
+          // A single toggle group can be emptied by clicking the chosen item again; keep one period chosen.
+          onValueChange={(v) => {
+            if (v !== "monthly" && v !== "yearly") return;
+            setBilling(v);
+            track("select_billing", { billing: v });
+          }}
+          aria-label="Billing period"
+          className="rounded-full bg-card p-1 shadow-sm ring-1 ring-primary/30"
+        >
+          {(["monthly", "yearly"] as const).map((b) => (
+            <ToggleGroupItem
+              key={b}
+              value={b}
+              className="group/billing h-auto rounded-full px-5 py-2 font-semibold text-primary hover:bg-primary/10 hover:text-primary data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=on]:shadow-sm"
+            >
+              {b === "monthly" ? "Monthly" : "Yearly"}
+              {b === "yearly" && yearlySaving > 0 && (
+                <Badge className="bg-primary/10 font-semibold text-primary ring-1 ring-primary/25 group-data-[state=on]/billing:bg-white/20 group-data-[state=on]/billing:text-primary-foreground group-data-[state=on]/billing:ring-0">
+                  Save up to {yearlySaving}%
+                </Badge>
+              )}
+            </ToggleGroupItem>
+          ))}
+        </ToggleGroup>
       </div>
 
       <div className="mt-6 grid items-start gap-5 lg:grid-cols-[1.15fr_1fr]">
         {/* Every plan, one row each */}
-        <fieldset className="surface overflow-hidden p-1.5">
-          <legend className="sr-only">Choose a plan</legend>
+        <RadioGroup
+          value={plan?.key}
+          onValueChange={(key) => {
+            setSelected(key);
+            track("select_plan", { plan: key, billing });
+          }}
+          aria-label="Choose a plan"
+          className="surface block overflow-hidden p-1.5"
+        >
           <ul className="divide-y">
             {plans.map((p) => {
               const price = priceOf(p);
@@ -93,37 +99,16 @@ export function PricingPlans({ plans, yearlySaving }: { plans: PlanCard[]; yearl
                 <li key={p.key} className={cn("rounded-lg", active && "bg-primary/5")}>
                   <label
                     className={cn(
-                      "flex cursor-pointer items-center gap-3 rounded-lg px-3.5 py-2.5 transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-ring",
+                      "flex items-center gap-3 rounded-lg px-3.5 py-2.5 transition-colors",
                       !active && "hover:bg-muted/60",
                     )}
                   >
-                    <input
-                      type="radio"
-                      name={name}
-                      value={p.key}
-                      checked={active}
-                      onChange={() => {
-                        setSelected(p.key);
-                        track("select_plan", { plan: p.key, billing });
-                      }}
-                      className="sr-only"
-                    />
-                    <span
-                      aria-hidden="true"
-                      className={cn(
-                        "flex size-4 shrink-0 items-center justify-center rounded-full ring-1",
-                        active ? "bg-primary ring-primary" : "bg-card ring-border",
-                      )}
-                    >
-                      {active && <span className="size-1.5 rounded-full bg-white" />}
-                    </span>
+                    <RadioGroupItem value={p.key} />
                     <span className="min-w-0 flex-1">
                       <span className="flex items-center gap-2 font-semibold">
                         {p.name}
                         {p.popular && (
-                          <span className="rounded-full bg-primary px-2 py-0.5 text-[11px] font-semibold text-primary-foreground">
-                            Popular
-                          </span>
+                          <Badge className="text-[11px] font-semibold">Popular</Badge>
                         )}
                       </span>
                       <span className="mt-1 flex flex-wrap gap-1.5">
@@ -164,7 +149,7 @@ export function PricingPlans({ plans, yearlySaving }: { plans: PlanCard[]; yearl
               );
             })}
           </ul>
-        </fieldset>
+        </RadioGroup>
 
         {/* Selected plan */}
         {plan && (
@@ -175,9 +160,7 @@ export function PricingPlans({ plans, yearlySaving }: { plans: PlanCard[]; yearl
             <div className="flex items-center justify-between gap-3">
               <h3 className="text-xl font-semibold tracking-tight">{plan.name}</h3>
               {plan.popular && (
-                <span className="rounded-full bg-primary px-3 py-0.5 text-xs font-semibold text-primary-foreground">
-                  Most popular
-                </span>
+                <Badge className="px-3 font-semibold">Most popular</Badge>
               )}
             </div>
             {plan.tagline && <p className="mt-1 text-sm text-muted-foreground">{plan.tagline}</p>}
@@ -230,7 +213,8 @@ export function PricingPlans({ plans, yearlySaving }: { plans: PlanCard[]; yearl
               </a>
             </Button>
 
-            <ul className="mt-6 space-y-2.5 border-t pt-5 text-sm">
+            <Separator className="mt-6" />
+            <ul className="mt-5 flex flex-col gap-2.5 text-sm">
               {plan.limits.filter((l) => l.label !== "Storage").map((l) => (
                 <li key={l.label} className="flex items-baseline justify-between gap-3">
                   <span className="text-muted-foreground">{l.label}</span>

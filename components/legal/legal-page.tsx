@@ -56,7 +56,7 @@ export function LegalPage({ doc, path }: { doc: LegalDoc; path: string }) {
                   On this page
                   <ChevronDown className="size-4 transition-transform group-open:rotate-180" aria-hidden="true" />
                 </summary>
-                <ul className="space-y-2 border-t px-4 py-3 text-sm">
+                <ul className="flex flex-col gap-2 border-t px-4 py-3 text-sm">
                   {toc.map((item) => (
                     <li key={item.id}>
                       <a href={`#${item.id}`} className="text-muted-foreground hover:text-foreground">

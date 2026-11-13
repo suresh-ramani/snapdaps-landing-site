@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
 import { Cookie, X } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { OPEN_COOKIE_SETTINGS, readConsent, saveConsent } from "@/lib/consent";
@@ -126,9 +127,9 @@ export function CookieConsent() {
                   Keep the site working — your theme, a dismissed announcement and this choice.
                 </p>
               </div>
-              <span className="shrink-0 rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">
+              <Badge variant="muted" className="px-2.5 py-1">
                 Always on
-              </span>
+              </Badge>
             </li>
             <li className="flex items-start justify-between gap-4 p-4">
               <label htmlFor="consent-analytics" className="cursor-pointer">

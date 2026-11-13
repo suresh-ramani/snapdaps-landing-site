@@ -29,7 +29,7 @@ export function ChatMarquee({
       <p className="sr-only">{label}</p>
       {/* The mask clips to its own box, so py-4/-my-4 gives the bubbles' ring and shadow room
           without moving the layout. Rows clip only sideways for the same reason. */}
-      <div className="-my-4 space-y-3 py-4 [mask-image:linear-gradient(to_right,transparent,#000_10%,#000_90%,transparent)]">
+      <div className="-my-4 flex flex-col gap-3 py-4 [mask-image:linear-gradient(to_right,transparent,#000_10%,#000_90%,transparent)]">
         {rows.map((row, r) => (
           <div
             key={r}

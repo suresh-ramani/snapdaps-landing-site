@@ -43,7 +43,7 @@ export function BrandedApp({ className }: { className?: string }) {
           </div>
         </div>
         <p className="px-3 pt-3 text-xs font-semibold">Riya &amp; Arjun’s wedding</p>
-        <div className="space-y-3 p-3 pt-2">
+        <div className="flex flex-col gap-3 p-3 pt-2">
           <div className="flex items-center justify-center gap-2 rounded-lg bg-brand-violet/10 py-2 text-xs font-medium text-purple">
             <ScanFace className="size-4" /> Find my photos with a selfie
           </div>

@@ -1,5 +1,6 @@
 import { Check, HardDrive, Minus } from "lucide-react";
 import { formatPrice, type Plan } from "@/lib/plans";
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 
 /**
@@ -33,28 +34,30 @@ export function PlanComparison({ plans }: { plans: Plan[] }) {
   ];
 
   return (
-    <div className="surface overflow-x-auto">
-      <table className="w-full min-w-[56rem] border-collapse text-sm">
-        <caption className="sr-only">Snapdaps plans compared</caption>
-        <thead>
-          <tr className="border-b bg-muted/40">
-            <th scope="col" className="sticky left-0 bg-muted px-4 py-3 text-left font-medium">
+    // shadcn Table scrolls sideways inside the card; the card clips it to the rounded corners.
+    <div className="surface overflow-hidden">
+      <Table className="min-w-[56rem]">
+        <TableCaption className="sr-only">Snapdaps plans compared</TableCaption>
+        <TableHeader>
+          <TableRow className="bg-muted/40 hover:bg-muted/40">
+            <TableHead scope="col" className="sticky left-0 h-auto bg-muted px-4 py-3">
               Plan
-            </th>
+            </TableHead>
             {plans.map((p) => (
-              <th key={p.key} scope="col" className="px-4 py-3 text-center font-semibold">
+              <TableHead key={p.key} scope="col" className="h-auto px-4 py-3 text-center font-semibold">
                 {p.name}
-              </th>
+              </TableHead>
             ))}
-          </tr>
-        </thead>
-        <tbody>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {/* No row hover tint: the pinned column is opaque and wouldn't change with it. */}
           {rows.map((r) => (
-            <tr key={r.label} className={cn("border-b last:border-b-0", r.storage && "bg-primary/5")}>
-              <th
+            <TableRow key={r.label} className={cn("hover:bg-transparent", r.storage && "bg-primary/5 hover:bg-primary/5")}>
+              <TableHead
                 scope="row"
                 className={cn(
-                  "sticky left-0 px-4 py-3 text-left",
+                  "sticky left-0 h-auto px-4 py-3 whitespace-normal",
                   // Opaque so scrolled cells never show through the pinned column.
                   r.storage ? "bg-[color-mix(in_oklab,var(--primary)_5%,var(--card))]" : "bg-card",
                   r.key ? "font-semibold text-foreground" : "font-normal text-muted-foreground",
@@ -68,19 +71,19 @@ export function PlanComparison({ plans }: { plans: Plan[] }) {
                 ) : (
                   r.label
                 )}
-              </th>
+              </TableHead>
               {plans.map((p) => (
-                <td
+                <TableCell
                   key={p.key}
                   className={cn("px-4 py-3 text-center tabular-nums", r.key ? "text-base font-semibold" : "font-medium")}
                 >
                   {r.cell(p)}
-                </td>
+                </TableCell>
               ))}
-            </tr>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   );
 }

@@ -97,7 +97,7 @@ export default function HowItWorksPage() {
         <div className="grid gap-4 md:grid-cols-2">
           <div className="surface p-6">
             <h3 className="text-lg font-semibold tracking-tight">What a guest needs</h3>
-            <ul className="mt-4 space-y-3 text-[15px]">
+            <ul className="mt-4 flex flex-col gap-3 text-[15px]">
               {[
                 { Icon: Smartphone, text: "A phone with a web browser" },
                 { Icon: QrCode, text: "The event’s link or QR code" },
@@ -114,7 +114,7 @@ export default function HowItWorksPage() {
           </div>
           <div className="surface p-6">
             <h3 className="text-lg font-semibold tracking-tight">What a guest doesn’t need</h3>
-            <ul className="mt-4 space-y-3 text-[15px] text-muted-foreground">
+            <ul className="mt-4 flex flex-col gap-3 text-[15px] text-muted-foreground">
               {["An app to install", "An account or password", "To scroll through every photo of the event"].map((text) => (
                 <li key={text} className="flex items-center gap-3">
                   <span aria-hidden="true" className="flex size-8 items-center justify-center rounded-lg bg-before text-before-ink">
@@ -165,7 +165,7 @@ export default function HowItWorksPage() {
         answer="Photos stay inside the event you create, and the event opens only through the link or QR code you share. Face search shows each guest only the photos they appear in, so nobody browses other guests’ pictures. You decide which events and folders exist, and who receives the link."
       >
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
-          <ul className="space-y-4 text-[15px]">
+          <ul className="flex flex-col gap-4 text-[15px]">
             {[
               { Icon: Lock, text: "Each event is reached only through its own link or QR code." },
               { Icon: ScanFace, text: "A guest’s selfie returns only the photos with their face." },

@@ -11,6 +11,7 @@ import { Section } from "@/components/blocks/section";
 import { StatsBand } from "@/components/blocks/stats-band";
 import { VideoTestimonials, hasVideoTestimonials } from "@/components/blocks/video-testimonials";
 import { JsonLd } from "@/components/json-ld";
+import { Badge } from "@/components/ui/badge";
 import { faqs } from "@/content/faqs";
 import { updatedOf } from "@/content/routes";
 import { comingSoonPlanFeatures, paidPlanFeatures, planTaglines, site } from "@/content/site";
@@ -124,7 +125,7 @@ export default async function PricingPage() {
             <li key={f} className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-muted-foreground">
               <Clock className="size-4 shrink-0" aria-hidden="true" />
               {f}
-              <span className="rounded-full bg-purple-soft px-2 py-0.5 text-xs font-medium text-purple">Coming soon</span>
+              <Badge variant="purple">Coming soon</Badge>
             </li>
           ))}
         </ul>

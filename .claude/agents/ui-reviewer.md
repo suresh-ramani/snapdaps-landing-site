@@ -45,6 +45,7 @@ The files or routes you were given. Otherwise the current changes (`git diff` an
 **Architecture**
 - `"use client"` only where interactive; client files never import `lib/wp/*`.
 - `components/ui/*` contains no app logic.
+- shadcn primitives used where they fit: flag hand-built chips (`rounded-full px-2 py-0.5` spans outside mocks — use `Badge`), raw `<table>` (use `Table`), button loops with `aria-pressed` (use `ToggleGroup`), hand-drawn radios (use `RadioGroup`), `space-y-*` stacks outside rich-text containers (use `flex flex-col gap-*`), template-literal classNames (use `cn()`), and `import { cn } from "cn"` / a `cn` npm dependency (shadcn CLI bug).
 - Page-specific copy inline in the page; shared copy in `content/site.ts`.
 
 **Accessibility**

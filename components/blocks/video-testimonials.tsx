@@ -1,5 +1,6 @@
 import { BadgeCheck, Play } from "lucide-react";
 import { JsonLd } from "@/components/json-ld";
+import { Badge } from "@/components/ui/badge";
 import { Reveal, RevealGroup } from "@/components/motion/reveal";
 import {
   verifiedNote,
@@ -128,11 +129,11 @@ function Placeholder() {
               <Play className="ml-0.5 size-6" aria-hidden="true" />
             </span>
           </div>
-          <div className="space-y-2 p-5 text-sm text-muted-foreground">
+          <div className="flex flex-col items-start gap-2 p-5 text-sm text-muted-foreground">
             <p>Placeholder: video testimonial — add real customer videos in content/video-testimonials.ts.</p>
-            <span className="inline-flex items-center gap-1 rounded-full border border-dashed px-2 py-0.5 text-xs">
-              <BadgeCheck className="size-3.5" aria-hidden="true" /> Verified · Not AI-generated (only when checked)
-            </span>
+            <Badge variant="outline" className="border-dashed font-normal text-muted-foreground">
+              <BadgeCheck aria-hidden="true" /> Verified · Not AI-generated (only when checked)
+            </Badge>
           </div>
         </li>
       ))}

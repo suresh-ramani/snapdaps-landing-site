@@ -14,7 +14,7 @@ import { CtaBand } from "@/components/blocks/cta-band";
 import { JsonLd } from "@/components/json-ld";
 import { cta, site } from "@/content/site";
 import { blogPostingLd, faqLd } from "@/lib/seo";
-import { absoluteUrl, formatDate, readingTime, stripHtml, wpDate } from "@/lib/utils";
+import { absoluteUrl, cn, formatDate, readingTime, stripHtml, wpDate } from "@/lib/utils";
 import { getRelatedPosts } from "@/lib/wp/api";
 import { prepareContent } from "@/lib/wp/content";
 import type { WPPost } from "@/lib/wp/types";
@@ -116,12 +116,12 @@ export function Article({ post, isPreview = false }: { post: WPPost; isPreview?:
                 <summary className="flex cursor-pointer list-none items-center gap-2 font-medium">
                   <ListTree className="size-4 text-muted-foreground" aria-hidden="true" /> On this page
                 </summary>
-                <ul className="mt-3 space-y-2 border-l text-sm">
+                <ul className="mt-3 flex flex-col gap-2 border-l text-sm">
                   {toc.map((item) => (
                     <li key={item.id}>
                       <a
                         href={`#${item.id}`}
-                        className={`-ml-px block border-l border-transparent py-0.5 text-muted-foreground hover:text-foreground ${item.level === 3 ? "pl-7" : "pl-4"}`}
+                        className={cn("-ml-px block border-l border-transparent py-0.5 text-muted-foreground hover:text-foreground", item.level === 3 ? "pl-7" : "pl-4")}
                       >
                         {item.text}
                       </a>
@@ -166,7 +166,7 @@ export function Article({ post, isPreview = false }: { post: WPPost; isPreview?:
           </div>
 
           <aside className="hidden lg:block">
-            <div className="sticky top-24 max-h-[calc(100vh-7rem)] space-y-6 overflow-y-auto px-1 pb-4">
+            <div className="sticky top-24 max-h-[calc(100vh-7rem)] flex flex-col gap-6 overflow-y-auto px-1 pb-4">
               <Toc items={toc} />
               {/* Current offer / launch / update from WordPress → Settings → Announcement (none in previews). */}
               {!isPreview && (

@@ -36,7 +36,7 @@ export function WaitingDelivery({ title, steps, waiting, className }: WaitingDel
         </span>
       </div>
 
-      <ol className="mt-4 space-y-3">
+      <ol className="mt-4 flex flex-col gap-3">
         {steps.map((label, i) => {
           const state = i === 0 ? "done" : i === 1 ? "now" : "later";
           return (

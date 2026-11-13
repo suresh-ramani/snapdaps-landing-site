@@ -42,7 +42,7 @@ export function MainNav() {
               {useCaseNav.map((group) => (
                 <div key={group.title} className="rounded-lg p-2">
                   <p className="px-2 pb-2 text-xs font-medium text-muted-foreground">{group.title}</p>
-                  <ul className="space-y-0.5">
+                  <ul className="flex flex-col gap-0.5">
                     {group.links.map((l) => {
                       const Icon = l.icon ? navIcons[l.icon] : undefined;
                       return (

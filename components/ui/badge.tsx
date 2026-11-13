@@ -18,6 +18,9 @@ const badgeVariants = cva(
           "border-border text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
         ghost: "[a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
         link: "text-primary underline-offset-4 [a&]:hover:underline",
+        // Project variants: quiet labels ("Always on", "Best for" chips) and purple highlights ("Coming soon").
+        muted: "bg-muted text-muted-foreground",
+        purple: "bg-purple-soft text-purple",
       },
     },
     defaultVariants: {
