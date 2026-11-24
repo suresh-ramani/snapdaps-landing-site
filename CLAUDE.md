@@ -2,6 +2,8 @@
 
 Marketing site and blog for snapdaps.ai. Next.js 16 App Router, server-rendered on every request, Tailwind CSS v4, shadcn/ui, headless WordPress (WPGraphQL) for the blog.
 
+> **Start of a session:** read `.claude/context/` — working agreements (commits, verification), the owner's decisions and why, current status / open items, and testing quirks. It lives in git so it moves between computers; update it in the same change when a decision, task or quirk changes. The repo is public: no secrets or private details there.
+
 > **Keep this file and `.claude/` current.** Any change that adds or renames a block, token, utility, route, content file or convention updates CLAUDE.md in the same change (the "Where things go" table and the Rules below) **and** the affected skills in `.claude/skills/` and review agents in `.claude/agents/`. A task isn't done until both match the code.
 
 ## Commands
