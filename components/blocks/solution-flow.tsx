@@ -1,6 +1,7 @@
 import { Check, ScanFace, UploadCloud, Users } from "lucide-react";
 import { LogoMark } from "@/components/layout/logo";
-import { Face, PhotoTile } from "@/components/mock/primitives";
+import { PhotoTile, ProfilePic } from "@/components/mock/primitives";
+import type { PersonName } from "@/components/mock/profiles";
 import { cn } from "@/lib/utils";
 
 /**
@@ -15,7 +16,7 @@ import { cn } from "@/lib/utils";
  * The step captions are real text, so the idea reads even without the animation.
  */
 
-export type FlowGuest = { name: string; count: number; seed: number };
+export type FlowGuest = { name: PersonName; count: number; seed: number };
 
 const defaultGuests: FlowGuest[] = [
   { name: "Riya", count: 38, seed: 2 },
@@ -191,7 +192,7 @@ function HubNode() {
 function GuestNode({ guest }: { guest: FlowGuest }) {
   return (
     <div className="surface flex items-center gap-3 p-2.5 pr-3">
-      <Face seed={guest.seed} className="size-10 shrink-0" />
+      <ProfilePic person={guest.name} className="size-10 shrink-0" />
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-semibold">{guest.name}</p>
         <p className="text-xs text-muted-foreground">{guest.count} photos found</p>

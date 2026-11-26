@@ -28,7 +28,8 @@ import {
 } from "@/components/ui/item";
 import { Progress } from "@/components/ui/progress";
 import { useEventSample } from "@/components/mock/photo-pool";
-import { Face, PhotoTile, QrPattern } from "@/components/mock/primitives";
+import { PhotoTile, ProfilePic, QrPattern } from "@/components/mock/primitives";
+import type { PersonName } from "@/components/mock/profiles";
 import { cn } from "@/lib/utils";
 
 /**
@@ -109,7 +110,7 @@ export function FaceMatchCard({ className, count = 38 }: { className?: string; c
         <CardHeader>
           <div className="flex items-center gap-3">
             <div className="relative size-11 overflow-hidden rounded-full ring-2 ring-primary ring-offset-2 ring-offset-card [--scan-distance:2.75rem]">
-              <Face seed={2} className="size-full rounded-none" />
+              <ProfilePic seed={2} className="size-full rounded-none" />
               <span className="animate-scan absolute inset-x-0 top-0 h-0.5 bg-primary shadow-[0_0_10px_2px_var(--primary)]" />
             </div>
             <div className="grid gap-1">
@@ -170,7 +171,7 @@ export function ShareCard({ className }: { className?: string }) {
 
 /* --------------------------------------------------------------------------- */
 export function GuestActivityCard({ className }: { className?: string }) {
-  const rows = [
+  const rows: { seed: number; name: PersonName; text: string; time: string }[] = [
     { seed: 1, name: "Priya", text: "found 24 photos", time: "2m" },
     { seed: 3, name: "Rahul", text: "downloaded 12 photos", time: "5m" },
     { seed: 5, name: "Ananya", text: "found 41 photos", time: "9m" },
@@ -192,7 +193,7 @@ export function GuestActivityCard({ className }: { className?: string }) {
                 <ItemMedia>
                   <Avatar size="sm">
                     <AvatarFallback className="p-0">
-                      <Face seed={r.seed} className="size-full" />
+                      <ProfilePic person={r.name} className="size-full" />
                     </AvatarFallback>
                   </Avatar>
                 </ItemMedia>
@@ -303,7 +304,7 @@ export function SelfieSearchCard({ className }: { className?: string }) {
         </CardHeader>
         <CardContent className="flex flex-col items-center gap-4">
           <div className="relative size-24 overflow-hidden rounded-full ring-2 ring-primary ring-offset-4 ring-offset-card [--scan-distance:5.5rem]">
-            <Face seed={4} className="size-full rounded-none" />
+            <ProfilePic seed={4} className="size-full rounded-none" />
             <span className="animate-scan absolute inset-x-0 top-0 h-0.5 bg-primary shadow-[0_0_10px_2px_var(--primary)]" />
           </div>
           <p className="flex items-center gap-1.5 text-xs font-medium text-primary">

@@ -10,12 +10,14 @@ import {
   PhoneMissed,
   Signal,
   Smile,
+  Users,
   Video,
   Wifi,
 } from "lucide-react";
 import { Reveal, RevealGroup } from "@/components/motion/reveal";
 import { cn, hindiLang } from "@/lib/utils";
-import { Face, PhoneFrame } from "./primitives";
+import { PhoneFrame, ProfilePic } from "./primitives";
+import type { PersonName } from "./profiles";
 
 /**
  * WhatsApp-style chat screen (current Android light theme: white header, beige doodle
@@ -28,7 +30,7 @@ import { Face, PhoneFrame } from "./primitives";
 
 export type WaItem =
   | { type: "date"; text: string }
-  | { type: "in"; text: string; time: string; from?: string }
+  | { type: "in"; text: string; time: string; from?: PersonName }
   | { type: "out"; text: string; time: string }
   | { type: "missed"; time: string; video?: boolean };
 
@@ -44,24 +46,22 @@ const DOODLES = encodeURIComponent(
   </svg>`,
 );
 
+/** A 1:1 chat names a person (their profile picture fits the name); a group has its own title and icon. */
+type ChatWith = { group?: false; contact: PersonName } | { group: true; contact: string };
+
 export function WhatsAppChat({
   contact,
   status = "online",
   unread,
-  seed = 2,
   items,
   group = false,
   reveal = false,
   screenHeight = "h-[27rem]",
   className,
-}: {
-  contact: string;
+}: ChatWith & {
   status?: string;
   unread?: number;
-  seed?: number;
   items: WaItem[];
-  /** Group chat: incoming bubbles show coloured sender names. */
-  group?: boolean;
   /** Bubbles pop in one after another when the phone scrolls into view (Story chat). */
   reveal?: boolean;
   /** Height of the screen inside the phone frame (a Tailwind height class). */
@@ -89,7 +89,13 @@ export function WhatsAppChat({
             <ArrowLeft className="size-4" strokeWidth={2.2} />
             {unread !== undefined && <span className="ml-0.5 text-[11px] font-medium">{unread}</span>}
           </span>
-          <Face seed={seed} className="ml-0.5 size-7 shrink-0" />
+          {group ? (
+            <span className="ml-0.5 flex size-7 shrink-0 items-center justify-center rounded-full bg-[#dfe5e7] text-[#8696a0]">
+              <Users className="size-4" strokeWidth={2.2} />
+            </span>
+          ) : (
+            <ProfilePic person={contact as PersonName} className="ml-0.5 size-7 shrink-0" />
+          )}
           <div className="min-w-0 flex-1 pl-1 leading-tight">
             <p className="truncate text-[12px] font-semibold">{contact}</p>
             <p className={cn("truncate text-[9.5px]", status === "typing…" ? "text-[#00a884]" : "text-[#667781]")}>

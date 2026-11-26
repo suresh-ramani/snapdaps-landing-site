@@ -71,7 +71,7 @@ The files or routes you were given. Otherwise the current changes (`git diff` an
 - Top-level bands use `section-y` and set `data-tone`; no `pt-0`/`pb-0`/custom padding overrides on sections. Gaps between content blocks are one `--section-y` everywhere (same-tone neighbours collapse in `globals.css`).
 
 **Licences**
-- No Shadcn UI Kit premium/Pro code or illustrations (public repo). Stock photos only from free Unsplash/Pexels (not Unsplash+), each listed in `public/photos/CREDITS.md`; faces only through `Face` (real crops of the site's own photos, `public/faces/`), first names only, never beside a quote, rating, company or anything that reads as an endorsement. Shadcn Space free items keep their copyright notice + licence text; their Pro items are not allowed. Adapted patterns carry an "after <source> (licence)" comment.
+- No Shadcn UI Kit premium/Pro code or illustrations (public repo). Stock photos only from free Unsplash/Pexels (not Unsplash+), each listed in `public/photos/CREDITS.md`; faces only through `ProfilePic` (everyday portraits in `public/profiles/`; named people via the typed `people` map in `components/mock/profiles.ts` so name and face agree — flag any face whose gender/age doesn't fit its name, a string name bypassing `PersonName`, or a person's face on a group chat), first names only, never beside a quote, rating, company or anything that reads as an endorsement. Shadcn Space free items keep their copyright notice + licence text; their Pro items are not allowed. Adapted patterns carry an "after <source> (licence)" comment.
 
 **Docs drift**
 - A new or renamed block, token, utility or convention is reflected in CLAUDE.md and `.claude/`.

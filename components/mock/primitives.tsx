@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { faces } from "./faces";
+import { profileFor, type PersonName } from "./profiles";
 import { qrPath } from "./qr-rows";
 
 /**
@@ -12,15 +12,16 @@ import { qrPath } from "./qr-rows";
 // PhotoTile lives in ./photo-tile (a client component, so it can read the page's photo pool).
 export { PhotoTile } from "./photo-tile";
 
+
 /**
- * A guest's face — a real photo cropped from the site's free Unsplash wedding set (`./faces`), used for
- * selfies, avatars and chat heads. Same props as before: `seed` picks the face, `className` sets size,
- * ring and radius (round by default; pass `rounded-none` inside a round frame). Decorative.
+ * Someone's everyday profile picture (`./profiles`): chat heads, avatar stacks, activity feeds and the
+ * guest's selfie. `person` (a typed `PersonName`) picks the picture that fits that sample name; unnamed
+ * avatars pass `seed` instead. Round by default; pass `rounded-none` inside a round frame. Decorative.
  */
-export function Face({ seed = 0, className }: { seed?: number; className?: string }) {
+export function ProfilePic({ person, seed = 0, className }: { person?: PersonName; seed?: number; className?: string }) {
   return (
     <span aria-hidden="true" className={cn("relative inline-block shrink-0 overflow-hidden rounded-full bg-muted", className)}>
-      <Image src={faces[seed % faces.length]} alt="" fill sizes="64px" className="object-cover" />
+      <Image src={profileFor(person, seed)} alt="" fill sizes="64px" className="object-cover" />
     </span>
   );
 }

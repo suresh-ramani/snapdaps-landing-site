@@ -1,4 +1,4 @@
-import { Face } from "@/components/mock/primitives";
+import { ProfilePic } from "@/components/mock/primitives";
 import { Section } from "./section";
 import { StatsBand, hasStats } from "./stats-band";
 import { VideoTestimonials, hasVideoTestimonials } from "./video-testimonials";
@@ -38,7 +38,7 @@ export function SocialProof({
             <li key={t.name} className="surface p-6">
               <blockquote className="text-[15px] leading-relaxed">“{t.quote}”</blockquote>
               <div className="mt-6 flex items-center gap-3">
-                <Face seed={i} className="size-10" />
+                <ProfilePic seed={i} className="size-10" />
                 <div className="text-sm">
                   <p className="font-semibold">{t.name}</p>
                   <p className="text-muted-foreground">

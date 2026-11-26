@@ -1,4 +1,5 @@
-import { Face } from "@/components/mock/primitives";
+import { ProfilePic } from "@/components/mock/primitives";
+import type { PersonName } from "@/components/mock/profiles";
 import { cn, hindiLang } from "@/lib/utils";
 
 /**
@@ -11,7 +12,7 @@ import { cn, hindiLang } from "@/lib/utils";
  * is hidden from assistive tech.
  */
 
-export type ChatMessage = { text: string; from: string; time: string };
+export type ChatMessage = { text: string; from: PersonName; time: string };
 
 export function ChatMarquee({
   messages,
@@ -48,7 +49,7 @@ export function ChatMarquee({
                 >
                   {row.map((m, i) => (
                     <li key={`${copy}-${i}`} className="flex items-end gap-1.5">
-                      <Face seed={(i + r * 3) % 8} className="size-7 shrink-0" />
+                      <ProfilePic person={m.from} className="size-7 shrink-0" />
                       <div className="surface rounded-2xl rounded-bl-sm px-3.5 py-2 text-sm">
                         <p lang={hindiLang(m.text)} className="whitespace-nowrap font-medium">
                           {m.text}

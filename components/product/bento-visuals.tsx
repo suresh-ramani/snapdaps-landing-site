@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { GoogleDriveLogo } from "@/components/mock/brand-icons";
 import { useEventSample } from "@/components/mock/photo-pool";
-import { Face, PhoneFrame, PhotoTile } from "@/components/mock/primitives";
+import { ProfilePic, PhoneFrame, PhotoTile } from "@/components/mock/primitives";
 import { cn } from "@/lib/utils";
 
 /**
@@ -29,7 +29,7 @@ export function FaceSearchVisual() {
     <div className="flex h-full gap-5 pl-6 pt-6 sm:gap-8 md:pl-8 md:pt-8">
       <div className="flex shrink-0 flex-col items-center gap-3">
         <div className="relative size-16 overflow-hidden rounded-full ring-2 ring-primary ring-offset-4 ring-offset-muted [--scan-distance:4rem] sm:size-24 sm:[--scan-distance:6rem]">
-          <Face seed={2} className="size-full rounded-none" />
+          <ProfilePic seed={2} className="size-full rounded-none" />
           <span className="animate-scan absolute inset-x-0 top-0 h-0.5 bg-primary shadow-[0_0_10px_2px_var(--primary)]" />
         </div>
         <span className="rounded-full bg-card px-2.5 py-1 text-xs font-medium shadow-sm ring-1 ring-border">Your selfie</span>

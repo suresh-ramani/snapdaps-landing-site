@@ -4,6 +4,11 @@ Newest first. Each says what was decided and why, so later work doesn't undo it.
 the resulting rules; this file records that the owner chose them.
 
 ## 2026-11-26
+- **Every face is an everyday profile picture** (`ProfilePic`), selfies included: a real selfie isn't
+  taken at the venue in wedding dress. The wedding face crops (`Face`) were removed.
+- **Names and faces must agree.** A man's name ("Rahul") showed a woman's face in "Endless
+  follow-ups". Fix + prevention: sample names are a typed `PersonName` union mapped to a picture of
+  the right gender/age; group chats show a group icon.
 - **Real faces instead of illustrated ones, everywhere** (owner chose "all illustrated faces").
   `Face` now shows real faces cropped from the free wedding photos on the site. Guardrail kept:
   first names only, no quotes/ratings/companies next to a face, nothing that reads as an endorsement.

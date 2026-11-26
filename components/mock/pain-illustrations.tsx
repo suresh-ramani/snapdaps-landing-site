@@ -139,7 +139,6 @@ function FollowUps() {
       // Taller than the default: the whole run of messages and missed calls fits without clipping.
       screenHeight="h-[31rem]"
       unread={12}
-      seed={0}
       items={[
         { type: "date", text: "Today" },
         { type: "in", text: "Hi Sir 🙏", time: "9:02 am" },

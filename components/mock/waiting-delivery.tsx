@@ -1,6 +1,6 @@
 import { Check, Hourglass } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Face } from "./primitives";
+import { ProfilePic } from "./primitives";
 
 export type WaitingDeliveryProps = {
   /** Card title in the event's words: "Wedding photos", "Stage photos"… */
@@ -15,7 +15,7 @@ export type WaitingDeliveryProps = {
 /**
  * What waiting looks like, beside the problem story's power line (inside the dark `ink-card`): a
  * photo-delivery tracker in the event's own words, stuck on its second step, and the people still
- * waiting (guest faces from the site's own photos, `Face`). The group chat is already beside it in the
+ * waiting (everyday profile pictures, `ProfilePic`). The group chat is already beside it in the
  * story, so this card shows the delivery side instead — every use-case page passes its own copy.
  * Illustration colours on ink (amber = waiting) are allowed here (components/mock/*). Decorative:
  * the power line says the same, so it's aria-hidden + data-nosnippet. The hourglass turns and the
@@ -61,7 +61,7 @@ export function WaitingDelivery({ title, steps, waiting, className }: WaitingDel
       <div className="mt-5 flex items-center gap-3 border-t border-white/10 pt-4">
         <span className="flex -space-x-2">
           {[2, 5, 1, 7].map((seed) => (
-            <Face key={seed} seed={seed} className="size-7 ring-2 ring-ink-surface" />
+            <ProfilePic key={seed} seed={seed} className="size-7 ring-2 ring-ink-surface" />
           ))}
         </span>
         <p className="text-sm text-white/70">{waiting}</p>

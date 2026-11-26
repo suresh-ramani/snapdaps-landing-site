@@ -4,8 +4,8 @@ Event photos used by `PhotoTile` (`components/mock/photos.ts`). All from [Unspla
 [Unsplash License](https://unsplash.com/license): free for commercial use, no permission or attribution required. Each
 was checked as a free photo (not Unsplash+) on 30–31 Oct 2026, then cropped to 640×800 (4:5) WebP.
 
-Rules: event photos only. Guest faces (`Face`) are crops of these same photos (see "Faces" below), first names only,
-never with a quote, rating or anything that reads as an endorsement. Don't use these to imply endorsement by the people pictured. Add new photos here with the same details.
+Rules: event photos only here. People's faces in chats, avatars and selfies come from the profile pictures below
+(`ProfilePic`), first names only, never with a quote, rating or anything that reads as an endorsement. Don't use these to imply endorsement by the people pictured. Add new photos here with the same details.
 
 | File | Photographer | Source |
 |---|---|---|
@@ -75,19 +75,22 @@ Checked free (not Unsplash+) on 2026-11-26; three other links the owner sent wer
 | wedding-friends-attire.webp | Raju Kumar | https://unsplash.com/photos/three-women-in-traditional-indian-wedding-attire-fA_BqsFgAPA |
 | wedding-guest-colourful.webp | Raju Kumar | https://unsplash.com/photos/a-woman-in-a-colorful-traditional-indian-outfit-lpLA-7i79_w |
 
-## Faces
+## Profile pictures
 
-`public/faces/guest-*.webp` — 160×160 crops for `Face` (`components/mock/faces.ts`), cut from the photos above
-(2026-11-26):
+`public/profiles/p-*.webp` — 160×160 everyday portraits for `ProfilePic` (`components/mock/profiles.ts`): chat heads,
+avatar stacks, activity feeds and guest selfies. Free Unsplash photos (not Unsplash+), checked and cropped 2026-11-26.
 
-| File | Cropped from |
-|---|---|
-| guest-0.webp | wedding-varmala (SB Film Studio) — bride |
-| guest-1.webp | wedding-couple-red (ARTO SURAJ) — groom |
-| guest-2.webp | wedding-couple-red (ARTO SURAJ) — bride |
-| guest-3.webp | wedding-friends-attire (Raju Kumar) — right |
-| guest-4.webp | wedding-groom-turban (iKshana Productions) |
-| guest-5.webp | wedding-friends-attire (Raju Kumar) — left |
-| guest-6.webp | wedding-varmala (SB Film Studio) — groom |
-| guest-7.webp | wedding-bride-red (Harsh Gupta) |
-| guest-8.webp | wedding-friends-attire (Raju Kumar) — seated |
+| File | Photographer | Source |
+|---|---|---|
+| p-man-young-1.webp | Josias Garibay | https://unsplash.com/photos/a-smiling-young-man-in-a-dark-blue-sweater-rifCUO-4X8k |
+| p-man-young-2.webp | Nicolas Horn | https://unsplash.com/photos/man-in-red-crew-neck-shirt-ARBQCe2GrjQ |
+| p-man-young-3.webp | Bennit Antony | https://unsplash.com/photos/man-with-beard-in-white-shirt-xbQpVuU3Y-c |
+| p-man-uncle-1.webp | Tanmay Abhay Mahajan | https://unsplash.com/photos/a-smiling-man-in-a-red-shirt-with-glasses-ONZ84gi7xr0 |
+| p-man-uncle-2.webp | Mohammed Umar Ashrafi | https://unsplash.com/photos/a-smiling-man-in-a-white-polo-shirt-XGs1bSZ9P6s |
+| p-man-elder.webp | Tanmay Abhay Mahajan | https://unsplash.com/photos/smiling-elderly-man-in-traditional-indian-attire-a41s4pLGB-U |
+| p-woman-young-1.webp | Parimal Jain | https://unsplash.com/photos/woman-in-red-patterned-sweater-MHg6J6m_eqI |
+| p-woman-young-2.webp | Subhra Jyoti Paul | https://unsplash.com/photos/woman-in-silk-saree-with-jewelry-62KLYU6ePVY |
+| p-woman-young-3.webp | Subhra Jyoti Paul | https://unsplash.com/photos/a-woman-in-a-red-kurta-with-a-floral-scarf-c07j-zSHezM |
+| p-woman-aunty.webp | Tanmay Abhay Mahajan | https://unsplash.com/photos/woman-in-traditional-indian-attire-smiling-ngelE2r5aOg |
+| p-woman-elder-1.webp | Tanmay Abhay Mahajan | https://unsplash.com/photos/an-elderly-indian-woman-in-a-sari-smiles-a52zqf2R7jA |
+| p-woman-elder-2.webp | Oriol Casas | https://unsplash.com/photos/woman-wearing-white-and-black-floral-scarf-while-smiling-C7m7RSFONYc |

@@ -4,7 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { Check, RotateCcw, ScanFace } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Face, PhotoTile } from "@/components/mock/primitives";
+import { PhotoTile, ProfilePic } from "@/components/mock/primitives";
+import type { PersonName } from "@/components/mock/profiles";
 import type { PhotoName } from "@/components/mock/photos";
 import { cta, site } from "@/content/site";
 import { cn } from "@/lib/utils";
@@ -14,8 +15,8 @@ import { cn } from "@/lib/utils";
  * gallery is searched (a short scan), and only that guest's photos stay lit with a tick.
  * Draft copy by Claude — not from the content doc; reviewed by: (pending).
  *
- * Honest by design: the guests' selfies are faces cropped from the same stock photos (`Face`), each
- * guest's first match is the photo they're actually in, and the note under the gallery says it's a sample — the matches are a fixed sample, not real face recognition. Once the app
+ * Honest by design: the guests' selfies are everyday portraits (`ProfilePic`, matched to the name), and
+ * the note under the gallery says it's a sample — the matches are a fixed sample, not real face recognition. Once the app
  * team supplies a real demo event, set `site.sampleGalleryUrl` and an "Open a real sample gallery"
  * button appears. Everything stays in the server HTML (all photos, the guest list); state only
  * changes which tiles are dimmed. Scan: one CSS sweep (`.demo-scan`), skipped under reduced motion.
@@ -47,12 +48,12 @@ const SCATTER = [
   ["2rem", "5rem", "-5deg"], ["-2.5rem", "4rem", "-3deg"], ["1rem", "5.5rem", "6deg"],
 ] as const;
 
-// Each guest's selfie is a face from these photos, and their first match is the photo they're in.
+// Each guest's selfie is an everyday portrait that fits their name (`people` in profiles.ts).
 const GUESTS = [
-  { id: "meera", name: "Meera", face: 2, matches: [0, 7, 9, 1] },
-  { id: "kabir", name: "Kabir", face: 6, matches: [3, 4, 8] },
-  { id: "ananya", name: "Ananya", face: 3, matches: [5, 2, 10, 6, 11] },
-] as const;
+  { id: "meera", name: "Meera", matches: [0, 7, 9, 1] },
+  { id: "kabir", name: "Kabir", matches: [3, 4, 8] },
+  { id: "ananya", name: "Ananya", matches: [5, 2, 10, 6, 11] },
+] as const satisfies readonly { id: string; name: PersonName; matches: readonly number[] }[];
 
 type Phase = "idle" | "scanning" | "found";
 const SCAN_MS = 1400;
@@ -114,7 +115,7 @@ export function GuestViewDemo({ className }: { className?: string }) {
               )}
             >
               <RadioGroupItem value={g.id} className="sr-only lg:not-sr-only" />
-              <Face seed={g.face} className="size-12 lg:size-10" />
+              <ProfilePic person={g.name} className="size-12 lg:size-10" />
               <span className="text-sm font-medium">{g.name}</span>
             </label>
           ))}

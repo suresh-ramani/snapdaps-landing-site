@@ -5,7 +5,7 @@ import { Check, Download } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useEventSample } from "@/components/mock/photo-pool";
 import { photos, type PhotoName } from "@/components/mock/photos";
-import { BrowserFrame, Face, PhotoTile } from "@/components/mock/primitives";
+import { BrowserFrame, PhotoTile, ProfilePic } from "@/components/mock/primitives";
 import { cn } from "@/lib/utils";
 
 /**
@@ -36,7 +36,7 @@ export function EventGalleryHero({
   found: number;
   /** Which of the event's four folders is selected (0 = "All"). */
   folder?: 0 | 1 | 2 | 3 | 4;
-  /** Seed for the guest's selfie (`Face`). */
+  /** Seed for the guest's selfie (an everyday portrait, `ProfilePic`). */
   selfie?: number;
   className?: string;
 }) {
@@ -51,7 +51,7 @@ export function EventGalleryHero({
           <BrowserFrame decorative={false} url={`snapdaps.ai/e/${slug(sample.name)}`} className="max-h-[32rem]">
             <div aria-hidden="true" className="flex items-center gap-3 border-b px-4 py-3.5">
               <div className="relative size-11 shrink-0 overflow-hidden rounded-full ring-2 ring-primary ring-offset-2 ring-offset-card [--scan-distance:2.75rem]">
-                <Face seed={selfie} className="size-full rounded-none" />
+                <ProfilePic seed={selfie} className="size-full rounded-none" />
                 <span className="animate-scan absolute inset-x-0 top-0 h-0.5 bg-primary shadow-[0_0_10px_2px_var(--primary)]" />
               </div>
               <div className="min-w-0 flex-1">
