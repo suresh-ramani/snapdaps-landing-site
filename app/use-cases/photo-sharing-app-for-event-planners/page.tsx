@@ -150,7 +150,7 @@ export default function EventPlannersPage() {
             },
             {
               id: "bulk-upload",
-              title: "Bulk photo upload",
+              title: "Upload thousands of photos",
               body: (
                 <>
                   <p>Upload thousands of event photos in minutes without limits.</p>
@@ -162,7 +162,7 @@ export default function EventPlannersPage() {
               ),
               benefits: [
                 "Drag & drop photos to upload",
-                "Bulk upload thousands of photos",
+                "Upload thousands of photos at once",
                 "Fast, optimised upload performance",
                 "Organise photos into event folders",
               ],
@@ -223,7 +223,7 @@ export default function EventPlannersPage() {
             },
             {
               key: "upload",
-              title: "Bulk photo uploads",
+              title: "Upload thousands of photos",
               body: "Upload thousands of event photos quickly and manage them effortlessly in one place.",
             },
             {

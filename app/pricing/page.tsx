@@ -48,7 +48,7 @@ function toCard(p: Plan): PlanCard {
     ],
     extras: p.free
       ? ["Unlimited AI face search", "Email notifications"]
-      : ["Unlimited AI face search", "Original-quality photos", "Apple HEIC photos"],
+      : ["Unlimited AI face search", "Original-quality photos", "iPhone photos without converting"],
     monthly: p.monthly
       ? { regular: fmt(p.monthly.regular), price: fmt(p.monthly.price), href: planSignupHref(p.monthly.puid) }
       : undefined,

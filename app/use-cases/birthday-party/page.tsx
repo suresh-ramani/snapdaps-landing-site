@@ -60,7 +60,7 @@ const birthdaySteps: WorkflowStep[] = [
     title: "Upload the party photos",
     subtitle: "Add the photographer’s photos from a computer or straight from Google Drive.",
     points: [
-      "Bulk upload hundreds or thousands of photos.",
+      "Upload hundreds or thousands of photos at once.",
       "Drop each moment into its own folder.",
       "Add more photos to the party any time.",
     ],
@@ -205,7 +205,7 @@ export default function BirthdayPartyPage() {
             {
               key: "upload",
               title: "Every photo in one place",
-              body: "Bulk upload from your computer or straight from the photographer’s Google Drive.",
+              body: "Upload them all at once from your computer, or straight from the photographer’s Google Drive.",
             },
             {
               key: "share",

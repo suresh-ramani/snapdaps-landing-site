@@ -14,25 +14,25 @@ export type MarketingRoute = {
 };
 
 export const marketingRoutes: MarketingRoute[] = [
-  { path: "/", label: "Home", indexed: true, priority: 1, updated: "2026-11-13" },
-  { path: "/how-it-works", label: "How it works", indexed: true, priority: 0.8, updated: "2026-10-30" },
-  { path: "/features", label: "Features", indexed: true, priority: 0.8, updated: "2026-11-13" },
+  { path: "/", label: "Home", indexed: true, priority: 1, updated: "2026-11-26" },
+  { path: "/how-it-works", label: "How it works", indexed: true, priority: 0.8, updated: "2026-11-26" },
+  { path: "/features", label: "Features", indexed: true, priority: 0.8, updated: "2026-11-26" },
   // Feature pages — draft copy by Claude; noindex until the team approves it.
   { path: "/features/ai-face-search", label: "AI face search", indexed: false, updated: "2026-10-31" },
   { path: "/features/qr-code-photo-sharing", label: "QR code photo sharing", indexed: false, updated: "2026-10-31" },
   { path: "/features/google-drive-import", label: "Google Drive import", indexed: false, updated: "2026-10-31" },
-  { path: "/features/photographer-portfolio", label: "Photographer portfolio", indexed: false, updated: "2026-10-31" },
-  { path: "/features/white-label-mobile-app", label: "White-label mobile app", indexed: false, updated: "2026-10-31" },
-  { path: "/pricing", label: "Pricing", indexed: true, priority: 0.8, updated: "2026-10-31" },
+  { path: "/features/photographer-portfolio", label: "Photographer portfolio", indexed: false, updated: "2026-11-26" },
+  { path: "/features/white-label-mobile-app", label: "Your studio app", indexed: false, updated: "2026-11-26" },
+  { path: "/pricing", label: "Pricing", indexed: true, priority: 0.8, updated: "2026-11-26" },
   { path: "/use-cases", label: "Use cases", indexed: true, priority: 0.7, updated: "2026-10-30" },
   { path: "/use-cases/photo-sharing-app-for-photographers", label: "Photographers", indexed: true, priority: 0.9, updated: "2026-10-31" },
-  { path: "/use-cases/photo-sharing-app-for-event-planners", label: "Event planners", indexed: true, priority: 0.9, updated: "2026-10-31" },
-  { path: "/use-cases/wedding-photo-sharing-app", label: "Wedding", indexed: true, priority: 0.9, updated: "2026-10-30" },
+  { path: "/use-cases/photo-sharing-app-for-event-planners", label: "Event planners", indexed: true, priority: 0.9, updated: "2026-11-26" },
+  { path: "/use-cases/wedding-photo-sharing-app", label: "Wedding", indexed: true, priority: 0.9, updated: "2026-11-26" },
   // Draft copy by Claude (not in the content doc); indexed on the team's go-ahead, 2026-10-30.
-  { path: "/use-cases/birthday-party", label: "Birthday party", indexed: true, priority: 0.8, updated: "2026-10-31" },
-  { path: "/use-cases/corporate-events", label: "Corporate events", indexed: true, priority: 0.8, updated: "2026-10-31" },
-  { path: "/use-cases/award-ceremony", label: "Award ceremony", indexed: true, priority: 0.8, updated: "2026-10-31" },
-  { path: "/use-cases/sports-events", label: "Sports tournaments", indexed: true, priority: 0.8, updated: "2026-10-31" },
+  { path: "/use-cases/birthday-party", label: "Birthday party", indexed: true, priority: 0.8, updated: "2026-11-26" },
+  { path: "/use-cases/corporate-events", label: "Corporate events", indexed: true, priority: 0.8, updated: "2026-11-26" },
+  { path: "/use-cases/award-ceremony", label: "Award ceremony", indexed: true, priority: 0.8, updated: "2026-11-26" },
+  { path: "/use-cases/sports-events", label: "Sports tournaments", indexed: true, priority: 0.8, updated: "2026-11-26" },
   // Not ready — noindex until it is.
   { path: "/case-studies", label: "Case studies", indexed: false },
   { path: "/about", label: "About", indexed: false }, // copy not in the content doc yet

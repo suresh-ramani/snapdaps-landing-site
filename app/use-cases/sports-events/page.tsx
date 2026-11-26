@@ -59,7 +59,7 @@ const sportsSteps: WorkflowStep[] = [
     title: "Upload each day’s photos",
     subtitle: "Add photos after every match day, from a computer or Google Drive.",
     points: [
-      "Bulk upload thousands of action shots.",
+      "Upload thousands of action shots at once.",
       "Keep adding to the same tournament.",
       "A folder for each team or ground.",
     ],
@@ -190,7 +190,7 @@ export default function SportsEventsPage() {
             {
               key: "upload",
               title: "Built for thousands of action shots",
-              body: "Bulk upload every match day’s photos into the same tournament, from a computer or Google Drive.",
+              body: "Upload every match day’s photos into the same tournament, all at once, from a computer or Google Drive.",
             },
             {
               key: "share",

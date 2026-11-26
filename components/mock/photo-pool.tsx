@@ -1,10 +1,17 @@
 "use client";
 
 import { createContext, useContext } from "react";
+import type { DetectScene } from "./detect";
 import { weddingPool, type PhotoName } from "./photos";
 
 /** The sample event the product cards show: its photos, name and folders. */
-export type EventSample = { pool: readonly PhotoName[]; name: string; folders: readonly [string, string, string, string] };
+export type EventSample = {
+  pool: readonly PhotoName[];
+  name: string;
+  folders: readonly [string, string, string, string];
+  /** Group photo for the "AI detects faces" card (`detectScenes`); the wedding one when left out. */
+  detect?: DetectScene;
+};
 
 const wedding: EventSample = {
   pool: weddingPool,

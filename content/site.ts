@@ -137,7 +137,7 @@ export const nav = {
         { label: "QR code sharing", href: "/features/qr-code-photo-sharing" },
         { label: "Google Drive import", href: "/features/google-drive-import" },
         { label: "Portfolio", href: "/features/photographer-portfolio" },
-        { label: "White-label app", href: "/features/white-label-mobile-app" },
+        { label: "Your studio app", href: "/features/white-label-mobile-app" },
       ],
     },
     {
@@ -175,7 +175,7 @@ export const workflowSteps = [
     title: "Upload photos — fast and secure",
     subtitle: "Upload your event photos in one place, in their respective folders.",
     points: [
-      "Bulk upload thousands of photos.",
+      "Upload thousands of photos at once.",
       "Drag and drop photos to upload.",
       "Upload from your computer and Google Drive.",
     ],
@@ -228,7 +228,7 @@ export const coreFeatures = [
   },
   {
     key: "upload",
-    title: "Bulk photo uploads",
+    title: "Upload thousands of photos",
     body: "Upload thousands of event photos in minutes and manage them in one place.",
   },
   {
@@ -261,14 +261,14 @@ export const paidPlanFeatures = [
   "Unlimited events",
   "Event analytics",
   "Business portfolio",
-  "Custom domain for your portfolio",
+  "Your own web address for your portfolio",
   "Dynamic watermark",
   "Guest selfie pre-registration",
   "Common QR code",
   "Switch downloads on or off",
-  "Bulk downloads",
+  "Download all photos at once",
   "Original-quality uploads",
-  "Apple HEIC photo support",
+  "iPhone photos without converting",
   "Photo selection for albums",
   "Mobile apps",
 ] as const;

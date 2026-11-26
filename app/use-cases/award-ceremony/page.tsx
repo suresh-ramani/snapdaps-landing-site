@@ -59,7 +59,7 @@ const awardSteps: WorkflowStep[] = [
     title: "Upload the night’s photos",
     subtitle: "Add each category’s photos from a computer or Google Drive.",
     points: [
-      "Bulk upload thousands of photos.",
+      "Upload thousands of photos at once.",
       "Each category into its own folder.",
       "Add late photos to the same ceremony any time.",
     ],
@@ -188,7 +188,7 @@ export default function AwardCeremonyPage() {
             {
               key: "upload",
               title: "The whole night in one place",
-              body: "Bulk upload every photo from the ceremony, from a computer or Google Drive.",
+              body: "Upload every photo from the ceremony at once, from a computer or Google Drive.",
             },
             {
               key: "share",

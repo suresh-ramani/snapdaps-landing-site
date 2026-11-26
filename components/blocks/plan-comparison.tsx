@@ -29,7 +29,7 @@ export function PlanComparison({ plans }: { plans: Plan[] }) {
     { label: "Max photo size", cell: (p) => p.limits.maxUpload },
     { label: "AI face search", cell: (p) => p.limits.faceSearch },
     { label: "Original-quality photos", cell: (p) => yes(p.limits.originalQuality) },
-    { label: "Apple HEIC photos", cell: (p) => yes(p.limits.heic) },
+    { label: "iPhone photos without converting", cell: (p) => yes(p.limits.heic) },
     { label: "Email notifications", cell: (p) => yes(p.limits.emailNotifications) },
   ];
 

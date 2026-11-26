@@ -30,7 +30,7 @@ import { buildMetadata } from "@/lib/seo";
 const PATH = "/features";
 const TITLE = "Features: AI face search, smart galleries, QR sharing";
 const DESCRIPTION =
-  "AI face search, smart galleries, bulk upload and Google Drive import, QR code sharing, client photo selection and portfolios. Everything Snapdaps does for event photos.";
+  "AI face search, smart galleries, uploading thousands of photos at once or from Google Drive, QR code sharing, client photo selection and portfolios. Everything Snapdaps does for event photos.";
 
 export const metadata = buildMetadata({ title: TITLE, description: DESCRIPTION, path: PATH });
 
@@ -112,7 +112,7 @@ export default function FeaturesPage() {
               more: learnMore("/features/google-drive-import", "Importing from Google Drive"),
               benefits: [
                 "Drag & drop photos to upload",
-                "Bulk upload thousands of photos",
+                "Upload thousands of photos at once",
                 "Import from a Google Drive link",
                 "Organise photos into event folders",
               ],
@@ -197,25 +197,25 @@ export default function FeaturesPage() {
             },
             {
               Icon: Link2,
-              title: "Your own domain",
+              title: "Your own web address",
               body: (
                 <>
-                  Publish your portfolio on your own custom domain, or on a Snapdaps subdomain.{" "}
+                  Put your portfolio on your own web address, or on a free Snapdaps one.{" "}
                   <Link
                     href="/features/photographer-portfolio#custom-domain"
                     className="font-medium text-primary hover:underline"
                   >
-                    Domain options
+                    Web address options
                   </Link>
                 </>
               ),
             },
             {
               Icon: Smartphone,
-              title: "White-label mobile app",
+              title: "Your own studio app",
               body: (
                 <>
-                  Your studio’s own app on Android and iOS — your name, icon, logo and colours.{" "}
+                  Your studio’s own app on Android phones and iPhones — your name, icon, logo and colours.{" "}
                   <Link href="/features/white-label-mobile-app" className="font-medium text-primary hover:underline">
                     About the studio app
                   </Link>

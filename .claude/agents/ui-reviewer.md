@@ -55,6 +55,7 @@ The files or routes you were given. Otherwise the current changes (`git diff` an
 - Semantic lists, landmarks, heading order.
 
 **Copy**
+- Plain words only in visible copy: flag technical terms (white-label, iOS, platform, backend, subdomain, custom domain, bulk upload, HEIC, push notification, publish, API…) and suggest the plain phrase from CLAUDE.md → Copy.
 - Wording matches the content doc; keyword H1s in the doc's title case, other headings sentence case.
 - Buttons say what happens ("Start free", not "Submit").
 - No invented testimonials, clients or metrics; unknowns say "Placeholder". `StatsBand` figures carry a source and date; placeholder stats never reach production.

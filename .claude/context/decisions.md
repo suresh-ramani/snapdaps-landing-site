@@ -4,6 +4,16 @@ Newest first. Each says what was decided and why, so later work doesn't undo it.
 the resulting rules; this file records that the owner chose them.
 
 ## 2026-11-26
+- **No technical words on the site.** Owner: "we don't have to use technical words". Visible copy
+  says what things do (own studio app, Android phones and iPhones, own web address, upload thousands
+  at once, iPhone photos without converting). Legal pages and URLs unchanged.
+- **White-label page "in short" scene is a bento** (`StudioAppBento`), not a Lottie.
+- **No drawn placeholders for the product story.** The /how-it-works face-search explainer is now
+  real photos with measured face boxes and an everyday selfie; every use-case page's "AI detects
+  faces" card shows a group photo of that kind of event (corporate team, birthday family, gala,
+  medal winners, networking), faces measured. Lottie scenes stay (owner-approved illustrations).
+- **Face-detection visuals box real faces.** The "AI detects faces" card drew boxes at made-up spots;
+  it now uses one group photo with each face measured, and an animated scan that boxes them in turn.
 - **Every face is an everyday profile picture** (`ProfilePic`), selfies included: a real selfie isn't
   taken at the venue in wedding dress. The wedding face crops (`Face`) were removed.
 - **Names and faces must agree.** A man's name ("Rahul") showed a woman's face in "Endless

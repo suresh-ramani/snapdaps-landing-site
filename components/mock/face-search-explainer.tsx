@@ -1,163 +1,92 @@
+import { Check } from "lucide-react";
+import type { FaceBox } from "./detect";
+import type { PhotoName } from "./photos";
+import { PhotoTile, ProfilePic } from "./primitives";
 import { cn } from "@/lib/utils";
 
 /**
- * Animated explainer for AI face search (our own SVG, no third-party art), in three beats that
- * mirror the steps beside it on /how-it-works:
+ * Animated explainer for AI face search on /how-it-works, with real photos, in three beats that mirror
+ * the steps beside it:
  *   1. a scan line passes over the event's photos and every face gets a box (found on upload);
  *   2. the guest's selfie on the phone pulses and sends its face across (the selfie is the search);
- *   3. the photos with the guest light up with a tick, the rest dim (matches in one gallery).
+ *   3. the guest's photos light up with a tick, the rest dim (matches in one gallery).
  *
- * One 9s CSS loop (`.fs-*` keyframes in globals.css) on transform/opacity only — no JS, no library.
- * Under reduced motion it shows the finished frame: matches ticked, the rest dimmed. Decorative:
- * the section's text says the same thing, so it's aria-hidden; colours are theme tokens (the
- * guest's violet top and skin tones are illustration colours, allowed in components/mock/*).
- * Framed large: the phone fills the frame's height and the photo grid runs off the right edge.
- * Use once per page: its clipPath ids are fixed.
+ * The face boxes are measured on each photo (% of the 640×800 tile) — re-measure if a photo changes.
+ * The selfie is an everyday portrait (`ProfilePic`), as a real guest's would be. One 9s CSS loop
+ * (`.fs-*` in globals.css), transform/opacity only; under reduced motion the finished frame shows
+ * (boxes off, matches ticked, the rest dimmed). Decorative: the section's text says the same thing.
  */
 
-/** Tiles are drawn at 80 units and scaled up; the grid has a fourth column that runs off the right edge. */
-const TILE = 80;
-const SCALE = 1.15;
-const STEP = TILE * SCALE + 12;
-const COLS = 4;
-const GRID_X = 236;
-const GRID_Y = 26;
-const WIDTH = 600;
+type Tile = { photo: PhotoName; faces: FaceBox[]; match?: boolean };
 
-type Person = { x: number; guest?: boolean; skin: string; top: string };
-/** 4 × 3 event photos (the fourth column is cut off by the frame); the guest (violet top) is in four. */
-const tiles: Person[][] = [
-  [{ x: 40, guest: true, skin: "#c98f6b", top: "" }],
-  [{ x: 26, skin: "#8d5a3b", top: "#64748b" }, { x: 56, skin: "#e0b48f", top: "#0ea5e9" }],
-  [{ x: 40, skin: "#b07a55", top: "#f59e0b" }],
-  [{ x: 30, skin: "#8d5a3b", top: "#10b981" }],
-  [{ x: 28, skin: "#e0b48f", top: "#10b981" }, { x: 56, skin: "#8d5a3b", top: "#ef4444" }],
-  [{ x: 26, guest: true, skin: "#c98f6b", top: "" }, { x: 56, skin: "#b07a55", top: "#64748b" }],
-  [{ x: 40, guest: true, skin: "#c98f6b", top: "" }],
-  [{ x: 30, skin: "#e0b48f", top: "#64748b" }],
-  [{ x: 40, skin: "#8d5a3b", top: "#0ea5e9" }],
-  [{ x: 28, skin: "#e0b48f", top: "#f59e0b" }, { x: 54, guest: true, skin: "#c98f6b", top: "" }],
-  [{ x: 40, skin: "#b07a55", top: "#10b981" }],
-  [{ x: 30, skin: "#b07a55", top: "#0ea5e9" }],
+const TILES: Tile[] = [
+  { photo: "wedding-couple-red", faces: [{ l: 22, t: 26.7, w: 12, h: 9.6 }, { l: 60.5, t: 25.7, w: 12, h: 9.6 }] },
+  { photo: "wedding-varmala", match: true, faces: [{ l: 18.5, t: 31.8, w: 13, h: 10.4 }, { l: 52.5, t: 31.3, w: 13, h: 10.4 }] },
+  {
+    photo: "wedding-friends-attire",
+    match: true,
+    faces: [
+      { l: 17.8, t: 20.4, w: 6.5, h: 5.2 },
+      { l: 38.8, t: 34.4, w: 6.5, h: 5.2 },
+      { l: 74.8, t: 18.9, w: 6.5, h: 5.2 },
+    ],
+  },
+  { photo: "wedding-couple-colour", faces: [{ l: 16, t: 7.2, w: 22, h: 17.6 }, { l: 49, t: 15.2, w: 22, h: 17.6 }] },
+  { photo: "wedding-bride-red", faces: [{ l: 46, t: 12.5, w: 10, h: 8 }] },
+  { photo: "wedding-sangeet-dance", match: true, faces: [{ l: 47.8, t: 22.1, w: 8.5, h: 6.8 }] },
 ];
-const GUEST_TOP = "#aa5cf6";
-const GUEST_HAIR = "#2b2118";
-
-function Figure({ p, y = 34, r = 11 }: { p: Person; y?: number; r?: number }) {
-  return (
-    <g>
-      <ellipse cx={p.x} cy={y + r * 2.6} rx={r * 1.7} ry={r * 1.3} fill={p.guest ? GUEST_TOP : p.top} />
-      <circle cx={p.x} cy={y} r={r} fill={p.skin} />
-      {p.guest && <path d={`M${p.x - r} ${y - 1} a${r} ${r} 0 0 1 ${r * 2} 0 q-${r} -${r * 0.55} -${r * 2} 0z`} fill={GUEST_HAIR} />}
-    </g>
-  );
-}
 
 export function FaceSearchExplainer({ className }: { className?: string }) {
   return (
-    <svg
-      viewBox={`0 0 ${WIDTH} 360`}
-      aria-hidden="true"
-      className={cn("fs-scene h-auto w-full", className)}
-      fontFamily="inherit"
-      shapeRendering="geometricPrecision"
-    >
-      <defs>
-        {tiles.map((_, i) => (
-          <clipPath key={i} id={`fs-tile-${i}`}>
-            <rect width={TILE} height={TILE} rx={10} />
-          </clipPath>
-        ))}
-        <clipPath id="fs-selfie">
-          <circle cx="98" cy="150" r="56" />
-        </clipPath>
-        <linearGradient id="fs-scan-grad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="var(--primary)" stopOpacity="0" />
-          <stop offset="1" stopColor="var(--primary)" stopOpacity="0.45" />
-        </linearGradient>
-      </defs>
-
-      {/* The guest's phone with their selfie — drawn tall, nearly the full height of the frame */}
-      <g>
-        <rect x="10" y="8" width="176" height="344" rx="28" className="fill-card stroke-border" strokeWidth="2" />
-        <rect x="76" y="20" width="44" height="7" rx="3.5" className="fill-muted" />
-        <text x="98" y="68" textAnchor="middle" fontSize="13" fontWeight="600" className="fill-foreground">
-          Take a selfie
-        </text>
-        <circle cx="98" cy="150" r="56" className="fill-muted" />
-        <g clipPath="url(#fs-selfie)">
-          <Figure p={{ x: 98, guest: true, skin: "#c98f6b", top: "" }} y={138} r={25} />
-        </g>
-        {/* Face frame corners */}
-        <path
-          d="M52 116v-12h12 M132 104h12v12 M144 184v12h-12 M64 196h-12v-12"
-          fill="none"
-          className="stroke-primary"
-          strokeWidth="3"
-          strokeLinecap="round"
-        />
-        <circle cx="98" cy="150" r="64" fill="none" className="fs-ring stroke-primary" strokeWidth="2.5" />
-        <rect x="32" y="286" width="132" height="36" rx="18" className="fill-brand-blue" />
-        <text x="98" y="309" textAnchor="middle" fontSize="13" fontWeight="600" fill="white">
+    <div className={cn("flex flex-col items-center gap-5 sm:flex-row sm:gap-6", className)}>
+      {/* The guest's phone with their selfie */}
+      <div className="flex w-36 shrink-0 flex-col items-center gap-4 rounded-[1.75rem] border-[5px] border-foreground/85 bg-card px-3 pb-4 pt-6 sm:w-44">
+        <p className="text-xs font-semibold sm:text-sm">Take a selfie</p>
+        <div className="relative">
+          <ProfilePic person="Priya" className="size-20 sm:size-24" />
+          {/* Face frame corners + the pulse that says "this is the search" */}
+          <span className="absolute -inset-2 rounded-xl border-2 border-dashed border-primary/60" />
+          <span className="fs-ring absolute -inset-3 rounded-full border-2 border-primary" />
+        </div>
+        <span className="rounded-full bg-primary px-3 py-1.5 text-[11px] font-semibold text-primary-foreground sm:text-xs">
           Find my photos
-        </text>
-      </g>
+        </span>
+      </div>
 
       {/* Selfie → photos */}
-      <path d="M190 150H232" className="stroke-border" strokeWidth="2" strokeDasharray="3 5" strokeLinecap="round" />
-      <circle cx="190" cy="150" r="4" className="fs-dot fill-primary" />
-      <circle cx="190" cy="150" r="4" className="fs-dot fs-dot-2 fill-primary" />
+      <div className="relative hidden h-px w-10 shrink-0 border-t-2 border-dashed border-border sm:block">
+        <span className="fs-dot absolute -left-1 -top-[5px] size-2 rounded-full bg-primary" />
+        <span className="fs-dot fs-dot-2 absolute -left-1 -top-[5px] size-2 rounded-full bg-primary" />
+      </div>
 
-      {/* Event photos */}
-      {tiles.map((people, i) => {
-        const col = i % COLS;
-        const row = Math.floor(i / COLS);
-        const x = GRID_X + col * STEP;
-        const y = GRID_Y + row * STEP;
-        const match = people.some((p) => p.guest);
-        return (
-          <g key={i} transform={`translate(${x} ${y}) scale(${SCALE})`}>
-            <g clipPath={`url(#fs-tile-${i})`}>
-              <rect width={TILE} height={TILE} className="fill-muted" />
-              <rect y={TILE * 0.62} width={TILE} height={TILE * 0.38} className="fill-border" opacity="0.6" />
-              {people.map((p, j) => (
-                <Figure key={j} p={p} />
-              ))}
-            </g>
-            {/* Face boxes, found as the scan passes this row */}
-            {people.map((p, j) => (
-              <rect
+      {/* The event's photos: scanned, faces boxed, then the guest's matches ticked */}
+      <div className="relative grid w-full min-w-0 flex-1 grid-cols-3 gap-1.5 overflow-hidden rounded-xl sm:gap-2">
+        {TILES.map((t, i) => (
+          <div key={t.photo} className="relative">
+            <PhotoTile photo={t.photo} sizes="(min-width: 1024px) 140px, 28vw" className="rounded-lg" />
+            {t.faces.map((f, j) => (
+              <span
                 key={j}
-                x={p.x - 15}
-                y={19}
-                width={30}
-                height={30}
-                rx={4}
-                fill="none"
-                className={cn("fs-box stroke-primary", `fs-row-${row}`)}
-                strokeWidth="2"
+                className={cn("fs-box absolute rounded-[3px] border-2 border-white shadow-[0_0_0_1px_var(--primary)]", i >= 3 && "fs-row-1")}
+                style={{ left: `${f.l}%`, top: `${f.t}%`, width: `${f.w}%`, height: `${f.h}%` }}
               />
             ))}
-            {match ? (
+            {t.match ? (
               <>
-                <rect width={TILE} height={TILE} rx={10} fill="none" className="fs-match stroke-[var(--after-ink)]" strokeWidth="3" />
-                <g className="fs-check">
-                  <circle cx={TILE - 13} cy={13} r={10} className="fill-[var(--after-ink)]" />
-                  <path d={`M${TILE - 18} 13l3.5 3.5 6.5-7`} fill="none" className="stroke-card" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                </g>
+                <span className="fs-match absolute inset-0 rounded-lg ring-[3px] ring-inset ring-primary" />
+                <span className="fs-check absolute right-1.5 top-1.5 grid size-6 place-items-center rounded-full bg-primary text-primary-foreground shadow-sm">
+                  <Check className="size-3.5" strokeWidth={3} />
+                </span>
               </>
             ) : (
-              <rect width={TILE} height={TILE} rx={10} className="fs-dim fill-card" />
+              <span className="fs-dim absolute inset-0 rounded-lg bg-card" />
             )}
-          </g>
-        );
-      })}
-
-      {/* Scan line sweeping the photos */}
-      <g className="fs-scan">
-        <rect x={GRID_X - 4} y={GRID_Y - 24} width={WIDTH - GRID_X + 4} height="24" fill="url(#fs-scan-grad)" />
-        <rect x={GRID_X - 4} y={GRID_Y - 2} width={WIDTH - GRID_X + 4} height="2.5" rx="1.25" className="fill-primary" />
-      </g>
-    </svg>
+          </div>
+        ))}
+        <span className="fs-scan pointer-events-none absolute inset-0">
+          <span className="absolute inset-x-0 top-0 h-0.5 bg-primary shadow-[0_0_12px_3px_var(--primary)]" />
+        </span>
+      </div>
+    </div>
   );
 }

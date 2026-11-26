@@ -38,7 +38,7 @@ export const faqs: Record<string, Faq[]> = {
     },
     {
       q: "How do I upload event photos?",
-      a: "Create an event, add folders for each part of it (for example Haldi, Sangeet, Reception), and bulk upload thousands of photos from your computer or Google Drive. Snapdaps detects faces automatically in the background — no manual tagging.",
+      a: "Create an event, add folders for each part of it (for example Haldi, Sangeet, Reception), and upload thousands of photos at once from your computer or Google Drive. Snapdaps detects faces automatically in the background — no manual tagging.",
     },
     {
       q: "Who is Snapdaps for?",
@@ -66,7 +66,7 @@ export const faqs: Record<string, Faq[]> = {
     },
     {
       q: "Where can I upload photos from?",
-      a: "From your computer, or from a Google Drive link — paste it and Snapdaps imports every image in the background. You can bulk upload thousands of photos in one go.",
+      a: "From your computer, or from a Google Drive link — paste it and Snapdaps imports every image in the background. You can upload thousands of photos in one go.",
     },
     {
       q: "How quickly can guests get their photos?",
@@ -104,7 +104,7 @@ export const faqs: Record<string, Faq[]> = {
     },
     {
       q: "Can I upload an event straight from Google Drive?",
-      a: "Yes. Paste the Drive folder's public link and Snapdaps imports every image in the background — or bulk upload thousands from your computer. Faces are detected automatically while you get on with your next shoot.",
+      a: "Yes. Paste the Drive folder's public link and Snapdaps imports every image in the background — or upload thousands at once from your computer. Faces are detected automatically while you get on with your next shoot.",
     },
     {
       q: "Do my clients or their guests need to sign up?",
@@ -127,7 +127,7 @@ export const faqs: Record<string, Faq[]> = {
     },
     {
       q: "Does it work for large events?",
-      a: "Yes. Snapdaps works for events of any size. Upload thousands of photos in bulk, and every attendee still finds only their own photos with a selfie — in seconds.",
+      a: "Yes. Snapdaps works for events of any size. Upload thousands of photos at once, and every attendee still finds only their own photos with a selfie — in seconds.",
     },
     {
       q: "Can I organise photos by session, day or venue?",
@@ -192,7 +192,7 @@ export const faqs: Record<string, Faq[]> = {
     },
     {
       q: "Is it suitable for large conferences and offsites?",
-      a: "Yes. Snapdaps works for events of any size: bulk upload thousands of photos, and every attendee still finds only their own with a selfie.",
+      a: "Yes. Snapdaps works for events of any size: upload thousands of photos at once, and every attendee still finds only their own with a selfie.",
     },
   ],
 
@@ -278,8 +278,8 @@ export const faqs: Record<string, Faq[]> = {
       a: "A page on Snapdaps where you show your best work to people looking for a photographer, alongside the event galleries you deliver to clients.",
     },
     {
-      q: "Do I need to buy a domain for my portfolio?",
-      a: "No. Use a Snapdaps subdomain if you don't have a domain, or connect your own custom domain if you do.",
+      q: "Do I need my own web address for my portfolio?",
+      a: "No. Use a free Snapdaps web address if you don't have one, or use your own (like yourstudio.com) if you do.",
     },
     {
       q: "Do I need a separate website for my portfolio?",
@@ -312,12 +312,12 @@ export const faqs: Record<string, Faq[]> = {
 
   "/features/white-label-mobile-app": [
     {
-      q: "Is the studio app available on both Android and iOS?",
-      a: "Yes. Snapdaps publishes your studio's app on both Android and iOS, under your studio's own name.",
+      q: "Does the studio app work on Android phones and iPhones?",
+      a: "Yes. We put your studio's app on both the Play Store and the App Store, under your studio's own name.",
     },
     {
-      q: "Is the white-label app included in every Snapdaps plan?",
-      a: "No. The white-label app is available on selected Snapdaps plans. Book a demo and we'll tell you which plan fits your studio.",
+      q: "Is the studio app included in every Snapdaps plan?",
+      a: "No. Your own studio app comes with selected Snapdaps plans. Book a demo and we'll tell you which plan fits your studio.",
     },
     {
       q: "Will my app show other photographers' events?",
@@ -329,7 +329,7 @@ export const faqs: Record<string, Faq[]> = {
     },
     {
       q: "Do clients get notified when their photos are ready?",
-      a: "Yes. Your app sends clients a notification when their photos are ready, so they open your app — not a chat thread — to see them.",
+      a: "Yes. Your app sends clients an alert on their phone when their photos are ready, so they open your app — not a chat group — to see them.",
     },
   ],
 
@@ -345,7 +345,7 @@ export const faqs: Record<string, Faq[]> = {
     },
     {
       q: "What's the difference between the paid plans?",
-      a: "Storage and the largest photo you can upload. Every paid plan includes unlimited events, unlimited face search, original-quality photos and HEIC support; higher plans add more storage and bigger photo uploads. The comparison table lists each plan's limits.",
+      a: "Storage and the largest photo you can upload. Every paid plan includes unlimited events, unlimited face search, original-quality photos and iPhone photos without converting; higher plans add more storage and bigger photo uploads. The comparison table lists each plan's limits.",
     },
     {
       q: "How much do I save with yearly billing?",

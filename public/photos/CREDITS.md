@@ -70,6 +70,12 @@ Checked free (not Unsplash+) on 2026-11-26; three other links the owner sent wer
 | wedding-haldi-petals.webp | Mohammed Sultan Farooqui | https://unsplash.com/photos/a-bride-and-groom-surrounded-by-confetti-cvM0vLjVBjA |
 | wedding-pheras-family.webp | Sabesh Photography LTD | https://unsplash.com/photos/a-group-of-people-in-a-room-lvW_dm-B6b8 |
 | wedding-couple-stone.webp | Davor Denkovski | https://unsplash.com/photos/couple-embracing-in-ornate-stone-structure-with-greenery-SMRfhrFhWr0 |
+| detect-birthday.webp | (crop of birthday-family-cake.webp, see above) | 16:10 crop for `DetectFacesCard` |
+| detect-corporate.webp | (crop of corporate-team.webp, see above) | 16:10 crop for `DetectFacesCard` |
+| detect-award.webp | (crop of award-gala.webp, see above) | 16:10 crop for `DetectFacesCard` |
+| detect-sports.webp | (crop of sports-medal-winners.webp, see above) | 16:10 crop for `DetectFacesCard` |
+| detect-planners.webp | (crop of corporate-networking.webp, see above) | 16:10 crop for `DetectFacesCard` |
+| detect-pheras.webp | Sabesh Photography LTD | https://unsplash.com/photos/a-group-of-people-in-a-room-lvW_dm-B6b8 (16:10 crop of the pheras photo for `DetectFacesCard`) |
 | wedding-groom-garland.webp | iKshana Productions | https://unsplash.com/photos/a-man-and-a-woman-dressed-in-traditional-indian-garb-H731UGdlI00 |
 | wedding-sangeet-dance.webp | Raju Kumar | https://unsplash.com/photos/a-woman-in-a-sparkly-lehenga-dances-at-a-celebration-M5LsxOfcatw |
 | wedding-friends-attire.webp | Raju Kumar | https://unsplash.com/photos/three-women-in-traditional-indian-wedding-attire-fA_BqsFgAPA |

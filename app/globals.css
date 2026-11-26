@@ -427,6 +427,30 @@
   animation: demo-scan 1.4s ease-in-out both;
 }
 
+/* DetectFacesCard: a scan line sweeps the group photo (first 60% of the loop) and each face box pops
+   in as the line reaches it (its own animation-delay), stays, then the loop resets. Transform/opacity
+   only. Reduced motion: no sweep, every box shown. */
+@keyframes detect-sweep {
+  0% { transform: translateY(0); opacity: 1; }
+  60% { transform: translateY(100%); opacity: 1; }
+  61%, 100% { transform: translateY(100%); opacity: 0; }
+}
+@keyframes detect-box {
+  0% { opacity: 0; transform: scale(1.35); }
+  6%, 80% { opacity: 1; transform: scale(1); }
+  92%, 100% { opacity: 0; transform: scale(1); }
+}
+.detect-sweep {
+  animation: detect-sweep 6s linear infinite;
+}
+.detect-box {
+  animation: detect-box 6s ease-out infinite backwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .detect-sweep { display: none; }
+  .detect-box { animation: none; opacity: 1; transform: none; }
+}
+
 /* ------------------------------------------------------------------
    Scroll-linked depth (sd-*): CSS scroll-driven animations — the browser ties each keyframe to
    the scroll position on the compositor, so no JS, no scroll listeners, no library, and the page
@@ -629,15 +653,14 @@
   .scene-qr-scan { animation: none; opacity: 0; }
 }
 
-/* Face search explainer (components/mock/face-search-explainer.tsx): one 9s loop in three beats —
+/* Face search explainer (components/mock/face-search-explainer.tsx, real photos + measured face boxes): one 9s loop in three beats —
    scan + face boxes (0–35%), the selfie pulses and sends its face across (35–55%), matches tick
    and the rest dim (58–92%) — then a short fade back to the start. Transform/opacity only. */
-.fs-scene :where(.fs-ring, .fs-check) { transform-box: fill-box; transform-origin: center; }
 @keyframes fs-scan {
   0% { transform: translateY(0); opacity: 0; }
   3% { opacity: 1; }
-  30% { transform: translateY(302px); opacity: 1; }
-  34%, 100% { transform: translateY(302px); opacity: 0; }
+  30% { transform: translateY(100%); opacity: 1; }
+  34%, 100% { transform: translateY(100%); opacity: 0; }
 }
 @keyframes fs-box {
   0%, 6% { opacity: 0; }
@@ -652,8 +675,8 @@
 @keyframes fs-dot {
   0%, 40% { opacity: 0; transform: translateX(0); }
   43% { opacity: 1; }
-  54% { opacity: 1; transform: translateX(42px); }
-  57%, 100% { opacity: 0; transform: translateX(42px); }
+  54% { opacity: 1; transform: translateX(2.5rem); }
+  57%, 100% { opacity: 0; transform: translateX(2.5rem); }
 }
 @keyframes fs-dim {
   0%, 56% { opacity: 0; }

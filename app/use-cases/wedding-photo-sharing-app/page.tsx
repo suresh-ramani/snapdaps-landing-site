@@ -61,7 +61,7 @@ const weddingSteps: WorkflowStep[] = [
     title: "Upload every function’s photos",
     subtitle: "Add each function’s photos to its folder, from a computer or Google Drive.",
     points: [
-      "Bulk upload thousands of photos per function.",
+      "Upload thousands of photos per function, all at once.",
       "Upload each function as soon as its photos are ready.",
       "Add more photos to a function any time.",
     ],
@@ -245,7 +245,7 @@ export default function WeddingPage() {
             {
               key: "upload",
               title: "Upload the whole wedding",
-              body: "Bulk upload thousands of photos from a computer or Google Drive, function by function.",
+              body: "Upload thousands of photos at once from a computer or Google Drive, function by function.",
             },
             {
               key: "share",

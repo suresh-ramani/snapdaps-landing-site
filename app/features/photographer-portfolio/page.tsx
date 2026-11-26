@@ -25,7 +25,7 @@ import { buildMetadata } from "@/lib/seo";
 const PATH = "/features/photographer-portfolio";
 const TITLE = "Photographer Portfolio Next to Your Event Galleries | Snapdaps";
 const DESCRIPTION =
-  "Show your best work on a Snapdaps portfolio — on your own custom domain or a Snapdaps subdomain — right beside the event galleries you deliver.";
+  "Show your best work on a Snapdaps portfolio — on your own web address or a free Snapdaps one — right beside the event galleries you deliver.";
 
 export const metadata = buildMetadata({
   absoluteTitle: TITLE,
@@ -61,7 +61,7 @@ export default function PhotographerPortfolioPage() {
             alt="Bride in a red and gold lehenga posing for a portrait"
             chips={[
               { Icon: Images, title: "Your best work", sub: "On one portfolio page" },
-              { Icon: Globe, title: "Your own domain", sub: "Or a Snapdaps subdomain" },
+              { Icon: Globe, title: "Your own web address", sub: "Or a free Snapdaps one" },
             ]}
             align="right"
           />
@@ -70,11 +70,11 @@ export default function PhotographerPortfolioPage() {
 
       <UseCaseLead
         title="Snapdaps portfolio, in short"
-        summary="A Snapdaps portfolio is a page where you show your best work to people looking for a photographer. Publish it on your own custom domain or on a Snapdaps subdomain, and it sits right next to the event galleries you deliver — so prospects see your style and clients get their photos in one place."
+        summary="A Snapdaps portfolio is a page where you show your best work to people looking for a photographer. Put it on your own web address or a free Snapdaps one, and it sits right next to the event galleries you deliver — so prospects see your style and clients get their photos in one place."
         takeaways={[
           "Show your best shoots on one page.",
-          "Publish it on your own custom domain.",
-          "Or use a Snapdaps subdomain — no domain to buy.",
+          "Put it on your own web address.",
+          "Or use a free Snapdaps web address — nothing to buy.",
           "Your portfolio and event galleries live together.",
         ]}
         bestFor={["Wedding photographers", "Event photographers", "Studios"]}
@@ -105,13 +105,13 @@ export default function PhotographerPortfolioPage() {
 
       <QuestionSection
         id="custom-domain"
-        question="Can you put your portfolio on your own domain?"
-        answer="Yes. Publish your portfolio on a custom domain you already own, so it opens under your studio’s name. No domain yet? Use a Snapdaps subdomain instead — your own address on Snapdaps, with nothing to buy. Either way, your portfolio sits right beside the event galleries you deliver."
+        question="Can you put your portfolio on your own web address?"
+        answer="Yes. Put your portfolio on a web address you already own (like yourstudio.com), so it opens under your studio’s name. Don’t have one yet? Use a free Snapdaps web address instead — nothing to buy or set up. Either way, your portfolio sits right beside the event galleries you deliver."
       >
         <div className="grid gap-4 md:grid-cols-2">
           {[
-            { Icon: Globe, title: "Custom domain", body: "Your portfolio on a domain you own, under your studio’s name." },
-            { Icon: Link2, title: "Snapdaps subdomain", body: "Your own address on Snapdaps — no domain to buy or set up." },
+            { Icon: Globe, title: "Your own web address", body: "Your portfolio on an address you own, under your studio’s name." },
+            { Icon: Link2, title: "A free Snapdaps address", body: "Your own address on Snapdaps — nothing to buy or set up." },
           ].map(({ Icon, title, body }) => (
             <div key={title} className="surface flex flex-col gap-4 p-6">
               <span aria-hidden="true" className="icon-tile size-9">

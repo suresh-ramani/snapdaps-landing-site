@@ -75,7 +75,7 @@ export function BrandedApp({ className }: { className?: string }) {
         </span>
         <span className="text-xs leading-tight">
           <span className="block font-semibold">Your Studio</span>
-          <span className="text-muted-foreground">Android &amp; iOS</span>
+          <span className="text-muted-foreground">Android &amp; iPhone</span>
         </span>
       </div>
     </div>

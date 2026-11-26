@@ -59,7 +59,7 @@ const corporateSteps: WorkflowStep[] = [
     title: "Upload photos as each day wraps",
     subtitle: "Add each day’s photos from a computer or Google Drive.",
     points: [
-      "Bulk upload thousands of photos.",
+      "Upload thousands of photos at once.",
       "Keep adding to the same event, day by day.",
       "Each session’s photos in its own folder.",
     ],
@@ -188,7 +188,7 @@ export default function CorporateEventsPage() {
             {
               key: "upload",
               title: "Built for multi-day events",
-              body: "Bulk upload each day’s photos into the same event, from a computer or Google Drive.",
+              body: "Upload each day’s photos into the same event, all at once, from a computer or Google Drive.",
             },
             {
               key: "share",

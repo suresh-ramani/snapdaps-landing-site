@@ -1,4 +1,5 @@
 import type { StaticImageData } from "next/image";
+import type { DetectScene } from "./detect";
 import awardGala from "@/public/photos/award-gala.webp";
 import awardRedCarpet from "@/public/photos/award-red-carpet.webp";
 import awardStage from "@/public/photos/award-stage.webp";
@@ -158,7 +159,7 @@ export const eventPhotos: Record<string, PhotoName[]> = {
  */
 export const eventSamples: Record<
   string,
-  { name: string; folders: [string, string, string, string]; pool: PhotoName[] }
+  { name: string; folders: [string, string, string, string]; pool: PhotoName[]; detect?: DetectScene }
 > = {
   "/use-cases/wedding-photo-sharing-app": {
     name: "Riya & Arjun’s wedding",
@@ -177,6 +178,7 @@ export const eventSamples: Record<
     ],
   },
   "/use-cases/birthday-party": {
+    detect: "birthday",
     name: "Aarav’s 6th birthday",
     folders: ["Decor", "Cake cutting", "Games", "Dance"],
     pool: [
@@ -191,6 +193,7 @@ export const eventSamples: Record<
   ],
   },
   "/use-cases/corporate-events": {
+    detect: "corporate",
     name: "Annual leadership summit",
     folders: ["Keynote", "Workshops", "Networking", "Team dinner"],
     pool: [
@@ -205,6 +208,7 @@ export const eventSamples: Record<
   ],
   },
   "/use-cases/award-ceremony": {
+    detect: "award",
     name: "Excellence awards night",
     folders: ["Red carpet", "Awards", "Performances", "Gala dinner"],
     pool: [
@@ -218,6 +222,7 @@ export const eventSamples: Record<
   ],
   },
   "/use-cases/sports-events": {
+    detect: "sports",
     name: "Inter-school cricket cup",
     folders: ["Day 1", "Day 2", "Final", "Prize giving"],
     pool: [
@@ -246,6 +251,7 @@ export const eventSamples: Record<
     ],
   },
   "/use-cases/photo-sharing-app-for-event-planners": {
+    detect: "planners",
     name: "Annual gala evening",
     folders: ["Arrivals", "Stage", "Dinner", "Dance floor"],
     pool: [

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   Bell,
   CircleCheckBig,
@@ -27,6 +28,7 @@ import {
   ItemTitle,
 } from "@/components/ui/item";
 import { Progress } from "@/components/ui/progress";
+import { detectScenes } from "@/components/mock/detect";
 import { useEventSample } from "@/components/mock/photo-pool";
 import { PhotoTile, ProfilePic, QrPattern } from "@/components/mock/primitives";
 import type { PersonName } from "@/components/mock/profiles";
@@ -361,7 +363,10 @@ export function CreateEventCard({ className }: { className?: string }) {
 }
 
 /* --------------------------------------------------------------------------- */
+
 export function DetectFacesCard({ className }: { className?: string }) {
+  // The page's own kind of event (PhotoPool → detect), so the corporate page boxes a corporate team.
+  const scene = detectScenes[useEventSample().detect ?? "wedding"];
   return (
     <Static className={className}>
       <Card className="gap-4">
@@ -372,15 +377,39 @@ export function DetectFacesCard({ className }: { className?: string }) {
           <CardDescription>Runs in the background after upload</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
+          {/* One real group photo with a box on every face (measured on the photo, not guessed). A scan line
+              sweeps down and each box pops in as the line reaches it — one 6s CSS loop (.detect-*), all
+              boxes shown and still under reduced motion. */}
           <div className="relative overflow-hidden rounded-lg">
-            <PhotoTile seed={5} people={3} className="aspect-[16/10] w-full rounded-lg" />
-            {[26, 50, 74].map((x, i) => (
+            <Image
+              src={scene.img}
+              alt=""
+              sizes="(min-width: 768px) 420px, 90vw"
+              className="aspect-[16/10] w-full rounded-lg object-cover"
+            />
+            <span aria-hidden="true" className="detect-sweep pointer-events-none absolute inset-0">
+              <span className="absolute inset-x-0 top-0 h-0.5 bg-primary shadow-[0_0_12px_3px_var(--primary)]" />
+            </span>
+            {scene.faces.map((f, i) => (
               <span
-                key={x}
-                className="absolute size-[15%] rounded-md border-2 border-white shadow-[0_0_0_1px_var(--primary)]"
-                style={{ left: `${x - 8}%`, top: i === 1 ? "38%" : "43%" }}
+                key={i}
+                className="detect-box absolute rounded-md border-2 border-white shadow-[0_0_0_1px_var(--primary)]"
+                style={
+                  {
+                    left: `${f.l - f.w * 0.15}%`,
+                    top: `${f.t - f.h * 0.15}%`,
+                    width: `${f.w * 1.3}%`,
+                    height: `${f.h * 1.3}%`,
+                    // Pop in when the 3.6s sweep passes the box.
+                    animationDelay: `${(f.t / 100) * 3.6}s`,
+                  } as React.CSSProperties
+                }
               />
             ))}
+            <span className="absolute bottom-2 left-2 inline-flex items-center gap-1.5 rounded-full bg-card/90 px-2.5 py-1 text-xs font-medium shadow-sm ring-1 ring-border">
+              <ScanFace className="size-3.5 text-primary" />
+              {scene.faces.length} faces found
+            </span>
           </div>
           <div className="flex flex-col gap-2">
             <div className="flex justify-between text-xs">
