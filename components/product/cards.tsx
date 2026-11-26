@@ -31,7 +31,7 @@ import { Progress } from "@/components/ui/progress";
 import { detectScenes } from "@/components/mock/detect";
 import { useEventSample } from "@/components/mock/photo-pool";
 import { PhotoTile, ProfilePic, QrPattern } from "@/components/mock/primitives";
-import type { PersonName } from "@/components/mock/profiles";
+import { GUEST_SELFIE_SEED, type PersonName } from "@/components/mock/profiles";
 import { cn } from "@/lib/utils";
 
 /**
@@ -112,7 +112,7 @@ export function FaceMatchCard({ className, count = 38 }: { className?: string; c
         <CardHeader>
           <div className="flex items-center gap-3">
             <div className="relative size-11 overflow-hidden rounded-full ring-2 ring-primary ring-offset-2 ring-offset-card [--scan-distance:2.75rem]">
-              <ProfilePic seed={2} className="size-full rounded-none" />
+              <ProfilePic seed={GUEST_SELFIE_SEED} className="size-full rounded-none" />
               <span className="animate-scan absolute inset-x-0 top-0 h-0.5 bg-primary shadow-[0_0_10px_2px_var(--primary)]" />
             </div>
             <div className="grid gap-1">
@@ -306,7 +306,7 @@ export function SelfieSearchCard({ className }: { className?: string }) {
         </CardHeader>
         <CardContent className="flex flex-col items-center gap-4">
           <div className="relative size-24 overflow-hidden rounded-full ring-2 ring-primary ring-offset-4 ring-offset-card [--scan-distance:5.5rem]">
-            <ProfilePic seed={4} className="size-full rounded-none" />
+            <ProfilePic seed={GUEST_SELFIE_SEED} className="size-full rounded-none" />
             <span className="animate-scan absolute inset-x-0 top-0 h-0.5 bg-primary shadow-[0_0_10px_2px_var(--primary)]" />
           </div>
           <p className="flex items-center gap-1.5 text-xs font-medium text-primary">

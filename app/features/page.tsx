@@ -81,8 +81,8 @@ export default function FeaturesPage() {
               ],
               powerLine: "From selfie to photos — in seconds.",
               visual: (
-                <div className="mx-auto grid max-w-md grid-cols-[1fr_1.2fr] items-start gap-3">
-                  <SelfieSearchCard className="mt-8" />
+                <div className="mx-auto grid max-w-md grid-cols-1 items-start gap-3 sm:grid-cols-[1fr_1.2fr]">
+                  <SelfieSearchCard className="sm:mt-8" />
                   <FaceMatchCard />
                 </div>
               ),

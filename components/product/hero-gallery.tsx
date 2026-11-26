@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useEventSample } from "@/components/mock/photo-pool";
 import { BrowserFrame, PhotoTile, ProfilePic, QrPattern } from "@/components/mock/primitives";
+import { GUEST_SELFIE_SEED } from "@/components/mock/profiles";
 import { cn } from "@/lib/utils";
 
 /**
@@ -37,7 +38,7 @@ export function HeroGallery({ className }: { className?: string }) {
         {/* The guest: selfie, result, download */}
         <div className="flex items-center gap-4 border-b px-4 py-4 md:px-6">
           <div className="relative size-12 shrink-0 overflow-hidden rounded-full ring-2 ring-primary ring-offset-2 ring-offset-card [--scan-distance:3rem] md:size-14 md:[--scan-distance:3.5rem]">
-            <ProfilePic seed={2} className="size-full rounded-none" />
+            <ProfilePic seed={GUEST_SELFIE_SEED} className="size-full rounded-none" />
             <span className="animate-scan absolute inset-x-0 top-0 h-0.5 bg-primary shadow-[0_0_10px_2px_var(--primary)]" />
           </div>
           <div className="min-w-0 flex-1">

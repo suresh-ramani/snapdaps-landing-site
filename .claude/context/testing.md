@@ -27,3 +27,9 @@
   before suspecting the lockfile.
 - shadcn CLI adds a bogus `cn` package and `from "cn"` imports — fix to `@/lib/utils`, `npm uninstall
   cn`, and decline overwriting existing `components/ui` files (CLAUDE.md → Commands).
+
+## Mobile sweep recipe
+Load each page in a 375px-wide same-origin iframe from any page in the pane, scroll it to the end
+(mounts lazy sections), then flag elements whose box passes the viewport edge without a clipping
+ancestor, plus `scrollWidth > innerWidth`. The demo form's honeypot field (`-left-[9999px]`) is
+expected. Run 3–4 pages per call (the tool times out at 45s) with the pane visible.

@@ -57,6 +57,13 @@ export const people = {
 
 export type PersonName = keyof typeof people;
 
+/**
+ * The one guest whose selfie the product visuals show (hero window, face-search bento tile, the
+ * "Find your photos" and "photos found" cards) — the same face everywhere, so a selfie card and the
+ * match card beside it never show two different people.
+ */
+export const GUEST_SELFIE_SEED = 4;
+
 /** A named person's picture, or — for unnamed avatars (stacks, selfies) — one by `seed`. */
 export function profileFor(person: PersonName | undefined, seed = 0): StaticImageData {
   return person ? people[person].img : profiles[seed % profiles.length];
