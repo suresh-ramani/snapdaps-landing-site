@@ -28,7 +28,7 @@ Run `git log --oneline -20` for the rest.
   guest-view demo and "Try it" labels (2026-11-13) and the four event pages.
 - **Proof:** real stats (`content/stats.ts`, dated + sourced), client logos with permission,
   written/video testimonials with consent, a case study.
-- **E-E-A-T facts:** founder roles/bios/photos/LinkedIn, privacy / DPDP / data-retention answers,
+- **E-E-A-T facts:** founder roles/bios/LinkedIn (photos added 2026-11-26), privacy / DPDP / data-retention answers,
   LinkedIn and YouTube profiles.
 - **App side:** store the attribution params (`utm_*`, `gclid`, `fbclid`, `landing_page`,
   `referrer_host`, `ref_page`) on sign-up; mark GA4 key events (`trial_click`, `generate_lead`,

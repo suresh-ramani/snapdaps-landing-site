@@ -116,7 +116,7 @@ export function organizationLd() {
       areaServed: "IN",
       availableLanguage: ["English", "Hindi"],
     },
-    founder: founders.map((f) => ({ "@type": "Person", name: f.name })),
+    founder: founders.map((f) => ({ "@type": "Person", name: f.name, image: absoluteUrl(f.photo) })),
     // Registered office as published in the legal pages (content/legal/*).
     parentOrganization: {
       "@type": "Organization",

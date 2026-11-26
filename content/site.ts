@@ -8,13 +8,13 @@
 
 /**
  * Snapdaps' founders (E-E-A-T): shown on /about and as `founder` in the Organization schema.
- * Names only, as supplied by the team — add a role, photo, bio or LinkedIn URL (`sameAs`)
- * only once the team provides them.
+ * Names and photos as supplied by the team (photos 2026-11-26, 400×400 WebP in public/founders/) —
+ * add a role, bio or LinkedIn URL (`sameAs`) only once the team provides them.
  */
 export const founders = [
-  { name: "Ketan Bhimani" },
-  { name: "Dilip Vora" },
-  { name: "Renish Aghera" },
+  { name: "Ketan Bhimani", photo: "/founders/ketan-bhimani.webp" },
+  { name: "Dilip Vora", photo: "/founders/dilip-vora.webp" },
+  { name: "Renish Aghera", photo: "/founders/renish-aghera.webp" },
 ] as const;
 
 export const site = {

@@ -4,6 +4,8 @@ Newest first. Each says what was decided and why, so later work doesn't undo it.
 the resulting rules; this file records that the owner chose them.
 
 ## 2026-11-26
+- **Founder photos supplied** (Ketan Bhimani, Dilip Vora, Renish Aghera): shown on /about instead of
+  initials and as `image` on each founder in the Organization schema. Roles/bios still to come.
 - **Placeholder sweep (all pages).** Contact page shows the real WhatsApp number (link to wa.me);
   blog cards without a featured image show a real event photo. Still waiting on the team, not
   images we can make: the About page story text, founder photos (initials for now), real stats,

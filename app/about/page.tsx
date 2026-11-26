@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Lock, MapPin, QrCode } from "lucide-react";
 import { CtaBand } from "@/components/blocks/cta-band";
 import { LogoCloud } from "@/components/blocks/logo-cloud";
@@ -14,7 +15,7 @@ import { buildMetadata } from "@/lib/seo";
    Snapdaps" is a placeholder for the founding story; "What we believe" uses only things the
    site already states elsewhere (privacy controls, no app/login, made in India) — TODO:
    confirm or replace with the doc's wording. Founders: names from the team (content/site.ts →
-   founders), no roles or bios until they're supplied. noindex until the copy is final
+   founders, with their photos), no roles or bios until they're supplied. noindex until the copy is final
    (content/routes.ts → indexed: true).
 ------------------------------------------------------------------------------------ */
 
@@ -75,15 +76,13 @@ export default function AboutPage() {
         <ul className="grid gap-4 sm:grid-cols-3">
           {founders.map((f) => (
             <li key={f.name} className="surface flex items-center gap-4 p-6">
-              <span
-                aria-hidden="true"
-                className="flex size-12 shrink-0 items-center justify-center rounded-full bg-muted text-base font-semibold text-muted-foreground"
-              >
-                {f.name
-                  .split(" ")
-                  .map((w) => w[0])
-                  .join("")}
-              </span>
+              <Image
+                src={f.photo}
+                alt={`${f.name}, founder of ${site.name}`}
+                width={96}
+                height={96}
+                className="size-16 shrink-0 rounded-full object-cover ring-1 ring-border"
+              />
               <div>
                 <h3 className="text-lg font-semibold tracking-tight">{f.name}</h3>
                 <p className="text-sm text-muted-foreground">Founder</p>
