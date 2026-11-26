@@ -8,8 +8,7 @@ import { InfoCards } from "@/components/blocks/info-cards";
 import { PageByline } from "@/components/blocks/page-byline";
 import { QuestionSection } from "@/components/blocks/question-section";
 import { UseCaseLead } from "@/components/blocks/use-case-lead";
-import { QrPlacementScene } from "@/components/mock/event-scenes";
-import { ShareCard } from "@/components/product/cards";
+import { QrPlacements, QrVenueHero } from "@/components/mock/qr-visuals";
 import { faqs } from "@/content/faqs";
 import { isIndexed, updatedOf } from "@/content/routes";
 import { buildMetadata } from "@/lib/seo";
@@ -63,11 +62,7 @@ export default function QrCodePhotoSharingPage() {
           </p>
         }
         note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated={updatedOf(PATH)} />}
-        visual={
-          <div aria-hidden="true" data-nosnippet>
-            <ShareCard className="mx-auto max-w-72" />
-          </div>
-        }
+        visual={<QrVenueHero />}
       />
 
       <UseCaseLead
@@ -80,8 +75,8 @@ export default function QrCodePhotoSharingPage() {
           "Print it, show it on screen or send the link on WhatsApp.",
         ]}
         bestFor={["Event planners", "Photographers", "Hosts"]}
-        scene={<QrPlacementScene />}
-        sceneCaption="One event QR code, placed wherever guests pause."
+        scene={<QrPlacements />}
+        sceneCaption="One event QR code, placed wherever guests pause — and sent with the invite."
         tone="default"
       />
 

@@ -6,7 +6,7 @@ import { Section } from "./section";
 /**
  * The lead of a use-case page, straight after the hero: a 40–60-word answer to "what does
  * Snapdaps do for this event?", 3–4 key takeaways, who the page is for, and that event's own
- * SVG scene (components/mock/event-scenes.tsx) showing where the QR code goes. Search snippets
+ * scene (a Lottie, or a real-photo / product block such as QrPlacements or StudioAppBento). Search snippets
  * and AI answers lift the summary + takeaways, so they state only real product facts.
  *
  * The editorial note under it is part of E-E-A-T: who wrote the page and the rule it follows.

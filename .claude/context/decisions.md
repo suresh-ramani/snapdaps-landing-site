@@ -4,6 +4,11 @@ Newest first. Each says what was decided and why, so later work doesn't undo it.
 the resulting rules; this file records that the owner chose them.
 
 ## 2026-11-26
+- **Every QR code opens snapdaps.ai.** The decorative pattern was replaced by a real QR for
+  https://snapdaps.ai (verified with the browser's QR scanner); all QR visuals use `QrPattern`.
+- **QR page uses real photos.** Hero: a real reception photo with the QR table card and the guest's
+  phone (`QrVenueHero`); "in short": the QR on real photos of entrance, tables, stage + WhatsApp
+  invite (`QrPlacements`). The drawn `QrPlacementScene` was removed.
 - **No technical words on the site.** Owner: "we don't have to use technical words". Visible copy
   says what things do (own studio app, Android phones and iPhones, own web address, upload thousands
   at once, iPhone photos without converting). Legal pages and URLs unchanged.

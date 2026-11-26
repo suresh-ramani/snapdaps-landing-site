@@ -54,6 +54,8 @@ The files or routes you were given. Otherwise the current changes (`git diff` an
 - Contrast ≥ 4.5:1 for text in light and dark (check token values).
 - Semantic lists, landmarks, heading order.
 
+- QR codes only through `QrPattern` (the real snapdaps.ai code in `components/mock/qr-rows.ts`); flag any other QR drawing or a QR pointing elsewhere.
+
 **Copy**
 - Plain words only in visible copy: flag technical terms (white-label, iOS, platform, backend, subdomain, custom domain, bulk upload, HEIC, push notification, publish, API…) and suggest the plain phrase from CLAUDE.md → Copy.
 - Wording matches the content doc; keyword H1s in the doc's title case, other headings sentence case.
@@ -66,7 +68,7 @@ The files or routes you were given. Otherwise the current changes (`git diff` an
 
 **Use-case pages**
 - Each is wrapped in `<PhotoPool {...eventSamples[PATH]}>`, so bento, workflow and story cards show that event's photos, name and folders (no wedding photos or Haldi/Sangeet folders on other events' pages).
-- Each has its own `EventGalleryHero` featured photo (real alt, `priority`, unique per page) and count/folder, `UseCaseLead` scene (a recoloured Lottie via `LottieScene`, credited in `public/animations/CREDITS.md`, or an SVG scene from `components/mock/event-scenes.tsx`) and `LeadCapture` offer — none shared with another use-case page. Scenes use theme tokens (check dark mode), stay `aria-hidden` with a visible `figcaption`, and nothing overflows at 375px (hero chips sit inside the photo below sm).
+- Each has its own `EventGalleryHero` featured photo (real alt, `priority`, unique per page) and count/folder, `UseCaseLead` scene (a recoloured Lottie via `LottieScene`, credited in `public/animations/CREDITS.md`, or a real-photo / product block like `QrPlacements` or `StudioAppBento`) and `LeadCapture` offer — none shared with another use-case page. Scenes use theme tokens (check dark mode), stay `aria-hidden` with a visible `figcaption`, and nothing overflows at 375px (hero chips sit inside the photo below sm).
 
 **Spacing**
 - Top-level bands use `section-y` and set `data-tone`; no `pt-0`/`pb-0`/custom padding overrides on sections. Gaps between content blocks are one `--section-y` everywhere (same-tone neighbours collapse in `globals.css`).

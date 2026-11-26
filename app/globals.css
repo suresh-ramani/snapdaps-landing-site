@@ -640,18 +640,6 @@
   .chip-float { animation: none; }
 }
 
-/* SVG scene (components/mock/event-scenes.tsx: QR code sharing): a scan line sweeps each QR code on a
-   6s loop. Transform/opacity only; hidden under reduced motion. */
-@keyframes scene-qr-scan {
-  0% { transform: translateY(0); opacity: 0; }
-  5% { opacity: 0.85; }
-  33% { transform: translateY(var(--scan)); opacity: 0.85; }
-  37%, 100% { transform: translateY(var(--scan)); opacity: 0; }
-}
-.scene-qr-scan { opacity: 0; animation: scene-qr-scan 6s linear infinite; }
-@media (prefers-reduced-motion: reduce) {
-  .scene-qr-scan { animation: none; opacity: 0; }
-}
 
 /* Face search explainer (components/mock/face-search-explainer.tsx, real photos + measured face boxes): one 9s loop in three beats —
    scan + face boxes (0–35%), the selfie pulses and sends its face across (35–55%), matches tick

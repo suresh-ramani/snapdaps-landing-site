@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { profileFor, type PersonName } from "./profiles";
-import { qrPath } from "./qr-rows";
+import { qrPath, qrRows } from "./qr-rows";
 
 /**
  * Building blocks for coded product illustrations. Everything here is decorative
@@ -89,10 +89,15 @@ export function MockChip({ className, children }: { className?: string; children
 }
 
 
+/**
+ * The site's QR code — a real one that opens https://snapdaps.ai (`./qr-rows`), drawn with a 2-module
+ * white quiet zone so phones can scan it straight off the page. Always black on white.
+ */
 export function QrPattern({ className }: { className?: string }) {
+  const n = qrRows.length;
   return (
-    <svg viewBox="0 0 21 21" aria-hidden="true" className={cn("text-black", className)} shapeRendering="crispEdges">
-      <rect width="21" height="21" fill="white" />
+    <svg viewBox={`-2 -2 ${n + 4} ${n + 4}`} aria-hidden="true" className={cn("text-black", className)} shapeRendering="crispEdges">
+      <rect x="-2" y="-2" width={n + 4} height={n + 4} fill="white" />
       <path d={qrPath} fill="currentColor" />
     </svg>
   );

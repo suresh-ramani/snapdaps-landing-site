@@ -19,7 +19,7 @@ export const marketingRoutes: MarketingRoute[] = [
   { path: "/features", label: "Features", indexed: true, priority: 0.8, updated: "2026-11-26" },
   // Feature pages — draft copy by Claude; noindex until the team approves it.
   { path: "/features/ai-face-search", label: "AI face search", indexed: false, updated: "2026-10-31" },
-  { path: "/features/qr-code-photo-sharing", label: "QR code photo sharing", indexed: false, updated: "2026-10-31" },
+  { path: "/features/qr-code-photo-sharing", label: "QR code photo sharing", indexed: false, updated: "2026-11-26" },
   { path: "/features/google-drive-import", label: "Google Drive import", indexed: false, updated: "2026-10-31" },
   { path: "/features/photographer-portfolio", label: "Photographer portfolio", indexed: false, updated: "2026-11-26" },
   { path: "/features/white-label-mobile-app", label: "Your studio app", indexed: false, updated: "2026-11-26" },
