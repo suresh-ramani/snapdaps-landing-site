@@ -40,8 +40,14 @@ export default function ContactPage() {
               </span>
               <div>
                 <p className="font-medium">WhatsApp</p>
-                {/* TODO: add the team's WhatsApp number */}
-                <p className="text-muted-foreground">Placeholder: WhatsApp number</p>
+                <a
+                  href={`https://wa.me/${site.whatsapp.number}?text=${encodeURIComponent(site.whatsapp.message)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-primary"
+                >
+                  {site.whatsapp.display}
+                </a>
               </div>
             </li>
           </ul>

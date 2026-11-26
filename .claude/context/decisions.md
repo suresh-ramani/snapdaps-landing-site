@@ -4,6 +4,10 @@ Newest first. Each says what was decided and why, so later work doesn't undo it.
 the resulting rules; this file records that the owner chose them.
 
 ## 2026-11-26
+- **Placeholder sweep (all pages).** Contact page shows the real WhatsApp number (link to wa.me);
+  blog cards without a featured image show a real event photo. Still waiting on the team, not
+  images we can make: the About page story text, founder photos (initials for now), real stats,
+  video testimonials, client logos (all dev-only or noindex).
 - **Every QR code opens snapdaps.ai.** The decorative pattern was replaced by a real QR for
   https://snapdaps.ai (verified with the browser's QR scanner); all QR visuals use `QrPattern`.
 - **QR page uses real photos.** Hero: a real reception photo with the QR table card and the guest's

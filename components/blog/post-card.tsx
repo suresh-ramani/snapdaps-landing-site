@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { photos, type PhotoName } from "@/components/mock/photos";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { cn, formatDate, stripHtml, wpDate } from "@/lib/utils";
@@ -44,7 +45,16 @@ export function PostCard({
             className="object-cover motion-safe:transition-transform motion-safe:duration-500 group-hover:scale-[1.03]"
           />
         ) : (
-          <div aria-hidden="true" className="glow-brand absolute inset-0" />
+          // No featured image in WordPress: a real event photo instead of an empty box, picked from the
+          // post's slug so the same post always shows the same photo. Decorative (the title says it all).
+          <Image
+            src={photos[fallbackPhoto(post.slug)]}
+            alt=""
+            fill
+            priority={priority}
+            sizes={featured ? "(min-width: 768px) 55vw, 100vw" : "(min-width: 1024px) 380px, (min-width: 768px) 50vw, 100vw"}
+            className="object-cover motion-safe:transition-transform motion-safe:duration-500 group-hover:scale-[1.03]"
+          />
         )}
       </div>
 
@@ -84,4 +94,22 @@ export function PostCard({
       </div>
     </article>
   );
+}
+
+/** Event photos a post card falls back to when the post has no featured image. */
+const FALLBACK_PHOTOS: PhotoName[] = [
+  "wedding-varmala",
+  "wedding-haldi-petals",
+  "wedding-sangeet-dance",
+  "wedding-couple-red",
+  "corporate-conference",
+  "birthday-family-cake",
+  "award-gala",
+  "photographer-at-work",
+];
+
+function fallbackPhoto(slug: string): PhotoName {
+  let h = 0;
+  for (const c of slug) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+  return FALLBACK_PHOTOS[h % FALLBACK_PHOTOS.length];
 }
