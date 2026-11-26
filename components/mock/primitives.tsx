@@ -1,6 +1,7 @@
+import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { faces } from "./faces";
 import { qrPath } from "./qr-rows";
-import { TONES } from "./tones";
 
 /**
  * Building blocks for coded product illustrations. Everything here is decorative
@@ -11,17 +12,16 @@ import { TONES } from "./tones";
 // PhotoTile lives in ./photo-tile (a client component, so it can read the page's photo pool).
 export { PhotoTile } from "./photo-tile";
 
-/** Abstract face: a person without a real likeness. */
+/**
+ * A guest's face — a real photo cropped from the site's free Unsplash wedding set (`./faces`), used for
+ * selfies, avatars and chat heads. Same props as before: `seed` picks the face, `className` sets size,
+ * ring and radius (round by default; pass `rounded-none` inside a round frame). Decorative.
+ */
 export function Face({ seed = 0, className }: { seed?: number; className?: string }) {
-  const skins = ["#e8b48f", "#c98e68", "#a8714f", "#f0c7a4", "#8d5b3f"];
-  const hair = ["#2a1d17", "#3b2a22", "#1b1b1f", "#5a3a28", "#24201e"];
   return (
-    <svg viewBox="0 0 64 64" aria-hidden="true" className={cn("rounded-full", className)}>
-      <rect width="64" height="64" fill={TONES[seed % TONES.length][0]} />
-      <path d="M8 64c2-14 12-20 24-20s22 6 24 20z" fill={TONES[(seed + 3) % TONES.length][1]} />
-      <circle cx="32" cy="28" r="13" fill={skins[seed % skins.length]} />
-      <path d="M19 27c0-9 6-14 13-14s13 5 13 14c-3-5-8-7-13-7s-10 2-13 7z" fill={hair[seed % hair.length]} />
-    </svg>
+    <span aria-hidden="true" className={cn("relative inline-block shrink-0 overflow-hidden rounded-full bg-muted", className)}>
+      <Image src={faces[seed % faces.length]} alt="" fill sizes="64px" className="object-cover" />
+    </span>
   );
 }
 

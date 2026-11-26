@@ -15,7 +15,7 @@ export type WaitingDeliveryProps = {
 /**
  * What waiting looks like, beside the problem story's power line (inside the dark `ink-card`): a
  * photo-delivery tracker in the event's own words, stuck on its second step, and the people still
- * waiting (illustrated faces, never stock people). The group chat is already beside it in the
+ * waiting (guest faces from the site's own photos, `Face`). The group chat is already beside it in the
  * story, so this card shows the delivery side instead — every use-case page passes its own copy.
  * Illustration colours on ink (amber = waiting) are allowed here (components/mock/*). Decorative:
  * the power line says the same, so it's aria-hidden + data-nosnippet. The hourglass turns and the

@@ -14,8 +14,8 @@ import { cn } from "@/lib/utils";
  * gallery is searched (a short scan), and only that guest's photos stay lit with a tick.
  * Draft copy by Claude — not from the content doc; reviewed by: (pending).
  *
- * Honest by design: the guests are illustrated (`Face`), the gallery is stock event photos, and the
- * note under it says so — the matches are a fixed sample, not real face recognition. Once the app
+ * Honest by design: the guests' selfies are faces cropped from the same stock photos (`Face`), each
+ * guest's first match is the photo they're actually in, and the note under the gallery says it's a sample — the matches are a fixed sample, not real face recognition. Once the app
  * team supplies a real demo event, set `site.sampleGalleryUrl` and an "Open a real sample gallery"
  * button appears. Everything stays in the server HTML (all photos, the guest list); state only
  * changes which tiles are dimmed. Scan: one CSS sweep (`.demo-scan`), skipped under reduced motion.
@@ -25,18 +25,18 @@ import { cn } from "@/lib/utils";
 
 const EVENT = "Riya & Arjun’s wedding";
 const GALLERY: PhotoName[] = [
-  "wedding-couple",
-  "wedding-guests",
-  "wedding-haldi",
+  "wedding-couple-red",
+  "wedding-haldi-petals",
+  "wedding-sangeet-dance",
+  "wedding-varmala",
+  "wedding-pheras-family",
+  "wedding-friends-attire",
+  "wedding-couple-colour",
   "wedding-henna",
-  "wedding-canopy",
-  "wedding-ritual",
-  "wedding-attire",
-  "wedding-reception",
-  "wedding-guest-phone",
-  "party-toast",
-  "venue-banquet",
-  "photographer-at-work",
+  "wedding-ceremony",
+  "wedding-stage-couple",
+  "wedding-guest-colourful",
+  "wedding-bride-red",
 ];
 
 /** Where each tile flies in from (sd-settle): a loose scatter, as if photos were dropped onto the gallery. */
@@ -47,10 +47,11 @@ const SCATTER = [
   ["2rem", "5rem", "-5deg"], ["-2.5rem", "4rem", "-3deg"], ["1rem", "5.5rem", "6deg"],
 ] as const;
 
+// Each guest's selfie is a face from these photos, and their first match is the photo they're in.
 const GUESTS = [
-  { id: "meera", name: "Meera", face: 1, matches: [0, 4, 7, 9] },
-  { id: "kabir", name: "Kabir", face: 2, matches: [1, 5, 10] },
-  { id: "ananya", name: "Ananya", face: 4, matches: [2, 3, 6, 8, 11] },
+  { id: "meera", name: "Meera", face: 2, matches: [0, 7, 9, 1] },
+  { id: "kabir", name: "Kabir", face: 6, matches: [3, 4, 8] },
+  { id: "ananya", name: "Ananya", face: 3, matches: [5, 2, 10, 6, 11] },
 ] as const;
 
 type Phase = "idle" | "scanning" | "found";

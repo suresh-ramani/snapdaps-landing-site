@@ -36,7 +36,7 @@ export function EventGalleryHero({
   found: number;
   /** Which of the event's four folders is selected (0 = "All"). */
   folder?: 0 | 1 | 2 | 3 | 4;
-  /** Seed for the guest's illustrated selfie. */
+  /** Seed for the guest's selfie (`Face`). */
   selfie?: number;
   className?: string;
 }) {

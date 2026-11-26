@@ -15,6 +15,7 @@ import { useId } from "react";
 import { cn } from "@/lib/utils";
 import { GoogleDriveLogo } from "./brand-icons";
 import { WhatsAppChat } from "./whatsapp";
+import type { PhotoName } from "./photos";
 import { PhotoTile } from "./primitives";
 
 /**
@@ -81,12 +82,36 @@ function Dashes({ className }: { className?: string }) {
 
 /* --------------------------- 1. endless searching -------------------------- */
 
+/**
+ * Group shots only — every tile has several faces, so the picture says what the card says: you're
+ * one face among hundreds, in thousands of photos. Mostly wedding functions, plus a few other events
+ * (home speaks to every photographer). Two passes in a different order, so repeats never sit together.
+ */
+const GROUP_SHOTS: PhotoName[] = [
+  "wedding-guests",
+  "wedding-haldi-petals",
+  "corporate-networking",
+  "wedding-pheras-family",
+  "wedding-friends-attire",
+  "birthday-family-cake",
+  "wedding-ceremony",
+  "award-gala",
+  "wedding-guest-phone",
+  "sports-medal-winners",
+  "wedding-candid-bw",
+  "corporate-team",
+  "wedding-ritual",
+  "sports-team-huddle",
+  "corporate-audience",
+];
+const SEARCH_GRID = [...GROUP_SHOTS, ...GROUP_SHOTS.slice(7), ...GROUP_SHOTS.slice(0, 7)];
+
 function EndlessSearch() {
   return (
     <div className="relative">
       <div className="grid grid-cols-6 gap-1 rounded-2xl bg-card p-2 ring-1 ring-border">
-        {Array.from({ length: 30 }).map((_, i) => (
-          <PhotoTile key={i} seed={i} people={((i % 3) + 1) as 1 | 2 | 3} className="aspect-square" />
+        {SEARCH_GRID.map((photo, i) => (
+          <PhotoTile key={i} photo={photo} sizes="96px" className="aspect-square" />
         ))}
       </div>
       {/* Magnifying lens hunting for one face */}

@@ -3,6 +3,18 @@
 Newest first. Each says what was decided and why, so later work doesn't undo it. CLAUDE.md records
 the resulting rules; this file records that the owner chose them.
 
+## 2026-11-26
+- **Real faces instead of illustrated ones, everywhere** (owner chose "all illustrated faces").
+  `Face` now shows real faces cropped from the free wedding photos on the site. Guardrail kept:
+  first names only, no quotes/ratings/companies next to a face, nothing that reads as an endorsement.
+- **Photos must match the section's content.** The "Finding photos is frustrating" grid now shows
+  only group shots with many faces (`GROUP_SHOTS`), not couple portraits. Apply the same thinking
+  to any new visual: crowds/groups for "find yourself", a guest's own photos for "your matches".
+- **Indian wedding photos chosen by the owner.** 22 Unsplash links supplied; 19 free ones added
+  (3 were Unsplash+ and skipped). Placed: home sample pool (hero window, bento, cards), the try-it
+  demo gallery, the wedding page pool (function by function), the photographers page pool (couple /
+  portrait shoot), wedding + photographers cards on `/use-cases` and home, and the portfolio hero.
+
 ## 2026-11-13
 - **Use-case heroes are product windows.** The owner disliked the hero right side on the seven
   use-case pages (one stock photo + floating chips + QR card). Chosen from four options: a guest's

@@ -57,8 +57,8 @@ export default function PhotographerPortfolioPage() {
         note={<PageByline name={TITLE} description={DESCRIPTION} path={PATH} updated={updatedOf(PATH)} />}
         visual={
           <EventPhotoHero
-            photo="wedding-couple"
-            alt="Bride and groom posing for a portrait"
+            photo="wedding-bride-red"
+            alt="Bride in a red and gold lehenga posing for a portrait"
             chips={[
               { Icon: Images, title: "Your best work", sub: "On one portfolio page" },
               { Icon: Globe, title: "Your own domain", sub: "Or a Snapdaps subdomain" },

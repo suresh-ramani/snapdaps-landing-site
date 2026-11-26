@@ -4,8 +4,8 @@ Event photos used by `PhotoTile` (`components/mock/photos.ts`). All from [Unspla
 [Unsplash License](https://unsplash.com/license): free for commercial use, no permission or attribution required. Each
 was checked as a free photo (not Unsplash+) on 30–31 Oct 2026, then cropped to 640×800 (4:5) WebP.
 
-Rules: event photos only — guest avatars stay illustrated (`Face`), so no stock model is shown as a named sample
-guest. Don't use these to imply endorsement by the people pictured. Add new photos here with the same details.
+Rules: event photos only. Guest faces (`Face`) are crops of these same photos (see "Faces" below), first names only,
+never with a quote, rating or anything that reads as an endorsement. Don't use these to imply endorsement by the people pictured. Add new photos here with the same details.
 
 | File | Photographer | Source |
 |---|---|---|
@@ -47,3 +47,47 @@ guest. Don't use these to imply endorsement by the people pictured. Add new phot
 | sports-medal-winners.webp | sporlab | https://unsplash.com/photos/group-of-children-wearing-medal-standing-near-wall-f8ld5zt3a3k |
 | sports-team-huddle.webp | Maximilian Müller | https://unsplash.com/photos/soccer-team-huddled-together-on-the-field-TdjvE-SnB34 |
 | sports-medals.webp | George Pisarevsky | https://unsplash.com/photos/a-row-of-gold-medals-with-a-red-ribbon-u-OIymmnw1s |
+
+## Indian wedding set (supplied by the owner, 2026-11-26)
+
+Checked free (not Unsplash+) on 2026-11-26; three other links the owner sent were Unsplash+ and were not used
+(`kzood2jZFME`, `yRjuooddbqQ`, `w4L_lW-ELMk`). Cropped to 640×800 WebP (sharp, attention crop unless noted).
+
+| File | Photographer | Source |
+|---|---|---|
+| wedding-couple-red.webp | ARTO SURAJ | https://unsplash.com/photos/a-bride-and-groom-posing-for-a-picture-_TMwYSDfmF4 (crop centred on the couple) |
+| wedding-bride-veil.webp | Kishan Sharma | https://unsplash.com/photos/a-woman-with-a-veil-on-her-head-ZzMB_hDLunY |
+| wedding-couple-flowers.webp | shades by 43 | https://unsplash.com/photos/a-man-and-woman-standing-under-a-canopy-of-flowers-ykcXm_u84sg |
+| wedding-bride-red.webp | Harsh Gupta | https://unsplash.com/photos/a-woman-in-a-red-and-gold-bridal-outfit-2DZmm6QKFQE |
+| wedding-couple-car.webp | shades by 43 | https://unsplash.com/photos/a-man-and-a-woman-standing-next-to-a-car-lj6_-FoCHng |
+| wedding-varmala.webp | SB Film Studio | https://unsplash.com/photos/newlyweds-pose-together-at-their-wedding-EnEVc2toiCg |
+| wedding-couple-colour.webp | iKshana Productions | https://unsplash.com/photos/a-man-and-woman-dressed-in-traditional-indian-garb-3ZISmV72cbM |
+| wedding-stage-couple.webp | Sabesh Photography LTD | https://unsplash.com/photos/a-man-and-woman-sitting-on-a-couch-in-front-of-a-mirror-vFXkTZhI9Yg |
+| wedding-groom-turban.webp | iKshana Productions | https://unsplash.com/photos/a-man-in-a-white-turban-standing-in-front-of-a-mirror-no9ZyMXnUr8 |
+| wedding-couple-garden.webp | What A Story | https://unsplash.com/photos/a-newlywed-couple-strolls-through-a-lush-garden-oT-86vc5lYw |
+| wedding-candid-bw.webp | BenMoses M | https://unsplash.com/photos/a-group-of-women-standing-next-to-each-other-MDaD_usOE90 |
+| wedding-ceremony.webp | Andres Molina | https://unsplash.com/photos/a-person-in-a-red-dress-sitting-on-a-bench-with-other-people-nBQy2B66gmQ |
+| wedding-haldi-petals.webp | Mohammed Sultan Farooqui | https://unsplash.com/photos/a-bride-and-groom-surrounded-by-confetti-cvM0vLjVBjA |
+| wedding-pheras-family.webp | Sabesh Photography LTD | https://unsplash.com/photos/a-group-of-people-in-a-room-lvW_dm-B6b8 |
+| wedding-couple-stone.webp | Davor Denkovski | https://unsplash.com/photos/couple-embracing-in-ornate-stone-structure-with-greenery-SMRfhrFhWr0 |
+| wedding-groom-garland.webp | iKshana Productions | https://unsplash.com/photos/a-man-and-a-woman-dressed-in-traditional-indian-garb-H731UGdlI00 |
+| wedding-sangeet-dance.webp | Raju Kumar | https://unsplash.com/photos/a-woman-in-a-sparkly-lehenga-dances-at-a-celebration-M5LsxOfcatw |
+| wedding-friends-attire.webp | Raju Kumar | https://unsplash.com/photos/three-women-in-traditional-indian-wedding-attire-fA_BqsFgAPA |
+| wedding-guest-colourful.webp | Raju Kumar | https://unsplash.com/photos/a-woman-in-a-colorful-traditional-indian-outfit-lpLA-7i79_w |
+
+## Faces
+
+`public/faces/guest-*.webp` — 160×160 crops for `Face` (`components/mock/faces.ts`), cut from the photos above
+(2026-11-26):
+
+| File | Cropped from |
+|---|---|
+| guest-0.webp | wedding-varmala (SB Film Studio) — bride |
+| guest-1.webp | wedding-couple-red (ARTO SURAJ) — groom |
+| guest-2.webp | wedding-couple-red (ARTO SURAJ) — bride |
+| guest-3.webp | wedding-friends-attire (Raju Kumar) — right |
+| guest-4.webp | wedding-groom-turban (iKshana Productions) |
+| guest-5.webp | wedding-friends-attire (Raju Kumar) — left |
+| guest-6.webp | wedding-varmala (SB Film Studio) — groom |
+| guest-7.webp | wedding-bride-red (Harsh Gupta) |
+| guest-8.webp | wedding-friends-attire (Raju Kumar) — seated |

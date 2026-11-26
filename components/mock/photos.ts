@@ -37,13 +37,32 @@ import weddingHaldi from "@/public/photos/wedding-haldi.webp";
 import weddingHenna from "@/public/photos/wedding-henna.webp";
 import weddingReception from "@/public/photos/wedding-reception.webp";
 import weddingRitual from "@/public/photos/wedding-ritual.webp";
+import weddingBrideRed from "@/public/photos/wedding-bride-red.webp";
+import weddingBrideVeil from "@/public/photos/wedding-bride-veil.webp";
+import weddingCandidBw from "@/public/photos/wedding-candid-bw.webp";
+import weddingCeremony from "@/public/photos/wedding-ceremony.webp";
+import weddingCoupleCar from "@/public/photos/wedding-couple-car.webp";
+import weddingCoupleColour from "@/public/photos/wedding-couple-colour.webp";
+import weddingCoupleFlowers from "@/public/photos/wedding-couple-flowers.webp";
+import weddingCoupleGarden from "@/public/photos/wedding-couple-garden.webp";
+import weddingCoupleRed from "@/public/photos/wedding-couple-red.webp";
+import weddingCoupleStone from "@/public/photos/wedding-couple-stone.webp";
+import weddingFriendsAttire from "@/public/photos/wedding-friends-attire.webp";
+import weddingGroomGarland from "@/public/photos/wedding-groom-garland.webp";
+import weddingGroomTurban from "@/public/photos/wedding-groom-turban.webp";
+import weddingGuestColourful from "@/public/photos/wedding-guest-colourful.webp";
+import weddingHaldiPetals from "@/public/photos/wedding-haldi-petals.webp";
+import weddingPherasFamily from "@/public/photos/wedding-pheras-family.webp";
+import weddingSangeetDance from "@/public/photos/wedding-sangeet-dance.webp";
+import weddingStageCouple from "@/public/photos/wedding-stage-couple.webp";
+import weddingVarmala from "@/public/photos/wedding-varmala.webp";
 
 /**
  * Real event photos for PhotoTile (product cards, galleries, event wall). All from Unsplash under
  * the Unsplash License (free for commercial use, no attribution required) — photographers and
  * source links in public/photos/CREDITS.md. Cropped 640×800 (4:5) WebP; next/image serves smaller
- * sizes. Event photos only: guest avatars stay illustrated (Face), so no stock model is shown as a
- * named sample guest. Static imports give next/image the real size (no layout shift) and a
+ * sizes. Event photos only. Guest faces (`Face`) are cropped from these same photos (./faces.ts), never
+ * other stock portraits, and never paired with a quote or anything that reads as an endorsement. Static imports give next/image the real size (no layout shift) and a
  * fingerprinted, long-cached URL.
  */
 export const photos = {
@@ -85,30 +104,50 @@ export const photos = {
   "sports-medal-winners": sportsMedalWinners,
   "sports-team-huddle": sportsTeamHuddle,
   "sports-medals": sportsMedals,
+  // Indian wedding set supplied by the owner (2026-11-26), all free Unsplash photos.
+  "wedding-bride-red": weddingBrideRed,
+  "wedding-bride-veil": weddingBrideVeil,
+  "wedding-candid-bw": weddingCandidBw,
+  "wedding-ceremony": weddingCeremony,
+  "wedding-couple-car": weddingCoupleCar,
+  "wedding-couple-colour": weddingCoupleColour,
+  "wedding-couple-flowers": weddingCoupleFlowers,
+  "wedding-couple-garden": weddingCoupleGarden,
+  "wedding-couple-red": weddingCoupleRed,
+  "wedding-couple-stone": weddingCoupleStone,
+  "wedding-friends-attire": weddingFriendsAttire,
+  "wedding-groom-garland": weddingGroomGarland,
+  "wedding-groom-turban": weddingGroomTurban,
+  "wedding-guest-colourful": weddingGuestColourful,
+  "wedding-haldi-petals": weddingHaldiPetals,
+  "wedding-pheras-family": weddingPherasFamily,
+  "wedding-sangeet-dance": weddingSangeetDance,
+  "wedding-stage-couple": weddingStageCouple,
+  "wedding-varmala": weddingVarmala,
 } satisfies Record<string, StaticImageData>;
 
 export type PhotoName = keyof typeof photos;
 
 /** Default pool for `seed`-based tiles: the product cards show a wedding, so wedding photos only. */
 export const weddingPool: PhotoName[] = [
-  "wedding-couple",
-  "wedding-guests",
-  "wedding-canopy",
-  "wedding-haldi",
-  "wedding-attire",
-  "wedding-ritual",
-  "wedding-henna",
-  "wedding-reception",
+  "wedding-couple-red",
+  "wedding-haldi-petals",
+  "wedding-varmala",
+  "wedding-sangeet-dance",
+  "wedding-couple-colour",
+  "wedding-pheras-family",
+  "wedding-bride-red",
+  "wedding-couple-flowers",
 ];
 
 /** Photos for each event type (use-cases page), keyed by use-case path. */
 export const eventPhotos: Record<string, PhotoName[]> = {
-  "/use-cases/wedding-photo-sharing-app": ["wedding-couple", "wedding-guest-phone", "wedding-haldi", "wedding-canopy"],
+  "/use-cases/wedding-photo-sharing-app": ["wedding-varmala", "wedding-haldi-petals", "wedding-sangeet-dance", "wedding-ceremony"],
   "/use-cases/birthday-party": ["birthday-cake", "birthday-balloons", "party-toast", "birthday-confetti"],
   "/use-cases/corporate-events": ["corporate-conference", "corporate-phones", "corporate-audience", "venue-banquet"],
   "/use-cases/award-ceremony": ["award-trophies", "award-stage", "corporate-audience", "party-toast"],
   "/use-cases/sports-events": ["sports-batsman", "sports-cricket", "sports-crowd", "award-trophies"],
-  "/use-cases/photo-sharing-app-for-photographers": ["photographer-at-work", "wedding-couple", "wedding-ritual", "wedding-henna"],
+  "/use-cases/photo-sharing-app-for-photographers": ["photographer-at-work", "wedding-couple-flowers", "wedding-bride-veil", "wedding-couple-stone"],
   "/use-cases/photo-sharing-app-for-event-planners": ["venue-banquet", "wedding-reception", "corporate-conference", "birthday-balloons"],
 };
 
@@ -124,7 +163,18 @@ export const eventSamples: Record<
   "/use-cases/wedding-photo-sharing-app": {
     name: "Riya & Arjun’s wedding",
     folders: ["Haldi", "Sangeet", "Wedding", "Reception"],
-    pool: [...weddingPool, "wedding-guest-phone"],
+    // One wedding, function by function (different from the home pool, so the pages don't repeat).
+    pool: [
+      "wedding-haldi-petals",
+      "wedding-haldi",
+      "wedding-sangeet-dance",
+      "wedding-friends-attire",
+      "wedding-ceremony",
+      "wedding-pheras-family",
+      "wedding-varmala",
+      "wedding-stage-couple",
+      "wedding-guest-phone",
+    ],
   },
   "/use-cases/birthday-party": {
     name: "Aarav’s 6th birthday",
@@ -183,16 +233,17 @@ export const eventSamples: Record<
   "/use-cases/photo-sharing-app-for-photographers": {
     name: "Riya & Arjun’s wedding",
     folders: ["Haldi", "Sangeet", "Wedding", "Reception"],
+    // A photographer's wedding shoot: couple and portrait work.
     pool: [
-    "wedding-couple",
-    "photographer-at-work",
-    "wedding-ritual",
-    "corporate-speaker",
-    "wedding-haldi",
-    "birthday-candles",
-    "award-stage",
-    "wedding-henna",
-  ],
+      "wedding-couple-flowers",
+      "photographer-at-work",
+      "wedding-bride-veil",
+      "wedding-couple-garden",
+      "wedding-groom-turban",
+      "wedding-couple-stone",
+      "wedding-couple-car",
+      "wedding-groom-garland",
+    ],
   },
   "/use-cases/photo-sharing-app-for-event-planners": {
     name: "Annual gala evening",
